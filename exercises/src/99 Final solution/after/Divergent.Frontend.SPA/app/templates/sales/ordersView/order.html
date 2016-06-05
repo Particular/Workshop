@@ -1,0 +1,11 @@
+﻿﻿<span>
+    <strong>Order</strong> | Id #{{templateModel.id}}
+    <br />
+    <strong>Items count:</strong> {{templateModel.itemsCount}}
+    <br />
+    <item-template item-template-settings="{ templatesFolder: '^sales/ordersView/' }"
+                   template-model="templateModel.price"></item-template>
+    <br />
+    <item-template item-template-settings="{ templatesFolder: '^sales/ordersView/' }"
+                   template-model="templateModel.customer"></item-template>
+</span>

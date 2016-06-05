@@ -1,0 +1,17 @@
+body {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+/* Set padding to keep content from hitting the edges */
+.body-content {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.button {
+  cursor: pointer;
+}
+
+.pending-order {
+    font-style:italic;
+    color: gray;
+}
