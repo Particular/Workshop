@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Common.Logging;
 using Divergent.Sales.Messages.Events;
 using NServiceBus;
+using NServiceBus.Logging;
 
 namespace Divergent.Shipping.Handlers
 {
@@ -15,8 +15,8 @@ namespace Divergent.Shipping.Handlers
 
         public async Task Handle(OrderSubmittedEvent message, IMessageHandlerContext context)
         {
-            Log.Debug("Handle");
-         
+            Log.Info("Handle");
+
             // Store in database that order was submitted and which products belong to it.
             // If payment succeeds, we store that as well.
             //

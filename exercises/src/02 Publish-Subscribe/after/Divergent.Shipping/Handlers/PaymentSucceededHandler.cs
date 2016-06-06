@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Common.Logging;
 using Divergent.Finance.Messages.Events;
 using NServiceBus;
+using NServiceBus.Logging;
 
 namespace Divergent.Shipping.Handlers
 {

@@ -1,4 +1,4 @@
-﻿using Common.Logging;
+﻿using NServiceBus.Logging;
 
 namespace Divergent.Shipping.Handlers
 {

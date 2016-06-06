@@ -2,6 +2,8 @@ using System;
 using NServiceBus;
 using NServiceBus.Features;
 using NServiceBus.Logging;
+using ILog = Common.Logging.ILog;
+using LogManager = Common.Logging.LogManager;
 
 namespace Divergent.Shipping.Config
 {
