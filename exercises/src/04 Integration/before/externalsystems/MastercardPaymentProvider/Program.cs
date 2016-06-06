@@ -46,7 +46,7 @@ namespace PaymentProviders
 
             using (HttpClient httpClient = new HttpClient())
             {
-                httpClient.BaseAddress = new Uri("http://dennisware:1234/");                
+                httpClient.BaseAddress = new Uri("http://localhost:1234/");                
                 var msg = new PaymentRequest()
                 {
                     CustomerId = Guid.NewGuid(),

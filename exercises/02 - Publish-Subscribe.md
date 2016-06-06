@@ -100,7 +100,7 @@ namespace Divergent.Shipping.Handlers
 
 **6)** The `OrderSubmittedHandler` should also process the `OrderSubmittedEvent` published by `Divergent.Sales`. In order to handle it implement the `IHandleMessages<OrderSubmittedEvent>` interface in the `OrderSubmittedHandler` class.
 
-**7)** In the `App.config` file in the `Divergent.Sales` project add a new configuration section called `UnicastBusConfig` and specify `MessageEndpointMappings` for the assembly containing `OrderSubmittedEvent` event.
+**7)** In the `App.config` file in the `Divergent.Finance` project add a new configuration section called `UnicastBusConfig` and specify `MessageEndpointMappings` for the assembly containing `OrderSubmittedEvent` event.
 
 ```
 <configSections>

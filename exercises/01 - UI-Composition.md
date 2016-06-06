@@ -20,12 +20,10 @@ NOTE: You could follow a different naming convention, but for simplicity the inc
 <script src="/app/modules/finance/_module.js" type="text/javascript"></script>
 <script src="/app/modules/finance/viewModels.js" type="text/javascript"></script>
 ```
-    
+
 **1)** Add `ItemsCount` property to the anonymous object returned by `OrdersController` `Get` method. (`Divergent.Sales.API\Controllers\OrdersController.cs`)
 
-	```
-	ItemsCount = o.Items.Count
-	```
+		ItemsCount = o.Items.Count
 
 **2)** Add an `itemsCount` read-only property to the js `OrderViewModel` (in `app\modules\sales\_module.js`):
 
@@ -49,86 +47,82 @@ In this exercise you'll add a new vertical slice. In order to do so, you'll need
 **2)** Add the following code to the module
 
 		(function () {
-	
+
 		    function PriceViewModel(priceReadModel) {
 		        var readModel = priceReadModel;
-		
+
 		        Object.defineProperty(this, 'dataType', {
 		            get: function () {
 		                return 'price';
 		            }
 		        });
-		
+
 		        Object.defineProperty(this, 'value', {
 		            get: function () {
 		                return priceReadModel;
 		            }
 		        });
-		
+
 		        Object.defineProperty(this, 'currency', {
 		            get: function () {
 		                return '$';
 		            }
 		        });
 		    };
-		
+
 		    angular.module('app.services')
 		        .constant('finance.config', {
 		            apiUrl: 'http://localhost:20187/api'
 		        });
-		
+
 		    angular.module('app.services')
 		        .config(['$stateProvider', 'backendCompositionServiceProvider',
 		            function ($stateProvider, backendCompositionServiceProvider) {
 		                console.debug('Finance modules configured.');
 		            }]);
-		
+
 		    angular.module('app.services')
 		        .run(['$log', 'messageBroker', '$http', 'finance.config', function ($log, messageBroker, $http, config) {
-		
+
 		            messageBroker.subscribe('orders-list/executed', function (sender, args) {
-		
+
 		                angular.forEach(args.rawData, function (order, index) {
-		
+
 		                    var uri = config.apiUrl + '/prices/total/' + order.productIds;
-		
+
 		                    $http.get(uri)
 		                         .then(function (response) {
-		
+
 		                             $log.debug('Total price HTTP response', response.data);
-		
+
 		                             var vm = new PriceViewModel(response.data);
 		                             args.viewModels[order.id].price = vm;
-		
+
 		                             $log.debug('Orders composed w/ Prices', args.viewModels);
 		                         });
-		
+
 		                });
 		            });
-		
+
 		        }]);
 			}())
 
 The content of the module file is available in the solution folder as `finance_module.js.txt`
- 
+
 **3)** Create the `price.html` template file in  `app\templates\sales\ordersView`
 
 **4)** Add the following html fragment to the newly created template:
 
-	```
-		﻿<span>
+	    <span>
 		    <strong>Order total:</strong> {{templateModel.currency}} {{templateModel.value}}
-		</span>
-	```
+	    </span>
 
 The content of the template file is available in the solution folder as `finance_price.html.txt`
 
 **5)** Edit the `order.html` template in the same folder (`app\templates\sales\ordersView`) to display the new template:
 
-	```
 	    <item-template item-template-settings="{ templatesFolder: '^sales/ordersView/' }"
 	                   template-model="templateModel.price"></item-template>
-	```
 
 ### Solution configuration
 
