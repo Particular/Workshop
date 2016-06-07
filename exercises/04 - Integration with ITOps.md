@@ -22,7 +22,7 @@ In this exercise, we'll have the saga in `Shipping` tell ITOps to integrate with
 
 **2)** Open the `Divergent.ItOPs.Messaging` project.
 
-**3)** Create a new class `ShipWithFedExCommand` in the commands folder. It should contain the order id, customer id and a list of the product ids.
+**3)** Create a new class `ShipWithFedexCommand` in the commands folder. It should contain the order id, customer id and a list of the product ids.
 ```
 public class ShipWithFedexCommand
 {
@@ -34,7 +34,7 @@ public class ShipWithFedexCommand
 
 **4)** Open the `Divergent.Shipping` project.
 
-**5)** Open `ShippingSaga.cs` and look at the `ProcessOrder` method. The method should check if the order has been both submitted (`Data.IsOrderSubmitted`) and paid for (`Data.IsPaymentProcessedYet`). If so, it should send the new `ShipWithFedExCommand`.
+**5)** Open `ShippingSaga.cs` and look at the `ProcessOrder` method. The method should check if the order has been both submitted (`Data.IsOrderSubmitted`) and paid for (`Data.IsPaymentProcessedYet`). If so, it should send the new `ShipWithFedexCommand`.
 
 **6)** Open app.config in the `Divergent.Shipping` project. 
 
@@ -51,7 +51,7 @@ public class ShipWithFedexCommand
 
 **8)** Open the `Divergent.ITops` project.
 
-**9)** Add a class under Handlers called `ShipWithFedexCommandHandler`. It should contain an message handler for `ShipWithFedExCommand` that calls an imaginary FedEx Web Service. Hardcode the customer information for now. Like this:
+**9)** Add a class under Handlers called `ShipWithFedexCommandHandler`. It should contain an message handler for `ShipWithFedexCommand` that calls an imaginary FedEx Web Service. Hardcode the customer information for now. Like this:
 ```
 public class ShipWithFedexCommandHandler : IHandleMessages<ShipWithFedexCommand>
 {
