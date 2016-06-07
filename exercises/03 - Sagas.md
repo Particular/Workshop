@@ -124,7 +124,7 @@ In this exercise we will process the messages coming in and make sure the messag
 
 **1)** There are various ways to check in what state the saga is. We can add flags to the saga state to verify which steps have occurred. But we can also use already set state to find the current state in a more natural way.
 
-**2)** To verify if `PaymentSucceededEvent` has arrived, we can't do anything else but set a boolean property on the saga state. Add a boolean property to `ShippingSagaData` called `IsPaymentProcessedYet` and in the handler for the `OrderSubmittedEvent` we set this property to true.
+**2)** To verify if `PaymentSucceededEvent` has arrived, we can't do anything else but set a boolean property on the saga state. Add a boolean property to `ShippingSagaData` called `IsPaymentProcessedYet` and in the handler for the `PaymentSuccedeedEvent` we set this property to true.
 
 **3)** If the `OrderSubmittedEvent` was processed, the `Products` property of the saga state should have at least one item. The client or service should verify if its a valid order and not have the user be able to submit the order without any products. Commands and events can technically fail, but should not fail because proper validation was not done on the sending side. We can conclude that we don't have to set an additional property here.
 
