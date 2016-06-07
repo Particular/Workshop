@@ -20,7 +20,7 @@ In this exercise, we'll have the saga in `Shipping` tell ITOps to integrate with
 
 **1)** Compile the application to retrieve all NuGet packages.
 
-**2)** Open the `Divergent.ItOPs.Messaging` project.
+**2)** Open the `Divergent.ItOPs.Messages` project.
 
 **3)** Create a new class `ShipWithFedExCommand` in the commands folder. It should contain the order id, customer id and a list of the product ids.
 ```
