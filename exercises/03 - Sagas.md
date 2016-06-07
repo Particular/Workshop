@@ -117,7 +117,7 @@ mapper.ConfigureMapping<OrderSubmittedEvent>(msg => msg.OrderId).ToSaga(sagaData
 
 **3)** Map the `PaymentSucceededEvent` property `OrderId` to the sagas `OrderId` property.
 
-**4)** Try to finish this exercise. If you get stuck, you can find the method at the bottom of this article in paragraph `Exercise 03.2 - solution`.
+**4)** Try to finish this exercise. If you get stuck, you can find the method at the bottom of this article in paragraph `Exercise 03.3 - solution`.
 
 ## Exercise 03.4 - Deal with out-of-order delivery
 In this exercise we will process the messages coming in and make sure the messages can arrive in any order, by simply verifying if both messages have been delivered.
