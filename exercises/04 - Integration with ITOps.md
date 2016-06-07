@@ -99,7 +99,7 @@ public class ShipWithFedexCommandHandler : IHandleMessages<ShipWithFedexCommand>
 
 In this exercise, we'll implement the customer provider in the Customer Service and make ITOps uses it to fetch the customer information when it does the FedEx integration.
 
-**1)** Open the `Divergent.ITops.Interfaces` project. It contains an interface called `IProvideCustomerInfo.cs`. It has a single method that takes a customer id and returns a `CustomerInfo` instance with name, street, etc. for the specified customer.
+**1)** Open the `Divergent.ITOps.Interfaces` project. It contains an interface called `IProvideCustomerInfo.cs`. It has a single method that takes a customer id and returns a `CustomerInfo` instance with name, street, etc. for the specified customer.
 
 **2)** Open the `Divergent.Customer.Data` project. Add a new class called `CustomerInfoProvider` in the ITOps folder. It should implement the `IProvideCustomerInfo` interface from `Divergent.ITOps.Interfaces`.  The implementation should instantiate an instance of CustomerRepository to implement the `GetCustomerInfo` method. Like this:
 ```
