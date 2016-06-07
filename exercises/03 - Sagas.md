@@ -126,7 +126,7 @@ In this exercise we will process the messages coming in and make sure the messag
 
 **2)** To verify if `PaymentSucceededEvent` has arrived, we can't do anything else but set a boolean property on the saga state. Add a boolean property to `ShippingSagaData` called `IsPaymentProcessedYet` and in the handler for the `PaymentSuccedeedEvent` we set this property to true.
 
-**3)** If the `OrderSubmittedEvent` was processed, the `Products` property of the saga state should have at least one item. The client or service should verify if its a valid order and not have the user be able to submit the order without any products. Commands and events can technically fail, but should not fail because proper validation was not done on the sending side. We can conclude that we don't have to set an additional property here.
+**3)** If the `OrderSubmittedEvent` was processed, the `IsOrderSubmitted` property of the saga state is true. The client or service should verify if its a valid order and not have the user be able to submit the order without any products. Commands and events can technically fail, but should not fail because proper validation was not done on the sending side.
 
 **4)** Add a new method called `ProcessOrder` and make it async and return `Task`.
 
@@ -223,25 +223,30 @@ The solution should end up with two new handlers and a saga, but depending on yo
 
         public async Task Handle(OrderSubmittedEvent message, IMessageHandlerContext context)
         {
+            Log.Info("Handle OrderSubmittedEvent");
+
+            Data.IsOrderSubmitted = true;
             Data.OrderId = message.OrderId;
             Data.CustomerId = message.CustomerId;
-            Data.Products = message.Products.Select(p => new ShippingSagaData.Product() {Identifier = p}).ToList();
 
-            await ProcessOrder();
+            var products = from p in message.Products
+                select new ShippingSagaData.Product {Identifier = p};
+            Data.Products = products.ToList();
+            
+            await ProcessOrder(context);
         }
-
+        
         public async Task Handle(PaymentSucceededEvent message, IMessageHandlerContext context)
         {
-            Data.OrderId = message.OrderId;
+            Log.Info("Handle PaymentSucceededEvent");
+
             Data.IsPaymentProcessedYet = true;
-
-            await ProcessOrder();
-
+            await ProcessOrder(context);
         }
-
-        private async Task ProcessOrder()
+        
+        private async Task ProcessOrder(IMessageHandlerContext context)
         {
-            if (Data.Products.Count > 0 && Data.IsPaymentProcessedYet)
+            if (Data.IsOrderSubmitted && Data.IsPaymentProcessedYet)
             {
                 // Send a message to execute shipment
                 MarkAsComplete();
