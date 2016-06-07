@@ -101,7 +101,7 @@ In this exercise, we'll implement the customer provider in the Customer Service 
 
 **1)** Open the `Divergent.ITOps.Interfaces` project. It contains an interface called `IProvideCustomerInfo.cs`. It has a single method that takes a customer id and returns a `CustomerInfo` instance with name, street, etc. for the specified customer.
 
-**2)** Open the `Divergent.Customer.Data` project. Add a new class called `CustomerInfoProvider` in the ITOps folder. It should implement the `IProvideCustomerInfo` interface from `Divergent.ITOps.Interfaces`.  The implementation should instantiate an instance of CustomerRepository to implement the `GetCustomerInfo` method. Like this:
+**2)** Open the `Divergent.Customers.Data` project. Add a new class called `CustomerInfoProvider` in the ITOps folder. It should implement the `IProvideCustomerInfo` interface from `Divergent.ITOps.Interfaces`.  The implementation should instantiate an instance of CustomerRepository to implement the `GetCustomerInfo` method. Like this:
 ```
 public class CustomerInfoProvider : IProvideCustomerInfo
 {
@@ -123,7 +123,7 @@ public class CustomerInfoProvider : IProvideCustomerInfo
 }
 ```
 
-**3)** Go to properties on the `Divergent.Customer.Data` project. Double check that it contains a post-build event with `copy /Y "$(TargetDir)$(ProjectName).dll" "$(SolutionDir)Divergent.ITOps\Providers\$(ProjectName).dll"`. This "deploys" the provider into a location that ITOps know about to avoid  ITOps referencing any other service directly.
+**3)** Go to properties on the `Divergent.Customers.Data` project. Double check that it contains a post-build event with `copy /Y "$(TargetDir)$(ProjectName).dll" "$(SolutionDir)Divergent.ITOps\Providers\$(ProjectName).dll"`. This "deploys" the provider into a location that ITOps know about to avoid  ITOps referencing any other service directly.
 
 **4)** Open up the `ShipWithFedexCommandHandler.cs` we created in exercise 04.1. We now want this to class to take a constructor dependency on `IProvideCustomerInfo`. It is filled by dependency injection as long as the provider implementations are copied to a location ITOps knows about. The handler should use this dependency to fetch the customer information instead of using the hardcoded values from exercise 04.1. Like this:
 ```
