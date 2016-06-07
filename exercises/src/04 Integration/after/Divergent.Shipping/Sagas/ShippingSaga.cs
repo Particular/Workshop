@@ -32,18 +32,19 @@ namespace Divergent.Shipping.Sagas
             var products = from p in message.Products
                 select new ShippingSagaData.Product {Identifier = p};
             Data.Products = products.ToList();
-            
+
             await ProcessOrder(context);
         }
-        
+
         public async Task Handle(PaymentSucceededEvent message, IMessageHandlerContext context)
         {
             Log.Info("Handle PaymentSucceededEvent");
 
+            Data.OrderId = message.OrderId;
             Data.IsPaymentProcessedYet = true;
             await ProcessOrder(context);
         }
-        
+
         private async Task ProcessOrder(IMessageHandlerContext context)
         {
             if (Data.IsOrderSubmitted && Data.IsPaymentProcessedYet)
