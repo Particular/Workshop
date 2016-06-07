@@ -240,6 +240,7 @@ The solution should end up with two new handlers and a saga, but depending on yo
         {
             Log.Info("Handle PaymentSucceededEvent");
 
+            Data.OrderId = message.OrderId;
             Data.IsPaymentProcessedYet = true;
             await ProcessOrder(context);
         }
