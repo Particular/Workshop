@@ -107,7 +107,7 @@ We need to define what state we want to store for our saga. This saga is about a
 ## Exercise 03.3 - Map incoming messages to the saga
 In this exercise we will map incoming messages to the saga so NServiceBus knows which property to use to find the correct saga instance in the database.
 
-**1)** Open the `ShippingSaga` and find the `Exercise 03.2 - solution` method.
+**1)** Open the `ShippingSaga` class and find the `ConfigureHowToFindSaga` method.
 
 **2)** Map the `OrderSubmittedEvent` property `OrderId` to the sagas `OrderId` property. Do this by overriding The `ConfigureHowToFindSaga` method on the saga. It provides a `mapper` object as an argument. The mapper object exposes a `ConfigureMapping` method, which takes the event type and property to match as well as the saga property you want to map it to. Like this:
 
