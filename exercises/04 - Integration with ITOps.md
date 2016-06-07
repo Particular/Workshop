@@ -16,7 +16,7 @@ Once an order is ready to ship, we want to initiate shipping by telling our ship
 
 ## Exercise 04.1 - Send and handle integration command from Shipping to ITops
 
-In this exercise, we'll have the saga in `Shipping` tell ITOps to integrate with FedEx. The saga will do this by sending a command to ITOps when it knows an order has both been placed and paid for. ItOps will fetch the data through providers and call FedEx.
+In this exercise, we'll have the saga in `Shipping` tell ITOps to integrate with FedEx. The saga will do this by sending a command to ITOps when it knows an order has both been placed and paid for. ITOps will fetch the data through providers and call FedEx.
 
 **1)** Compile the application to retrieve all NuGet packages.
 
@@ -196,7 +196,7 @@ public class ShippingInfoProvider : IProvideShippingInfo
 
 **2)** Go to properties on the `Divergent.Shipping.Data` project. Double check that it contains a post-build event with `copy /Y "$(TargetDir)$(ProjectName).dll" "$(SolutionDir)Divergent.ITOps\Providers\$(ProjectName).dll"`. This "deploys" the provider into a location that ITOps know about, avoiding the need for ITOps to reference any other service directly.
 
-**3)** Open up `ShipWithFedexCommandHandler.cs` in `Divergent.ItOps`. This should now also take a constructor dependency on `IProvideShippingInfo`. This will be filled by dependency injection. Update the handler to use this new dependency to fetch the shipping information. Like this:
+**3)** Open up `ShipWithFedexCommandHandler.cs` in `Divergent.ITOps`. This should now also take a constructor dependency on `IProvideShippingInfo`. This will be filled by dependency injection. Update the handler to use this new dependency to fetch the shipping information. Like this:
 ```
 public class ShipWithFedexCommandHandler : IHandleMessages<ShipWithFedexCommand>
 {
