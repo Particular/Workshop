@@ -14,7 +14,7 @@ A note about deployment: In a production environment one would package each prov
 
 Once an order is ready to ship, we want to initiate shipping by telling our shipping partner to come pick the package up. We do this by calling their Web Service with the customer name, address, weight and volume of the package.
 
-## Exercise 04.1 - Send and handle integration command from Shipping to ITops
+## Exercise 04.1 - Send and handle integration command from Shipping to ITOps
 
 In this exercise, we'll have the saga in `Shipping` tell ITOps to integrate with FedEx. The saga will do this by sending a command to ITOps when it knows an order has both been placed and paid for. ItOps will fetch the data through providers and call FedEx.
 
@@ -49,7 +49,7 @@ public class ShipWithFedexCommand
   </UnicastBusConfig>
 ```
 
-**8)** Open the `Divergent.ITops` project.
+**8)** Open the `Divergent.ITOps` project.
 
 **9)** Add a class under Handlers called `ShipWithFedexCommandHandler`. It should contain an message handler for `ShipWithFedexCommand` that calls an imaginary FedEx Web Service. Hardcode the customer information for now. Like this:
 ```
@@ -177,7 +177,7 @@ Check out `ReflectionHelper` and `ContainerSetup` in `Divergent.ITOps` to learn 
 
 ## Exercise 04.3 - Implement shipping provider 
 
-In this exercise, we'll implement the shipping provider in the Shipping service, pretty much similar to what we did in exercise 04.2. ITops defines an `IProvideShippingInfo` interface. The provider must be implemented in the Shipping service using the two helpers `VolumeEstimator` and `WeightCalculator` already present there.
+In this exercise, we'll implement the shipping provider in the Shipping service, pretty much similar to what we did in exercise 04.2. ITOps defines an `IProvideShippingInfo` interface. The provider must be implemented in the Shipping service using the two helpers `VolumeEstimator` and `WeightCalculator` already present there.
 
 **1)** Open the `Divergent.Shipping.Data` project. Add a new class called `ShippingInfoProvider` in the ITOps folder. It should implement the `IProvideShippingInfo` interface from `Divergent.ITOps.Interfaces`.  The implementation should use `VolumeEstimator` and `WeightCalculator` to implement the `GetPackageInfo` method. Like this:
 ```
