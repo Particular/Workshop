@@ -1,8 +1,7 @@
 # Workshop: Microservice development (with examples in NServiceBus)
-[Workshop](http://ndcoslo.com/workshop/microservice-development-with-examples-in-nservicebus/) runs from 9 to 17, Monday 6th and Tuesday 7th. 
 
 ## Agenda 
-### Monday 6th
+### Day 1
 | Time  | Content |
 | ------------- | ------------- |
 |08:30-09:00| Computer setup time |
@@ -18,7 +17,7 @@
 |16:15-16:30| Break|
 |16:30-17:15| Summary Lecture Q&A|
 
-### Tuesday 7th
+### Day 2
 | Time  | Content |
 | ------------- | ------------- |
 |09:00-10:15| Lecture |
