@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Website", "Website", "{120B20F8-E388-4973-8F67-8340EADED83B}"
 EndProject
@@ -25,7 +25,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Sales.API", "Dive
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Divergent.Frontend.SPA", "Divergent.Frontend.SPA\", "{38FEA2AD-2839-429B-9136-17B57F930A22}"
 	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.6.1"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.6.2"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_8222"
 		Debug.AspNetCompiler.PhysicalPath = "Divergent.Frontend.SPA\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_8222\"
