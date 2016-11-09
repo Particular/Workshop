@@ -47,12 +47,6 @@
     <Compile Include="Repositories\CustomerRepository.cs" />
     <Compile Include="Repositories\ICustomerRepository.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Divergent.ITOps.Interfaces\Divergent.ITOps.Interfaces.csproj">
-      <Project>{23dea9ff-fcb9-4c9f-94f7-0a77e23d8791}</Project>
-      <Name>Divergent.ITOps.Interfaces</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

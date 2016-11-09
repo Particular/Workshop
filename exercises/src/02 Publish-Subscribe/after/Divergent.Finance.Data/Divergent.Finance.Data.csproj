@@ -74,12 +74,6 @@
     <Compile Include="Repositories\IFinanceRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Divergent.ITOps.Interfaces\Divergent.ITOps.Interfaces.csproj">
-      <Project>{23DEA9FF-FCB9-4C9F-94F7-0A77E23D8791}</Project>
-      <Name>Divergent.ITOps.Interfaces</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>

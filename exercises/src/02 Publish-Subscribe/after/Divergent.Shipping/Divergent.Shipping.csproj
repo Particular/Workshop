@@ -120,10 +120,6 @@
       <Project>{01CCC8E0-605E-417D-BF33-30881F65A49B}</Project>
       <Name>Divergent.Finance.Messages</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Divergent.ITOps.Messages\Divergent.ITOps.Messages.csproj">
-      <Project>{5b5fc22d-a8c8-4fbb-b533-3052e83d410c}</Project>
-      <Name>Divergent.ITOps.Messages</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Divergent.Sales.Messages\Divergent.Sales.Messages.csproj">
       <Project>{FD850B7B-46A5-43EC-9571-C13736E6B033}</Project>
       <Name>Divergent.Sales.Messages</Name>
