@@ -13,7 +13,7 @@
         static void Main(string[] args)
         {
             Console.Title = "Workshop Prerequisites Checker";
-            
+
             ExecuteInstallers();
 
             ExecuteCheckDisk();
@@ -33,6 +33,8 @@
                 Console.WriteLine("Your machine is ready for the workshop. Have fun!");
                 Console.ResetColor();
             }
+
+            Console.Read();
         }
 
         internal static async void ExecuteInstallers()

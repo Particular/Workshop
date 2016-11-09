@@ -13,7 +13,7 @@
             if (!CheckFolderAccess(logOutput, logError))
             {
                 return Task.FromResult(0);
-            }           
+            }
 
             return Task.FromResult(0);
         }
@@ -29,11 +29,11 @@
                 {
                     Directory.CreateDirectory(path);
                 }
-                
+
                 var randomFile = Path.Combine(path, Path.GetRandomFileName());
                 // This will raise an exception if there is no access to create a file
                 using (File.Create(randomFile, 1, FileOptions.DeleteOnClose)){}
-                
+
                 logOutput($"Access to {path} OK");
 
                 return true;
