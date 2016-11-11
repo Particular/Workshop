@@ -6,4 +6,4 @@
 * SPA runtime behavior, when moving across samples, might be affected by browser caching, please disable the browser cache or clear it when swithing from one sample to the other
    * When running the SPA, if an html template is open in Visual Studio at F5 time it might happen that the wrong home page is displayed:
       * please ensure all html templates are closed when the application is run
-      * or manually change the browser address to point to the root url: http://localhost:8222/
+      * or manually change the browser address to point to the root url
