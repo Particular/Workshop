@@ -1,22 +1,24 @@
 # Exercise 04 - Integration
 
-You will quickly run into the need for integration towards 3rd party partners through Web Services, REST based APIs, sending emails or file exports. Most of the time they will need to mash up data from several services before interacting with the 3rd party, similar to a composite UI.
+You will quickly run into the need for integration with 3rd party systems. You will use Web Services, REST based APIs, send emails or export files. Most of the time the data will need to be retrieved from several services before interacting with the 3rd party.
 
-Use a specific endpoint called ITOps for integration. It defines a set of interfaces for getting the data it needs to do an integration, and the services implements these. We call them providers.  Each service needs to provide the functionality for accessing its data to avoid breaking service autonomy. Each service deploys its providers into the ITOps endpoint, which will co-host all of them and perform the third party integration. It is important to note that ITOps has no dependencies on any service. It only defines provider interfaces and uses whatever implementations your services provide for them.
+Use a specific endpoint called ITOps for integration. It defines a set of interfaces for getting the data it needs to do an integration, and the services implement those interfaces. Each service needs to provide the functionality for accessing its data to avoid breaking service autonomy. Each service deploys its providers into the ITOps endpoint, which will co-host all of them and perform the 3rd party integration. It is important to note that ITOps has no dependencies on any service. It only defines provider interfaces and uses implementations from services.
 
 ## Introduction
-In the last exercise, we created a saga in Shipping to wait for `OrderSubmittedEvent` and `PaymentSucceededEvent`. We now want the saga to send a `ShipWithFedexCommand` to ITOps so that FedEx will pick the package up.  ITOps needs to respond to that message by calling implementations of its `IProvideCustomerInfo` and `IProvideShippingInfo` interfaces. The customers service owns customer data, so it will need to implement `IProvideCustomerInfo`. Shipping holds the information regarding the weight and volume of the package, so it provides an implementation of `IProvideShippingInfo`.
+In the last exercise, we created a saga in Shipping to wait for `OrderSubmittedEvent` and `PaymentSucceededEvent`. We now want the saga to send a `ShipWithFedexCommand` to ITOps so that FedEx will pick the package up.  
+
+ITOps needs to respond to that message by calling implementations of its `IProvideCustomerInfo` and `IProvideShippingInfo` interfaces. The customers service owns customer data, so it provides an implementation of `IProvideCustomerInfo`. The shipping service holds the information regarding the weight and volume of the package, so it provides an implementation of `IProvideShippingInfo`.
 
 
-A note about deployment: In a production environment one would package each provider into a deployable, like a NuGet package, and deploy them to the ITOPs endpoint. For this exercise, we will use a post-build event in Customers.Data and Shipping.Data to copy the providers into ITOPs for simplicity.
+A note about deployment: In a production environment one would package each provider into a deployable (e.g. a NuGet package) and deploy them to the ITOPs endpoint. In this exercise for simplicity we will use post-build events in `Customers.Data` and `Shipping.Data` to copy the providers into `ITOPs`.
 
 ### Business requirements
 
-Once an order is ready to ship, we want to initiate shipping by telling our shipping partner to come pick the package up. We do this by calling their Web Service with the customer name, address, weight and volume of the package.
+Once an order is ready to ship, we want to initiate shipping by telling our shipping partner to pick up the package. We do this by calling their Web Service with the customer name, address, weight and volume of the package.
 
 ## Exercise 04.1 - Send and handle integration command from Shipping to ITOps
 
-In this exercise, we'll have the saga in `Shipping` tell ITOps to integrate with FedEx. The saga will do this by sending a command to ITOps when it knows an order has both been placed and paid for. ITOps will fetch the data through providers and call FedEx.
+In this exercise, we'll have the saga in `Shipping` service tell ITOps to integrate with FedEx. The saga will do this by sending a command to ITOps when it knows an order has been placed and paid for. ITOps will fetch the data through providers and call FedEx.
 
 **1)** Compile the application to retrieve all NuGet packages.
 
@@ -36,9 +38,9 @@ public class ShipWithFedexCommand
 
 **5)** Open `ShippingSaga.cs` and look at the `ProcessOrder` method. The method should check if the order has been both submitted (`Data.IsOrderSubmitted`) and paid for (`Data.IsPaymentProcessedYet`). If so, it should send the new `ShipWithFedexCommand`.
 
-**6)** Open app.config in the `Divergent.Shipping` project. 
+**6)** Open `app.config` in the `Divergent.Shipping` project. 
 
-**7)** Add a new message mapping to let `Shipping` know where to send messages for ITOPs. Do this by adding `<add Assembly="Divergent.ITOps.Messages" Endpoint="Divergent.ITOps" />` to the UnicastBus/MessageEndpointMappings element. It should look like this afterwards: 
+**7)** Add a new message mapping to let `Shipping` know where to send messages for ITOPs. Do this by adding `<add Assembly="Divergent.ITOps.Messages" Endpoint="Divergent.ITOps" />` to the UnicastBus/MessageEndpointMappings element. It should look like this: 
 ```
   <UnicastBusConfig>
     <MessageEndpointMappings>
@@ -51,7 +53,8 @@ public class ShipWithFedexCommand
 
 **8)** Open the `Divergent.ITOps` project.
 
-**9)** Add a class under Handlers called `ShipWithFedexCommandHandler`. It should contain an message handler for `ShipWithFedexCommand` that calls an imaginary FedEx Web Service. Hardcode the customer information for now. Like this:
+**9)** Add a class under Handlers called `ShipWithFedexCommandHandler`. It should contain a message handler for `ShipWithFedexCommand` that calls a fake FedEx Web Service. Hard-code the customer information for now.
+
 ```
 public class ShipWithFedexCommandHandler : IHandleMessages<ShipWithFedexCommand>
 {
@@ -92,16 +95,17 @@ public class ShipWithFedexCommandHandler : IHandleMessages<ShipWithFedexCommand>
 }
 ```
 
-**10)** Run and test that the ITOps message handler is invoked whenever you submit a new order in the UI.
+**10)** Run the solution and verify that the ITOps message handler is invoked whenever you submit a new order in the UI.
 
 
 ## Exercise 04.2 - Implement customer provider
 
-In this exercise, we'll implement the customer provider in the Customer Service and make ITOps uses it to fetch the customer information when it does the FedEx integration.
+In this exercise, we'll implement the customer provider in the Customer Service and make ITOps use it to fetch the customer information.
 
 **1)** Open the `Divergent.ITOps.Interfaces` project. It contains an interface called `IProvideCustomerInfo.cs`. It has a single method that takes a customer id and returns a `CustomerInfo` instance with name, street, etc. for the specified customer.
 
-**2)** Open the `Divergent.Customers.Data` project. Add a new class called `CustomerInfoProvider` in the ITOps folder. It should implement the `IProvideCustomerInfo` interface from `Divergent.ITOps.Interfaces`.  The implementation should instantiate an instance of CustomerRepository to implement the `GetCustomerInfo` method. Like this:
+**2)** Open the `Divergent.Customers.Data` project. Add a new class called `CustomerInfoProvider` in the ITOps folder. It should implement the `IProvideCustomerInfo` interface from `Divergent.ITOps.Interfaces`.  The implementation should instantiate an instance of CustomerRepository to implement the `GetCustomerInfo` method. 
+
 ```
 public class CustomerInfoProvider : IProvideCustomerInfo
 {
@@ -123,9 +127,9 @@ public class CustomerInfoProvider : IProvideCustomerInfo
 }
 ```
 
-**3)** Go to properties on the `Divergent.Customers.Data` project. Double check that it contains a post-build event with `copy /Y "$(TargetDir)$(ProjectName).dll" "$(SolutionDir)Divergent.ITOps\Providers\$(ProjectName).dll"`. This "deploys" the provider into a location that ITOps know about to avoid  ITOps referencing any other service directly.
+**3)** Go to properties on the `Divergent.Customers.Data` project. Double check that it contains a post-build event with `copy /Y "$(TargetDir)$(ProjectName).dll" "$(SolutionDir)Divergent.ITOps\Providers\$(ProjectName).dll"`. This "deploys" the provider into a location that ITOps know about. ITOps doesn't not reference any other service directly.
 
-**4)** Open up the `ShipWithFedexCommandHandler.cs` we created in exercise 04.1. We now want this to class to take a constructor dependency on `IProvideCustomerInfo`. It is filled by dependency injection as long as the provider implementations are copied to a location ITOps knows about. The handler should use this dependency to fetch the customer information instead of using the hardcoded values from exercise 04.1. Like this:
+**4)** Open up the `ShipWithFedexCommandHandler.cs`. This class should take a constructor dependency on `IProvideCustomerInfo`. The Dependency Injection framework will find the provider implementations as long as they are copied to a location ITOps knows about. The handler should use this dependency to fetch the customer information instead of using the hard-coded values.
 ```
 public class ShipWithFedexCommandHandler : IHandleMessages<ShipWithFedexCommand>
 {        
@@ -170,16 +174,17 @@ public class ShipWithFedexCommandHandler : IHandleMessages<ShipWithFedexCommand>
 }
 ``` 
 
-**5)** Run and test that the ITOps message handler now fetches the customer information with the customer provider.
+**5)** Run the solution and verify that the ITOps message handler fetches the customer information using the customer provider.
 
 Check out `ReflectionHelper` and `ContainerSetup` in `Divergent.ITOps` to learn more about how ITOPs loads and co-hosts the providers.
 
 
 ## Exercise 04.3 - Implement shipping provider 
 
-In this exercise, we'll implement the shipping provider in the Shipping service, pretty much similar to what we did in exercise 04.2. ITOps defines an `IProvideShippingInfo` interface. The provider must be implemented in the Shipping service using the two helpers `VolumeEstimator` and `WeightCalculator` already present there.
+In this exercise, you'll implement the shipping provider in the Shipping service. ITOps defines an `IProvideShippingInfo` interface. The provider will be implemented in the Shipping service using the two helpers `VolumeEstimator` and `WeightCalculator` already present there.
 
-**1)** Open the `Divergent.Shipping.Data` project. Add a new class called `ShippingInfoProvider` in the ITOps folder. It should implement the `IProvideShippingInfo` interface from `Divergent.ITOps.Interfaces`.  The implementation should use `VolumeEstimator` and `WeightCalculator` to implement the `GetPackageInfo` method. Like this:
+**1)** Open the `Divergent.Shipping.Data` project. Add a new class called `ShippingInfoProvider` in the ITOps folder. It should implement the `IProvideShippingInfo` interface from `Divergent.ITOps.Interfaces`.  The implementation should use `VolumeEstimator` and `WeightCalculator` to implement the `GetPackageInfo` method. 
+
 ```
 public class ShippingInfoProvider : IProvideShippingInfo
 {
@@ -194,9 +199,9 @@ public class ShippingInfoProvider : IProvideShippingInfo
 }
 ```
 
-**2)** Go to properties on the `Divergent.Shipping.Data` project. Double check that it contains a post-build event with `copy /Y "$(TargetDir)$(ProjectName).dll" "$(SolutionDir)Divergent.ITOps\Providers\$(ProjectName).dll"`. This "deploys" the provider into a location that ITOps know about, avoiding the need for ITOps to reference any other service directly.
+**2)** Go to properties on the `Divergent.Shipping.Data` project. Double check that it contains a post-build event with `copy /Y "$(TargetDir)$(ProjectName).dll" "$(SolutionDir)Divergent.ITOps\Providers\$(ProjectName).dll"`.
 
-**3)** Open up `ShipWithFedexCommandHandler.cs` in `Divergent.ITOps`. This should now also take a constructor dependency on `IProvideShippingInfo`. This will be filled by dependency injection. Update the handler to use this new dependency to fetch the shipping information. Like this:
+**3)** Open up `ShipWithFedexCommandHandler.cs` in `Divergent.ITOps`. it should now also take a constructor dependency on `IProvideShippingInfo`.
 ```
 public class ShipWithFedexCommandHandler : IHandleMessages<ShipWithFedexCommand>
 {
@@ -245,7 +250,7 @@ public class ShipWithFedexCommandHandler : IHandleMessages<ShipWithFedexCommand>
     }
 }
 ```
-**4)** Run and test that the ITOps message handler now fetches both the customer and shipping information from the providers.
+**4)** Run the solution and verify that the ITOps message handler now fetches both the customer and shipping information from the providers.
 
 ### Solution configuration
 
