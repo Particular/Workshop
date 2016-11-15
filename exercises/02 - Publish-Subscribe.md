@@ -2,17 +2,15 @@
 
 In NServiceBus endpoints communicate by sending each other messages. In this exercise we'll focus on special kind of messages - events. We will also explore a very powerful and popular messaging pattern - Publish-Subscribe (often also called Pub-Sub).
 
-Events are used to communicate that some action has taken place, they're informing about a fact that occurred in the past. In Pub-Sub the sender (called Publisher) and receivers (called Subscriber) are loosely coupled. There might be zero, one or multiple Subscribers interested in a specific event. In order to receive that event they need to explicitly subscribe to it. In NServiceBus the subscription request is sent by the framework, after specifying mappings and implementing a handler which will process the event. The Publisher sends a copy of the event message to every subscriber.
+Events are used to communicate that some action has taken place, they're informing about a fact that occurred in the past. In Pub-Sub the sender (called Publisher) and the receiver (called Subscriber) are loosely coupled. There might be zero, one or multiple Subscribers interested in a specific event. In order to receive that event they need to explicitly subscribed to it. In NServiceBus the subscription request is sent by the framework, after specifying mappings and implementing a handler which will process the event. The Publisher sends a copy of the event message to every subscriber.
 
 ## Introduction
 
-In the last exercise we extended our UI by showing additional information. As you probably noticed, in the Orders page we have a button "Create new order". In this exercise we'll complete the process of placing a new order.
-
-
+In the last exercise you'll extended the UI by showing additional information. As you probably noticed, in the Orders page we have a button "Create new order". In this exercise we'll complete the process of placing a new order.
 
 ### Business requirement
 
-At the moment when a customer creates a new order that information is just saved in a database. In order to complete the process, we need to provide ability to pay for the placed order.
+At the moment when a customer creates a new order that information is just saved in a database. In order to complete the process, you need to provide the ability to pay for the placed order.
 
 ### What's provided for you:
 - Have a look at the `EndpointConfig` class in the `Divergent.Finance` project. Note that we use conventions to specify which messages are events:
@@ -26,7 +24,7 @@ If you create a class inside the namespace which name ends with "Events" and the
 
 ## Exercise 02.1 - Create and publish the `OrderSubmittedEvent`
 
-In this exercise we'll create a new event called `OrderSubmittedEvent`. That event will be published by `SubmitOrderHandler` in the `Divergent.Sales` project.
+In this exercise you'll create a new event called `OrderSubmittedEvent`. That event will be published by `SubmitOrderHandler` in the `Divergent.Sales` project.
 
 **1)** Compile the application to retrieve all NuGet packages.
 
@@ -60,7 +58,7 @@ await context.Publish<OrderSubmittedEvent>(e =>
 
 ## Exercise 02.2 - Handle the `OrderSubmittedEvent`
 
-In this exercise we'll handle the `OrderSubmittedEvent` by logging the information in the `OrderSubmittedHandler` class in `Divergent.Shipping` project and in the `OrderSubmittedHandler` class in `Divergent.Sales` project. Then we'll extend handler implementation in the `Divergent.Finance` project in order to process the payment by using provided `GetAmount()` method and `ReliablePaymentClient` class.
+In this exercise you'll handle the `OrderSubmittedEvent` by logging the information in the `OrderSubmittedHandler` class in `Divergent.Shipping` project and in the `OrderSubmittedHandler` class in `Divergent.Sales` project. Then we'll extend handler implementation in the `Divergent.Finance` project in order to process the payment by using provided `GetAmount()` method and `ReliablePaymentClient` class.
 
 **1)** Have a look at the `OrderSubmittedHandler` class in the `Divergent.Shipping` project.
 
@@ -120,32 +118,9 @@ namespace Divergent.Finance.Handlers
 {
     public class OrderSubmittedHandler : IHandleMessages<OrderSubmittedEvent>
     {
-        private readonly IFinanceRepository _repository;
-        private readonly ReliablePaymentClient _reliablePaymentClient;
-        private static readonly ILog Log = LogManager.GetLogger<OrderSubmittedHandler>();
-
-        public OrderSubmittedHandler(IFinanceRepository repository, ReliablePaymentClient reliablePaymentClient)
-        {
-            _repository = repository;
-            _reliablePaymentClient = reliablePaymentClient;
-        }
-
         public async Task Handle(OrderSubmittedEvent message, IMessageHandlerContext context)
         {
             Log.Info("Handle OrderSubmittedEvent");            
-        }
-
-        private async Task<double> GetAmount(List<Guid> products)
-        {
-            var prices = await _repository.Prices();
-
-            var query = from p in prices
-                        where products.Contains(p.ProductId)
-                        select p;
-
-            double amount = query.Select(p => p.ItemPrice).DefaultIfEmpty(0d).Sum();
-
-            return amount;
         }
     }
 }
