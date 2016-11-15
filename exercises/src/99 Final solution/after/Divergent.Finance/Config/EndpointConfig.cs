@@ -28,7 +28,7 @@ namespace Divergent.Finance.Config
             var container = ContainerSetup.Create();
 
             endpointConfiguration.UseSerialization<JsonSerializer>();
-            endpointConfiguration.DisableFeature<SecondLevelRetries>();
+            endpointConfiguration.Recoverability().Delayed(c => c.NumberOfRetries(0));
             endpointConfiguration.UseContainer<AutofacBuilder>(c => c.ExistingLifetimeScope(container));
             endpointConfiguration.UseTransport<MsmqTransport>()
                 .ConnectionString("deadLetter=false;journal=false");

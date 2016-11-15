@@ -8,19 +8,19 @@
     {
         static List<string> _errors = new List<string>();
 
-        static StringBuilder _installerOutput = new StringBuilder();
+        //static StringBuilder _installerOutput = new StringBuilder();
 
         static void Main(string[] args)
         {
             Console.Title = "Workshop Prerequisites Checker";
-            
-            ExecuteInstallers();
+            Console.WriteLine("Checking machine configuration...please wait.");
 
+            ExecuteInstallers();
             ExecuteCheckDisk();
 
             ExecuteVisualStudioInstalled();
 
-            Console.WriteLine(_installerOutput);
+            //Console.WriteLine(_installerOutput);
 
             if (_errors.Count > 0)
             {
@@ -33,6 +33,8 @@
                 Console.WriteLine("Your machine is ready for the workshop. Have fun!");
                 Console.ResetColor();
             }
+
+            Console.Read();
         }
 
         internal static async void ExecuteInstallers()
@@ -58,11 +60,13 @@
 
         static void AddOutput(string output)
         {
-            _installerOutput.AppendLine(output);
+            Console.WriteLine(output);
+            //_installerOutput.AppendLine(output);
         }
 
         static void AddError(string error)
         {
+            Console.WriteLine(error);
             _errors.Add(error);
         }
     }

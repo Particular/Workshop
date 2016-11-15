@@ -11,7 +11,7 @@
             if (!CheckVisualStudioInstallation(logOutput, logError))
             {
                 return Task.FromResult(0);
-            }           
+            }
 
             return Task.FromResult(0);
         }
@@ -20,7 +20,7 @@
         {
 
             logOutput("Checking to see if you have Visual Studio 2015 installed");
-            
+
             if (Directory.Exists("C:\\Program Files (x86)\\Microsoft Visual Studio 14.0")
                 || Directory.Exists("C:\\Program Files (x86)\\Microsoft Visual Studio 15.0"))
             {

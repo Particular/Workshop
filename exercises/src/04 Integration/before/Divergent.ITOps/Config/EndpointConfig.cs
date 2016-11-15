@@ -26,7 +26,7 @@ namespace Divergent.ITOps.Config
             var container = ContainerSetup.Create(providerAssemblies);
 
             endpointConfiguration.UseSerialization<JsonSerializer>();
-            endpointConfiguration.DisableFeature<SecondLevelRetries>();
+            endpointConfiguration.Recoverability().Delayed(c=>c.NumberOfRetries(0));
             endpointConfiguration.UseContainer<AutofacBuilder>(c => c.ExistingLifetimeScope(container));
             endpointConfiguration.UseTransport<MsmqTransport>();
             endpointConfiguration.UsePersistence<InMemoryPersistence>();
