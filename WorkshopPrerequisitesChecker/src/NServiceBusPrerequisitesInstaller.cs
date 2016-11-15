@@ -77,6 +77,7 @@
         {
             try
             {
+                logOutput("Checking MSMQ configuration...");
                 var msmq = new MsmqInstaller(logOutput);
 
                 if (msmq.IsInstalled())
@@ -94,6 +95,7 @@
                 }
                 else
                 {
+                    logOutput("MSMQ is not present, will be installed.");
                     msmq.InstallMsmq();
                 }
 
