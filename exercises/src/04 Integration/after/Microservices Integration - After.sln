@@ -49,7 +49,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Sales.API", "Dive
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Divergent.Frontend.SPA(1)", "Divergent.Frontend.SPA\", "{38FEA2AD-2839-429B-9136-17B57F930A22}"
 	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.6.2"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.6.1"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_8229"
 		Debug.AspNetCompiler.PhysicalPath = "Divergent.Frontend.SPA\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_8229\"

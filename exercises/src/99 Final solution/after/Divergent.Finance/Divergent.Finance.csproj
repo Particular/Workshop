@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Divergent.Finance</RootNamespace>
     <AssemblyName>Divergent.Finance</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Prefer32Bit>false</Prefer32Bit>
     <NuGetPackageImportStamp>
