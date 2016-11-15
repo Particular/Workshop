@@ -1,20 +1,27 @@
 # Coding Sessions - UI Decomposition
 
-## Exercise 1 - add new information coming from a existing service
+## Exercise 1 - add new information coming from an existing service
 
 ### Introduction
 
-The vertical slices are autonomous and span across all layers - from the UI to the database. In this exercise you'll see that when adding new elements we operate within a single slice, thus reducing the risk of unitentionally breaking unrelated elements.
+The vertical slices are autonomous and span across all layers - starting from the UI, through all other application layers, and even in the database. In this exercise you'll see that when adding new elements we operate within a single slice. That approach reduces the risk of unintentionally breaking unrelated elements.
+
+The application consists of three vertical slices:
+- Customers
+- Sales
+- Finance
 
 ### Business requirements
 
-In this exercise you'll display additional information on the screen. In order to do so, you'll need to modify API, view model and view templates. First, you'll just display additional property in the existing view - the number of items contained in the order. Then you'll create a new vertical slice - total price of items in the order.
+The application UI consists of two pages - Dashboard and Orders. In this exercise you'll display additional information in the the Orders page. In order to do so, you'll need to modify API, view model and view templates. 
+
+First, you'll display an additional property in the existing view - the number of items contained in the order. Then you'll create a whole new vertical slice responsible for calculating and displaying the total price of items in the order.
 
 ### Exercise 01.1 - Displaying items count
 
 In this exercise we'll display additional information retrieved from the Sales vertical. In order to do it, return Items count from `OrdersController`, modify `OrderViewModel` and `order.html` view.
 
-NOTE: You could follow a different naming convention, but for simplicity the included files are hard-coded in the exercise. In a real-life project you'll probably use a tools like `grunt` and `gulp` to automate the process. If you decide to use different names or location for new files you'll need to adjust the entry in the `index.html` file, which expects to find the following files:
+NOTE: You could follow a different naming convention, but for simplicity the included files are hard-coded in the exercise. In a real-life project you'll probably use tools like `grunt` and `gulp` to automate the process. If you decide to use different names or location for new files you'll need to adjust the entry in the `index.html` file, which expects to find the following files:
 ```
 <!-- Finance module -->
 <script src="/app/modules/finance/_module.js" type="text/javascript"></script>
