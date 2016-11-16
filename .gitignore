@@ -10,6 +10,7 @@ bower_cmps/
 *.user
 *.sln.docstates
 *.sln.ide/
+applicationhost.config
 
 # NServiceBus Logs
 nsb_log_*.txt
@@ -164,4 +165,3 @@ $RECYCLE.BIN/
 
 # Mac desktop service store files
 .DS_Store
-/src/99 Final solution/after/.vs/config/applicationhost.config
