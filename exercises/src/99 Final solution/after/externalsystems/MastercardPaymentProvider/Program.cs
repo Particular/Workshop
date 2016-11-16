@@ -27,9 +27,11 @@ namespace PaymentProviders
                     switch (cki.Key)
                     {
                         case ConsoleKey.D1:
+                        case ConsoleKey.NumPad1:
                             Task.Run(async () => await TestImplementation("/api/unreliable/processpayment/")).Wait();
                             break;
                         case ConsoleKey.D2:
+                        case ConsoleKey.NumPad2:
                             Task.Run(async () => await TestImplementation("/api/reliable/processpayment/")).Wait();
                             break;
                     }
@@ -46,7 +48,7 @@ namespace PaymentProviders
 
             using (HttpClient httpClient = new HttpClient())
             {
-                httpClient.BaseAddress = new Uri("http://dennisware:1234/");                
+                httpClient.BaseAddress = new Uri("http://127.0.0.1:1234/");                
                 var msg = new PaymentRequest()
                 {
                     CustomerId = Guid.NewGuid(),
