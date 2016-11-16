@@ -47,30 +47,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Finance.API", "Di
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Sales.API", "Divergent.Sales.API\Divergent.Sales.API.csproj", "{C2FE4732-EA4E-49CC-BE34-46341FB32E09}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Divergent.Frontend.SPA(1)", "Divergent.Frontend.SPA\", "{38FEA2AD-2839-429B-9136-17B57F930A22}"
-	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.6.1"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_8228"
-		Debug.AspNetCompiler.PhysicalPath = "Divergent.Frontend.SPA\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_8228\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_8228"
-		Release.AspNetCompiler.PhysicalPath = "Divergent.Frontend.SPA\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_8228\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "8228"
-		SlnRelativePath = "Divergent.Frontend.SPA\"
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.ITOps.Messages", "Divergent.ITOps.Messages\Divergent.ITOps.Messages.csproj", "{5B5FC22D-A8C8-4FBB-B533-3052E83D410C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Shipping.Data", "Divergent.Shipping.Data\Divergent.Shipping.Data.csproj", "{C825BBFF-297D-4E68-ABB9-276FD81D4AD4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Frontend", "Divergent.Frontend\Divergent.Frontend.csproj", "{710326A9-1B37-419C-A23A-6430DA52294F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -138,10 +119,6 @@ Global
 		{C2FE4732-EA4E-49CC-BE34-46341FB32E09}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2FE4732-EA4E-49CC-BE34-46341FB32E09}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2FE4732-EA4E-49CC-BE34-46341FB32E09}.Release|Any CPU.Build.0 = Release|Any CPU
-		{38FEA2AD-2839-429B-9136-17B57F930A22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{38FEA2AD-2839-429B-9136-17B57F930A22}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{38FEA2AD-2839-429B-9136-17B57F930A22}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{38FEA2AD-2839-429B-9136-17B57F930A22}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{5B5FC22D-A8C8-4FBB-B533-3052E83D410C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5B5FC22D-A8C8-4FBB-B533-3052E83D410C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B5FC22D-A8C8-4FBB-B533-3052E83D410C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -150,6 +127,10 @@ Global
 		{C825BBFF-297D-4E68-ABB9-276FD81D4AD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C825BBFF-297D-4E68-ABB9-276FD81D4AD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C825BBFF-297D-4E68-ABB9-276FD81D4AD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{710326A9-1B37-419C-A23A-6430DA52294F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{710326A9-1B37-419C-A23A-6430DA52294F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{710326A9-1B37-419C-A23A-6430DA52294F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{710326A9-1B37-419C-A23A-6430DA52294F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -170,8 +151,8 @@ Global
 		{222B8A52-4F51-4140-80B4-8AF531E293E4} = {808B901F-6EF7-49F0-B668-F54EEDB1F3F1}
 		{BF4B517B-DBC4-4107-886F-9E246312E9AF} = {65F37558-1C29-4247-BD01-4DFAFD452ECB}
 		{C2FE4732-EA4E-49CC-BE34-46341FB32E09} = {3F113598-B240-4E06-B41A-6C684C208F2A}
-		{38FEA2AD-2839-429B-9136-17B57F930A22} = {120B20F8-E388-4973-8F67-8340EADED83B}
 		{5B5FC22D-A8C8-4FBB-B533-3052E83D410C} = {A9587680-24D6-475A-81E8-8699773B5ED9}
 		{C825BBFF-297D-4E68-ABB9-276FD81D4AD4} = {BAFA6668-162F-4D48-8BAD-46A39C59B6FE}
+		{710326A9-1B37-419C-A23A-6430DA52294F} = {120B20F8-E388-4973-8F67-8340EADED83B}
 	EndGlobalSection
 EndGlobal
