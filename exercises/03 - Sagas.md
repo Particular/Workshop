@@ -19,7 +19,7 @@ At the moment we gather all successfully paid orders at midnight and process the
 - After the handlers for both events store data in the database, we need a batch job to gather all successfully paid orders. It is impossible to run this batch job continuously throughout the day, as this will largely increase database locks and interfere with other operations happening in the system. We want to process orders near real-time.
 
 - The events can arrive out-of-order, because the database could be locked or in maintenance mode and the `OrderSubmittedEvent` was set aside to be processed later by Second Level Retries. In the meantime the `PaymentSucceededEvent` might arrive. We need to make sure the order in which we receive these events does not matter.
- 
+
 - When more events or actions are added to this business process, the implementation gets scattered across various handlers and classes. We want high cohesion and make sure the implementation makes as much sense as possible and is easy to debug.
 
 ## Exercise 03.1 - Replace handlers with a saga
@@ -73,7 +73,7 @@ We need to define what state we want to store for our saga. This saga is about a
         public Guid OrderId { get; set; }
         public Guid CustomerId { get; set; }
     }
-``` 
+```
 
 **2)** Now we'll add the products. A minor problem is that we can't add `IList<Guid>` for the products as NServiceBus can't map this properly to tables or documents in SQL-Server and/or RavenDB. We need an additional complex type. So create a class called `Product`, and in the `ShippingSagaData` we'll add a property of `IList<Product>` to contain the products. Of course the `Product` class needs to hold the unique id of the products, so we need to add a property for that as well. We'll end up with a class like this.
 ```
@@ -198,7 +198,7 @@ The solution should end up with two new handlers and a saga, but depending on yo
 * Divergent.Customers.API
 * Divergent.Finance
 * Divergent.Finance.API
-* Divergent.Frontend.SPA
+* Divergent.Frontend
 * Divergent.Sales
 * Divergent.Sales.API
 * Divergent.Shipping

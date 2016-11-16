@@ -214,7 +214,7 @@ namespace Divergent.Shipping.Handlers
 * Divergent.Customers.API
 * Divergent.Finance
 * Divergent.Finance.API
-* Divergent.Frontend.SPA
+* Divergent.Frontent
 * Divergent.Sales
 * Divergent.Sales.API
 * Divergent.Shipping
