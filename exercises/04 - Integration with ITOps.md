@@ -172,7 +172,7 @@ public class ShipWithFedexCommandHandler : IHandleMessages<ShipWithFedexCommand>
        return Task.FromResult(0);
     }
 }
-``` 
+```
 
 **5)** Run the solution and verify that the ITOps message handler fetches the customer information using the customer provider.
 
@@ -260,7 +260,7 @@ public class ShipWithFedexCommandHandler : IHandleMessages<ShipWithFedexCommand>
 * Divergent.Customers.API
 * Divergent.Finance
 * Divergent.Finance.API
-* Divergent.Frontend.SPA
+* Divergent.Frontend
 * Divergent.ITOps
 * Divergent.Sales
 * Divergent.Sales.API
