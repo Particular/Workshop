@@ -9,14 +9,14 @@ If you are attending one of the workshop edition please be sure your machine is 
 ### Get a copy of this repository
 
 Clone or download this repo locally on your machine. If you're downloading a zip copy of the repo please be sure the zip file is unblocked before decompressing it. In order to unblock the zip file:
- * right click on the downloaded copy
- * chose Property
- * on the Property page tick the unblock checkbox
- * press OK
+ * Right-click on the downloaded copy
+ * Choose Property
+ * On the Property page tick the unblock checkbox
+ * Press OK
 
 ### Check your machine is correctly configured
 
-The cloned, or downloaded, copy of this repository contains an utility ([WorkshopPrerequisitesChecker](https://github.com/Particular/Workshop.Microservices/blob/master/WorkshopPrerequisitesChecker)) that will verify that your machine is configured to run the workshop exercises.
+The cloned, or downloaded, copy of this repository contains a utility ([WorkshopPrerequisitesChecker](https://github.com/Particular/Workshop.Microservices/blob/master/WorkshopPrerequisitesChecker)) that will verify that your machine is configured to run the workshop exercises.
 
 Run the Prerequisites checker, by right clicking on the `WorkshopPrerequisitesChecker.exe` and chosing `Run as Administrator`. It will verify that you:
 
@@ -29,13 +29,13 @@ Run the Prerequisites checker, by right clicking on the `WorkshopPrerequisitesCh
 
 ### Nuget packages restore
 
-Exercises are composed by 9 different Visual Studio solutions, all the solutions stored on GitHub relies on the `Nuget package restore` to be run at the first build. Please verify with the workshop organizers if internet access is available at the venue. It is required to run the Nuget restore, otherwise be sure to run the `Nuget package restore` for each solution before attending the workshop.
+The exercises are composed of 9 different Visual Studio solutions. All the solutions stored on GitHub rely upon `Nuget package restore` to be run at the first build. Please verify with the workshop organizers if internet access is available at the venue. It is required to run the Nuget restore, otherwise be sure to run the `Nuget package restore` for each solution before attending the workshop.
 
 ## Regular questions
 
 #### How can I empty the orders list or database?
 
-Solution uses Entity Framework migrations with a seed to insert two orders, so there will always be orders. But if you want to start clean you can always remove the SqlLite datastore file from disk.
+The solution uses Entity Framework migrations with a seed to insert two orders, so there will always be orders. But if you want to start clean you can always remove the SqlLite datastore file from disk.
 
 **Solution** : Delete the file `c:\temp\divergent.sales.sqlite`
 
