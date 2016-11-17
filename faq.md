@@ -2,26 +2,44 @@
 
 This document contains various questions & answers for issues that might arise during the workshop. If the answer is not found, consult your trainer on-site.
 
-## Regular questions
+## How to get ready for the workshop
 
-#### Prerequisites checker
+If you are attending one of the workshop edition please be sure your machine is ready.
 
-Before anything else, run the prerequisites checker. It verifies if you
+### Get a copy of this repository
+
+Clone or download this repo locally on your machine. If you're downloading a zip copy of the repo please be sure the zip file is unblocked before decompressing it. In order to unblock the zip file:
+ * right click on the downloaded copy
+ * chose Property
+ * on the Property page tick the unblock checkbox
+ * press OK
+
+### Check your machine is correctly configured
+
+The cloned, or downloaded, copy of this repository contains an utility ([WorkshopPrerequisitesChecker](https://github.com/Particular/Workshop.Microservices/blob/master/WorkshopPrerequisitesChecker)) that will verify that your machine is configured to run the workshop exercises.
+
+Run the Prerequisites checker, by right clicking on the `WorkshopPrerequisitesChecker.exe` and chosing `Run as Administrator`. It will verify that you:
 
 - Have the proper .NET version installed
 - Have Visual Studio 2015 installed
 - Have write access to c:\temp\ folder
-- Have MSMQ installed
-- Have MSDTC installed (Microsoft Distributed Transaction Coordinator)
-- Have NServiceBus Performance Counters installed
+- Have MSMQ installed, if not it will be installed and properly configured
+- Have MSDTC installed (Microsoft Distributed Transaction Coordinator), if not it will be installed and properly configured
+- Have NServiceBus Performance Counters installed, if not it will be installed and properly configured
+
+### Nuget packages restore
+
+Exercises are composed by 9 different Visual Studio solutions, all the solutions stored on GitHub relies on the `Nuget package restore` to be run at the first build. Please verify with the workshop organizers if internet access is available at the venue. It is required to run the Nuget restore, otherwise be sure to run the `Nuget package restore` for each solution before attending the workshop.
+
+## Regular questions
 
 #### How can I empty the orders list or database?
 
-The solution uses Entity Framework migrations with a seed to insert two orders, so there will always be orders. But if you want to start clean you can always remove the SqlLite datastore file from disk.
+Solution uses Entity Framework migrations with a seed to insert two orders, so there will always be orders. But if you want to start clean you can always remove the SqlLite datastore file from disk.
 
 **Solution** : Delete the file `c:\temp\divergent.sales.sqlite`
 
-## IT/Ops issues
+## Exercise 4 - IT/Ops known issues
 
 #### AutoFac not able to instantiate `ShipWithFedexCommandHandler`
 
