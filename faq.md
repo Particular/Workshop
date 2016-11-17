@@ -4,7 +4,7 @@ This document contains various questions & answers for issues that might arise d
 
 ## How to get ready for the workshop
 
-If you are attending one of the workshop edition please be sure your machine is ready.
+Please be sure you have completed the following steps to prepare your machine:
 
 ### Get a copy of this repository
 
