@@ -1,6 +1,6 @@
 # Workshop: Microservice development (with examples in NServiceBus)
 
-Prior to attending the workshop please carefully read instructions on [how to get machine ready for exercises](faq.md#how-to-get-ready-for-the-workshop).
+**Note**: Prior to attending the workshop please carefully read instructions on [how to get machine ready for exercises](faq.md#how-to-get-ready-for-the-workshop).
 
 ## Agenda 
 ### Day 1
