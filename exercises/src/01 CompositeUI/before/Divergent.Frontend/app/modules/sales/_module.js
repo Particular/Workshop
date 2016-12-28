@@ -42,14 +42,14 @@
                     ['$log', '$http', 'messageBroker', 'orders.config', function ($log, $http, messageBroker, config) {
 
                         var handler = {
-                            get: function (args, composedResults) {
+                            query: function (args, composedResults) {
 
                                 $log.debug('Ready to handle ', ordersListQueryId, ' args: ', args);
                                 var uri = config.apiUrl + '/orders?p=' + args.pageIndex + '&s=' + args.pageSize;
                                 return $http.get(uri)
                                     .then(function (response) {
 
-                                        $log.debug('HTTP response', response.data);
+                                        $log.debug(ordersListQueryId + 'HTTP response', response.data);
 
                                         var vms = {
                                             all: []
@@ -63,14 +63,9 @@
                                         });
                                         composedResults.orders = vms;
 
-                                        messageBroker.broadcast(ordersListQueryId + '/executed', this, {
-                                            rawData: response.data,
-                                            viewModels: vms
-                                        });
-
                                         $log.debug('Query ', ordersListQueryId, 'handled: ', composedResults);
 
-                                        return composedResults;
+                                        return response.data;
                                     });
 
                             }
