@@ -89,7 +89,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\app.js" />
-    <Content Include="app\directives\itemTemplate.js" />
     <Content Include="app\modules\customers\_module.js" />
     <Content Include="app\modules\sales\presentation\ordersController.js" />
     <Content Include="app\modules\sales\presentation\ordersView.html" />
@@ -99,8 +98,6 @@
     <Content Include="app\presentation\dashboardView.html" />
     <Content Include="app\services\backendCompositionService.js" />
     <Content Include="app\services\messageBroker.js" />
-    <Content Include="app\templates\sales\ordersView\customer.html" />
-    <Content Include="app\templates\sales\ordersView\order.html" />
     <Content Include="assets\site.css" />
     <Content Include="index.html" />
     <Content Include="lib\angular-route\angular-route.js" />
