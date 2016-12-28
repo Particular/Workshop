@@ -66,6 +66,10 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\modules\customers\components\orderCustomer.html" />
+    <Content Include="app\modules\customers\components\orderCustomer.js" />
+    <Content Include="app\modules\sales\components\order.html" />
+    <Content Include="app\modules\sales\components\order.js" />
     <Content Include="packages.config" />
     <Content Include="lib\bootstrap\css\bootstrap-theme.css.map" />
     <Content Include="lib\bootstrap\css\bootstrap-theme.min.css.map" />
