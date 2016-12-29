@@ -6,7 +6,7 @@ Events are used to communicate that some action has taken place, they're informi
 
 ## Introduction
 
-In the last exercise you'll extended the UI by showing additional information. As you probably noticed, in the Orders page we have a button "Create new order". In this exercise we'll complete the process of placing a new order.
+In the last exercise you've extended the UI by showing additional information. As you probably noticed, in the Orders page we have a button "Create new order". In this exercise we'll complete the process of placing a new order.
 
 ### Business requirement
 
