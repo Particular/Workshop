@@ -10,7 +10,7 @@ namespace Divergent.Frontend.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("First", "Orders");
         }
     }
 }
