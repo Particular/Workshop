@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewBag.Title = $"Order {Model.Order.Number}";
+}
+
+<h2>Order details</h2>
+
+<section>
+    <div><strong>Order:</strong></div>
+    <div>Number: @Model.Order.Number</div>
+    <div>ItemsCount: @Model.Order.ItemsCount</div>
+</section>
+<section>
+    <div><strong>Shipping:</strong></div>
+    <div>Name: @Model.Shipping.Status</div>
+    <div>Name: @Model.Shipping.Courier</div>
+</section>
