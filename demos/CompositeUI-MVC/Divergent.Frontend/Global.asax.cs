@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -12,6 +13,10 @@ namespace Divergent.Frontend
     {
         protected void Application_Start()
         {
+            var bin = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin");
+            var bootstrapper = new Radical.Bootstrapper.WindsorBootstrapper(bin, "Divergent.*");
+            var container = bootstrapper.Boot();
+
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
