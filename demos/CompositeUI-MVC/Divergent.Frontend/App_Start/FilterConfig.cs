@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Divergent.ITOps.ViewModelComposition;
+using Divergent.Sales.ViewModelComposition;
+using Divergent.Shipping.ViewModelComposition;
+using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 
@@ -11,13 +14,13 @@ namespace Divergent.Frontend
             filters.Add(new HandleErrorAttribute());
 
             //these should come from a DI container.
-            var appenders = new List<ITOps.IViewModelAppender>()
+            var appenders = new List<IViewModelAppender>()
             {
-                new ITOps.Shipping.OrderDetailsViewModelAppender(),
-                new ITOps.Sales.OrderDetailsViewModelAppender()
+                new SalesOrderDetailsViewModelAppender(),
+                new ShippingOrderDetailsViewModelAppender()
             };
 
-            filters.Add(new ITOps.CompositionActionFilter(appenders));
+            filters.Add(new CompositionActionFilter(appenders));
         }
     }
 }

@@ -120,19 +120,11 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="ITOps\CompositionActionFilter.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="ITOps\CamelCaseToPascalCaseExpandoObjectConverter.cs" />
-    <Compile Include="ITOps\CamelCaseToPascalSettings.cs" />
-    <Compile Include="ITOps\HttpContentExtensions.cs" />
-    <Compile Include="ITOps\IViewModelAppender.cs" />
-    <Compile Include="ITOps\Sales\OrderDetailsViewModelAppender.cs" />
-    <Compile Include="ITOps\Shipping\OrderDetailsViewModelAppender.cs" />
-    <Compile Include="ITOps\StringExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -196,6 +188,20 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\jquery-3.1.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Divergent.ITOps.ViewModelComposition\Divergent.ITOps.ViewModelComposition.csproj">
+      <Project>{CD335477-4643-4656-8DEE-B3DE67C37416}</Project>
+      <Name>Divergent.ITOps.ViewModelComposition</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Divergent.Sales.ViewModelComposition\Divergent.Sales.ViewModelComposition.csproj">
+      <Project>{8AC2EFC9-BE87-44ED-9F01-9CF3809D9618}</Project>
+      <Name>Divergent.Sales.ViewModelComposition</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Divergent.Shipping.ViewModelComposition\Divergent.Shipping.ViewModelComposition.csproj">
+      <Project>{00659877-8DA6-42D3-B0CF-8D68DD5D03F0}</Project>
+      <Name>Divergent.Shipping.ViewModelComposition</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

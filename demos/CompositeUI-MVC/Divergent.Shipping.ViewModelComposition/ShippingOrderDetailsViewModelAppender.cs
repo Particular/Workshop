@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Divergent.ITOps.ViewModelComposition;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Routing;
 
-namespace Divergent.Frontend.ITOps.Sales
+namespace Divergent.Shipping.ViewModelComposition
 {
-    public class OrderDetailsViewModelAppender : IViewModelAppender
+    public class ShippingOrderDetailsViewModelAppender : IViewModelAppender
     {
         public Task Append(RouteData routeData, dynamic viewModel)
         {
@@ -16,14 +13,14 @@ namespace Divergent.Frontend.ITOps.Sales
             {
                 var id = (string)routeData.Values["id"];
 
-                var url = $"http://localhost:20195/api/orders/{id}";
+                var url = $"http://localhost:20196/api/shippinginfo/order/{id}";
                 var client = new HttpClient();
                 var response = await client.GetAsync(url);
 
-                dynamic order= await response.Content.AsExpandoAsync();
+                dynamic shipping = await response.Content.AsExpandoAsync();
 
-                viewModel.OrderNumber = order.Number;
-                viewModel.OrderItemsCount = order.ItemsCount;
+                viewModel.ShippingStatus = shipping.Status;
+                viewModel.ShippingCourier = shipping.Courier;
             });
         }
 

@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = $"Order {Model.Order.Number}";
+    ViewBag.Title = $"Order {Model.OrderNumber}";
 }
 
 <h2>Order details</h2>
@@ -12,6 +12,6 @@
 </section>
 <section>
     <div><strong>Shipping:</strong></div>
-    <div>Name: @Model.Shipping.Status</div>
-    <div>Name: @Model.Shipping.Courier</div>
+    <div>Name: @Model.ShippingStatus</div>
+    <div>Name: @Model.ShippingCourier</div>
 </section>

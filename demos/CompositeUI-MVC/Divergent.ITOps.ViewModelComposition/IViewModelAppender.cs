@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Routing;
 
-namespace Divergent.Frontend.ITOps
+namespace Divergent.ITOps.ViewModelComposition
 {
     public interface IViewModelAppender
     {

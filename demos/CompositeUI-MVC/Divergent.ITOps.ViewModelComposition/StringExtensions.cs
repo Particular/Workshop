@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Divergent.Frontend.ITOps
+﻿namespace Divergent.ITOps.ViewModelComposition
 {
     public static class StringExtensions
     {

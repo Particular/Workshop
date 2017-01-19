@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
-namespace Divergent.Frontend.ITOps
+namespace Divergent.ITOps.ViewModelComposition
 {
     public class CompositionActionFilter : IResultFilter
     {
