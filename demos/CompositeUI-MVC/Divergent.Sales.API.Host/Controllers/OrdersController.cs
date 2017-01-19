@@ -28,5 +28,27 @@ namespace Divergent.Sales.API.Host.Controllers
                 return order;
             }
         }
+
+        [HttpGet]
+        public IEnumerable<dynamic> Get(int pageIndex, int pageSize)
+        {
+            using (var db = new SalesContext())
+            {
+                var orders = db.Orders
+                    .Include(o => o.Items)
+                    .OrderBy(o => o.Id) //required by SQLite EF
+                    .Skip(pageSize * pageIndex)
+                    .Take(pageSize)
+                    .Select(o => new
+                    {
+                        Number = o.Id,
+                        o.Id,
+                        ItemsCount = o.Items.Count
+                    })
+                    .ToArray();
+
+                return orders;
+            }
+        }
     }
 }

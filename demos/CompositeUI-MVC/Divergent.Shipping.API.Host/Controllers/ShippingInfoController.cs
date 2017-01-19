@@ -22,5 +22,19 @@ namespace Divergent.Shipping.API.Host.Controllers
                 return info;
             }
         }
+
+        [HttpGet]
+        [Route("orders")]
+        public IEnumerable<dynamic> Orders(IEnumerable<int> ids)
+        {
+            using (var db = new ShippingContext())
+            {
+                var info = db.ShippingInfos
+                    .Where(si => ids.Any(id => id == si.OrderId))
+                    .ToArray();
+
+                return info;
+            }
+        }
     }
 }
