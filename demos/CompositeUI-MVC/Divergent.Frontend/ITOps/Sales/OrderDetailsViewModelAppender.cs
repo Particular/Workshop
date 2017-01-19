@@ -20,7 +20,10 @@ namespace Divergent.Frontend.ITOps.Sales
                 var client = new HttpClient();
                 var response = await client.GetAsync(url);
 
-                viewModel.Order = await response.Content.AsExpandoAsync();
+                dynamic order= await response.Content.AsExpandoAsync();
+
+                viewModel.OrderNumber = order.Number;
+                viewModel.OrderItemsCount = order.ItemsCount;
             });
         }
 

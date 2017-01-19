@@ -12,7 +12,7 @@ namespace Divergent.Frontend.ITOps.Shipping
     {
         public Task Append(RouteData routeData, dynamic viewModel)
         {
-            return Task.Run(async () => 
+            return Task.Run(async () =>
             {
                 var id = (string)routeData.Values["id"];
 
@@ -20,7 +20,10 @@ namespace Divergent.Frontend.ITOps.Shipping
                 var client = new HttpClient();
                 var response = await client.GetAsync(url);
 
-                viewModel.Shipping = await response.Content.AsExpandoAsync();
+                dynamic shipping = await response.Content.AsExpandoAsync();
+
+                viewModel.ShippingStatus = shipping.Status;
+                viewModel.ShippingCourier = shipping.Courier;
             });
         }
 
