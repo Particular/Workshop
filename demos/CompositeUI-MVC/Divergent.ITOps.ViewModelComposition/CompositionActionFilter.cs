@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -10,8 +9,6 @@ namespace Divergent.ITOps.ViewModelComposition
     public class CompositionActionFilter : IResultFilter
     {
         IMessageBroker inMemoryBroker;
-        //IEnumerable<IViewModelAppender> appenders;
-        //IEnumerable<ISubscribeCompositionEvents> subscribers;
         IRouteFilter[] all;
 
         public CompositionActionFilter(IMessageBroker inMemoryBroker, IViewModelAppender[] appenders, ISubscribeCompositionEvents[] subscribers)
@@ -40,12 +37,6 @@ namespace Divergent.ITOps.ViewModelComposition
                         pending.Add(task);
                     }
                 }
-
-                //foreach (var appender in appenders.Where(a => a.Matches(filterContext.RouteData)))
-                //{
-                //    var task = appender.Append(filterContext.RouteData, vm);
-                //    pending.Add(task);
-                //}
 
                 if (pending.Any())
                 {
