@@ -4,16 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8AC2EFC9-BE87-44ED-9F01-9CF3809D9618}</ProjectGuid>
+    <ProjectGuid>{3681555E-41BD-4DEB-9698-13D7CC8EC94D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Divergent.Sales.ViewModelComposition</RootNamespace>
-    <AssemblyName>Divergent.Sales.ViewModelComposition</AssemblyName>
+    <RootNamespace>Divergent.Sales.ViewModelComposition.Events</RootNamespace>
+    <AssemblyName>Divergent.Sales.ViewModelComposition.Events</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -30,30 +32,22 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OrdersListViewModelAppender.cs" />
-    <Compile Include="OrderDetailsViewModelAppender.cs" />
+    <Compile Include="OrdersLoaded.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Divergent.ITOps.ViewModelComposition\Divergent.ITOps.ViewModelComposition.csproj">
-      <Project>{cd335477-4643-4656-8dee-b3de67c37416}</Project>
+      <Project>{CD335477-4643-4656-8DEE-B3DE67C37416}</Project>
       <Name>Divergent.ITOps.ViewModelComposition</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Divergent.Sales.ViewModelComposition.Events\Divergent.Sales.ViewModelComposition.Events.csproj">
-      <Project>{3681555E-41BD-4DEB-9698-13D7CC8EC94D}</Project>
-      <Name>Divergent.Sales.ViewModelComposition.Events</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

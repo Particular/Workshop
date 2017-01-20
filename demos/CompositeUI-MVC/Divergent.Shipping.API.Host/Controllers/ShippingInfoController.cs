@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web.Http;
 using Divergent.Shipping.Data.Context;
+using System;
 
 namespace Divergent.Shipping.API.Host.Controllers
 {
@@ -25,12 +26,13 @@ namespace Divergent.Shipping.API.Host.Controllers
 
         [HttpGet]
         [Route("orders")]
-        public IEnumerable<dynamic> Orders(IEnumerable<int> ids)
+        public IEnumerable<dynamic> Orders(string ids)
         {
             using (var db = new ShippingContext())
             {
+                var _ids = ids.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(s=>int.Parse(s)).ToArray();
                 var info = db.ShippingInfos
-                    .Where(si => ids.Any(id => id == si.OrderId))
+                    .Where(si => _ids.Any(id => id == si.OrderId))
                     .ToArray();
 
                 return info;

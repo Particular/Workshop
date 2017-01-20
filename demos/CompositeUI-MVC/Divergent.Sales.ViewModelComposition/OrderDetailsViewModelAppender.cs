@@ -5,7 +5,7 @@ using System.Web.Routing;
 
 namespace Divergent.Sales.ViewModelComposition
 {
-    public class SalesOrderDetailsViewModelAppender : IViewModelAppender
+    public class OrderDetailsViewModelAppender : IViewModelAppender
     {
         public Task Append(RouteData routeData, dynamic viewModel)
         {

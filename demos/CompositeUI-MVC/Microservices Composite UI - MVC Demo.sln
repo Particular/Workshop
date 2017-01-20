@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.ITOps.ViewModelCo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Radical.Bootstrapper.Windsor.Mvc", "Radical.Bootstrapper.Windsor.Mvc\Radical.Bootstrapper.Windsor.Mvc.csproj", "{D6A62853-0009-4A4E-950F-77E0483F173C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Sales.ViewModelComposition.Events", "Divergent.Sales.ViewModelComposition.Events\Divergent.Sales.ViewModelComposition.Events.csproj", "{3681555E-41BD-4DEB-9698-13D7CC8EC94D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,10 @@ Global
 		{D6A62853-0009-4A4E-950F-77E0483F173C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6A62853-0009-4A4E-950F-77E0483F173C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6A62853-0009-4A4E-950F-77E0483F173C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3681555E-41BD-4DEB-9698-13D7CC8EC94D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3681555E-41BD-4DEB-9698-13D7CC8EC94D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3681555E-41BD-4DEB-9698-13D7CC8EC94D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3681555E-41BD-4DEB-9698-13D7CC8EC94D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -94,5 +100,6 @@ Global
 		{00659877-8DA6-42D3-B0CF-8D68DD5D03F0} = {B1EE955F-F325-4F06-BB63-BAE30C506AA5}
 		{CD335477-4643-4656-8DEE-B3DE67C37416} = {58ACB527-1E71-4CC5-BDD6-80147E5D0C4A}
 		{D6A62853-0009-4A4E-950F-77E0483F173C} = {BC106922-5486-4FC2-BDAE-797C2DADE6C3}
+		{3681555E-41BD-4DEB-9698-13D7CC8EC94D} = {3F113598-B240-4E06-B41A-6C684C208F2A}
 	EndGlobalSection
 EndGlobal

@@ -41,13 +41,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ShippingOrderDetailsViewModelAppender.cs" />
+    <Compile Include="OrdersLoadedSubscriber.cs" />
+    <Compile Include="OrderDetailsViewModelAppender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Divergent.ITOps.ViewModelComposition\Divergent.ITOps.ViewModelComposition.csproj">
       <Project>{cd335477-4643-4656-8dee-b3de67c37416}</Project>
       <Name>Divergent.ITOps.ViewModelComposition</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Divergent.Sales.ViewModelComposition.Events\Divergent.Sales.ViewModelComposition.Events.csproj">
+      <Project>{3681555e-41bd-4deb-9698-13d7cc8ec94d}</Project>
+      <Name>Divergent.Sales.ViewModelComposition.Events</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

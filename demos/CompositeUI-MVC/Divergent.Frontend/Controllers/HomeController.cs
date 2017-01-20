@@ -6,7 +6,7 @@ namespace Divergent.Frontend.Controllers
     {
         public ActionResult Index()
         {
-            return RedirectToAction("Details", "Orders", new { id = 1 });
+            return RedirectToRoute(new { controller = "Orders" });
         }
     }
 }
