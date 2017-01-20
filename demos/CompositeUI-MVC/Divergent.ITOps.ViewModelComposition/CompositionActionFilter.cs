@@ -3,33 +3,59 @@ using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Topics.Radical.ComponentModel.Messaging;
 
 namespace Divergent.ITOps.ViewModelComposition
 {
     public class CompositionActionFilter : IResultFilter
     {
-        IEnumerable<IViewModelAppender> appenders;
+        IMessageBroker inMemoryBroker;
+        //IEnumerable<IViewModelAppender> appenders;
+        //IEnumerable<ISubscribeCompositionEvents> subscribers;
+        IRouteFilter[] all;
 
-        public CompositionActionFilter(IEnumerable<IViewModelAppender> appenders)
+        public CompositionActionFilter(IMessageBroker inMemoryBroker, IViewModelAppender[] appenders, ISubscribeCompositionEvents[] subscribers)
         {
-            this.appenders = appenders;
+            this.inMemoryBroker = inMemoryBroker;
+            all = ((IRouteFilter[])appenders).Concat(subscribers).ToArray();
         }
 
         public void OnResultExecuting(ResultExecutingContext filterContext)
         {
-            dynamic vm = new ExpandoObject();
-
-            var pending = new List<Task>();
-            foreach (var appender in appenders.Where(a => a.Matches(filterContext.RouteData)))
+            var vm = new DynamicViewModel(inMemoryBroker);
+            try
             {
-                var task = appender.Append(filterContext.RouteData, vm);
-                pending.Add(task);
+                var pending = new List<Task>();
+
+                foreach (var interested in all.Where(a => a.Matches(filterContext.RouteData)))
+                {
+                    if (interested is ISubscribeCompositionEvents)
+                    {
+                        ((ISubscribeCompositionEvents)interested).Subscribe(vm);
+                    }
+
+                    if (interested is IViewModelAppender)
+                    {
+                        var task = ((IViewModelAppender)interested).Append(filterContext.RouteData, vm);
+                        pending.Add(task);
+                    }
+                }
+
+                //foreach (var appender in appenders.Where(a => a.Matches(filterContext.RouteData)))
+                //{
+                //    var task = appender.Append(filterContext.RouteData, vm);
+                //    pending.Add(task);
+                //}
+
+                if (pending.Any())
+                {
+                    Task.WhenAll(pending).GetAwaiter().GetResult();
+                    filterContext.Controller.ViewData.Model = vm;
+                }
             }
-
-            if (pending.Any())
+            finally
             {
-                Task.WhenAll(pending).GetAwaiter().GetResult();
-                filterContext.Controller.ViewData.Model = vm;
+                vm.CleanupSubscribers();
             }
         }
 

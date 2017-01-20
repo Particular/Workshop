@@ -4,23 +4,22 @@ using Divergent.Shipping.ViewModelComposition;
 using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
+using Castle.Windsor;
+using System;
 
 namespace Divergent.Frontend
 {
     public class FilterConfig
     {
-        public static void RegisterGlobalFilters(GlobalFilterCollection filters)
+        public static void RegisterGlobalFilters(GlobalFilterCollection filters, IWindsorContainer container)
         {
             filters.Add(new HandleErrorAttribute());
 
-            //these should come from a DI container.
-            var appenders = new List<IViewModelAppender>()
+            var resultsFilter = container.ResolveAll<IResultFilter>();
+            foreach (var item in resultsFilter)
             {
-                new SalesOrderDetailsViewModelAppender(),
-                new ShippingOrderDetailsViewModelAppender()
-            };
-
-            filters.Add(new CompositionActionFilter(appenders));
+                filters.Add(item);
+            }
         }
     }
 }
