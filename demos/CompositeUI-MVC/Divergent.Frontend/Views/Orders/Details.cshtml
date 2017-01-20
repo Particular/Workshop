@@ -3,15 +3,25 @@
     ViewBag.Title = $"Order {Model.OrderNumber}";
 }
 
-<h2>Order details</h2>
+<h2>Order #@Model.OrderNumber Details</h2>
 
-<section>
-    <div><strong>Order:</strong></div>
-    <div>Number: @Model.OrderNumber</div>
-    <div>ItemsCount: @Model.OrderItemsCount</div>
-</section>
-<section>
-    <div><strong>Shipping:</strong></div>
-    <div>Name: @Model.ShippingStatus</div>
-    <div>Name: @Model.ShippingCourier</div>
-</section>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Order details</h3>
+    </div>
+    <div class="panel-body">
+        <div>Number: @Model.OrderNumber</div>
+        <div>ItemsCount: @Model.OrderItemsCount</div>
+        <div>Status: @Model.ShippingStatus</div>
+        <div>Courier: @Model.ShippingCourier</div>
+    </div>
+</div>
+
+@*<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Shipment information</h3>
+    </div>
+    <div class="panel-body">
+
+    </div>
+</div>*@

@@ -24,7 +24,7 @@ namespace Divergent.ITOps.ViewModelComposition
             inMemoryBroker.Unsubscribe(this);
         }
 
-        public void Subscribe<T>(Action<dynamic, T> subscription) where T : ICompositionEvent
+        public void Subscribe<T>(Func<dynamic, T, Task> subscription) where T : ICompositionEvent
         {
             inMemoryBroker.Subscribe<T>(this, subscription);
         }

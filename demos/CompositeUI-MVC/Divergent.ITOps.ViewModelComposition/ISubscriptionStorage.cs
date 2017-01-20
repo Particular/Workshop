@@ -8,6 +8,6 @@ namespace Divergent.ITOps.ViewModelComposition
 {
     public interface ISubscriptionStorage
     {
-        void Subscribe<T>(Action<dynamic, T> subscription) where T : ICompositionEvent;
+        void Subscribe<T>(Func<dynamic, T, Task> subscription) where T : ICompositionEvent;
     }
 }

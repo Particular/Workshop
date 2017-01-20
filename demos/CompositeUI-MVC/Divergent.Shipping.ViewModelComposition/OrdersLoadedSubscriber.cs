@@ -21,23 +21,20 @@ namespace Divergent.Shipping.ViewModelComposition
 
         public void Subscribe(ISubscriptionStorage subscriptionStorage)
         {
-            subscriptionStorage.Subscribe<OrdersLoaded>((pageViewModel, @event) =>
+            subscriptionStorage.Subscribe<OrdersLoaded>(async (pageViewModel, @event) =>
             {
-                Task.Run(async () =>
+                var ids = String.Join(",", @event.Orders.Keys);
+                var url = $"http://localhost:20196/api/shippinginfo/orders?ids={ids}";
+                var client = new HttpClient();
+                var response = await client.GetAsync(url);
+
+                dynamic[] shippingInfos = await response.Content.AsExpandoArrayAsync();
+
+                foreach (dynamic item in shippingInfos)
                 {
-                    var ids = String.Join(",", @event.Orders.Keys);
-                    var url = $"http://localhost:20196/api/shippinginfo/orders?ids={ids}";
-                    var client = new HttpClient();
-                    var response = await client.GetAsync(url);
-
-                    dynamic[] shippingInfos = await response.Content.AsExpandoArrayAsync();
-
-                    foreach (dynamic item in shippingInfos)
-                    {
-                        @event.Orders[item.OrderId].ShippingStatus = item.Status;
-                        @event.Orders[item.OrderId].ShippingCourier = item.Courier;
-                    }
-                }).GetAwaiter().GetResult();
+                    @event.Orders[item.OrderId].ShippingStatus = item.Status;
+                    @event.Orders[item.OrderId].ShippingCourier = item.Courier;
+                }
             });
         }
     }
