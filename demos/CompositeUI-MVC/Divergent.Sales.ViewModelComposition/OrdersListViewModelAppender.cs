@@ -11,7 +11,7 @@ namespace Divergent.Sales.ViewModelComposition
 {
     public class OrdersListViewModelAppender : IViewModelAppender
     {
-        public bool Matches(RequestInfo request)
+        public bool Matches(ITOps.ViewModelComposition.RequestContext request)
         {
             var controller = (string)request.RouteData.Values["controller"];
             var action = (string)request.RouteData.Values["action"];
@@ -19,7 +19,7 @@ namespace Divergent.Sales.ViewModelComposition
             return controller == "Orders" && action == "Index";
         }
 
-        public Task Append(RequestInfo request, dynamic viewModel)
+        public Task Append(ITOps.ViewModelComposition.RequestContext request, dynamic viewModel)
         {
             return Task.Run(async () =>
             {

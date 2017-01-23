@@ -9,33 +9,33 @@ namespace Divergent.ITOps.ViewModelComposition
     public class CompositionActionFilter : IResultFilter
     {
         IMessageBroker inMemoryBroker;
-        IRouteFilter[] all;
+        IRouteInterceptor[] routeInterceptors;
 
         public CompositionActionFilter(IMessageBroker inMemoryBroker, IViewModelAppender[] appenders, ISubscribeToCompositionEvents[] subscribers)
         {
             this.inMemoryBroker = inMemoryBroker;
-            all = ((IRouteFilter[])appenders).Concat(subscribers).ToArray();
+            routeInterceptors = ((IRouteInterceptor[])appenders).Concat(subscribers).ToArray();
         }
 
         public void OnResultExecuting(ResultExecutingContext filterContext)
         {
-            var requestInfo = new RequestInfo(filterContext.RouteData, filterContext.HttpContext.Request.QueryString);
+            var requestInfo = new RequestContext(filterContext.RouteData, filterContext.HttpContext.Request.QueryString);
             var vm = new DynamicViewModel(inMemoryBroker, requestInfo);
 
             try
             {
                 var pending = new List<Task>();
 
-                foreach (var interested in all.Where(a => a.Matches(requestInfo)))
+                foreach (var interceptor in routeInterceptors.Where(a => a.Matches(requestInfo)))
                 {
-                    if (interested is ISubscribeToCompositionEvents)
+                    if (interceptor is ISubscribeToCompositionEvents)
                     {
-                        ((ISubscribeToCompositionEvents)interested).Subscribe(vm);
+                        ((ISubscribeToCompositionEvents)interceptor).Subscribe(vm);
                     }
 
-                    if (interested is IViewModelAppender)
+                    if (interceptor is IViewModelAppender)
                     {
-                        var task = ((IViewModelAppender)interested).Append(requestInfo, vm);
+                        var task = ((IViewModelAppender)interceptor).Append(requestInfo, vm);
                         pending.Add(task);
                     }
                 }

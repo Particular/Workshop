@@ -12,9 +12,9 @@ namespace Divergent.ITOps.ViewModelComposition
     {
         //Action<dynamic> onDataRetrivalCompletedHandler = vm => { };
         IMessageBroker inMemoryBroker;
-        RequestInfo request;
+        RequestContext request;
 
-        public DynamicViewModel(IMessageBroker inMemoryBroker, RequestInfo request)
+        public DynamicViewModel(IMessageBroker inMemoryBroker, RequestContext request)
         {
             this.inMemoryBroker = inMemoryBroker;
             this.request = request;
@@ -40,7 +40,7 @@ namespace Divergent.ITOps.ViewModelComposition
             inMemoryBroker.Unsubscribe(this);
         }
 
-        public void Subscribe<T>(Func<dynamic, T, RequestInfo, Task> subscription) where T : ICompositionEvent
+        public void Subscribe<T>(Func<dynamic, T, RequestContext, Task> subscription) where T : ICompositionEvent
         {
             inMemoryBroker.Subscribe<T>(this, (sender, @event) =>
             {

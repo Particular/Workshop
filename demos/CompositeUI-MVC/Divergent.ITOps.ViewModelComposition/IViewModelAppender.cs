@@ -4,8 +4,8 @@ using System.Web.Routing;
 
 namespace Divergent.ITOps.ViewModelComposition
 {
-    public interface IViewModelAppender : IRouteFilter
+    public interface IViewModelAppender : IRouteInterceptor
     {
-        Task Append(RequestInfo request, dynamic viewModel);
+        Task Append(RequestContext request, dynamic viewModel);
     }
 }

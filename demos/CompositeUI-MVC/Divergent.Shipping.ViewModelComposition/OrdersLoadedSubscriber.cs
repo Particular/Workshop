@@ -11,7 +11,7 @@ namespace Divergent.Shipping.ViewModelComposition
 {
     public class OrdersLoadedSubscriber : ISubscribeToCompositionEvents
     {
-        public bool Matches(RequestInfo request)
+        public bool Matches(ITOps.ViewModelComposition.RequestContext request)
         {
             var controller = (string)request.RouteData.Values["controller"];
             var action = (string)request.RouteData.Values["action"];

@@ -2,8 +2,8 @@
 
 namespace Divergent.ITOps.ViewModelComposition
 {
-    public interface IRouteFilter
+    public interface IRouteInterceptor
     {
-        bool Matches(RequestInfo request);
+        bool Matches(RequestContext request);
     }
 }

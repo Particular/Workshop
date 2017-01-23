@@ -7,7 +7,7 @@ using System.Web.Routing;
 
 namespace Divergent.ITOps.ViewModelComposition
 {
-    public interface ISubscribeToCompositionEvents: IRouteFilter
+    public interface ISubscribeToCompositionEvents: IRouteInterceptor
     {
         void Subscribe(ISubscriptionStorage subscriptionStorage);
     }

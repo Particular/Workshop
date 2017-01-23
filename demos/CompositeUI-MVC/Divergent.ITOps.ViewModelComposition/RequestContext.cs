@@ -3,9 +3,9 @@ using System.Web.Routing;
 
 namespace Divergent.ITOps.ViewModelComposition
 {
-    public class RequestInfo
+    public class RequestContext
     {
-        public RequestInfo(RouteData routeData, NameValueCollection quesryString)
+        public RequestContext(RouteData routeData, NameValueCollection quesryString)
         {
             this.RouteData = routeData;
             this.QueryString = quesryString;
