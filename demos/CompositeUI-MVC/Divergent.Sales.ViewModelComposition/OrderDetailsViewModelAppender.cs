@@ -7,11 +7,19 @@ namespace Divergent.Sales.ViewModelComposition
 {
     public class OrderDetailsViewModelAppender : IViewModelAppender
     {
-        public Task Append(RouteData routeData, dynamic viewModel)
+        public bool Matches(RequestInfo request)
+        {
+            var controller = (string)request.RouteData.Values["controller"];
+            var action = (string)request.RouteData.Values["action"];
+
+            return controller == "Orders" && action == "Details";
+        }
+
+        public Task Append(RequestInfo request, dynamic viewModel)
         {
             return Task.Run(async () =>
             {
-                var id = (string)routeData.Values["id"];
+                var id = (string)request.RouteData.Values["id"];
 
                 var url = $"http://localhost:20195/api/orders/{id}";
                 var client = new HttpClient();
@@ -22,14 +30,6 @@ namespace Divergent.Sales.ViewModelComposition
                 viewModel.OrderNumber = order.Number;
                 viewModel.OrderItemsCount = order.ItemsCount;
             });
-        }
-
-        public bool Matches(RouteData routeData)
-        {
-            var controller = (string)routeData.Values["controller"];
-            var action = (string)routeData.Values["action"];
-
-            return controller == "Orders" && action == "Details";
         }
     }
 }

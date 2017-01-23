@@ -9,6 +9,6 @@ namespace Divergent.Sales.ViewModelComposition.Events
 {
     public class OrdersLoaded : ICompositionEvent
     {
-        public IDictionary<dynamic, dynamic> Orders { get; set; }
+        public IDictionary<dynamic, dynamic> OrdersViewModel { get; set; }
     }
 }

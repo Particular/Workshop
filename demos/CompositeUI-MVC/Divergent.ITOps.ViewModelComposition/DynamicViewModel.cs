@@ -8,25 +8,44 @@ using Topics.Radical.ComponentModel.Messaging;
 
 namespace Divergent.ITOps.ViewModelComposition
 {
-    class DynamicViewModel : DynamicObject, ISubscriptionStorage
+    class DynamicViewModel : DynamicObject, ISubscriptionStorage, IViewModel
     {
+        //Action<dynamic> onDataRetrivalCompletedHandler = vm => { };
         IMessageBroker inMemoryBroker;
+        RequestInfo request;
 
-        public DynamicViewModel( IMessageBroker inMemoryBroker )
+        public DynamicViewModel(IMessageBroker inMemoryBroker, RequestInfo request)
         {
             this.inMemoryBroker = inMemoryBroker;
+            this.request = request;
         }
 
         Dictionary<string, object> properties = new Dictionary<string, object>();
+
+        //public void OnDataRetrivalCompleted(Action<dynamic> handler)
+        //{
+        //    this.onDataRetrivalCompletedHandler = handler;
+        //}
+
+        //void RaiseOnDataRetrivalCompleted()
+        //{
+        //    if (onDataRetrivalCompletedHandler != null)
+        //    {
+        //        onDataRetrivalCompletedHandler(this);
+        //    }
+        //}
 
         internal void CleanupSubscribers()
         {
             inMemoryBroker.Unsubscribe(this);
         }
 
-        public void Subscribe<T>(Func<dynamic, T, Task> subscription) where T : ICompositionEvent
+        public void Subscribe<T>(Func<dynamic, T, RequestInfo, Task> subscription) where T : ICompositionEvent
         {
-            inMemoryBroker.Subscribe<T>(this, subscription);
+            inMemoryBroker.Subscribe<T>(this, (sender, @event) =>
+            {
+                return subscription(sender, @event, request);
+            });
         }
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
@@ -46,11 +65,21 @@ namespace Divergent.ITOps.ViewModelComposition
 
             if (binder.Name == "RaiseEvent")
             {
-                inMemoryBroker.BroadcastAsync(this, args[0]).GetAwaiter().GetResult();
+                this.RaiseEventAsync((ICompositionEvent)args[0]).GetAwaiter().GetResult();
+                return true;
+            }
+            else if (binder.Name == "RaiseEventAsync")
+            {
+                result = this.RaiseEventAsync((ICompositionEvent)args[0]);
                 return true;
             }
 
             return false;
+        }
+
+        public Task RaiseEventAsync(ICompositionEvent @event)
+        {
+            return inMemoryBroker.BroadcastAsync(this, @event);
         }
     }
 }

@@ -1,9 +1,8 @@
-﻿
-@{
-    ViewBag.Title = $"Orders {Model.Orders.Count}";
+﻿@{
+    ViewBag.Title = $"Orders {Model.OrdersCount}";
 }
 
-<h2>@Model.Orders.Count Order(s)</h2>
+<h2>@Model.OrdersCount Order(s)</h2>
 
 <table class="table table-striped">
     <thead>
@@ -14,7 +13,7 @@
     </thead>
     <tbody>
 
-        @foreach (dynamic order in Model.Orders)
+        @foreach (dynamic order in Model.OrdersViewModel.Values)
         {
             <tr>
                 <td><a href="/Orders/Details/@order.OrderNumber">Number: #@order.OrderNumber</a></td>

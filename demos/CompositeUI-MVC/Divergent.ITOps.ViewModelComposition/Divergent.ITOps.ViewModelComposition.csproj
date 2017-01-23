@@ -102,10 +102,12 @@
     <Compile Include="ICompositionEvent.cs" />
     <Compile Include="Installers\ViewModelCompositionInstaller.cs" />
     <Compile Include="IRouteFilter.cs" />
-    <Compile Include="ISubscribeCompositionEvents.cs" />
+    <Compile Include="ISubscribeToCompositionEvents.cs" />
     <Compile Include="ISubscriptionStorage.cs" />
+    <Compile Include="IViewModel.cs" />
     <Compile Include="IViewModelAppender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequestInfo.cs" />
     <Compile Include="StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup>

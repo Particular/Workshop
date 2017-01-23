@@ -43,7 +43,7 @@ namespace Divergent.ITOps.ViewModelComposition.Installers
             (
                 Types.FromAssemblyInDirectory(new AssemblyFilter(directory, filter))
                     .IncludeNonPublicTypes()
-                    .Where(t => t.Namespace != null && !t.IsAbstract && !t.IsInterface && t.Is<ISubscribeCompositionEvents>())
+                    .Where(t => t.Namespace != null && !t.IsAbstract && !t.IsInterface && t.Is<ISubscribeToCompositionEvents>())
                     .WithService.FirstInterface()
                     .LifestyleSingleton()
             );

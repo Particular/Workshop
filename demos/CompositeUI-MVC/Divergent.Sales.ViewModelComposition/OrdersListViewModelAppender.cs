@@ -5,17 +5,26 @@ using System.Web.Routing;
 using System.Linq;
 using System.Dynamic;
 using Divergent.Sales.ViewModelComposition.Events;
+using System.Collections.Generic;
 
 namespace Divergent.Sales.ViewModelComposition
 {
     public class OrdersListViewModelAppender : IViewModelAppender
     {
-        public Task Append(RouteData routeData, dynamic viewModel)
+        public bool Matches(RequestInfo request)
+        {
+            var controller = (string)request.RouteData.Values["controller"];
+            var action = (string)request.RouteData.Values["action"];
+
+            return controller == "Orders" && action == "Index";
+        }
+
+        public Task Append(RequestInfo request, dynamic viewModel)
         {
             return Task.Run(async () =>
             {
-                var pageIndex = (string)routeData.Values["pageindex"] ?? "0";
-                var pageSize = (string)routeData.Values["pageSize"] ?? "10";
+                var pageIndex = (string)request.QueryString["pageindex"] ?? "0";
+                var pageSize = (string)request.QueryString["pageSize"] ?? "10";
 
                 var url = $"http://localhost:20195/api/orders?pageSize={pageSize}&pageIndex={pageIndex}";
                 var client = new HttpClient();
@@ -23,27 +32,32 @@ namespace Divergent.Sales.ViewModelComposition
 
                 dynamic[] orders = await response.Content.AsExpandoArrayAsync();
 
-                var orderViewModels = orders.ToDictionary(o => o.Id, o =>
-                {
-                    dynamic vm = new ExpandoObject();
-                    vm.OrderNumber = o.Number;
-                    vm.OrderItemsCount = o.ItemsCount;
+                //var ordersDictionary = orders.ToDictionary(o => o.Id, o =>
+                //{
+                //    dynamic vm = new ExpandoObject();
+                //    vm.OrderNumber = o.Number;
+                //    vm.OrderItemsCount = o.ItemsCount;
 
-                    return vm;
+                //    return vm;
+                //});
+
+                var ordersViewModel = new Dictionary<dynamic, dynamic>();
+
+                foreach (dynamic order in orders)
+                {
+                    ordersViewModel[order.Id] = new ExpandoObject();
+                    ordersViewModel[order.Id].OrderNumber = order.Number;
+                    ordersViewModel[order.Id].OrderItemsCount = order.ItemsCount;
+                }
+
+                viewModel.RaiseEvent(new OrdersLoaded()
+                {
+                    OrdersViewModel = ordersViewModel
                 });
 
-                viewModel.Orders = orderViewModels.Values;
-
-                viewModel.RaiseEvent(new OrdersLoaded() { Orders = orderViewModels });
+                viewModel.OrdersCount = orders.Length;
+                viewModel.OrdersViewModel = ordersViewModel;
             });
-        }
-
-        public bool Matches(RouteData routeData)
-        {
-            var controller = (string)routeData.Values["controller"];
-            var action = (string)routeData.Values["action"];
-
-            return controller == "Orders" && action == "Index";
         }
     }
 }

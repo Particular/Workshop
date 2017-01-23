@@ -11,7 +11,7 @@ namespace Divergent.ITOps.ViewModelComposition
         IMessageBroker inMemoryBroker;
         IRouteFilter[] all;
 
-        public CompositionActionFilter(IMessageBroker inMemoryBroker, IViewModelAppender[] appenders, ISubscribeCompositionEvents[] subscribers)
+        public CompositionActionFilter(IMessageBroker inMemoryBroker, IViewModelAppender[] appenders, ISubscribeToCompositionEvents[] subscribers)
         {
             this.inMemoryBroker = inMemoryBroker;
             all = ((IRouteFilter[])appenders).Concat(subscribers).ToArray();
@@ -19,28 +19,33 @@ namespace Divergent.ITOps.ViewModelComposition
 
         public void OnResultExecuting(ResultExecutingContext filterContext)
         {
-            var vm = new DynamicViewModel(inMemoryBroker);
+            var requestInfo = new RequestInfo(filterContext.RouteData, filterContext.HttpContext.Request.QueryString);
+            var vm = new DynamicViewModel(inMemoryBroker, requestInfo);
+
             try
             {
                 var pending = new List<Task>();
 
-                foreach (var interested in all.Where(a => a.Matches(filterContext.RouteData)))
+                foreach (var interested in all.Where(a => a.Matches(requestInfo)))
                 {
-                    if (interested is ISubscribeCompositionEvents)
+                    if (interested is ISubscribeToCompositionEvents)
                     {
-                        ((ISubscribeCompositionEvents)interested).Subscribe(vm);
+                        ((ISubscribeToCompositionEvents)interested).Subscribe(vm);
                     }
 
                     if (interested is IViewModelAppender)
                     {
-                        var task = ((IViewModelAppender)interested).Append(filterContext.RouteData, vm);
+                        var task = ((IViewModelAppender)interested).Append(requestInfo, vm);
                         pending.Add(task);
                     }
                 }
 
                 if (pending.Any())
                 {
-                    Task.WhenAll(pending).GetAwaiter().GetResult();
+                    Task.WhenAll(pending)
+                        .GetAwaiter()
+                        .GetResult();
+
                     filterContext.Controller.ViewData.Model = vm;
                 }
             }

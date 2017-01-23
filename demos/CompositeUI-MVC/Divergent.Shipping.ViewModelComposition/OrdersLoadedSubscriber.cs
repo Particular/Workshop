@@ -9,31 +9,32 @@ using System.Linq;
 
 namespace Divergent.Shipping.ViewModelComposition
 {
-    public class OrdersLoadedSubscriber : ISubscribeCompositionEvents
+    public class OrdersLoadedSubscriber : ISubscribeToCompositionEvents
     {
-        public bool Matches(RouteData routeData)
+        public bool Matches(RequestInfo request)
         {
-            var controller = (string)routeData.Values["controller"];
-            var action = (string)routeData.Values["action"];
+            var controller = (string)request.RouteData.Values["controller"];
+            var action = (string)request.RouteData.Values["action"];
 
             return controller == "Orders" && action == "Index";
         }
 
         public void Subscribe(ISubscriptionStorage subscriptionStorage)
         {
-            subscriptionStorage.Subscribe<OrdersLoaded>(async (pageViewModel, @event) =>
+            subscriptionStorage.Subscribe<OrdersLoaded>(async (pageViewModel, @event, request) =>
             {
-                var ids = String.Join(",", @event.Orders.Keys);
+                var ids = String.Join(",", @event.OrdersViewModel.Keys);
                 var url = $"http://localhost:20196/api/shippinginfo/orders?ids={ids}";
                 var client = new HttpClient();
+
                 var response = await client.GetAsync(url);
 
                 dynamic[] shippingInfos = await response.Content.AsExpandoArrayAsync();
 
                 foreach (dynamic item in shippingInfos)
                 {
-                    @event.Orders[item.OrderId].ShippingStatus = item.Status;
-                    @event.Orders[item.OrderId].ShippingCourier = item.Courier;
+                    @event.OrdersViewModel[item.OrderId].ShippingStatus = item.Status;
+                    @event.OrdersViewModel[item.OrderId].ShippingCourier = item.Courier;
                 }
             });
         }

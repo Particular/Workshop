@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Routing;
 
 namespace Divergent.ITOps.ViewModelComposition
 {
-    public interface ISubscriptionStorage
+    public interface ISubscribeToCompositionEvents: IRouteFilter
     {
-        void Subscribe<T>(Func<dynamic, T, RequestInfo, Task> subscription) where T : ICompositionEvent;
+        void Subscribe(ISubscriptionStorage subscriptionStorage);
     }
 }

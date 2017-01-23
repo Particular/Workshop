@@ -1,10 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Specialized;
+using System.Threading.Tasks;
 using System.Web.Routing;
 
 namespace Divergent.ITOps.ViewModelComposition
 {
-    public interface IViewModelAppender: IRouteFilter
+    public interface IViewModelAppender : IRouteFilter
     {
-        Task Append(RouteData routeData, dynamic viewModel);
+        Task Append(RequestInfo request, dynamic viewModel);
     }
 }

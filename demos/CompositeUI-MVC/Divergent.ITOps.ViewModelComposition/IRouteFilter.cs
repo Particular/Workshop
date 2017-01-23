@@ -4,6 +4,6 @@ namespace Divergent.ITOps.ViewModelComposition
 {
     public interface IRouteFilter
     {
-        bool Matches(RouteData routeData);
+        bool Matches(RequestInfo request);
     }
 }
