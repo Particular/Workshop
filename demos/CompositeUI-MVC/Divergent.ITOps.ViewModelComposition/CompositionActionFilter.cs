@@ -11,10 +11,10 @@ namespace Divergent.ITOps.ViewModelComposition
         IMessageBroker inMemoryBroker;
         IRouteInterceptor[] routeInterceptors;
 
-        public CompositionActionFilter(IMessageBroker inMemoryBroker, IViewModelAppender[] appenders, ISubscribeToCompositionEvents[] subscribers)
+        public CompositionActionFilter(IMessageBroker inMemoryBroker, IRouteInterceptor[] routeInterceptors)
         {
             this.inMemoryBroker = inMemoryBroker;
-            routeInterceptors = ((IRouteInterceptor[])appenders).Concat(subscribers).ToArray();
+            this.routeInterceptors = routeInterceptors;
         }
 
         public void OnResultExecuting(ResultExecutingContext filterContext)

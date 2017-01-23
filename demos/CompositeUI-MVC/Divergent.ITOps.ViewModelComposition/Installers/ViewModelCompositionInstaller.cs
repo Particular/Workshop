@@ -3,7 +3,7 @@ using System.ComponentModel.Composition;
 using Castle.Windsor;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Topics.Radical.Reflection;
-using System.Web.Mvc;
+using System.Linq;
 using Radical.Bootstrapper;
 using Topics.Radical.ComponentModel.Messaging;
 using Topics.Radical.Messaging;
@@ -34,17 +34,19 @@ namespace Divergent.ITOps.ViewModelComposition.Installers
             (
                 Types.FromAssemblyInDirectory(new AssemblyFilter(directory, filter))
                     .IncludeNonPublicTypes()
-                    .Where(t => t.Namespace != null && !t.IsAbstract && !t.IsInterface && t.Is<IViewModelAppender>())
-                    .WithService.FirstInterface()
-                    .LifestyleSingleton()
-            );
+                    .Where(t => t.Namespace != null && !t.IsAbstract && !t.IsInterface && t.Is<IRouteInterceptor>())
+                    .WithService.AllInterfaces()
+                    //.Select((type, baseTypes) =>
+                    //{
+                    //    /*
+                    //     * We register in the container each route interceptor as IViewModelAppender 
+                    //     * or ISubscribeToCompositionEvents or both, or whatever in the future will 
+                    //     * inherit from IRouteInterceptor
+                    //     */
+                    //    var interfaces = type.GetInterfaces();
 
-            container.Register
-            (
-                Types.FromAssemblyInDirectory(new AssemblyFilter(directory, filter))
-                    .IncludeNonPublicTypes()
-                    .Where(t => t.Namespace != null && !t.IsAbstract && !t.IsInterface && t.Is<ISubscribeToCompositionEvents>())
-                    .WithService.FirstInterface()
+                    //    return interfaces;
+                    //})
                     .LifestyleSingleton()
             );
         }
