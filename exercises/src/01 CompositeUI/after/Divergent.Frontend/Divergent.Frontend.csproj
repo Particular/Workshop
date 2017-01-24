@@ -67,6 +67,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\branding\routingConfig.js" />
+    <Content Include="app\modules\customers\ordersLoadedSubscriber.js" />
+    <Content Include="app\modules\customers\_module.js" />
     <Content Include="app\modules\finance\ordersLoadedSubscriber.js" />
     <Content Include="app\modules\sales\orderListAppender.js" />
     <Content Include="packages.config" />
@@ -88,7 +90,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\app.js" />
-    <Content Include="app\modules\customers\_module.js" />
     <Content Include="app\modules\finance\_module.js" />
     <Content Include="app\modules\sales\orders\ordersController.js" />
     <Content Include="app\branding\orders\ordersView.html" />
