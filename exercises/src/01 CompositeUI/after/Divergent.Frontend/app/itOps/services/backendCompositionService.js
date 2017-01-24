@@ -69,21 +69,56 @@
                         }
 
                         var viewModel = {
-                            subscribe: function () { },
-                            raiseEvent: function () { },
+
+                            _subscriptions: {},
+
+                            subscribe: function (evt, handler) {
+                                var _vm = this;
+                                if (!_vm._subscriptions.hasOwnProperty(evt)) {
+                                    _vm._subscriptions[evt] = [];
+                                }
+
+                                _vm._subscriptions[evt].push(handler);
+                            },
+
+                            clearSubscribers: function () {
+                                var _vm = this;
+                                _vm._subscriptions = {};
+                            },
+
+                            raiseEvent: function (evt, args) {
+
+                                var _vm = this;
+                                if (!_vm._subscriptions.hasOwnProperty(evt)) {
+                                    //no subscribers
+                                    return null;
+                                }
+
+                                var promises = [];
+                                var subscribers = _vm._subscriptions[evt];
+                                angular.forEach(subscribers, function (subscriber, index) {
+                                    var promise = subscriber(evt, _vm, args);
+                                    promises.push(promise);
+                                });
+
+                                return $q.all(promises);
+                            },
                         };
+
+                        angular.forEach(subscribers, function (subscriber, index) {
+                            subscriber(viewModel);
+                        });
 
                         var promises = [];
 
                         angular.forEach(appenders, function (appender, index) {
-
                             var promise = appender.append(args, viewModel);
                             promises.push(promise);
                         });
 
                         return $q.all(promises)
                             .then(function (_) {
-                                $log.debug(requestId, '-> completed -> viewModel: ', viewModel);
+                                viewModel.clearSubscribers();
                                 return viewModel;
                             });
                     };

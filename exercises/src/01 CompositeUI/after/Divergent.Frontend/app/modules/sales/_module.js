@@ -11,7 +11,7 @@
 
                 var requestId = 'orders-list';
                 backendCompositionServiceProvider.registerViewModelAppenderFactory(requestId,
-                    ['$log', '$http', 'messageBroker', 'orders.config', function ($log, $http, messageBroker, config) {
+                    ['$log', '$http', 'orders.config', '$q', function ($log, $http, config, $q) {
 
                         var appender = {
                             append: function (args, viewModel) {
@@ -20,7 +20,7 @@
                                 return $http.get(uri)
                                     .then(function (response) {
 
-                                        var ordersViewModel = {
+                                        var ordersViewModelDictionary = {
                                             keys:[],
                                             values: []
                                         };
@@ -33,20 +33,33 @@
                                                 orderItemsCount: item.itemsCount
                                             };
 
-                                            ordersViewModel.keys.push(vm.orderId);
-                                            ordersViewModel.values.push(vm);
+                                            ordersViewModelDictionary.keys.push(vm.orderId);
+                                            ordersViewModelDictionary.values.push(vm);
 
-                                            ordersViewModel[vm.orderId] = vm;
+                                            ordersViewModelDictionary[vm.orderId] = vm;
 
                                         });
-                                        viewModel.orders = ordersViewModel;
 
-                                        messageBroker.broadcast(requestId + '/executed', this, {
-                                            rawData: response.data,
-                                            viewModels: ordersViewModel
+                                        viewModel.orders = ordersViewModelDictionary;
+
+                                        var ordersLoadedPromise = viewModel.raiseEvent('orders/loaded', { ordersViewModelDictionary: ordersViewModelDictionary });
+
+                                        var orderIdsGroupedByCustomer = _.chain(response.data)
+                                            .map(function (raw) {
+                                                return {
+                                                    customerId: raw.customerId,
+                                                    orderId: raw.id,
+                                                };
+                                            })
+                                            .groupBy('customerId')
+                                            .value();
+
+                                        var customersIdsLoadedPromise = viewModel.raiseEvent('customers/ids/loaded', {
+                                            ordersViewModelDictionary: ordersViewModelDictionary,
+                                            customersId: orderIdsGroupedByCustomer
                                         });
 
-                                        //return viewModel;
+                                        return $q.all(ordersLoadedPromise, customersIdsLoadedPromise);
                                     });
 
                             }

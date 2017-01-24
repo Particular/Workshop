@@ -4,12 +4,12 @@
     <ul>
         <li data-ng-repeat="order in ctrl.orders.values track by order.orderId">
             <strong>Order</strong> | Id #{{order.orderNumber}}, <strong>Items count:</strong> {{order.orderItemsCount}}
-            ﻿<div>
+            ﻿<!--<div>
                 <strong>Order total:</strong> {{order.price.currency}} {{order.price.value}}
-            </div>
+            </div>-->
             <div>
-                <strong>Customer Name</strong>: {{order.customer.displayName}}
-                <br /><strong>Customer Id</strong>: {{order.customer.id}}
+                <strong>Customer Name</strong>: {{order.customerName}}
+                <br /><strong>Customer Id</strong>: {{order.customerId}}
             </div>
         </li>
     </ul>
