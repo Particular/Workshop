@@ -9,19 +9,15 @@
     var app = angular.module('app', [
                 'ngRoute',
                 'ui.router',
-                'itemTemplate',
                 'app.controllers',
                 'app.services'
     ]);
     
-    app.config(['$stateProvider', '$locationProvider', '$logProvider', 'itemTemplateConfigProvider',
-            function ($stateProvider, $locationProvider, $logProvider, itemTemplateConfigProvider) {
+    app.config(['$stateProvider', '$locationProvider', '$logProvider',
+            function ($stateProvider, $locationProvider, $logProvider) {
 
                 $logProvider.debugEnabled(true);
                 $locationProvider.html5Mode(false);
-                itemTemplateConfigProvider.setDefaultSettings({
-                    templatesFolder: '/app/templates/'
-                });
 
                 var rootViews = {
                     '': {
