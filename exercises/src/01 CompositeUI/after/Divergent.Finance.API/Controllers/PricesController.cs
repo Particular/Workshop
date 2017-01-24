@@ -28,5 +28,18 @@ namespace Finance.API.Controllers
             return _ids.Sum(productId
                         => prices.Single(s => s.ProductId == productId).ItemPrice);
         }
+
+        //[HttpGet, Route("orders/total/{orderIds}")]
+        //public async Task<dynamic> GetOrdersTotal(string orderIds)
+        //{
+        //    var _ids = productIds.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
+        //           .Select(id => Guid.Parse(id))
+        //           .ToList();
+
+        //    var prices = await _financeRepository.Prices();
+
+        //    return _ids.Sum(productId
+        //                => prices.Single(s => s.ProductId == productId).ItemPrice);
+        //}
     }
 }
