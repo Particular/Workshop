@@ -32,32 +32,27 @@ namespace Divergent.Sales.ViewModelComposition
 
                 dynamic[] orders = await response.Content.AsExpandoArrayAsync();
 
-                //var ordersDictionary = orders.ToDictionary(o => o.Id, o =>
-                //{
-                //    dynamic vm = new ExpandoObject();
-                //    vm.OrderNumber = o.Number;
-                //    vm.OrderItemsCount = o.ItemsCount;
-
-                //    return vm;
-                //});
-
-                var ordersViewModel = new Dictionary<dynamic, dynamic>();
-
-                foreach (dynamic order in orders)
-                {
-                    ordersViewModel[order.Id] = new ExpandoObject();
-                    ordersViewModel[order.Id].OrderNumber = order.Number;
-                    ordersViewModel[order.Id].OrderItemsCount = order.ItemsCount;
-                }
+                viewModel.OrdersViewModel = MapToDictionary(orders);
 
                 viewModel.RaiseEvent(new OrdersLoaded()
                 {
-                    OrdersViewModel = ordersViewModel
+                    OrdersViewModel = viewModel.OrdersViewModel
                 });
-
-                viewModel.OrdersCount = orders.Length;
-                viewModel.OrdersViewModel = ordersViewModel;
             });
+        }
+
+        IDictionary<dynamic, dynamic> MapToDictionary(dynamic[] orders)
+        {
+            var ordersViewModel = new Dictionary<dynamic, dynamic>();
+
+            foreach (dynamic order in orders)
+            {
+                ordersViewModel[order.Id] = new ExpandoObject();
+                ordersViewModel[order.Id].OrderNumber = order.Number;
+                ordersViewModel[order.Id].OrderItemsCount = order.ItemsCount;
+            }
+
+            return ordersViewModel;
         }
     }
 }
