@@ -68,8 +68,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\OrderTotalPrice.cs" />
     <Compile Include="Models\Price.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\OrdersTotalRepository.cs" />
     <Compile Include="Repositories\FinanceRepository.cs" />
     <Compile Include="Repositories\IFinanceRepository.cs" />
   </ItemGroup>

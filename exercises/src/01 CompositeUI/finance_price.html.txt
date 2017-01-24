@@ -1,3 +1,1 @@
-﻿﻿<span>
-    <strong>Order total:</strong> {{templateModel.currency}} {{templateModel.value}}
-</span>
+﻿<br /><strong>Order total:</strong> {{order.orderTotalPrice}}

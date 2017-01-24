@@ -1,0 +1,19 @@
+﻿<section>
+    Orders
+
+    <ul>
+        <li data-ng-repeat="order in ctrl.orders.values track by order.orderId">
+            <strong>Order:</strong>
+            <div>
+                Id #{{order.orderNumber}}
+                <br />
+                <i>Items count:</i> {{order.orderItemsCount}}
+                <br />
+                <strong>Customer:</strong> {{order.orderCustomerName}}
+                <br />
+                <strong>Order total:</strong> {{order.orderTotalPrice}}
+            </div>
+        </li>
+    </ul>
+
+</section>

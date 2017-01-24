@@ -66,6 +66,10 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\branding\routingConfig.js" />
+    <Content Include="app\modules\customers\ordersLoadedSubscriber.js" />
+    <Content Include="app\modules\customers\_module.js" />
+    <Content Include="app\modules\sales\orderListAppender.js" />
     <Content Include="packages.config" />
     <Content Include="lib\bootstrap\css\bootstrap-theme.css.map" />
     <Content Include="lib\bootstrap\css\bootstrap-theme.min.css.map" />
@@ -85,18 +89,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\app.js" />
-    <Content Include="app\directives\itemTemplate.js" />
-    <Content Include="app\modules\customers\_module.js" />
-    <Content Include="app\modules\sales\presentation\ordersController.js" />
-    <Content Include="app\modules\sales\presentation\ordersView.html" />
-    <Content Include="app\modules\sales\services\ordersService.js" />
+    <Content Include="app\modules\finance\_module.js" />
+    <Content Include="app\modules\sales\orders\ordersController.js" />
+    <Content Include="app\branding\orders\ordersView.html" />
     <Content Include="app\modules\sales\_module.js" />
     <Content Include="app\presentation\dashboardController.js" />
-    <Content Include="app\presentation\dashboardView.html" />
-    <Content Include="app\services\backendCompositionService.js" />
-    <Content Include="app\services\messageBroker.js" />
-    <Content Include="app\templates\sales\ordersView\customer.html" />
-    <Content Include="app\templates\sales\ordersView\order.html" />
+    <Content Include="app\branding\dashboard\dashboardView.html" />
+    <Content Include="app\itOps\services\backendCompositionService.js" />
     <Content Include="assets\site.css" />
     <Content Include="index.html" />
     <Content Include="lib\angular-route\angular-route.js" />
@@ -118,6 +117,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -131,9 +131,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>42520</DevelopmentServerPort>
+          <DevelopmentServerPort>42587</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:42520/</IISUrl>
+          <IISUrl>http://localhost:42587/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
