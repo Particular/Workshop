@@ -20,30 +20,15 @@
                                 return $http.get(uri)
                                     .then(function (response) {
 
-                                        var ordersViewModelDictionary = {
-                                            keys:[],
-                                            values: []
-                                        };
+                                        viewModel.orders = mapToDictionary(response.data);
 
-                                        angular.forEach(response.data, function (item, index) {
-
-                                            var vm = {
-                                                orderId: item.id,
-                                                orderNumber: item.id,
-                                                orderItemsCount: item.itemsCount
-                                            };
-
-                                            ordersViewModelDictionary.keys.push(vm.orderId);
-                                            ordersViewModelDictionary.values.push(vm);
-
-                                            ordersViewModelDictionary[vm.orderId] = vm;
-
+                                        var promise = viewModel.raiseEvent('orders/loaded', {
+                                            ordersViewModelDictionary: viewModel.orders
                                         });
 
-                                        viewModel.orders = ordersViewModelDictionary;
+                                        return promise;
 
-                                        var ordersLoadedPromise = viewModel.raiseEvent('orders/loaded', { ordersViewModelDictionary: ordersViewModelDictionary });
-
+                                        /*
                                         var orderIdsGroupedByCustomer = _.chain(response.data)
                                             .map(function (raw) {
                                                 return {
@@ -60,10 +45,36 @@
                                         });
 
                                         return $q.all(ordersLoadedPromise, customersIdsLoadedPromise);
+                                        */
                                     });
 
                             }
                         }
+
+                        function mapToDictionary(rawData) {
+
+                            var ordersViewModelDictionary = {
+                                keys: [],
+                                values: []
+                            };
+
+                            angular.forEach(rawData, function (item, index) {
+
+                                var vm = {
+                                    orderId: item.id,
+                                    orderNumber: item.id,
+                                    orderItemsCount: item.itemsCount
+                                };
+
+                                ordersViewModelDictionary.keys.push(vm.orderId);
+                                ordersViewModelDictionary.values.push(vm);
+
+                                ordersViewModelDictionary[vm.orderId] = vm;
+
+                            });
+
+                            return ordersViewModelDictionary;
+                        };
 
                         return appender;
 

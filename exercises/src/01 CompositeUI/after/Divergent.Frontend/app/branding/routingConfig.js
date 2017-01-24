@@ -28,7 +28,7 @@
                         url: '/orders',
                         views: {
                             '': {
-                                templateUrl: '/app/branding/sales/orders/ordersView.html',
+                                templateUrl: '/app/branding/orders/ordersView.html',
                                 controller: 'ordersController',
                                 controllerAs: 'ctrl'
                             }

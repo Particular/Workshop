@@ -89,12 +89,11 @@
     <Content Include="app\modules\customers\_module.js" />
     <Content Include="app\modules\finance\_module.js" />
     <Content Include="app\modules\sales\orders\ordersController.js" />
-    <Content Include="app\branding\sales\orders\ordersView.html" />
+    <Content Include="app\branding\orders\ordersView.html" />
     <Content Include="app\modules\sales\_module.js" />
     <Content Include="app\presentation\dashboardController.js" />
     <Content Include="app\branding\dashboard\dashboardView.html" />
     <Content Include="app\itOps\services\backendCompositionService.js" />
-    <Content Include="app\itOps\services\messageBroker.js" />
     <Content Include="assets\site.css" />
     <Content Include="index.html" />
     <Content Include="lib\angular-route\angular-route.js" />
