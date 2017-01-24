@@ -23,47 +23,54 @@
         });
 
     angular.module('app.services')
-        .config(['$stateProvider', 'backendCompositionServiceProvider',
-            function ($stateProvider, backendCompositionServiceProvider) {
+        .config(['backendCompositionServiceProvider', function (backendCompositionServiceProvider) {
 
-                console.debug('Orders modules configured.');
-            }]);
+            var queryId = 'orders-list';
+            backendCompositionServiceProvider.registerViewModelVisitorFactory(queryId,
+                ['$log', '$http', 'customers.config', function ($log, $http, config) {
 
-    angular.module('app.services')
-        .run(['$log', 'messageBroker', '$http', 'customers.config', function ($log, messageBroker, $http, config) {
+                    $log.debug('Registering Customers orders-list visitor');
 
-            messageBroker.subscribe('orders-list/executed', function (sender, args) {
+                    var visitor = {
+                        visit: function (args, composedResults, rawData) {
 
-                var groupedByCustomerId = _.groupBy(args.rawData, 'customerId');
+                            $log.debug('Customers - Ready to visit ', queryId, ': ', args, composedResults, rawData);
 
-                var customerUniqueIds = _.chain(args.rawData)
-                    .map(function (rawOrder) { return rawOrder.customerId; })
-                    .uniq()
-                    .reduce(function (memo, id) { return memo + '|' + id; }, '')
-                    .value()
-                    .substring(1);
+                            var groupedByCustomerId = _.groupBy(rawData, 'customerId');
 
-                var uri = config.apiUrl + '/customers/byids/' + customerUniqueIds;
-                $http.get(uri)
-                     .then(function (response) {
+                            var customerUniqueIds = _.chain(rawData)
+                                .map(function (rawOrder) { return rawOrder.customerId; })
+                                .uniq()
+                                .reduce(function (memo, id) { return memo + '|' + id; }, '')
+                                .value()
+                                .substring(1);
 
-                         $log.debug('HTTP response', response.data);
+                            var uri = config.apiUrl + '/customers/byids/' + customerUniqueIds;
+                            $http.get(uri)
+                                 .then(function (response) {
 
-                         angular.forEach(response.data, function (item, index) {
-                             var vm = new CustomerViewModel(item);
-                             var orders = groupedByCustomerId[vm.id];
+                                     $log.debug('Customers orders-list visitor HTTP response', response.data);
 
-                             $log.debug('Orders for customer', vm.id, orders);
+                                     angular.forEach(response.data, function (item, index) {
+                                         var vm = new CustomerViewModel(item);
+                                         var orders = groupedByCustomerId[vm.id];
 
-                             angular.forEach(orders, function (order, orderIdx) {
-                                 args.viewModels[order.id].customer = vm;
-                             });
-                         });
+                                         $log.debug('Orders for customer', vm.id, orders);
 
-                         $log.debug('Orders composed w/ Customers', args.viewModels);
+                                         angular.forEach(orders, function (order, orderIdx) {
+                                             composedResults.orders[order.id].customer = vm;
+                                         });
+                                     });
 
-                     });
-            });
+                                     $log.debug('Orders composed w/ Customers', composedResults.orders);
+
+                                     return response.data;
+                                 });
+                        }
+                    }
+
+                    return visitor;
+                }]);
 
         }]);
 }())
