@@ -11,7 +11,7 @@
                     '': {
                         templateUrl: '/app/branding/dashboard/dashboardView.html',
                         controller: 'dashboardController',
-                        controllerAs: 'viewModel'
+                        controllerAs: 'ctrl'
                     }
                 };
 
@@ -30,7 +30,7 @@
                             '': {
                                 templateUrl: '/app/branding/sales/orders/ordersView.html',
                                 controller: 'ordersController',
-                                controllerAs: 'viewModel'
+                                controllerAs: 'ctrl'
                             }
                         }
                     });

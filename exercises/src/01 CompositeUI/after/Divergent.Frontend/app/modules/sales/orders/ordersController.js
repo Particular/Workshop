@@ -1,18 +1,18 @@
 (function () {
     angular.module('app.controllers')
         .controller('ordersController',
-        ['$log', 'ordersService',
-            function ($log, ordersService) {
+        ['$log', 'backendCompositionService',
+            function ($log, backendCompositionService) {
 
-                var viewModel = this;
+                var ctrl = this;
 
-                viewModel.isBusy = null;
-                viewModel.orders = null;
+                ctrl.isBusy = null;
+                ctrl.orders = null;
 
-                viewModel.isBusy = ordersService
-                    .getOrders(0, 10)
-                    .then(function (orders) {
-                        viewModel.orders = orders;
+                ctrl.isBusy = backendCompositionService
+                    .get('orders-list', { pageIndex: 0, pageSize: 10 })
+                    .then(function (viewModel) {
+                        ctrl.orders = viewModel.orders;
                     });
 
             }]);

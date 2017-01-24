@@ -2,8 +2,8 @@
     Orders
 
     <ul>
-        <li data-ng-repeat="order in viewModel.orders track by order.id">
-            <strong>Order</strong> | Id #{{order.id}}, <strong>Items count:</strong> {{order.itemsCount}}
+        <li data-ng-repeat="order in ctrl.orders.values track by order.orderId">
+            <strong>Order</strong> | Id #{{order.orderNumber}}, <strong>Items count:</strong> {{order.orderItemsCount}}
             ﻿<div>
                 <strong>Order total:</strong> {{order.price.currency}} {{order.price.value}}
             </div>
