@@ -32,6 +32,7 @@ namespace Divergent.Sales.ViewModelComposition
 
                 dynamic[] orders = await response.Content.AsExpandoArrayAsync();
 
+                viewModel.OrdersCount = orders.Length;
                 viewModel.OrdersViewModel = MapToDictionary(orders);
 
                 viewModel.RaiseEvent(new OrdersLoaded()
