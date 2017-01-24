@@ -88,7 +88,7 @@
     <Content Include="app\app.js" />
     <Content Include="app\modules\customers\_module.js" />
     <Content Include="app\modules\finance\_module.js" />
-    <Content Include="app\modules\sales\presentation\ordersController.js" />
+    <Content Include="app\modules\sales\orders\ordersController.js" />
     <Content Include="app\branding\sales\orders\ordersView.html" />
     <Content Include="app\modules\sales\services\ordersService.js" />
     <Content Include="app\modules\sales\_module.js" />

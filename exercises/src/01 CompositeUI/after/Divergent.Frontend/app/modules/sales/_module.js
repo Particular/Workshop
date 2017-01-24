@@ -31,14 +31,14 @@
         .config(['backendCompositionServiceProvider',
             function (backendCompositionServiceProvider) {
 
-                var ordersListQueryId = 'orders-list';
-                backendCompositionServiceProvider.registerQueryHandlerFactory(ordersListQueryId,
+                var requestId = 'orders-list';
+                backendCompositionServiceProvider.registerViewModelAppenderFactory(requestId,
                     ['$log', '$http', 'messageBroker', 'orders.config', function ($log, $http, messageBroker, config) {
 
-                        var handler = {
-                            get: function (args, composedResults) {
+                        var appender = {
+                            append: function (args, viewModel) {
 
-                                $log.debug('Ready to handle ', ordersListQueryId, ' args: ', args);
+                                $log.debug('Ready to handle ', requestId, ' args: ', args);
                                 var uri = config.apiUrl + '/orders?p=' + args.pageIndex + '&s=' + args.pageSize;
                                 return $http.get(uri)
                                     .then(function (response) {
@@ -55,22 +55,22 @@
                                             vms[vm.id] = vm;
 
                                         });
-                                        composedResults.orders = vms;
+                                        viewModel.orders = vms;
 
-                                        messageBroker.broadcast(ordersListQueryId + '/executed', this, {
+                                        messageBroker.broadcast(requestId + '/executed', this, {
                                             rawData: response.data,
                                             viewModels: vms
                                         });
 
-                                        $log.debug('Query ', ordersListQueryId, 'handled: ', composedResults);
+                                        $log.debug('Query ', requestId, 'handled: ', viewModel);
 
-                                        return composedResults;
+                                        return viewModel;
                                     });
 
                             }
                         }
 
-                        return handler;
+                        return appender;
 
                     }]);
             }]);

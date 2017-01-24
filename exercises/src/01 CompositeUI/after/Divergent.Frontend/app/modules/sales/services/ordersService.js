@@ -13,7 +13,6 @@
                     var promise = backendCompositionService
                         .get('orders-list', { pageIndex: pageIndex, pageSize: pageSize })
                         .then(function (composedResult) {
-                            $log.debug('orders-list -> composedResult:', composedResult);
                             return composedResult.orders.all;
                         });
 
