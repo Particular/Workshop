@@ -4,16 +4,16 @@
         ['$log', 'ordersService',
             function ($log, ordersService) {
 
-                var vm = this;
+                var viewModel = this;
 
-                vm.isBusy = null;
-                vm.list = null;
+                viewModel.isBusy = null;
+                viewModel.orders = null;
 
-                vm.isBusy = ordersService
+                viewModel.isBusy = ordersService
                     .getOrders(0, 10)
                     .then(function (orders) {
                         $log.debug('orders-list -> orders:', orders);
-                        vm.list = orders;
+                        viewModel.orders = orders;
                     });
 
             }]);

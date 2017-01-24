@@ -28,20 +28,8 @@
         });
 
     angular.module('app.services')
-        .config(['$stateProvider', 'backendCompositionServiceProvider',
-            function ($stateProvider, backendCompositionServiceProvider) {
-
-                $stateProvider
-                    .state('orders', {
-                        url: '/orders',
-                        views: {
-                            '': {
-                                templateUrl: '/app/modules/sales/presentation/ordersView.html',
-                                controller: 'ordersController',
-                                controllerAs: 'orders'
-                            }
-                        }
-                    });
+        .config(['backendCompositionServiceProvider',
+            function (backendCompositionServiceProvider) {
 
                 var ordersListQueryId = 'orders-list';
                 backendCompositionServiceProvider.registerQueryHandlerFactory(ordersListQueryId,
@@ -85,7 +73,5 @@
                         return handler;
 
                     }]);
-
-                console.debug('Orders modules configured.');
             }]);
 }())
