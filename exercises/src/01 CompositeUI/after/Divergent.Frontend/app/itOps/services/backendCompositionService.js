@@ -29,8 +29,6 @@
             this.$get = ['$log', '$injector', '$q',
                 function backendCompositionServiceFactory($log, $injector, $q) {
 
-                    $log.debug('backendCompositionServiceFactory');
-
                     var svc = {};
 
                     svc.get = function (requestId, args) {

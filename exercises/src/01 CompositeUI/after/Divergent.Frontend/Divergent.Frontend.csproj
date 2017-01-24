@@ -67,6 +67,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\branding\routingConfig.js" />
+    <Content Include="app\modules\finance\ordersLoadedSubscriber.js" />
+    <Content Include="app\modules\sales\orderListAppender.js" />
     <Content Include="packages.config" />
     <Content Include="lib\bootstrap\css\bootstrap-theme.css.map" />
     <Content Include="lib\bootstrap\css\bootstrap-theme.min.css.map" />
