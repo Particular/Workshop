@@ -12,7 +12,6 @@
                 viewModel.isBusy = ordersService
                     .getOrders(0, 10)
                     .then(function (orders) {
-                        $log.debug('orders-list -> orders:', orders);
                         viewModel.orders = orders;
                     });
 
