@@ -1,8 +1,8 @@
 # Exercise 02 - Publish-Subscribe
 
-In NServiceBus endpoints communicate by sending each other messages. In this exercise we'll focus on special kind of messages - events. We will also explore a very powerful and popular messaging pattern - Publish-Subscribe (often also called Pub-Sub).
+In NServiceBus endpoints communicate by sending each other messages. In this exercise we'll focus on a specific type of messages - events. We will also explore a very powerful and popular messaging pattern - Publish-Subscribe (often also called Pub-Sub).
 
-Events are used to communicate that some action has taken place, they're informing about a fact that occurred in the past. In Pub-Sub the sender (called Publisher) and the receiver (called Subscriber) are loosely coupled. There might be zero, one or multiple Subscribers interested in a specific event. In order to receive that event they need to explicitly subscribed to it. In NServiceBus the subscription request is sent by the framework, after specifying mappings and implementing a handler which will process the event. The Publisher sends a copy of the event message to every subscriber.
+Events are used to communicate that some action has taken place, they're informing about a fact that occurred in the (recent) past. In Pub-Sub the sender (called Publisher) and the receiver (called Subscriber) are loosely coupled. There might be zero, one or more Subscribers interested in a specific event. In order to receive that event, they need to be explicitly subscribed to it. In NServiceBus, the subscription request is sent by the framework, after specifying message endpoint mappings and implementing a handler which will process the event. Each Subscriber will receiver their own copy of the event message.
 
 ## Introduction
 
@@ -10,14 +10,15 @@ In the last exercise you've extended the UI by showing additional information. A
 
 ### Business requirement
 
-At the moment when a customer creates a new order that information is just saved in a database. In order to complete the process, you need to provide the ability to pay for the placed order.
+When a customer creates a new order, that information is stored in a database. In order to complete the process, you need to provide the ability to pay for the placed order.
 
 ### What's provided for you:
 - Have a look at the `EndpointConfig` class in the `Divergent.Finance` project. Note that we use conventions to specify which messages are events:
 
-```conventions.DefiningEventsAs(t => t.Namespace != null && t.Namespace.StartsWith("Divergent") && t.Namespace.EndsWith("Events") && t.Name.EndsWith("Event"));```
+    conventions.DefiningEventsAs(t => t.Namespace != null && t.Namespace.StartsWith("Divergent") && t.Namespace.EndsWith("Events") && t.Name.EndsWith("Event"));
 
-If you create a class inside the namespace which name ends with "Events" and the name of this class will end with "Event", then NServiceBus will know it's an event.
+
+If you create a class inside the namespace which name ends with "Events" and the name of this class ends with "Event", then NServiceBus will know it's an event.
 
 - In the `Divergent.Finance` project inside `PaymentClient` directory you can find a provided implementation for handling payments called `ReliablePaymentClient`.
 
@@ -26,11 +27,11 @@ If you create a class inside the namespace which name ends with "Events" and the
 
 In this exercise you'll create a new event called `OrderSubmittedEvent`. That event will be published by `SubmitOrderHandler` in the `Divergent.Sales` project.
 
-**1)** Compile the application to retrieve all NuGet packages.
+**1)** Compile the application to restore all NuGet packages.
 
 **2)** Have a look at the following classes: `Customer` in the `Divergent.Customers.Data.Models`, `Order` and `Product` in the `Divergent.Sales.Data.Models`.
 
-**3)** In the `Divergent.Sales.Messages` project, in the directory `Events` add a new class called `OrderSubmittedEvent.cs`. The class should have three properties with public setters and getters: id of the order, id of the customer and the list of product ids.
+**3)** In the `Divergent.Sales.Messages` project, in the directory `Events`, add a new class called `OrderSubmittedEvent.cs`. The class should have three properties with public setters and getters: id of the order, id of the customer, and the list of product ids.
 
 ```
 namespace Divergent.Sales.Messages.Events
@@ -45,7 +46,7 @@ namespace Divergent.Sales.Messages.Events
 }
 ```
 
-**4)** Have a look at `SubmitOrderHandler` class in the `Divergent.Sales` project. At the end of the handler publish the `OrderSubmittedEvent` by calling ```context.Publish<OrderSubmittedEvent>()``` method. Copy the properties from the incoming `SubmitOrderCommand` message, to the properties of the event.
+**4)** Have a look at `SubmitOrderHandler` class in the `Divergent.Sales` project. At the end of the handler, publish the `OrderSubmittedEvent`, by calling `context.Publish<OrderSubmittedEvent>()` method. Copy the properties from the incoming `SubmitOrderCommand` message to the properties of the event.
 
 ```
 await context.Publish<OrderSubmittedEvent>(e =>
@@ -58,13 +59,13 @@ await context.Publish<OrderSubmittedEvent>(e =>
 
 ## Exercise 02.2 - Handle the `OrderSubmittedEvent`
 
-In this exercise you'll handle the `OrderSubmittedEvent` by logging the information in the `OrderSubmittedHandler` class in `Divergent.Shipping` project and in the `OrderSubmittedHandler` class in `Divergent.Sales` project. Then we'll extend handler implementation in the `Divergent.Finance` project in order to process the payment by using provided `GetAmount()` method and `ReliablePaymentClient` class.
+In this exercise you'll handle the `OrderSubmittedEvent` by logging the information in the `OrderSubmittedHandler` class in `Divergent.Shipping` project and in the `OrderSubmittedHandler` class in `Divergent.Sales` project. Then we'll extend the handler implementation in the `Divergent.Finance` project in order to process the payment by using the provided `GetAmount()` method and `ReliablePaymentClient` class.
 
 **1)** Have a look at the `OrderSubmittedHandler` class in the `Divergent.Shipping` project.
 
-**2)** The `OrderSubmittedHandler` should process the `OrderSubmittedEvent` published by `Divergent.Sales`. In order to handle it implement the `IHandleMessages<OrderSubmittedEvent>` interface in the `OrderSubmittedHandler` class.
+**2)** The `OrderSubmittedHandler` should process the `OrderSubmittedEvent` published by `Divergent.Sales`. In order to handle this event it implements the `IHandleMessages<OrderSubmittedEvent>` interface in the `OrderSubmittedHandler` class.
 
-**3)** In the `App.config` file in the `Divergent.Shipping` project add a new configuration section called `UnicastBusConfig` and specify `MessageEndpointMappings` for the assembly containing `OrderSubmittedEvent` event. The information provided in the mapping is used by NServiceBus internally to send subscription request from the subscriber to the publisher.
+**3)** In the `App.config` file in the `Divergent.Shipping` project, add a new configuration section called `UnicastBusConfig` and specify `MessageEndpointMappings` for the assembly containing `OrderSubmittedEvent` event. The route information provided in the mapping is used by NServiceBus internally to send subscription requests from the subscriber to the publisher.
 
 ```
 <configSections>
@@ -96,9 +97,9 @@ namespace Divergent.Shipping.Handlers
 
 **5)** Have a look at the `OrderSubmittedHandler` class in the `Divergent.Finance` project.
 
-**6)** The `OrderSubmittedHandler` should also process the `OrderSubmittedEvent` published by `Divergent.Sales`. In order to handle it implement the `IHandleMessages<OrderSubmittedEvent>` interface in the `OrderSubmittedHandler` class.
+**6)** The `OrderSubmittedHandler` should also process the `OrderSubmittedEvent` published by `Divergent.Sales`. In order to handle this event it implements the `IHandleMessages<OrderSubmittedEvent>` interface in the `OrderSubmittedHandler` class.
 
-**7)** In the `App.config` file in the `Divergent.Finance` project add a new configuration section called `UnicastBusConfig` and specify `MessageEndpointMappings` for the assembly containing `OrderSubmittedEvent` event.
+**7)** In the `App.config` file in the `Divergent.Finance` project, add a new configuration section called `UnicastBusConfig` and specify `MessageEndpointMappings` for the assembly containing `OrderSubmittedEvent` event.
 
 ```
 <configSections>
@@ -126,7 +127,7 @@ namespace Divergent.Finance.Handlers
 }
 ```
 
-**9)**  In the `Divergent.Finance` project go back to the `Handle` method in the `OrderSubmittedHandler`. Extend the method by using provided `GetAmount` method and `_reliablePaymentClient` to process the payment.
+**9)**  In the `Divergent.Finance` project, go back to the `Handle` method in the `OrderSubmittedHandler`. Extend the method by using the provided `GetAmount` method and `_reliablePaymentClient` to process the payment.
 
 ```
 public async Task Handle(OrderSubmittedEvent message, IMessageHandlerContext context)
@@ -140,9 +141,9 @@ public async Task Handle(OrderSubmittedEvent message, IMessageHandlerContext con
 
 ## Exercise 02.3 - Create and publish the `PaymentSucceededEvent`
 
-In this exercise we'll create a new event called `PaymentSucceededEvent`. That event will be published by `OrderSubmittedHandler` in the `Divergent.Finance` project.
+In this exercise we'll create a new event called `PaymentSucceededEvent`. This event will be published by the `OrderSubmittedHandler` in the `Divergent.Finance` project.
 
-**1)** In the `Divergent.Finance.Messages` project, in the directory `Events` add a new class called `PaymentSucceededEvent.cs`. The class should have only a single property with public setters and getters: id of the order.
+**1)** In the `Divergent.Finance.Messages` project, in the directory `Events`, add a new class called `PaymentSucceededEvent.cs`. The class should have only a single property with a public setter and getter: id of the order.
 
 ```
 namespace Divergent.Finance.Messages.Events
@@ -154,7 +155,7 @@ namespace Divergent.Finance.Messages.Events
 }
 ```
 
-**2)**  At the end of the handler publish the `PaymentSucceededEvent` by calling ```context.Publish<PaymentSucceededEvent>()``` method. Copy the order id from the incoming `OrderSubmittedEvent` message, to the property of the event.
+**2)**  At the end of the handler publish the `PaymentSucceededEvent` by calling `context.Publish<PaymentSucceededEvent>()` method. Copy the order id from the incoming `OrderSubmittedEvent` message, to the property of the event.
 
 ```
 public async Task Handle(OrderSubmittedEvent message, IMessageHandlerContext context)
@@ -177,7 +178,7 @@ In this exercise we'll handle the `PaymentSucceededEvent` by logging the informa
 
 **1)** Have a look at the `PaymentSucceededHandler` class in the `Divergent.Shipping` project.
 
-**2)** The `PaymentSucceededHandler` should process the `PaymentSucceededEvent` published by `Divergent.Finance`. In order to handle it implement the `IHandleMessages<PaymentSucceededEvent>` interface in the `PaymentSucceededEvent` class.
+**2)** The `PaymentSucceededHandler` should process the `PaymentSucceededEvent` published by `Divergent.Finance`. In order to handle this event it implements the `IHandleMessages<PaymentSucceededEvent>` interface in the `PaymentSucceededEvent` class.
 
 **3)** Use the provided logger to log information that the event was received and handled.
 
@@ -198,7 +199,6 @@ namespace Divergent.Shipping.Handlers
 
 **4)** In the `App.config` file in the `Divergent.Shipping` project add `MessageEndpointMappings` for the assembly containing `PaymentSucceededEvent` event.
 ```
-
   <UnicastBusConfig>
     <MessageEndpointMappings>
       <add Assembly="Divergent.Finance.Messages" Endpoint="Divergent.Finance" />
