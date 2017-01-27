@@ -75,10 +75,6 @@
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\IOrdersRepository.cs" />
-    <Compile Include="Repositories\IProductsRepository.cs" />
-    <Compile Include="Repositories\OrdersRepository.cs" />
-    <Compile Include="Repositories\ProductsRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
