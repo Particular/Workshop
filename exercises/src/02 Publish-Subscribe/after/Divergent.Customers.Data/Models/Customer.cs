@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Divergent.Customers.Data.Models
 {
@@ -10,5 +11,7 @@ namespace Divergent.Customers.Data.Models
         public string City { get; set; }
         public string PostalCode { get; set; }
         public string Country { get; set; }
+
+        public List<Order> Orders { get; set; }
     }
 }
