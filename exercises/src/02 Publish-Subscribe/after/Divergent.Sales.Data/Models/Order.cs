@@ -5,9 +5,9 @@ namespace Divergent.Sales.Data.Models
 {
     public class Order
     {
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
-        public Guid CustomerId { get; set; }
+        public int CustomerId { get; set; }
 
         public DateTime DateTimeUtc { get; set; }
 
@@ -18,8 +18,8 @@ namespace Divergent.Sales.Data.Models
 
     public class Item
     {
-        public Guid Id { get; set; }
-        public Guid OrderId { get; set; }
+        public int Id { get; set; }
+        public int OrderId { get; set; }
         public Product Product { get; set; }
     }
 }
