@@ -11,13 +11,13 @@ namespace Divergent.Customers.Data.Migrations
     {
         internal static List<Customer> Customers()
         {
-            var particularId = Guid.Parse("be49443c-5e6d-4892-9b7b-7395add4a44b");
-            var particularOrderId = Guid.Parse("6c3945c9-0b64-414a-9e5f-892de482ae2b");
+            var particularId = 1;
+            var particularOrderId = 1;
 
-            var nserviceBusId = Guid.Parse("24453089-e36d-41ff-b119-82ae57482c74");
-            var nserivceBusOrderId = Guid.Parse("41f74caf-2ef9-46ca-9445-2fcdf35751fb");
+            var nserviceBusId = 2;
+            var nserivceBusOrderId = 2;
 
-            var acmeId = Guid.Parse("bc0dc12b-1b94-4cf3-bd76-2679fd7fccae");
+            var acmeId = 3;
 
             return new List<Customer>()
             {
@@ -39,7 +39,7 @@ namespace Divergent.Customers.Data.Migrations
                             new Order() { CustomerId = nserviceBusId, OrderId = nserivceBusOrderId }
                         }
                     },
-                    new Customer() { Id = acmeId, Name = "Acme Inc." }
+                    new Customer() { Id = acmeId, Name = "Acme Inc.", Orders = new List<Order>() }
             };
         }
     }

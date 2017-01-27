@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Divergent.Customers.Data.Models;
 using Divergent.Customers.Data.Context;
+using System.Data.Entity;
 
 namespace Customers.API.Controllers
 {
@@ -17,7 +18,7 @@ namespace Customers.API.Controllers
             using (var db = new CustomersContext())
             {
                 var _ids = ids.Split("|".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
-                    .Select(id => Guid.Parse(id))
+                    .Select(id => int.Parse(id))
                     .ToList();
 
                 var query = db.Customers
@@ -30,21 +31,22 @@ namespace Customers.API.Controllers
         }
 
         [HttpGet, Route("byorders")]
-        public IDictionary<Guid, Customer> ByOrders(string orderIds)
+        public IDictionary<int, Customer> ByOrders(string orderIds)
         {
             var _orderIds = orderIds.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
-                .Select(id => Guid.Parse(id))
+                .Select(id => int.Parse(id))
                 .ToList();
 
             using (var db = new CustomersContext())
             {
                 var query = db.Customers
+                    .Include(c => c.Orders)
                     .Where(c => c.Orders.Any(o => _orderIds.Contains(o.OrderId)));
 
                 var customers = query.ToList();
                 var orders = customers.SelectMany(c => c.Orders).Where(o => _orderIds.Contains(o.OrderId));
 
-                var result = new Dictionary<Guid, Customer>();
+                var result = new Dictionary<int, Customer>();
                 foreach (var order in orders)
                 {
                     result.Add(order.OrderId, customers.Single(c => c.Id == order.CustomerId));
