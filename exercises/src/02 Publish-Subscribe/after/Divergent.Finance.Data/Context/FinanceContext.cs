@@ -7,7 +7,7 @@ namespace Divergent.Finance.Data.Context
     [DbConfigurationType(typeof(SqLiteConfig))]
     public class FinanceContext : DbContext
     {
-        public FinanceContext() : base("Divergent.Customers")
+        public FinanceContext() : base("Divergent.Finance")
         {
         }
 

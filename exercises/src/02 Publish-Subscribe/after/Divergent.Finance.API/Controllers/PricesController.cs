@@ -11,10 +11,10 @@ namespace Finance.API.Controllers
     public class PricingController : ApiController
     {
         [HttpGet, Route("orders/total")]
-        public IDictionary<Guid, double> GetOrdersTotal(string orderIds)
+        public IDictionary<int, double> GetOrdersTotal(string orderIds)
         {
             var _orderIds = orderIds.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
-                .Select(id => Guid.Parse(id))
+                .Select(id => int.Parse(id))
                 .ToList();
 
             using (var db = new FinanceContext())

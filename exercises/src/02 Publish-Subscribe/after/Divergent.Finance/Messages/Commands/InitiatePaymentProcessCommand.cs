@@ -9,7 +9,7 @@ namespace Divergent.Finance.Messages.Commands
     class InitiatePaymentProcessCommand
     {
         public double Amount { get; internal set; }
-        public Guid CustomerId { get; internal set; }
-        public Guid OrderId { get; internal set; }
+        public int CustomerId { get; internal set; }
+        public int OrderId { get; internal set; }
     }
 }
