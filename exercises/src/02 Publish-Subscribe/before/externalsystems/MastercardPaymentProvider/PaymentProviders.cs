@@ -46,13 +46,13 @@ namespace PaymentProviders
 
     public class PaymentRequest
     {
-        public Guid CustomerId { get; set; }
+        public int CustomerId { get; set; }
         public double Amount { get; set; }
     }
 
     public class PaymentResponse
     {
-        public Guid CustomerId { get; set; }
+        public int CustomerId { get; set; }
         public bool PaymentSucceeded { get; set; }
     }
 }
