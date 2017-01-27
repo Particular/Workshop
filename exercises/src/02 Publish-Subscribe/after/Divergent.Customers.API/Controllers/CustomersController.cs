@@ -3,37 +3,54 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Divergent.Customers.Data.Repositories;
 using Divergent.Customers.Data.Models;
+using Divergent.Customers.Data.Context;
 
 namespace Customers.API.Controllers
 {
     [RoutePrefix("api/customers")]
     public class CustomersController : ApiController
     {
-        private readonly ICustomerRepository _repository;
-
-        public CustomersController(ICustomerRepository repository)
-        {
-            _repository = repository;
-        }
-
-        [HttpGet]
-        public Task<Customer> Get(Guid id)
-        {
-            return _repository.Customer(id);
-        }
-
         [HttpGet, Route("ByIds/{ids}")]
-        public async Task<IEnumerable<Customer>> ByIds(string ids)
+        public IEnumerable<Customer> ByIds(string ids)
         {
-            var _ids = ids.Split("|".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
-                .Select(id=> Guid.Parse(id))
+            using (var db = new CustomersContext())
+            {
+                var _ids = ids.Split("|".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
+                    .Select(id => Guid.Parse(id))
+                    .ToList();
+
+                var query = db.Customers
+                    .Where(c => _ids.Contains(c.Id));
+
+                var customers = query.ToList();
+
+                return customers;
+            }
+        }
+
+        [HttpGet, Route("byorders")]
+        public IDictionary<Guid, Customer> ByOrders(string orderIds)
+        {
+            var _orderIds = orderIds.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
+                .Select(id => Guid.Parse(id))
                 .ToList();
 
-            var customers = await _repository.Customers();
+            using (var db = new CustomersContext())
+            {
+                var query = db.Customers
+                    .Where(c => c.Orders.Any(o => _orderIds.Contains(o.OrderId)));
 
-            return customers.Where(c => _ids.Contains(c.Id));
+                var customers = query.ToList();
+                var orders = customers.SelectMany(c => c.Orders).Where(o => _orderIds.Contains(o.OrderId));
+
+                var result = new Dictionary<Guid, Customer>();
+                foreach (var order in orders)
+                {
+                    result.Add(order.OrderId, customers.Single(c => c.Id == order.CustomerId));
+                }
+                return result;
+            }
         }
     }
 }
