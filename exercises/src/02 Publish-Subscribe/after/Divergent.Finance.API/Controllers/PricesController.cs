@@ -10,8 +10,8 @@ namespace Finance.API.Controllers
     [RoutePrefix("api/prices")]
     public class PricingController : ApiController
     {
-        [HttpGet, Route("total/byorders")]
-        public IDictionary<Guid, double> ByOrders(string orderIds)
+        [HttpGet, Route("orders/total")]
+        public IDictionary<Guid, double> GetOrdersTotal(string orderIds)
         {
             var _orderIds = orderIds.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
                 .Select(id => Guid.Parse(id))
