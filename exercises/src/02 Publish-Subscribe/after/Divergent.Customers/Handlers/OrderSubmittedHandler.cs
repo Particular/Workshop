@@ -3,6 +3,8 @@ using Divergent.Sales.Messages.Events;
 using NServiceBus.Logging;
 using Divergent.Customers.Data.Context;
 using Divergent.Customers.Data.Models;
+using System.Data.Entity;
+using System.Linq;
 
 namespace Divergent.Customers.Handlers
 {
@@ -16,7 +18,11 @@ namespace Divergent.Customers.Handlers
 
             using (var db = new CustomersContext())
             {
-                var customer = db.Customers.Find(message.CustomerId);
+                var customer = db.Customers
+                    .Include(c=>c.Orders)
+                    .Where(c=>c.Id == message.CustomerId)
+                    .Single();
+
                 customer.Orders.Add(new Order()
                 {
                     CustomerId = message.CustomerId,
