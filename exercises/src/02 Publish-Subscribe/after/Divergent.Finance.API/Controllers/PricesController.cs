@@ -1,32 +1,36 @@
-﻿using System;
+﻿using Divergent.Finance.Data.Context;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Divergent.Finance.Data.Repositories;
 
 namespace Finance.API.Controllers
 {
     [RoutePrefix("api/prices")]
     public class PricingController : ApiController
     {
-        private readonly IFinanceRepository _financeRepository;
-
-        public PricingController(IFinanceRepository financeRepository)
+        [HttpGet, Route("total/byorders")]
+        public IDictionary<Guid, double> ByOrders(string orderIds)
         {
-            _financeRepository = financeRepository;
-        }
+            var _orderIds = orderIds.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
+                .Select(id => Guid.Parse(id))
+                .ToList();
 
-        [HttpGet, Route("total/{productIds}")]
-        public async Task<dynamic> GetTotal(string productIds)
-        {
-            var _ids = productIds.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
-                   .Select(id => Guid.Parse(id))
-                   .ToList();
+            using (var db = new FinanceContext())
+            {
+                var query = db.OrderItemPrices
+                    .Where(op => _orderIds.Contains(op.OrderId))
+                    .GroupBy(op => op.OrderId)
+                    .Select(g => new
+                    {
+                        OrderId = g.Key,
+                        Amount = g.Sum(op => op.ItemPrice)
+                    });
 
-            var prices = await _financeRepository.Prices();
-
-            return _ids.Sum(productId
-                        => prices.Single(s => s.ProductId == productId).ItemPrice);
+                var result = query.ToDictionary(a => a.OrderId, a => a.Amount);
+                return result;
+            }
         }
     }
 }
