@@ -1,24 +1,12 @@
-﻿using System;
+﻿using Divergent.Finance.Data.Models;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Divergent.Finance.Data.Models;
 
-namespace Divergent.Finance.Data.Repositories
+namespace Divergent.Finance.Data.Migrations
 {
-    public class FinanceRepository : IFinanceRepository
+    internal static class SeedData
     {
-        public async Task<List<Price>> Prices()
-        {
-            return SeedPrices();
-        }
-
-        public async Task<Price> Price(Guid productId)
-        {
-            return SeedPrices().First(s => s.ProductId == productId);
-        }
-
-        private List<Price> SeedPrices()
+        public static List<Price> Prices()
         {
             var thePhantomMenace = Guid.Parse("77158b05-437d-4aa7-baaa-05df0bc60f17");
             var attackOfTheClones = Guid.Parse("a5f4fc6d-9eb7-41b7-ac93-e294cf2cc2fa");
@@ -37,6 +25,23 @@ namespace Divergent.Finance.Data.Repositories
                 new Price() { ProductId = theEmpireStrikesBack, ItemPrice = 15 },
                 new Price() { ProductId = returnOfTheJedi, ItemPrice = 15 },
                 new Price() { ProductId = theForceAwakens, ItemPrice = 25 }
+            };
+        }
+
+        public static List<OrderItemPrice> OrderItemPrices()
+        {
+            var particularOrderId = Guid.Parse("6c3945c9-0b64-414a-9e5f-892de482ae2b");
+            var nserivceBusOrderId = Guid.Parse("41f74caf-2ef9-46ca-9445-2fcdf35751fb");
+
+            return new List<OrderItemPrice>()
+            {
+                new OrderItemPrice() { OrderId = particularOrderId, ItemPrice = 10 },
+                new OrderItemPrice() { OrderId = particularOrderId, ItemPrice = 10 },
+                new OrderItemPrice() { OrderId = particularOrderId, ItemPrice = 10 },
+                new OrderItemPrice() { OrderId = particularOrderId,  ItemPrice = 15 },
+                new OrderItemPrice() { OrderId = nserivceBusOrderId, ItemPrice = 15 },
+                new OrderItemPrice() { OrderId = nserivceBusOrderId, ItemPrice = 15 },
+                new OrderItemPrice() { OrderId = nserivceBusOrderId, ItemPrice = 25 }
             };
         }
     }
