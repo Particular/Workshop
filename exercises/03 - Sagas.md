@@ -12,7 +12,7 @@ The following events are currently published in the system:
 
 ### Business requirement
 
-At the moment we gather all successfully paid orders at midnight and process them in batch. This is why we promise customers that orders made before 12am are shipped the next business day. Business is growing rapidly and we would like to process orders as soon as possible, not just at midnight. 
+At the moment we gather all successfully paid orders at midnight and process them in batch. This is why we promise customers that orders made before 12am are shipped the next business day. Business is growing rapidly and we would like to process orders as soon as possible, not just at midnight.
 
 ### Issues
 
@@ -162,6 +162,12 @@ private async Task ProcessOrder(IMessageHandlerContext context)
         }
 ```
 
+This method must now be called from both the `Handle` methods. Add the following line at the end of both handle methods.
+
+```
+    await ProcessOrder(context);
+```
+
 # Advanced exercises
 
 The advanced exercises are added as additional challenges. They don't have such a detailed guidance and we didn't provide solution for them. If you feel like it, you can do them during the workshop, in your hotel or at home. If you have questions you can ask them during the workshop or using Particular Software free support channel on the Google Groups: https://groups.google.com/forum/#!forum/particularsoftware.
@@ -184,7 +190,7 @@ The Finance bounded context is contacting a payment provider to execute the paym
 Although this is a good and extremely reliable payment provider, it's also very expensive. Business is growing, but it would be foolish to not look for alternatives to cut costs. There is another payment provider, but it's less reliable. Obviously this can't get in the way of our payments, but we can at least try to use it. And if it fails, fallback to the more expensive, but reliable provider.
 
 **Exercise:**
-Create a new saga in the Finance bounded context that first tries to process the payment with the unreliable payment provider. If it fails call (i.e. you don't receive `PaymentSucceededEvent` within the expected time frame) then fall back to the reliable provider. 
+Create a new saga in the Finance bounded context that first tries to process the payment with the unreliable payment provider. If it fails call (i.e. you don't receive `PaymentSucceededEvent` within the expected time frame) then fall back to the reliable provider.
 
 Sagas are not supposed to retrieve data from a datastore or call out to external systems. They should retrieve data or execute tasks [using request/response](http://docs.particular.net/nservicebus/sagas/#sagas-and-request-response) pattern. This means that rather than processing the payment directly, the saga should request another handler in the Finance bounded context to process the payment on its behalf. Failing or succeeding, this handler should [reply to the saga](http://docs.particular.net/nservicebus/messaging/reply-to-a-message) with the status of the payment. If the payment failed, the saga should do another request for processing the payment, but this time to the expensive, but reliable payment provider.
 
