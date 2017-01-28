@@ -28,9 +28,8 @@ namespace Divergent.Shipping.Sagas
             Data.OrderId = message.OrderId;
             Data.CustomerId = message.CustomerId;
 
-            var products = from p in message.Products
-                select new ShippingSagaData.Product {Identifier = p};
-            Data.Products = products.ToList();
+            var projection = message.Products.Select(p => new ShippingSagaData.Product { Identifier = p });
+            Data.Products = projection.ToList();
 
             await ProcessOrder(context);
         }

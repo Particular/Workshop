@@ -6,9 +6,9 @@ namespace Divergent.Shipping.Sagas
 {
     public class ShippingSagaData : ContainSagaData
     {
-        public virtual Guid OrderId { get; set; }
+        public virtual int OrderId { get; set; }
 
-        public virtual Guid CustomerId { get; set; }
+        public virtual int CustomerId { get; set; }
 
         public virtual bool IsOrderSubmitted { get; set; }
         public virtual bool IsPaymentProcessedYet { get; set; }
@@ -17,7 +17,7 @@ namespace Divergent.Shipping.Sagas
 
         public class Product
         {
-            public virtual Guid Identifier { get; set; }
+            public virtual int Identifier { get; set; }
         }
 
     }
