@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Divergent.Finance.Messages.Commands
 {
-    class InitiatePaymentProcessCommand
+    public class InitiatePaymentProcessCommand
     {
-        public double Amount { get; internal set; }
-        public int CustomerId { get; internal set; }
-        public int OrderId { get; internal set; }
+        public double Amount { get; set; }
+        public int CustomerId { get; set; }
+        public int OrderId { get; set; }
     }
 }
