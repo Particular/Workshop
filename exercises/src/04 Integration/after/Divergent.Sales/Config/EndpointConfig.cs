@@ -6,6 +6,7 @@ using NServiceBus.Features;
 using NServiceBus.Logging;
 using ILog = Common.Logging.ILog;
 using LogManager = Common.Logging.LogManager;
+using System.IO;
 
 namespace Divergent.Sales.Config
 {
@@ -40,6 +41,8 @@ namespace Divergent.Sales.Config
 
             var container = ContainerSetup.Create();
 
+            var licensePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "License.xml");
+            endpointConfiguration.LicensePath(licensePath);
             endpointConfiguration.UseSerialization<JsonSerializer>();
             endpointConfiguration.Recoverability().Delayed(c=>c.NumberOfRetries(0));
             endpointConfiguration.UseContainer<AutofacBuilder>(c => c.ExistingLifetimeScope(container));
