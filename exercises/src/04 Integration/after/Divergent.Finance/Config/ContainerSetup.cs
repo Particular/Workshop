@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using Divergent.Finance.Data.Repositories;
 using Divergent.Finance.PaymentClient;
 using NServiceBus.Logging;
 
@@ -14,7 +13,6 @@ namespace Divergent.Finance.Config
 			Log.Info("Initializing dependency injection...");
 
             var builder = new ContainerBuilder();
-            builder.RegisterType<FinanceRepository>().As<IFinanceRepository>();
             builder.RegisterType<ReliablePaymentClient>();
 
             return builder.Build();

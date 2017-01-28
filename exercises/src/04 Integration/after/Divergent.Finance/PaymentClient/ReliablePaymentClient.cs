@@ -7,7 +7,7 @@ namespace Divergent.Finance.PaymentClient
 {
     public class ReliablePaymentClient
     {
-        public async Task<bool> ProcessPayment(Guid customerId, double amount)
+        public async Task<bool> ProcessPayment(int customerId, double amount)
         {
             HttpResponseMessage response;
 
@@ -37,13 +37,13 @@ namespace Divergent.Finance.PaymentClient
 
     public class PaymentRequest
     {
-        public Guid CustomerId { get; set; }
+        public int CustomerId { get; set; }
         public double Amount { get; set; }
     }
 
     public class PaymentResponse
     {
-        public Guid CustomerId { get; set; }
+        public int CustomerId { get; set; }
         public bool PaymentSucceeded { get; set; }
     }
 }
