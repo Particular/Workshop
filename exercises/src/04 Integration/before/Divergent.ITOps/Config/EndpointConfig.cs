@@ -2,6 +2,7 @@ using System;
 using NServiceBus;
 using NServiceBus.Features;
 using NServiceBus.Logging;
+using System.IO;
 
 namespace Divergent.ITOps.Config
 {
@@ -25,6 +26,7 @@ namespace Divergent.ITOps.Config
             var providerAssemblies = ReflectionHelper.GetAssembliesPath("..\\..\\Providers", ".Data.dll");
             var container = ContainerSetup.Create(providerAssemblies);
 
+            var licensePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "License.xml");
             endpointConfiguration.UseSerialization<JsonSerializer>();
             endpointConfiguration.Recoverability().Delayed(c=>c.NumberOfRetries(0));
             endpointConfiguration.UseContainer<AutofacBuilder>(c => c.ExistingLifetimeScope(container));
