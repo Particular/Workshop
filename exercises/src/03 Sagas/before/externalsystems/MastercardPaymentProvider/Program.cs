@@ -11,7 +11,7 @@ namespace PaymentProviders
     {
         static void Main(string[] args)
         {
-            var config = new HostConfiguration {UrlReservations = {CreateAutomatically = true}};
+            var config = new HostConfiguration { UrlReservations = { CreateAutomatically = true } };
 
             using (var host = new NancyHost(new Uri("http://localhost:1234"), new DefaultNancyBootstrapper(), config))
             {
@@ -48,10 +48,10 @@ namespace PaymentProviders
 
             using (HttpClient httpClient = new HttpClient())
             {
-                httpClient.BaseAddress = new Uri("http://127.0.0.1:1234/");                
+                httpClient.BaseAddress = new Uri("http://127.0.0.1:1234/");
                 var msg = new PaymentRequest()
                 {
-                    CustomerId = Guid.NewGuid(),
+                    CustomerId = 12,
                     Amount = 300d
                 };
                 response = await httpClient.PostAsJsonAsync(url, msg);
