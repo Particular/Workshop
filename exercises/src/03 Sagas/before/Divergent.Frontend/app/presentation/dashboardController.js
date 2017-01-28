@@ -5,6 +5,5 @@
             function ($log) {
 
                 var vm = this;
-
             }]);
 }())
