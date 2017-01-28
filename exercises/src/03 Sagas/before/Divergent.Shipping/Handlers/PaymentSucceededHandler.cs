@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Common.Logging;
 using Divergent.Finance.Messages.Events;
 using NServiceBus;
+using NServiceBus.Logging;
 
 namespace Divergent.Shipping.Handlers
 {
@@ -17,10 +17,8 @@ namespace Divergent.Shipping.Handlers
         {
             Log.Debug("Handle");
 
-            // Store in database that payment succeeded.
-            // The order incl. products should also already have arrived and stored in database as well.
-            //
-            // When orders are paid before 12am, they will be shipped and arrive the next business day.
+            // Store in database that order was successfully paid.
+            // Look at all pending orders, paid and ready to be shipped, in batches to decide what to ship.
         }
     }
 }
