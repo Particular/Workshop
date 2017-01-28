@@ -5,9 +5,9 @@ namespace Divergent.Sales.Messages.Events
 {
     public class OrderSubmittedEvent
     {
-        public Guid OrderId { get; set; }
-        public Guid CustomerId { get; set; }
+        public int OrderId { get; set; }
+        public int CustomerId { get; set; }
 
-        public List<Guid> Products { get; set; }
+        public List<int> Products { get; set; }
     }
 }
