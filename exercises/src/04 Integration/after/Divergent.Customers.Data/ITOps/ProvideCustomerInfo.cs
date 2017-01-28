@@ -1,26 +1,27 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Divergent.Customers.Data.Repositories;
+using System.Linq;
 using Divergent.ITOps.Interfaces;
 
 namespace Divergent.Customers.Data.ITOps
 {
     public class CustomerInfoProvider : IProvideCustomerInfo
     {
-        private readonly ICustomerRepository _repository = new CustomerRepository();
-
-        public async Task<CustomerInfo> GetCustomerInfo(Guid customerId)
+        public Task<CustomerInfo> GetCustomerInfo(int customerId)
         {
-            var customer = await _repository.Customer(customerId);
-            
-            return new CustomerInfo
+            using (var db = new Context.CustomersContext())
             {
-                Name = customer.Name,
-                Street = customer.Street,
-                City = customer.City,
-                PostalCode = customer.PostalCode,
-                Country = customer.Country,
-            };
+                var customer = db.Customers.Where(c => c.Id == customerId).Single();
+
+                return Task.FromResult(new CustomerInfo
+                {
+                    Name = customer.Name,
+                    Street = customer.Street,
+                    City = customer.City,
+                    PostalCode = customer.PostalCode,
+                    Country = customer.Country,
+                });
+            }
         }
     }
 }
