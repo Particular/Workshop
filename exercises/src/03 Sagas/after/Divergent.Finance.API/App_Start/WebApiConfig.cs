@@ -1,6 +1,7 @@
 ﻿using Castle.Windsor;
 using Newtonsoft.Json.Serialization;
 using Radical.Bootstrapper.Windsor.AspNet.Infrastructure;
+using System.Net.Http.Formatting;
 using System.Web.Http;
 
 namespace Finance.API
@@ -10,8 +11,8 @@ namespace Finance.API
         public static void Register(HttpConfiguration config, IWindsorContainer container)
         {
             config.Formatters.Clear();
-            config.Formatters.Add(new System.Net.Http.Formatting.JsonMediaTypeFormatter());
-            
+            config.Formatters.Add(new JsonMediaTypeFormatter());
+
             config.DependencyResolver = new WindsorDependencyResolver(container);
 
             config.Formatters
