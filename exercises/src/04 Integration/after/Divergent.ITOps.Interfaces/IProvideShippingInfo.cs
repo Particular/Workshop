@@ -6,6 +6,6 @@ namespace Divergent.ITOps.Interfaces
 {
     public interface IProvideShippingInfo
     {
-        Task<PackageInfo> GetPackageInfo(List<Guid> productIds);
+        Task<PackageInfo> GetPackageInfo(IEnumerable<int> productIds);
     }
 }
