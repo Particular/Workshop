@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using Common.Logging;
-using Divergent.Customers.Data.Repositories;
 
 namespace Divergent.Customers.Config
 {
@@ -13,7 +12,6 @@ namespace Divergent.Customers.Config
 			Log.Info("Initializing dependency injection...");
 
             var builder = new ContainerBuilder();
-            builder.RegisterType<CustomerRepository>().As<ICustomerRepository>();
 
             return builder.Build();
         }

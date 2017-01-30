@@ -51,7 +51,7 @@ namespace PaymentProviders
                 httpClient.BaseAddress = new Uri("http://127.0.0.1:1234/");                
                 var msg = new PaymentRequest()
                 {
-                    CustomerId = Guid.NewGuid(),
+                    CustomerId = 12,
                     Amount = 300d
                 };
                 response = await httpClient.PostAsJsonAsync(url, msg);

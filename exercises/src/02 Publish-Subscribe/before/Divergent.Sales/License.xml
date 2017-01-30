@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<license id="cb1f3198-a848-4f58-80f0-7d73cbc846db" expiration="2017-02-28T00:00:00.0000000" type="Standard" LicenseVersion="6.0" WorkerThreads="Max" AllowedNumberOfWorkerNodes="Max" MaxMessageThroughputPerSecond="Max" Quantity="5" Edition="Enterprise" Applications="All">
+  <name>DDD Europe </name>
+  <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+    <SignedInfo>
+      <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+      <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
+      <Reference URI="">
+        <Transforms>
+          <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+        </Transforms>
+        <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+        <DigestValue>2hZd1krj2oO/WEL2xBFZsNJ0B2Q=</DigestValue>
+      </Reference>
+    </SignedInfo>
+    <SignatureValue>qPcTtMlQ3ZiIntupSDwwuQfDyxCrCRLd8C591gOmSHA53EuHYlRbW7jL8Dzeqw2hUZI7h59Vc2bnJT/dePSGISZorkXDiZ5CWXhr2uOts8PEM04aE0FgnU2Eh1wvt5mqB2JfhHpRg3UoYnwXwkzke5aDVxB6rQ0whPKe+3PMW8U=</SignatureValue>
+  </Signature>
+</license>
