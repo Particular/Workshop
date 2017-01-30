@@ -35,9 +35,15 @@ The exercises are composed of 9 different Visual Studio solutions. All the solut
 
 #### How can I empty the orders list or database?
 
-The solution uses Entity Framework migrations with a seed to insert two orders, so there will always be orders. But if you want to start clean you can always remove the SqlLite datastore file from disk.
+The solution uses Entity Framework migrations with a seed to insert two orders, so there will always be orders. But if you want to start clean you can always remove the SqlLite datastore file from disk. Database files are stored in the `c:\temp` folder. Each exercise stores data into a dedicated folder, e.g. `c:\temp\exercise2before`
 
-**Solution** : Delete the file `c:\temp\divergent.sales.sqlite`
+**Solution** : Delete files stored into the exercise folder or the entire folder.
+
+#### SQLite locked assemblies prevent Visual Studio projects compilation
+
+Ensure that, when compiling projects from Visual Studio, `IIS Express` is shut down.
+
+**Solution** : Right click on the `IIS Express` icon in the `Tray Area` and click `Exit`.
 
 ## Exercise 4 - IT/Ops known issues
 
