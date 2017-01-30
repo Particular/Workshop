@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Divergent.Finance.Messages.Events;
@@ -28,29 +28,27 @@ namespace Divergent.Shipping.Sagas
             Data.OrderId = message.OrderId;
             Data.CustomerId = message.CustomerId;
 
-            var products = from p in message.Products
-                select new ShippingSagaData.Product {Identifier = p};
-            Data.Products = products.ToList();
-            
+            var projection = message.Products.Select(p => new ShippingSagaData.Product { Identifier = p });
+            Data.Products = projection.ToList();
+
             await ProcessOrder(context);
         }
-        
+
         public async Task Handle(PaymentSucceededEvent message, IMessageHandlerContext context)
         {
             Log.Info("Handle PaymentSucceededEvent");
 
+            Data.OrderId = message.OrderId;
             Data.IsPaymentProcessedYet = true;
             await ProcessOrder(context);
         }
-        
-        private Task ProcessOrder(IMessageHandlerContext context)
+
+        private async Task ProcessOrder(IMessageHandlerContext context)
         {
             if (Data.IsOrderSubmitted && Data.IsPaymentProcessedYet)
             {
-                Console.WriteLine("Let's ship it!");
                 MarkAsComplete();
             }
-            return Task.FromResult(0);
         }
     }
 }

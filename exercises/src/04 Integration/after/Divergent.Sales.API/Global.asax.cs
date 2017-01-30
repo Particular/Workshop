@@ -22,6 +22,7 @@ namespace Sales.API
                 .LifestylePerWebRequest());
 
             GlobalConfiguration.Configure(http => WebApiConfig.Register(http, container));
+
             NServiceBusConfig.Configure(container);
         }
     }

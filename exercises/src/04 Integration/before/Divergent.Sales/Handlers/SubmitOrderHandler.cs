@@ -31,8 +31,6 @@ namespace Divergent.Sales.Handlers
 
             message.Products.ForEach(p => items.Add(new Item()
             {
-                Id = Guid.NewGuid(),
-                OrderId = message.OrderId,
                 Product = products.Single(s => s.Id == p)
             }));
 
@@ -40,7 +38,6 @@ namespace Divergent.Sales.Handlers
             {
                 CustomerId = message.CustomerId,
                 DateTimeUtc = DateTime.UtcNow,
-                Id = message.OrderId,
                 Items = items,
                 State = "New"
             };
@@ -51,7 +48,7 @@ namespace Divergent.Sales.Handlers
             // Publish event
             await context.Publish<OrderSubmittedEvent>(e =>
             {
-                e.OrderId = message.OrderId;
+                e.OrderId = order.Id;
                 e.CustomerId = message.CustomerId;
                 e.Products = message.Products;
             });

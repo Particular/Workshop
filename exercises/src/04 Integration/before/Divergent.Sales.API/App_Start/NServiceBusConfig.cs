@@ -5,6 +5,7 @@ using System.Web;
 using Castle.Windsor;
 using NServiceBus;
 using Castle.MicroKernel.Registration;
+using System.IO;
 
 namespace Sales.API
 {
@@ -15,6 +16,9 @@ namespace Sales.API
             var config = new EndpointConfiguration("Sales.API");
 
             config.SendOnly();
+
+            var licensePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "License.xml");
+            config.LicensePath(licensePath);
 
             config.UseTransport<MsmqTransport>().ConnectionString("deadLetter=false;journal=false");
             config.UseSerialization<JsonSerializer>();

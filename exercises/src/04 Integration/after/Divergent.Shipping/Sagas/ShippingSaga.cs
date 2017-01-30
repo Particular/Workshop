@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Divergent.Finance.Messages.Events;
-using Divergent.ITOps.Messages.Commands;
 using Divergent.Sales.Messages.Events;
 using NServiceBus;
 using NServiceBus.Logging;
+using Divergent.ITOps.Messages.Commands;
 
 namespace Divergent.Shipping.Sagas
 {
@@ -29,9 +29,8 @@ namespace Divergent.Shipping.Sagas
             Data.OrderId = message.OrderId;
             Data.CustomerId = message.CustomerId;
 
-            var products = from p in message.Products
-                select new ShippingSagaData.Product {Identifier = p};
-            Data.Products = products.ToList();
+            var projection = message.Products.Select(p => new ShippingSagaData.Product { Identifier = p });
+            Data.Products = projection.ToList();
 
             await ProcessOrder(context);
         }

@@ -5,8 +5,8 @@ namespace Divergent.ITOps.Messages.Commands
 {
     public class ShipWithFedexCommand
     {
-        public Guid OrderId { get; set; }
-        public Guid CustomerId { get; set; }
-        public List<Guid> Products { get; set; }
+        public int OrderId { get; set; }
+        public int CustomerId { get; set; }
+        public List<int> Products { get; set; }
     }
 }

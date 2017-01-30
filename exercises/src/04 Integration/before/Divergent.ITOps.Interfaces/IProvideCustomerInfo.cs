@@ -5,6 +5,6 @@ namespace Divergent.ITOps.Interfaces
 {
     public interface IProvideCustomerInfo
     {
-        Task<CustomerInfo> GetCustomerInfo(Guid customerId);
+        Task<CustomerInfo> GetCustomerInfo(int customerId);
     }
 }
