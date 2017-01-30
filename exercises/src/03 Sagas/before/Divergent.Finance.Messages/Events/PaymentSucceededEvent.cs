@@ -4,6 +4,6 @@ namespace Divergent.Finance.Messages.Events
 {
     public class PaymentSucceededEvent
     {
-        public Guid OrderId { get; set; }
+        public int OrderId { get; set; }
     }
 }

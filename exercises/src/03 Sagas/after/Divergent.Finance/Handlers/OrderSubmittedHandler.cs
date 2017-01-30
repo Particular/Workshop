@@ -2,52 +2,55 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Divergent.Finance.Data.Repositories;
 using Divergent.Finance.Messages.Events;
 using Divergent.Finance.PaymentClient;
 using Divergent.Sales.Messages.Events;
 using NServiceBus;
 using NServiceBus.Logging;
+using Divergent.Finance.Data.Context;
+using Divergent.Finance.Data.Models;
+using Divergent.Finance.Messages.Commands;
 
 namespace Divergent.Finance.Handlers
 {
     public class OrderSubmittedHandler : IHandleMessages<OrderSubmittedEvent>
     {
-        private readonly IFinanceRepository _repository;
-        private readonly ReliablePaymentClient _reliablePaymentClient;
         private static readonly ILog Log = LogManager.GetLogger<OrderSubmittedHandler>();
-
-        public OrderSubmittedHandler(IFinanceRepository repository, ReliablePaymentClient reliablePaymentClient)
-        {
-            _repository = repository;
-            _reliablePaymentClient = reliablePaymentClient;
-        }
 
         public async Task Handle(OrderSubmittedEvent message, IMessageHandlerContext context)
         {
             Log.Info("Handle OrderSubmittedEvent");
 
-            var amount = await GetAmount(message.Products);
-
-            await _reliablePaymentClient.ProcessPayment(message.CustomerId, amount);
-
-            await context.Publish<PaymentSucceededEvent>(e =>
+            double amount = 0;
+            using (var db = new FinanceContext())
             {
-                e.OrderId = message.OrderId;
+                var query = from price in db.Prices
+                            where message.Products.Contains(price.ProductId)
+                            select price;
+
+                foreach (var price in query)
+                {
+                    var op = new OrderItemPrice()
+                    {
+                        OrderId = message.OrderId,
+                        ItemPrice = price.ItemPrice,
+                        ProductId = price.ProductId
+                    };
+
+                    amount += price.ItemPrice;
+
+                    db.OrderItemPrices.Add(op);
+                }
+
+                await db.SaveChangesAsync();
+            }
+
+            await context.SendLocal(new InitiatePaymentProcessCommand()
+            {
+                CustomerId = message.CustomerId,
+                OrderId = message.OrderId,
+                Amount = amount
             });
-        }
-
-        private async Task<double> GetAmount(List<Guid> products)
-        {
-            var prices = await _repository.Prices();
-
-            var query = from p in prices
-                        where products.Contains(p.ProductId)
-                        select p;
-
-            double amount = query.Select(p => p.ItemPrice).DefaultIfEmpty(0d).Sum();
-
-            return amount;
         }
     }
 }

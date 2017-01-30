@@ -1,7 +1,11 @@
-﻿using System.Threading.Tasks;
-using Common.Logging;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Divergent.Sales.Messages.Events;
 using NServiceBus;
+using NServiceBus.Logging;
 
 namespace Divergent.Shipping.Handlers
 {
@@ -12,11 +16,9 @@ namespace Divergent.Shipping.Handlers
         public async Task Handle(OrderSubmittedEvent message, IMessageHandlerContext context)
         {
             Log.Info("Handle");
-         
+
             // Store in database that order was submitted and which products belong to it.
-            // If payment succeeds, we store that as well.
-            //
-            // When orders are paid before 12am, they will be shipped and arrive the next business day.
+            // Look at all pending orders, paid and ready to be shipped, in batches to decide what to ship.
         }
     }
 }

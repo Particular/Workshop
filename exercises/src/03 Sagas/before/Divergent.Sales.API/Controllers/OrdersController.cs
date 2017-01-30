@@ -26,26 +26,18 @@ namespace Sales.API.Controllers
         [HttpPost, Route("createOrder")]
         public async Task<dynamic> CreateOrder(dynamic payload)
         {
-            var newOrderId = Guid.NewGuid();
-            var customerId = Guid.Parse((String)payload.customerId);
+            var customerId = int.Parse((String)payload.customerId);
             var productIds = ((IEnumerable<dynamic>)payload.products)
-                .Select(p => Guid.Parse((String)p.productId))
+                .Select(p => int.Parse((String)p.productId))
                 .ToList();
 
             await _endpoint.Send(new SubmitOrderCommand()
             {
                 CustomerId = customerId,
-                OrderId = newOrderId,
                 Products = productIds
             });
 
-            return new
-            {
-                Id = newOrderId,
-                CustomerId = customerId,
-                ProductIds = productIds,
-                ItemsCount = productIds.Count
-            };
+            return payload;
         }
 
         [HttpGet]
