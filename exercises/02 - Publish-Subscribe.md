@@ -204,7 +204,7 @@ namespace Divergent.Customers.Handlers
                     .Include(c=>c.Orders)
                     .SingleAsync(c=>c.Id == message.CustomerId);
     
-                customer.Orders.Add(new Order()
+                customer.Orders.Add(new Data.Models.Order()
                 {
                     CustomerId = message.CustomerId,
                     OrderId = message.OrderId
