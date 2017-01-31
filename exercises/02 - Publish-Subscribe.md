@@ -205,7 +205,7 @@ namespace Divergent.Customers.Handlers
                     .Where(c=>c.Id == message.CustomerId)
                     .Single();
     
-                customer.Orders.Add(new Order()
+                customer.Orders.Add(new Data.Models.Order()
                 {
                     CustomerId = message.CustomerId,
                     OrderId = message.OrderId
@@ -253,7 +253,7 @@ namespace Divergent.Finance.Messages.Events
 **2)**  At the end of the `InitiatePaymentProcessCommandHandler` publish the `PaymentSucceededEvent` by calling `context.Publish<PaymentSucceededEvent>()` method. Copy the order id from the incoming `OrderSubmittedEvent` message, to the property of the event.
 
 ```
-public async Task Handle(OrderSubmittedEvent message, IMessageHandlerContext context)
+public async Task Handle(InitiatePaymentProcessCommand message, IMessageHandlerContext context)
 {
    Log.Info("Handle InitiatePaymentProcessCommand");
 
