@@ -50,7 +50,7 @@ namespace Divergent.Sales.Messages.Events
 ```
 await context.Publish<OrderSubmittedEvent>(e =>
 {
-    e.OrderId = message.OrderId;
+    e.OrderId = order.Id;
     e.CustomerId = message.CustomerId;
     e.Products = message.Products;
 });
