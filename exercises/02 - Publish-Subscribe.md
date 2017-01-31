@@ -200,10 +200,9 @@ namespace Divergent.Customers.Handlers
     
             using (var db = new CustomersContext())
             {
-                var customer = db.Customers
+                var customer = await db.Customers
                     .Include(c=>c.Orders)
-                    .Where(c=>c.Id == message.CustomerId)
-                    .Single();
+                    .SingleAsync(c=>c.Id == message.CustomerId);
     
                 customer.Orders.Add(new Order()
                 {
