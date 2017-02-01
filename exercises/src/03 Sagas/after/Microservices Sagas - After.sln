@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Shipping.Data", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Frontend", "Divergent.Frontend\Divergent.Frontend.csproj", "{8BF665EC-F223-402B-BE94-060B1B30F7AD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseServer", "DatabaseServer\DatabaseServer.csproj", "{00676762-BDE9-4EEB-A164-2E2505F072DC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +113,10 @@ Global
 		{8BF665EC-F223-402B-BE94-060B1B30F7AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BF665EC-F223-402B-BE94-060B1B30F7AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8BF665EC-F223-402B-BE94-060B1B30F7AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00676762-BDE9-4EEB-A164-2E2505F072DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00676762-BDE9-4EEB-A164-2E2505F072DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00676762-BDE9-4EEB-A164-2E2505F072DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00676762-BDE9-4EEB-A164-2E2505F072DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
