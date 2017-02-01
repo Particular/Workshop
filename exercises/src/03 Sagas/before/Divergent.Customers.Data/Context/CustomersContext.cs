@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity;
 using Divergent.Customers.Data.Models;
 using Divergent.Customers.Data.Migrations;
+using System.Configuration;
 
 namespace Divergent.Customers.Data.Context
 {
@@ -15,7 +16,11 @@ namespace Divergent.Customers.Data.Context
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            Database.SetInitializer(new DatabaseInitializer(modelBuilder));
+            var runMigrations = ConfigurationManager.AppSettings["SQLite/execute/migrations"];
+            if (!string.IsNullOrWhiteSpace(runMigrations) && runMigrations.ToLower() == "true")
+            {
+                Database.SetInitializer(new DatabaseInitializer(modelBuilder));
+            }
 
             modelBuilder.Entity<Customer>()
                 .HasMany(e => e.Orders)

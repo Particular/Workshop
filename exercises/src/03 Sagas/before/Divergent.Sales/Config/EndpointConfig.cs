@@ -21,18 +21,6 @@ namespace Divergent.Sales.Config
 
             if (Environment.UserInteractive)
                 Console.Title = "Divergent.Sales";
-
-            InitializeDatbase();
-        }
-
-        private void InitializeDatbase()
-        {
-            Log.Debug("Initializing database");
-
-            SalesContext context = new SalesContext();
-            var products = context.Products.ToList();
-            
-            Log.DebugFormat("Database initialized, first product is {0}", products.First());
         }
 
         public void Customize(EndpointConfiguration endpointConfiguration)
@@ -51,6 +39,9 @@ namespace Divergent.Sales.Config
             //endpointConfiguration.UsePersistence<NHibernatePersistence>()
             //    .ConnectionString(ConfigurationManager.ConnectionStrings["Divergent.Sales"].ToString());
             endpointConfiguration.UsePersistence<InMemoryPersistence>();
+
+            //this is required to avoid SQLite files locking if there are more than 1 message in the input queue
+            endpointConfiguration.LimitMessageProcessingConcurrencyTo(1);
 
             endpointConfiguration.SendFailedMessagesTo("error");
             endpointConfiguration.AuditProcessedMessagesTo("audit");

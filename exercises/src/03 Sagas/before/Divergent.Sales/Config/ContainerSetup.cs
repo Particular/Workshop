@@ -13,8 +13,7 @@ namespace Divergent.Sales.Config
 			Log.Info("Initializing dependency injection...");
 
             var builder = new ContainerBuilder();
-            builder.RegisterType<SalesContext>().As<ISalesContext>();
-
+            
             return builder.Build();
         }
     }

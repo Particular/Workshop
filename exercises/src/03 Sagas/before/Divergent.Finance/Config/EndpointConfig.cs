@@ -39,6 +39,9 @@ namespace Divergent.Finance.Config
             //    .ConnectionString(ConfigurationManager.ConnectionStrings["Divergent.Finance"].ToString());
             endpointConfiguration.UsePersistence<InMemoryPersistence>();
 
+            //this is required to avoid SQLite files locking if there are more than 1 message in the input queue
+            endpointConfiguration.LimitMessageProcessingConcurrencyTo(1);
+
             endpointConfiguration.SendFailedMessagesTo("error");
             endpointConfiguration.AuditProcessedMessagesTo("audit");
 

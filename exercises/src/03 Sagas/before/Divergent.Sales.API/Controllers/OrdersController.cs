@@ -14,12 +14,10 @@ namespace Sales.API.Controllers
     [RoutePrefix("api/orders")]
     public class OrdersController : ApiController
     {
-        private readonly ISalesContext _context;
         private readonly IEndpointInstance _endpoint;
 
-        public OrdersController(ISalesContext context, IEndpointInstance endpoint)
+        public OrdersController(IEndpointInstance endpoint)
         {
-            _context = context;
             _endpoint = endpoint;
         }
 
@@ -43,21 +41,24 @@ namespace Sales.API.Controllers
         [HttpGet]
         public IEnumerable<dynamic> Get(int p = 0, int s = 10)
         {
-            var orders = _context.Orders
-                .Include(i => i.Items)
-                .Include(i => i.Items.Select(x => x.Product))
-                .ToArray();
+            using (var _context = new SalesContext())
+            {
+                var orders = _context.Orders
+                    .Include(i => i.Items)
+                    .Include(i => i.Items.Select(x => x.Product))
+                    .ToArray();
 
-            return orders
-                .Skip(p * s)
-                .Take(s)
-                .Select(o => new
-                {
-                    o.Id,
-                    o.CustomerId,
-                    ProductIds = o.Items.Select(i => i.Product.Id),
-                    ItemsCount = o.Items.Count
-                });
+                return orders
+                    .Skip(p * s)
+                    .Take(s)
+                    .Select(o => new
+                    {
+                        o.Id,
+                        o.CustomerId,
+                        ProductIds = o.Items.Select(i => i.Product.Id),
+                        ItemsCount = o.Items.Count
+                    });
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Divergent.Finance.Data.Migrations;
 using Divergent.Finance.Data.Models;
+using System.Configuration;
 using System.Data.Entity;
 
 namespace Divergent.Finance.Data.Context
@@ -16,7 +17,11 @@ namespace Divergent.Finance.Data.Context
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            Database.SetInitializer(new DatabaseInitializer(modelBuilder));
+            var runMigrations = ConfigurationManager.AppSettings["SQLite/execute/migrations"];
+            if (!string.IsNullOrWhiteSpace(runMigrations) && runMigrations.ToLower() == "true")
+            {
+                Database.SetInitializer(new DatabaseInitializer(modelBuilder));
+            }
 
             modelBuilder.Entity<Price>();
             modelBuilder.Entity<OrderItemPrice>();

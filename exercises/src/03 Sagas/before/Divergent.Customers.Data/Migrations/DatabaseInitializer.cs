@@ -6,7 +6,7 @@ using Divergent.Customers.Data.Context;
 
 namespace Divergent.Customers.Data.Migrations
 {
-    public class DatabaseInitializer : SqliteCreateDatabaseIfNotExists<CustomersContext>
+    public class DatabaseInitializer : SqliteDropCreateDatabaseWhenModelChanges<CustomersContext>
     {
         public DatabaseInitializer(DbModelBuilder modelBuilder) : base(modelBuilder)
         {
