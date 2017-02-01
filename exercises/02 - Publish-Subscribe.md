@@ -249,7 +249,7 @@ namespace Divergent.Finance.Messages.Events
 }
 ```
 
-**2)**  At the end of the `InitiatePaymentProcessCommandHandler` publish the `PaymentSucceededEvent` by calling `context.Publish<PaymentSucceededEvent>()` method. Copy the order id from the incoming `OrderSubmittedEvent` message, to the property of the event.
+**2)**  At the end of the `InitiatePaymentProcessCommandHandler` publish the `PaymentSucceededEvent` by calling `context.Publish<PaymentSucceededEvent>()` method. Copy the order id from the incoming `InitiatePaymentProcessCommand` message, to the property of the event.
 
 ```
 public async Task Handle(InitiatePaymentProcessCommand message, IMessageHandlerContext context)
