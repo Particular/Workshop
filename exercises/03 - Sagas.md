@@ -155,7 +155,7 @@ In this exercise you will process the messages coming in and make sure the messa
 
 The client or service should verify if its a valid order and not have the user be able to submit the order without any products. Commands and events can technically fail, but should not functionally fail because proper validation was not done on the sending side.
 
-**4)** In the saga add a new async method called `ProcessOrder`. Inside this method, verify if the saga state property `IsPaymentProcessedYet` was set and if the `IsOrderSubmitted` property was set as well. If yes, invoke `MarkAsComplete()`. This method signals NServiceBus that we're done with this saga and that it can be removed from the underlying storage.
+**4)** In the saga add a new async method called `ProcessOrder` that you will call from both `Handle` methods. Inside this method, verify if the saga state property `IsPaymentProcessedYet` was set and if the `IsOrderSubmitted` property was set as well. If yes, invoke `MarkAsComplete()`. This method signals NServiceBus that we're done with this saga and that it can be removed from the underlying storage.
 
 ```
     private async Task ProcessOrder(IMessageHandlerContext context)
