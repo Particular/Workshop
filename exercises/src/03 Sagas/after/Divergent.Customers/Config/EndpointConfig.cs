@@ -36,7 +36,7 @@ namespace Divergent.Customers.Config
                 .ConnectionString("deadLetter=false;journal=false");
             //endpointConfiguration.UsePersistence<NHibernatePersistence>()
             //    .ConnectionString(ConfigurationManager.ConnectionStrings["Divergent.Customers"].ToString());
-            endpointConfiguration.UsePersistence<InMemoryPersistence>();
+            endpointConfiguration.UsePersistence<RavenDBPersistence>();
 
             endpointConfiguration.SendFailedMessagesTo("error");
             endpointConfiguration.AuditProcessedMessagesTo("audit");
