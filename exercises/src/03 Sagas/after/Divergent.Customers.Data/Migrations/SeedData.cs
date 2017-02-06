@@ -7,9 +7,9 @@ using Divergent.Customers.Data.Models;
 
 namespace Divergent.Customers.Data.Migrations
 {
-    internal static class SeedData
+    public static class SeedData
     {
-        internal static List<Customer> Customers()
+        public static List<Customer> Customers()
         {
             var particularId = 1;
             var particularOrderId = 1;

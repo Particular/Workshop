@@ -68,9 +68,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Context\CustomersContext.cs" />
-    <Compile Include="Context\SqLiteConfig.cs" />
-    <Compile Include="Migrations\DatabaseInitializer.cs" />
     <Compile Include="Migrations\SeedData.cs" />
     <Compile Include="Models\Customer.cs" />
     <Compile Include="Models\Order.cs" />

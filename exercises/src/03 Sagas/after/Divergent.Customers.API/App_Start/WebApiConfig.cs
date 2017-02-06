@@ -5,7 +5,7 @@ using Castle.Windsor;
 using Radical.Bootstrapper.Windsor.AspNet.Infrastructure;
 using System.Net.Http.Formatting;
 
-namespace Customers.API
+namespace Divergent.Customers.API
 {
     public static class WebApiConfig
     {
