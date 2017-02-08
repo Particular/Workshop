@@ -4,24 +4,32 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Divergent.Customers.Data.Models;
-using Divergent.Customers.Data.Context;
 using System.Data.Entity;
+using Raven.Client;
+using Raven.Client.Linq;
 
-namespace Customers.API.Controllers
+namespace Divergent.Customers.API.Controllers
 {
     [RoutePrefix("api/customers")]
     public class CustomersController : ApiController
     {
+        IDocumentStore store;
+
+        public CustomersController(IDocumentStore store)
+        {
+            this.store = store;
+        }
+
         [HttpGet, Route("ByIds/{ids}")]
         public IEnumerable<Customer> ByIds(string ids)
         {
-            using (var db = new CustomersContext())
+            using (var session = store.OpenSession())
             {
                 var _ids = ids.Split("|".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
                     .Select(id => int.Parse(id))
                     .ToList();
 
-                var query = db.Customers
+                var query = session.Query<Customer>()
                     .Where(c => _ids.Contains(c.Id));
 
                 var customers = query.ToList();
@@ -37,11 +45,10 @@ namespace Customers.API.Controllers
                 .Select(id => int.Parse(id))
                 .ToList();
 
-            using (var db = new CustomersContext())
+            using (var session = store.OpenSession())
             {
-                var query = db.Customers
-                    .Include(c => c.Orders)
-                    .Where(c => c.Orders.Any(o => _orderIds.Contains(o.OrderId)));
+                var query = session.Query<Customer>()
+                    .Where(c => c.Orders.Any(o => o.OrderId.In(_orderIds)));
 
                 var customers = query.ToList();
                 var orders = customers.SelectMany(c => c.Orders).Where(o => _orderIds.Contains(o.OrderId));
