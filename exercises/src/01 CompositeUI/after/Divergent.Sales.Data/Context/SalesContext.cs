@@ -6,19 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Divergent.Sales.Data.Migrations;
 using Divergent.Sales.Data.Models;
+using System.Configuration;
 
 namespace Divergent.Sales.Data.Context
 {
-    public interface ISalesContext
-    {
-        IDbSet<Product> Products { get; set; }
-        IDbSet<Order> Orders { get; set; }
-
-        Task<int> SaveChangesAsync();
-    }
-
     [DbConfigurationType(typeof(SqLiteConfig))]
-    public class SalesContext : DbContext, ISalesContext
+    public class SalesContext : DbContext
     {
         public SalesContext() : base("Divergent.Sales")
         {
@@ -29,7 +22,11 @@ namespace Divergent.Sales.Data.Context
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            Database.SetInitializer(new DatabaseInitializer(modelBuilder));
+            var runMigrations = ConfigurationManager.AppSettings["SQLite/execute/migrations"];
+            if (!string.IsNullOrWhiteSpace(runMigrations) && runMigrations.ToLower() == "true")
+            {
+                Database.SetInitializer(new DatabaseInitializer(modelBuilder));
+            }
 
             modelBuilder.Entity<Order>()
                 .HasMany(e => e.Items)
