@@ -10,7 +10,7 @@ using SQLite.CodeFirst;
 
 namespace Divergent.Sales.Data.Migrations
 {
-    public class DatabaseInitializer : SqliteCreateDatabaseIfNotExists<SalesContext>
+    public class DatabaseInitializer : SqliteDropCreateDatabaseWhenModelChanges<SalesContext>
     {
         public DatabaseInitializer(DbModelBuilder modelBuilder) : base(modelBuilder)
         {

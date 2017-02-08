@@ -6,7 +6,7 @@ using Divergent.Finance.Data.Context;
 
 namespace Divergent.Finance.Data.Migrations
 {
-    public class DatabaseInitializer : SqliteCreateDatabaseIfNotExists<FinanceContext>
+    public class DatabaseInitializer : SqliteDropCreateDatabaseWhenModelChanges<FinanceContext>
     {
         public DatabaseInitializer(DbModelBuilder modelBuilder) : base(modelBuilder)
         {
