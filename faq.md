@@ -41,7 +41,12 @@ NOTE: On a clean machine do not install latest version, as of this writing 13.1,
 
 ### Databases setup
 
-... to do ...
+To simplify `LocalDB` instance setup 2 PowerShell scripts, in the [exercises/scripts](exercises/scripts) folder, are provided for your convenience. Both need to be run from an elevated PowerShell console.
+
+* Run `Setup.ps1`, with elevation, to create the `LocalDB` instance and all the required databases
+* Run `Teardown.ps1`, with elevation, to drop all the databases and delete the `LocalDB` instance
+
+The created `LocalDB` instance is named `(localdb)\microservices-workshop`.
 
 ### Nuget packages restore
 
@@ -51,17 +56,7 @@ The exercises are composed of 8 different Visual Studio solutions. All the solut
 
 #### How can I empty the orders list or database?
 
-... to do ... (Use SSMS or the drop db script)
-
-~~The solution uses Entity Framework migrations with a seed to insert two orders, so there will always be orders. But if you want to start clean you can always remove the SqlLite datastore file from disk. Database files are stored in the `c:\temp` folder. Each exercise stores data into a dedicated folder, e.g. `c:\temp\exercise2before`~~
-
-~~**Solution** : Delete files stored into the exercise folder or the entire folder.~~
-
-~~### SQLite locked assemblies prevent Visual Studio projects compilation~~
-
-~~Ensure that, when compiling projects from Visual Studio, `IIS Express` is shut down.~~
-
-~~**Solution** : Right click on the `IIS Express` icon in the `Tray Area` and click `Exit`.~~
+Simply connect to the `(localdb)\microservices-workshop` SQL Server instance and manually delete, or truncate, tables that need to be rset. Another option is to run, from an elevated PowerShell console, the `Teardown.ps1` script found in the [exercises/scripts](exercises/scripts) folder. Be aware that the `Teardown.ps1` script will reset the entire instance.
 
 ## Exercise 4 - IT/Ops known issues
 
