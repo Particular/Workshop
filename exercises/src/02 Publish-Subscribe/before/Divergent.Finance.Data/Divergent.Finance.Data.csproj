@@ -53,7 +53,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context\FinanceContext.cs" />
-    <Compile Include="Context\SqLiteConfig.cs" />
     <Compile Include="Migrations\DatabaseInitializer.cs" />
     <Compile Include="Migrations\SeedData.cs" />
     <Compile Include="Models\OrderItemPrice.cs" />
