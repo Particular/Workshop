@@ -1,6 +1,19 @@
 USE [master]
 GO
 
+-- Exercise-01-before
+
+IF EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-01-before-sales')
+DROP DATABASE [Exercise-01-before-sales]
+GO
+
+-- Exercise-01-after
+
+IF EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-01-after-sales')
+DROP DATABASE [Exercise-01-after-sales]
+GO
+
+
 -- Exercise-02-before
 
 IF EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-02-before-customers')
