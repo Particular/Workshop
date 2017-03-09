@@ -5,6 +5,8 @@ using NServiceBus.Logging;
 using ILog = Common.Logging.ILog;
 using LogManager = Common.Logging.LogManager;
 using System.IO;
+using System.Configuration;
+using NServiceBus.Persistence;
 
 namespace Divergent.Customers.Config
 {
@@ -34,9 +36,8 @@ namespace Divergent.Customers.Config
             endpointConfiguration.UseContainer<AutofacBuilder>(c => c.ExistingLifetimeScope(container));
             endpointConfiguration.UseTransport<MsmqTransport>()
                 .ConnectionString("deadLetter=false;journal=false");
-            //endpointConfiguration.UsePersistence<NHibernatePersistence>()
-            //    .ConnectionString(ConfigurationManager.ConnectionStrings["Divergent.Customers"].ToString());
-            endpointConfiguration.UsePersistence<InMemoryPersistence>();
+            endpointConfiguration.UsePersistence<NHibernatePersistence>()
+                .ConnectionString(ConfigurationManager.ConnectionStrings["Divergent.Customers"].ToString());
 
             endpointConfiguration.SendFailedMessagesTo("error");
             endpointConfiguration.AuditProcessedMessagesTo("audit");
