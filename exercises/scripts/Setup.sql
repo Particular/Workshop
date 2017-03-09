@@ -27,6 +27,10 @@ IF  NOT EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise
 CREATE DATABASE [Exercise-02-before-finance]
 GO
 
+IF  NOT EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-02-before-shipping')
+CREATE DATABASE [Exercise-02-before-shipping]
+GO
+
 -- Exercise-02-after
 
 IF  NOT EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-02-after-customers')
@@ -39,6 +43,10 @@ GO
 
 IF  NOT EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-02-after-finance')
 CREATE DATABASE [Exercise-02-after-finance]
+GO
+
+IF  NOT EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-02-after-shipping')
+CREATE DATABASE [Exercise-02-after-shipping]
 GO
 
 -- Exercise-03-before
@@ -55,6 +63,10 @@ IF  NOT EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise
 CREATE DATABASE [Exercise-03-before-finance]
 GO
 
+IF  NOT EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-03-before-shipping')
+CREATE DATABASE [Exercise-03-before-shipping]
+GO
+
 -- Exercise-03-after
 
 IF  NOT EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-03-after-customers')
@@ -67,6 +79,10 @@ GO
 
 IF  NOT EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-03-after-finance')
 CREATE DATABASE [Exercise-03-after-finance]
+GO
+
+IF  NOT EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-03-after-shipping')
+CREATE DATABASE [Exercise-03-after-shipping]
 GO
 
 -- Exercise-04-before
@@ -83,6 +99,10 @@ IF  NOT EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise
 CREATE DATABASE [Exercise-04-before-finance]
 GO
 
+IF  NOT EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-04-before-shipping')
+CREATE DATABASE [Exercise-04-before-shipping]
+GO
+
 -- Exercise-04-after
 
 IF  NOT EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-04-after-customers')
@@ -95,4 +115,8 @@ GO
 
 IF  NOT EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-04-after-finance')
 CREATE DATABASE [Exercise-04-after-finance]
+GO
+
+IF  NOT EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-04-after-shipping')
+CREATE DATABASE [Exercise-04-after-shipping]
 GO
