@@ -28,6 +28,10 @@ IF EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-02-b
 DROP DATABASE [Exercise-02-before-finance]
 GO
 
+IF EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-02-before-shipping')
+DROP DATABASE [Exercise-02-before-shipping]
+GO
+
 -- Exercise-02-after
 
 IF EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-02-after-customers')
@@ -40,6 +44,10 @@ GO
 
 IF EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-02-after-finance')
 DROP DATABASE [Exercise-02-after-finance]
+GO
+
+IF EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-02-after-shipping')
+DROP DATABASE [Exercise-02-after-shipping]
 GO
 
 -- Exercise-03-before
@@ -56,6 +64,10 @@ IF EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-03-b
 DROP DATABASE [Exercise-03-before-finance]
 GO
 
+IF EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-03-before-shipping')
+DROP DATABASE [Exercise-03-before-shipping]
+GO
+
 -- Exercise-03-after
 
 IF EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-03-after-customers')
@@ -68,6 +80,10 @@ GO
 
 IF EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-03-after-finance')
 DROP DATABASE [Exercise-03-after-finance]
+GO
+
+IF EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-03-after-shipping')
+DROP DATABASE [Exercise-03-after-shipping]
 GO
 
 -- Exercise-04-before
@@ -84,6 +100,10 @@ IF EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-04-b
 DROP DATABASE [Exercise-04-before-finance]
 GO
 
+IF EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-04-before-shipping')
+DROP DATABASE [Exercise-04-before-shipping]
+GO
+
 -- Exercise-04-after
 
 IF EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-04-after-customers')
@@ -96,4 +116,8 @@ GO
 
 IF EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-04-after-finance')
 DROP DATABASE [Exercise-04-after-finance]
+GO
+
+IF EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-04-after-shipping')
+DROP DATABASE [Exercise-04-after-shipping]
 GO
