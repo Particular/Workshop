@@ -7,7 +7,7 @@ using Divergent.Customers.Data.Models;
 using Divergent.Customers.Data.Context;
 using System.Data.Entity;
 
-namespace Customers.API.Controllers
+namespace Divergent.Customers.API.Controllers
 {
     [RoutePrefix("api/customers")]
     public class CustomersController : ApiController
