@@ -9,7 +9,7 @@ using Divergent.Sales.Data.Context;
 using NServiceBus;
 using Divergent.Sales.Messages.Commands;
 
-namespace Sales.API.Controllers
+namespace Divergent.Sales.API.Controllers
 {
     [RoutePrefix("api/orders")]
     public class OrdersController : ApiController

@@ -3,7 +3,7 @@ using System;
 using System.IO;
 using System.Web.Http;
 
-namespace Finance.API
+namespace Divergent.Finance.API
 {
     public class WebApiApplication : System.Web.HttpApplication
     {
