@@ -12,37 +12,34 @@ namespace Divergent.Sales.Handlers
 {
     public class SubmitOrderHandler : IHandleMessages<SubmitOrderCommand>
     {
-        private readonly ISalesContext _context;
         private static readonly ILog Log = LogManager.GetLogger<SubmitOrderHandler>();
-
-        public SubmitOrderHandler(ISalesContext context)
-        {
-            _context = context;
-        }
 
         public async Task Handle(SubmitOrderCommand message, IMessageHandlerContext context)
         {
-            Log.Info("Handle SubmitOrderCommand");
-
-            var items = new List<Item>();
-
-            var products = _context.Products.ToList();
-
-            message.Products.ForEach(p => items.Add(new Item()
+            using (var _context = new SalesContext())
             {
-                Product = products.Single(s => s.Id == p)
-            }));
+                Log.Info("Handle SubmitOrderCommand");
 
-            var order = new Divergent.Sales.Data.Models.Order()
-            {
-                CustomerId = message.CustomerId,
-                DateTimeUtc = DateTime.UtcNow,
-                Items = items,
-                State = "New"
-            };
+                var items = new List<Item>();
 
-            _context.Orders.Add(order);
-            await _context.SaveChangesAsync();
+                var products = _context.Products.ToList();
+
+                message.Products.ForEach(p => items.Add(new Item()
+                {
+                    Product = products.Single(s => s.Id == p)
+                }));
+
+                var order = new Divergent.Sales.Data.Models.Order()
+                {
+                    CustomerId = message.CustomerId,
+                    DateTimeUtc = DateTime.UtcNow,
+                    Items = items,
+                    State = "New"
+                };
+
+                _context.Orders.Add(order);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

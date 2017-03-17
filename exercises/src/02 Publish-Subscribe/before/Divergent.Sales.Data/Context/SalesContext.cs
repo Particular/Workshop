@@ -9,15 +9,7 @@ using Divergent.Sales.Data.Models;
 
 namespace Divergent.Sales.Data.Context
 {
-    public interface ISalesContext
-    {
-        IDbSet<Product> Products { get; set; }
-        IDbSet<Order> Orders { get; set; }
-
-        Task<int> SaveChangesAsync();
-    }
-
-    public class SalesContext : DbContext, ISalesContext
+    public class SalesContext : DbContext
     {
         public SalesContext() : base("Divergent.Sales")
         {
