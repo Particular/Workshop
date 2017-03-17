@@ -6,7 +6,7 @@ using System.Net.Http.Formatting;
 using System.Web.Http;
 using Divergent.Finance.Data.Repositories;
 
-namespace Finance.API
+namespace Divergent.Finance.API
 {
     public class WebApiApplication : System.Web.HttpApplication
     {

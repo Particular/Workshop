@@ -7,6 +7,8 @@ using NServiceBus.Logging;
 using ILog = Common.Logging.ILog;
 using LogManager = Common.Logging.LogManager;
 using System.IO;
+using System.Configuration;
+using NServiceBus.Persistence;
 
 namespace Divergent.Sales.Config
 {
@@ -31,7 +33,7 @@ namespace Divergent.Sales.Config
 
             SalesContext context = new SalesContext();
             var products = context.Products.ToList();
-            
+
             Log.DebugFormat("Database initialized, first product is {0}", products.First());
         }
 
@@ -44,13 +46,12 @@ namespace Divergent.Sales.Config
             var licensePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "License.xml");
             endpointConfiguration.LicensePath(licensePath);
             endpointConfiguration.UseSerialization<JsonSerializer>();
-            endpointConfiguration.Recoverability().Delayed(c=>c.NumberOfRetries(0));
+            endpointConfiguration.Recoverability().Delayed(c => c.NumberOfRetries(0));
             endpointConfiguration.UseContainer<AutofacBuilder>(c => c.ExistingLifetimeScope(container));
             endpointConfiguration.UseTransport<MsmqTransport>()
                 .ConnectionString("deadLetter=false;journal=false");
-            //endpointConfiguration.UsePersistence<NHibernatePersistence>()
-            //    .ConnectionString(ConfigurationManager.ConnectionStrings["Divergent.Sales"].ToString());
-            endpointConfiguration.UsePersistence<InMemoryPersistence>();
+            endpointConfiguration.UsePersistence<NHibernatePersistence>()
+                .ConnectionString(ConfigurationManager.ConnectionStrings["Divergent.Sales"].ToString());
 
             endpointConfiguration.SendFailedMessagesTo("error");
             endpointConfiguration.AuditProcessedMessagesTo("audit");

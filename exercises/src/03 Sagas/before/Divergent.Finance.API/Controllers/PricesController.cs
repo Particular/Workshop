@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace Finance.API.Controllers
+namespace Divergent.Finance.API.Controllers
 {
     [RoutePrefix("api/prices")]
     public class PricingController : ApiController

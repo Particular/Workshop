@@ -5,7 +5,7 @@ using System.Web.Http;
 using Divergent.Finance.Data.Repositories;
 using System.Collections.Generic;
 
-namespace Finance.API.Controllers
+namespace Divergent.Finance.API.Controllers
 {
     [RoutePrefix("api/prices")]
     public class PricingController : ApiController

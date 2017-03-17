@@ -5,6 +5,8 @@ using NServiceBus.Logging;
 using ILog = Common.Logging.ILog;
 using LogManager = Common.Logging.LogManager;
 using System.IO;
+using NServiceBus.Persistence;
+using System.Configuration;
 
 namespace Divergent.Shipping.Config
 {
@@ -30,13 +32,12 @@ namespace Divergent.Shipping.Config
             var licensePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "License.xml");
             endpointConfiguration.LicensePath(licensePath);
             endpointConfiguration.UseSerialization<JsonSerializer>();
-            endpointConfiguration.Recoverability().Delayed(c=>c.NumberOfRetries(0));
+            endpointConfiguration.Recoverability().Delayed(c => c.NumberOfRetries(0));
             endpointConfiguration.UseContainer<AutofacBuilder>(c => c.ExistingLifetimeScope(container));
             endpointConfiguration.UseTransport<MsmqTransport>()
                 .ConnectionString("deadLetter=false;journal=false");
-            //endpointConfiguration.UsePersistence<NHibernatePersistence>()
-            //    .ConnectionString(ConfigurationManager.ConnectionStrings["Divergent.Shipping"].ToString());
-            endpointConfiguration.UsePersistence<InMemoryPersistence>();
+            endpointConfiguration.UsePersistence<NHibernatePersistence>()
+                .ConnectionString(ConfigurationManager.ConnectionStrings["Divergent.Shipping"].ToString());
 
             endpointConfiguration.SendFailedMessagesTo("error");
             endpointConfiguration.AuditProcessedMessagesTo("audit");

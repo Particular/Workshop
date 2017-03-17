@@ -9,16 +9,7 @@ using Divergent.Sales.Data.Models;
 
 namespace Divergent.Sales.Data.Context
 {
-    public interface ISalesContext
-    {
-        IDbSet<Product> Products { get; set; }
-        IDbSet<Order> Orders { get; set; }
-
-        Task<int> SaveChangesAsync();
-    }
-
-    [DbConfigurationType(typeof(SqLiteConfig))]
-    public class SalesContext : DbContext, ISalesContext
+    public class SalesContext : DbContext
     {
         public SalesContext() : base("Divergent.Sales")
         {
@@ -29,7 +20,7 @@ namespace Divergent.Sales.Data.Context
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            Database.SetInitializer(new DatabaseInitializer(modelBuilder));
+            Database.SetInitializer(new DatabaseInitializer());
 
             modelBuilder.Entity<Order>()
                 .HasMany(e => e.Items)

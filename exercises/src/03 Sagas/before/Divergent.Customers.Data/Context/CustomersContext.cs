@@ -4,7 +4,6 @@ using Divergent.Customers.Data.Migrations;
 
 namespace Divergent.Customers.Data.Context
 {
-    [DbConfigurationType(typeof(SqLiteConfig))]
     public class CustomersContext : DbContext
     {
         public CustomersContext() : base("Divergent.Customers")
@@ -15,7 +14,7 @@ namespace Divergent.Customers.Data.Context
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            Database.SetInitializer(new DatabaseInitializer(modelBuilder));
+            Database.SetInitializer(new DatabaseInitializer());
 
             modelBuilder.Entity<Customer>()
                 .HasMany(e => e.Orders)

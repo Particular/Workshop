@@ -3,7 +3,7 @@ using System;
 using System.IO;
 using System.Web.Http;
 
-namespace Customers.API
+namespace Divergent.Customers.API
 {
     public class WebApiApplication : System.Web.HttpApplication
     {

@@ -4,7 +4,7 @@ using Radical.Bootstrapper.Windsor.AspNet.Infrastructure;
 using System.Net.Http.Formatting;
 using System.Web.Http;
 
-namespace Sales.API
+namespace Divergent.Sales.API
 {
     public static class WebApiConfig
     {

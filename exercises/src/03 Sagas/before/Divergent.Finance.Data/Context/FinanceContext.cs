@@ -4,7 +4,6 @@ using System.Data.Entity;
 
 namespace Divergent.Finance.Data.Context
 {
-    [DbConfigurationType(typeof(SqLiteConfig))]
     public class FinanceContext : DbContext
     {
         public FinanceContext() : base("Divergent.Finance")
@@ -16,7 +15,7 @@ namespace Divergent.Finance.Data.Context
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            Database.SetInitializer(new DatabaseInitializer(modelBuilder));
+            Database.SetInitializer(new DatabaseInitializer());
 
             modelBuilder.Entity<Price>();
             modelBuilder.Entity<OrderItemPrice>();
