@@ -5,9 +5,9 @@ using Microsoft.Owin;
 using Owin;
 using Microsoft.Owin.Cors;
 
-[assembly: OwinStartup(typeof(Sales.API.Startup))]
+[assembly: OwinStartup(typeof(Divergent.Sales.API.Startup))]
 
-namespace Sales.API
+namespace Divergent.Sales.API
 {
     public partial class Startup
     {
