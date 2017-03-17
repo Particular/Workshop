@@ -6,6 +6,8 @@ using NServiceBus.Logging;
 using ILog = Common.Logging.ILog;
 using LogManager = Common.Logging.LogManager;
 using System.IO;
+using System.Configuration;
+using NServiceBus.Persistence;
 
 namespace Divergent.Finance.Config
 {
@@ -31,13 +33,12 @@ namespace Divergent.Finance.Config
             var licensePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "License.xml");
             endpointConfiguration.LicensePath(licensePath);
             endpointConfiguration.UseSerialization<JsonSerializer>();
-            endpointConfiguration.Recoverability().Delayed(c=>c.NumberOfRetries(0));
+            endpointConfiguration.Recoverability().Delayed(c => c.NumberOfRetries(0));
             endpointConfiguration.UseContainer<AutofacBuilder>(c => c.ExistingLifetimeScope(container));
             endpointConfiguration.UseTransport<MsmqTransport>()
                 .ConnectionString("deadLetter=false;journal=false");
-            //endpointConfiguration.UsePersistence<NHibernatePersistence>()
-            //    .ConnectionString(ConfigurationManager.ConnectionStrings["Divergent.Finance"].ToString());
-            endpointConfiguration.UsePersistence<InMemoryPersistence>();
+            endpointConfiguration.UsePersistence<NHibernatePersistence>()
+                .ConnectionString(ConfigurationManager.ConnectionStrings["Divergent.Finance"].ToString());
 
             endpointConfiguration.SendFailedMessagesTo("error");
             endpointConfiguration.AuditProcessedMessagesTo("audit");

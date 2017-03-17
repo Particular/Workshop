@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<license id="cb1f3198-a848-4f58-80f0-7d73cbc846db" expiration="2017-02-28T00:00:00.0000000" type="Standard" LicenseVersion="6.0" WorkerThreads="Max" AllowedNumberOfWorkerNodes="Max" MaxMessageThroughputPerSecond="Max" Quantity="5" Edition="Enterprise" Applications="All">
-  <name>DDD Europe </name>
+<license id="38727e86-05a4-4df3-ade4-317835fa3df3" expiration="2017-05-01T00:00:00.0000000" type="Trial" Applications="All" LicenseVersion="6.0" WorkerThreads="Max" AllowedNumberOfWorkerNodes="Max" LicenseType="Trial" MaxMessageThroughputPerSecond="Max">
+  <name>help@Codemotion.com</name>
   <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
     <SignedInfo>
       <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
@@ -10,9 +10,9 @@
           <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
         </Transforms>
         <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <DigestValue>2hZd1krj2oO/WEL2xBFZsNJ0B2Q=</DigestValue>
+        <DigestValue>T8YhxNBMPE0DyAUV6oDY1rUvW0g=</DigestValue>
       </Reference>
     </SignedInfo>
-    <SignatureValue>qPcTtMlQ3ZiIntupSDwwuQfDyxCrCRLd8C591gOmSHA53EuHYlRbW7jL8Dzeqw2hUZI7h59Vc2bnJT/dePSGISZorkXDiZ5CWXhr2uOts8PEM04aE0FgnU2Eh1wvt5mqB2JfhHpRg3UoYnwXwkzke5aDVxB6rQ0whPKe+3PMW8U=</SignatureValue>
+    <SignatureValue>Eztt65zZIWEi7xVAr6493u10sD+zrOuYl1AwHWv20V+oJ2KAHG1WWtSzRNJ0MLouQCnJBHxweKl/y60OT2F/gByYSbgfpGaGtT1QP02shoQIDNk93Vg0O/2vveKuT8+R0oM7S043+k9KwCuDabt5EizzqBYyI3ra1Yd9wcxbNnQ=</SignatureValue>
   </Signature>
 </license>

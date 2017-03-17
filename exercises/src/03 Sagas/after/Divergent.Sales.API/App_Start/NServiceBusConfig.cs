@@ -7,7 +7,7 @@ using NServiceBus;
 using Castle.MicroKernel.Registration;
 using System.IO;
 
-namespace Sales.API
+namespace Divergent.Sales.API
 {
     public class NServiceBusConfig
     {

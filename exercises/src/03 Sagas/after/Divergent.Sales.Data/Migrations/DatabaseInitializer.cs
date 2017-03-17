@@ -6,16 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Divergent.Sales.Data.Context;
-using SQLite.CodeFirst;
 
 namespace Divergent.Sales.Data.Migrations
 {
-    public class DatabaseInitializer : SqliteCreateDatabaseIfNotExists<SalesContext>
+    public class DatabaseInitializer : CreateDatabaseIfNotExists<SalesContext>
     {
-        public DatabaseInitializer(DbModelBuilder modelBuilder) : base(modelBuilder)
-        {
-        }
-
         protected override void Seed(SalesContext context)
         {
             context.Products.AddOrUpdate(k => k.Id, SeedData.Products().ToArray());
