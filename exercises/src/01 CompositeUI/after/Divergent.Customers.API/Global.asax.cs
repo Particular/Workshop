@@ -6,7 +6,7 @@ using System.Net.Http.Formatting;
 using System.Web.Http;
 using Divergent.Customers.Data.Repositories;
 
-namespace Customers.API
+namespace Divergent.Customers.API
 {
     public class WebApiApplication : System.Web.HttpApplication
     {

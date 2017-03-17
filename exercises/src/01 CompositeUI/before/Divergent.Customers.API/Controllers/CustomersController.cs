@@ -6,7 +6,7 @@ using System.Web.Http;
 using Divergent.Customers.Data.Repositories;
 using Divergent.Customers.Data.Models;
 
-namespace Customers.API.Controllers
+namespace Divergent.Customers.API.Controllers
 {
     [RoutePrefix("api/customers")]
     public class CustomersController : ApiController
