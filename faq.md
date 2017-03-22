@@ -35,7 +35,7 @@ Set-ExecutionPolicy Unrestricted
 * .Net framework 4.6.1 Targeting pack for Visual Studio, available for download at https://www.microsoft.com/en-us/download/details.aspx?id=49978
 * A SQL Server edition or the `LocalDb` instance installed by Visual Studio, in case of a clean machine with `LocalDb` only please install:
    * Microsoft ODBC Driver 11 for SQL Server, available for download at https://www.microsoft.com/en-us/download/details.aspx?id=36434
-   * Microsoft ODBC Command Line Utilities 11 for SQL Server, available for download at https://www.microsoft.com/en-us/download/confirmation.aspx?id=36433
+   * Microsoft ODBC Command Line Utilities 11 for SQL Server, available for download at https://www.microsoft.com/en-us/download/details.aspx?id=36433
 
 NOTE: On a clean machine do not install latest version, as of this writing 13.1, of Microsoft ODBC Driver and Microsoft ODBC Command Line Utilities as the latter contains a bug that prevents the `LocalDb` instance to be accessible at configuration time.
 
