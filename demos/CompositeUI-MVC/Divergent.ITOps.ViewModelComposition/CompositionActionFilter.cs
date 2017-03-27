@@ -28,23 +28,23 @@ namespace Divergent.ITOps.ViewModelComposition
 
                 foreach (var interceptor in routeInterceptors.Where(a => a.Matches(requestInfo)))
                 {
-                    if (interceptor is ISubscribeToCompositionEvents)
+                    var subscriber = interceptor as ISubscribeToCompositionEvents;
+                    if (subscriber != null)
                     {
-                        ((ISubscribeToCompositionEvents)interceptor).Subscribe(vm);
+                        subscriber.Subscribe(vm);
                     }
 
-                    if (interceptor is IViewModelAppender)
+                    var appender = interceptor as IViewModelAppender;
+                    if (appender != null)
                     {
-                        var task = ((IViewModelAppender)interceptor).Append(requestInfo, vm);
+                        var task = appender.Append(requestInfo, vm);
                         pending.Add(task);
                     }
                 }
 
-                if (pending.Any())
+                if (pending.Count == 0)
                 {
-                    Task.WhenAll(pending)
-                        .GetAwaiter()
-                        .GetResult();
+                    Task.WaitAll(pending.ToArray());
 
                     filterContext.Controller.ViewData.Model = vm;
                 }
