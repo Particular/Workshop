@@ -15,21 +15,18 @@ namespace Divergent.Sales.ViewModelComposition
             return controller == "Orders" && action == "Details";
         }
 
-        public Task Append(ITOps.ViewModelComposition.RequestContext request, dynamic viewModel)
+        public async Task Append(ITOps.ViewModelComposition.RequestContext request, dynamic viewModel)
         {
-            return Task.Run(async () =>
-            {
-                var id = (string)request.RouteData.Values["id"];
+            var id = (string)request.RouteData.Values["id"];
 
-                var url = $"http://localhost:20195/api/orders/{id}";
-                var client = new HttpClient();
-                var response = await client.GetAsync(url);
+            var url = $"http://localhost:20195/api/orders/{id}";
+            var client = new HttpClient();
+            var response = await client.GetAsync(url).ConfigureAwait(false);
 
-                dynamic order= await response.Content.AsExpandoAsync();
+            dynamic order = await response.Content.AsExpandoAsync().ConfigureAwait(false);
 
-                viewModel.OrderNumber = order.Number;
-                viewModel.OrderItemsCount = order.ItemsCount;
-            });
+            viewModel.OrderNumber = order.Number;
+            viewModel.OrderItemsCount = order.ItemsCount;
         }
     }
 }

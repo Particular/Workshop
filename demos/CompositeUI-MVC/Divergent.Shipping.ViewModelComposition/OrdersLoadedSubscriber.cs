@@ -27,9 +27,9 @@ namespace Divergent.Shipping.ViewModelComposition
                 var url = $"http://localhost:20196/api/shippinginfo/orders?ids={ids}";
                 var client = new HttpClient();
 
-                var response = await client.GetAsync(url);
+                var response = await client.GetAsync(url).ConfigureAwait(false);
 
-                dynamic[] shippingInfos = await response.Content.AsExpandoArrayAsync();
+                dynamic[] shippingInfos = await response.Content.AsExpandoArrayAsync().ConfigureAwait(false);
 
                 foreach (dynamic item in shippingInfos)
                 {
