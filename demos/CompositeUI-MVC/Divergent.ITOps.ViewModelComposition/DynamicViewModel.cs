@@ -79,7 +79,8 @@ namespace Divergent.ITOps.ViewModelComposition
 
         public Task RaiseEventAsync(ICompositionEvent @event)
         {
-            return inMemoryBroker.BroadcastAsync(this, @event);
+            var task = inMemoryBroker.BroadcastAsync(this, @event);
+            return task;
         }
     }
 }
