@@ -19,23 +19,26 @@ namespace Divergent.Sales.ViewModelComposition
             return controller == "Orders" && action == "Index";
         }
 
-        public async Task Append(ITOps.ViewModelComposition.RequestContext request, dynamic viewModel)
+        public Task Append(ITOps.ViewModelComposition.RequestContext request, dynamic viewModel)
         {
-            var pageIndex = (string)request.QueryString["pageindex"] ?? "0";
-            var pageSize = (string)request.QueryString["pageSize"] ?? "10";
-
-            var url = $"http://localhost:20195/api/orders?pageSize={pageSize}&pageIndex={pageIndex}";
-            var client = new HttpClient();
-            var response = await client.GetAsync(url).ConfigureAwait(false);
-
-            dynamic[] orders = await response.Content.AsExpandoArrayAsync().ConfigureAwait(false);
-
-            viewModel.OrdersViewModel = MapToDictionary(orders);
-
-            await viewModel.RaiseEventAsync(new OrdersLoaded()
+            return Task.Run(async () =>
             {
-                OrdersViewModel = viewModel.OrdersViewModel
-            }).ConfigureAwait(false);
+                var pageIndex = (string)request.QueryString["pageindex"] ?? "0";
+                var pageSize = (string)request.QueryString["pageSize"] ?? "10";
+
+                var url = $"http://localhost:20195/api/orders?pageSize={pageSize}&pageIndex={pageIndex}";
+                var client = new HttpClient();
+                var response = await client.GetAsync(url);
+
+                dynamic[] orders = await response.Content.AsExpandoArrayAsync();
+
+                viewModel.OrdersViewModel = MapToDictionary(orders);
+
+                viewModel.RaiseEvent(new OrdersLoaded()
+                {
+                    OrdersViewModel = viewModel.OrdersViewModel
+                });
+            });
         }
 
         IDictionary<dynamic, dynamic> MapToDictionary(dynamic[] orders)
