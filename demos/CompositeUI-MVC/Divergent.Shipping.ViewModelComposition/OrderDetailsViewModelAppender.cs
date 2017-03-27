@@ -15,18 +15,21 @@ namespace Divergent.Shipping.ViewModelComposition
             return controller == "Orders" && action == "Details";
         }
 
-        public async Task Append(ITOps.ViewModelComposition.RequestContext request, dynamic viewModel)
+        public Task Append(ITOps.ViewModelComposition.RequestContext request, dynamic viewModel)
         {
-            var id = (string)request.RouteData.Values["id"];
+            return Task.Run(async () =>
+            {
+                var id = (string)request.RouteData.Values["id"];
 
-            var url = $"http://localhost:20196/api/shippinginfo/order/{id}";
-            var client = new HttpClient();
-            var response = await client.GetAsync(url).ConfigureAwait(false);
+                var url = $"http://localhost:20196/api/shippinginfo/order/{id}";
+                var client = new HttpClient();
+                var response = await client.GetAsync(url);
 
-            dynamic shipping = await response.Content.AsExpandoAsync().ConfigureAwait(false);
+                dynamic shipping = await response.Content.AsExpandoAsync();
 
-            viewModel.ShippingStatus = shipping.Status;
-            viewModel.ShippingCourier = shipping.Courier;
+                viewModel.ShippingStatus = shipping.Status;
+                viewModel.ShippingCourier = shipping.Courier;
+            });
         }
     }
 }
