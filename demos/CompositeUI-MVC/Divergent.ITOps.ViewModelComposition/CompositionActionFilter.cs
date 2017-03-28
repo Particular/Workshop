@@ -42,7 +42,7 @@ namespace Divergent.ITOps.ViewModelComposition
                     }
                 }
 
-                if (pending.Count == 0)
+                if (pending.Count > 0)
                 {
                     Task.WaitAll(pending.ToArray());
 
