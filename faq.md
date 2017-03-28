@@ -48,6 +48,8 @@ To simplify `LocalDB` instance setup 2 PowerShell scripts, in the [exercises/scr
 
 The created `LocalDB` instance is named `(localdb)\microservices-workshop`.
 
+NOTE: In case the database setup script fails with a "sqllocaldb command not found" error it is possible to install LocalDb as a standalone package by downloading it separately at https://www.microsoft.com/en-us/download/details.aspx?id=29062
+
 ### Nuget packages restore
 
 The exercises are composed of 8 different Visual Studio solutions. All the solutions stored on GitHub rely upon `Nuget package restore` to be run at the first build. Please verify with the workshop organizers if internet access is available at the venue. It is required to run the Nuget restore, otherwise be sure to run the `Nuget package restore` for each solution before attending the workshop.
