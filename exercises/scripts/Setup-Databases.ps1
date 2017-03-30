@@ -8,4 +8,4 @@ sqllocaldb start $instanceName
 sqllocaldb info $instanceName
 
 $serverName = "(localdb)\" + $instanceName
-sqlcmd -S $serverName -i ".\Setup.sql"
+sqlcmd -S $serverName -i ".\Setup-Databases.sql"
