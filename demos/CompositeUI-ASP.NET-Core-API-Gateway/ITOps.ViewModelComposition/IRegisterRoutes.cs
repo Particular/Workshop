@@ -3,10 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ITOps.ViewModelComposition.Gateway
+namespace ITOps.ViewModelComposition
 {
     public interface IRegisterRoutes
     {
-        void RegisterRoutes(RouteBuilder routeBuilder, RouteHandler defaultGatewayRouteHandler);
+        void RegisterRoutes(IRouteBuilder routeBuilder, IRouteHandler gatewayRouteHandler);
     }
 }
