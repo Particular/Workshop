@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ITOps.ViewModelComposition.Gateway;
+using ITOps.ViewModelComposition;
 
 namespace Divergent.CompositionGateway
 {
@@ -15,7 +16,7 @@ namespace Divergent.CompositionGateway
 
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
-            app.RunViewModelCompositionWithDefaultRoutes();
+            app.RunCompositionGatewayWithDefaultRoutes();
         }
     }
 }
