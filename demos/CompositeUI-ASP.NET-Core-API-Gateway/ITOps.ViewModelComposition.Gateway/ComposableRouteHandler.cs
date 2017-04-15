@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -16,7 +17,7 @@ namespace ITOps.ViewModelComposition.Gateway
             var vm = new DynamicViewModel(context);
             var pending = new List<Task>();
             var routeData = context.GetRouteData();
-            var interceptors = ApplicationBuilderExtensions.Interceptors.Value;
+            var interceptors = context.RequestServices.GetServices<IRouteInterceptor>();
 
             try
             {
