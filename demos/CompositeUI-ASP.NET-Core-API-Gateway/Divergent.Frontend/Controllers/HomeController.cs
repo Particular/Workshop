@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using System.Dynamic;
 
 namespace Divergent.Frontend.Controllers
 {
@@ -10,7 +11,11 @@ namespace Divergent.Frontend.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            dynamic vm = new ExpandoObject();
+            vm.Foo = 10;
+            vm.Bar = "Sample";
+
+            return View(vm);
         }
 
         public IActionResult About()
