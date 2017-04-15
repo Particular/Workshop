@@ -19,15 +19,8 @@ namespace ITOps.ViewModelComposition.Gateway
 {
     public static class ApplicationBuilderExtensions
     {
-        internal static Lazy<IEnumerable<IRouteInterceptor>> Interceptors { get; private set; }
-
         public static void RunViewModelComposition(this IApplicationBuilder app, Action<IRouteBuilder> routes = null)
         {
-            Interceptors = new Lazy<IEnumerable<IRouteInterceptor>>(() =>
-            {
-                return app.ApplicationServices.GetServices<IRouteInterceptor>();
-            });
-
             var routeBuilder = new RouteBuilder(app);
             routes?.Invoke(routeBuilder);
 
