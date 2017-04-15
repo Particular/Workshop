@@ -14,45 +14,15 @@ namespace ITOps.ViewModelComposition.Gateway
     {
         public static async Task HandleGetRequest(HttpContext context)
         {
-            var vm = new DynamicViewModel(context);
-            var pending = new List<Task>();
-            var routeData = context.GetRouteData();
-            var interceptors = context.RequestServices.GetServices<IRouteInterceptor>();
-
-            try
+            var result = await CompositionHandler.HandleGetRequest(context);
+            if (result.StatusCode == StatusCodes.Status200OK)
             {
-                //matching interceptors could be cached by URL
-                var matching = interceptors
-                    .Where(a => a.Matches(context.GetRouteData(), HttpMethods.Get))
-                    .ToArray();
-
-                foreach (var subscriber in matching.OfType<ISubscribeToCompositionEvents>())
-                {
-                    subscriber.Subscribe(vm, routeData, context.Request.Query);
-                }
-
-                foreach (var appender in matching.OfType<IViewModelAppender>())
-                {
-                    pending.Add
-                    (
-                        appender.Append(vm, routeData, context.Request.Query)
-                    );
-                }
-
-                if (pending.Count == 0)
-                {
-                    context.Response.StatusCode = StatusCodes.Status404NotFound;
-                }
-                else
-                {
-                    await Task.WhenAll(pending.ToArray());
-                    var json = JsonConvert.SerializeObject(vm, GetSettings(context));
-                    await context.Response.WriteAsync(json);
-                }
+                string json = JsonConvert.SerializeObject(result.ViewModel, GetSettings(context));
+                await context.Response.WriteAsync(json);
             }
-            finally
+            else
             {
-                vm.CleanupSubscribers();
+                context.Response.StatusCode = result.StatusCode;
             }
         }
 
