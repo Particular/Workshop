@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Routing;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,7 +11,7 @@ namespace ITOps.ViewModelComposition.Gateway
 {
     abstract class Subscription
     {
-        public abstract Task Invoke( dynamic viewModel, object @event, RouteData routeData, IQueryCollection query);
+        public abstract Task Invoke(dynamic viewModel, object @event, RouteData routeData, IQueryCollection query);
     }
 
     class Subscription<T> : Subscription
@@ -22,7 +23,7 @@ namespace ITOps.ViewModelComposition.Gateway
             this.subscription = subscription;
         }
 
-        public override Task Invoke( dynamic viewModel, object @event, RouteData routeData, IQueryCollection query)
+        public override Task Invoke(dynamic viewModel, object @event, RouteData routeData, IQueryCollection query)
         {
             return subscription(viewModel, (T)@event, routeData, query);
         }
@@ -54,7 +55,7 @@ namespace ITOps.ViewModelComposition.Gateway
                 subscriptions.Add(typeof(T), subscribers);
             }
 
-            subscribers.Add( new Subscription<T>( subscription ));
+            subscribers.Add(new Subscription<T>(subscription));
         }
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
@@ -79,6 +80,13 @@ namespace ITOps.ViewModelComposition.Gateway
             }
 
             return false;
+        }
+
+        public override IEnumerable<string> GetDynamicMemberNames()
+        {
+            return base.GetDynamicMemberNames()
+                .Union(properties.Keys)
+                .Union(new[] { "RaiseEventAsync" });
         }
 
         public Task RaiseEventAsync(object @event)
