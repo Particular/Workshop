@@ -4,10 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace ITOps.ViewModelComposition.Gateway
+namespace ITOps.ViewModelComposition.Engine
 {
     abstract class Subscription
     {
@@ -29,7 +28,7 @@ namespace ITOps.ViewModelComposition.Gateway
         }
     }
 
-    class DynamicViewModel : DynamicObject, ISubscriptionStorage, IViewModel
+    public class DynamicViewModel : DynamicObject, ISubscriptionStorage, IViewModel
     {
         RouteData routeData;
         IQueryCollection query;
@@ -42,7 +41,7 @@ namespace ITOps.ViewModelComposition.Gateway
             this.query = context.Request.Query;
         }
 
-        internal void CleanupSubscribers()
+        public void CleanupSubscribers()
         {
             subscriptions.Clear();
         }

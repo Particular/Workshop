@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ITOps.ViewModelComposition.Engine;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ITOps.ViewModelComposition.Gateway
 {
-    class CompositionHandler
+    public class CompositionHandler
     {
         public static async Task<(dynamic ViewModel, int StatusCode)> HandleGetRequest(HttpContext context)
         {
@@ -42,7 +43,10 @@ namespace ITOps.ViewModelComposition.Gateway
                 }
                 else
                 {
-                    await Task.WhenAll(pending.ToArray());
+                    await Task.WhenAll(pending);
+
+                    //result transformer? e.g. to change from vm.OrdersViewModel to orders[]
+
                     return (vm, StatusCodes.Status200OK);
                 }
             }
