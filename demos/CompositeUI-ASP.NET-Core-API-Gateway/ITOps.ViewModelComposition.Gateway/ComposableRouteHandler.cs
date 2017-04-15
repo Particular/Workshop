@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ITOps.ViewModelComposition.Gateway
 {
-    public class ComposableRouteHandler
+    class ComposableRouteHandler
     {
         public static async Task HandleGetRequest(HttpContext context)
         {

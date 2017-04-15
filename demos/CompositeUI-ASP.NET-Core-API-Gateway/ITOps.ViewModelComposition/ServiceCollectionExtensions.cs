@@ -5,7 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace ITOps.ViewModelComposition.Gateway
+namespace ITOps.ViewModelComposition
 {
     public static class ServiceCollectionExtensions
     {
