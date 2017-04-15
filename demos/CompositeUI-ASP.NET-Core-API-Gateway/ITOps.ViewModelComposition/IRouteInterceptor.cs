@@ -6,7 +6,7 @@ namespace ITOps.ViewModelComposition
 {
     public interface IRouteInterceptor
     {
-        bool Matches(RouteData routeData);
+        bool Matches(RouteData routeData, string httpVerb);
     }
 
     public interface ISubscribeToCompositionEvents : IRouteInterceptor
