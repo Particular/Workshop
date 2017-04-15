@@ -8,6 +8,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ITOps.ViewModelComposition.Gateway;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using ITOps.ViewModelComposition;
 
 namespace Divergent.Frontend
 {
@@ -29,7 +33,10 @@ namespace Divergent.Frontend
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(typeof(CompositionActionFilter));
+            });
             services.AddViewModelComposition();
         }
 
@@ -53,10 +60,10 @@ namespace Divergent.Frontend
 
             app.Map("/compose", appBuilder =>
             {
-                appBuilder.RunViewModelCompositionWithDefaultRoutes();
+                appBuilder.RunCompositionGatewayWithDefaultRoutes();
             });
 
-            app.Map("", appBuilder => 
+            app.Map("", appBuilder =>
             {
                 appBuilder.UseMvc(routes =>
                 {
@@ -65,6 +72,33 @@ namespace Divergent.Frontend
                         template: "{controller=Home}/{action=Index}/{id?}");
                 });
             });
+        }
+    }
+
+    class CompositionActionFilter : IAsyncResultFilter
+    {
+        public async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
+        {
+            await next();
+
+            if (context.Result is ViewResult viewResult && viewResult.ViewData.Model == null)
+            {
+                //MVC
+                var compositionResult = await CompositionHandler.HandleGetRequest(context.HttpContext);
+                if (compositionResult.StatusCode == StatusCodes.Status200OK)
+                {
+                    viewResult.ViewData.Model = compositionResult.ViewModel;
+                }
+            }
+            else if (context.Result is ObjectResult objectResult && objectResult.Value == null)
+            {
+                //WebAPI
+                var compositionResult = await CompositionHandler.HandleGetRequest(context.HttpContext);
+                if (compositionResult.StatusCode == StatusCodes.Status200OK)
+                {
+                    objectResult.Value = compositionResult.ViewModel;
+                }
+            }
         }
     }
 }
