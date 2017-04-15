@@ -19,7 +19,7 @@ namespace ITOps.ViewModelComposition.Gateway
 {
     public static class ApplicationBuilderExtensions
     {
-        public static void RunViewModelComposition(this IApplicationBuilder app, Action<IRouteBuilder> routes = null)
+        public static void RunCompositionGateway(this IApplicationBuilder app, Action<IRouteBuilder> routes = null)
         {
             var routeBuilder = new RouteBuilder(app);
             routes?.Invoke(routeBuilder);
@@ -32,9 +32,9 @@ namespace ITOps.ViewModelComposition.Gateway
             app.UseRouter(routeBuilder.Build());
         }
 
-        public static void RunViewModelCompositionWithDefaultRoutes(this IApplicationBuilder app)
+        public static void RunCompositionGatewayWithDefaultRoutes(this IApplicationBuilder app)
         {
-            app.RunViewModelComposition(routes =>
+            app.RunCompositionGateway(routes =>
             {
                 routes.MapComposableGet( template: "{controller}/{id:int?}");
                 routes.MapRoute("{*NotFound}", context =>
