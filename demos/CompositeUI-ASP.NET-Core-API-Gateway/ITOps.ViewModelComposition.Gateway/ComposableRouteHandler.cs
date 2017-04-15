@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ITOps.ViewModelComposition.Gateway
 {
-    class ComposableRouteHandler
+    public class ComposableRouteHandler
     {
         public static async Task HandleGetRequest(HttpContext context)
         {
@@ -22,24 +22,21 @@ namespace ITOps.ViewModelComposition.Gateway
             try
             {
                 //matching interceptors could be cached by URL
-                foreach (var interceptor in interceptors.Where(a => a.Matches(context.GetRouteData(), HttpMethods.Get)))
-                {
-                    if (interceptor is ISubscribeToCompositionEvents subscriber)
-                    {
-                        subscriber.Subscribe(
-                            vm,
-                            routeData,
-                            context.Request.Query);
-                    }
+                var matching = interceptors
+                    .Where(a => a.Matches(context.GetRouteData(), HttpMethods.Get))
+                    .ToArray();
 
-                    if (interceptor is IViewModelAppender appender)
-                    {
-                        var task = appender.Append(
-                            vm,
-                            routeData,
-                            context.Request.Query);
-                        pending.Add(task);
-                    }
+                foreach (var subscriber in matching.OfType<ISubscribeToCompositionEvents>())
+                {
+                    subscriber.Subscribe(vm, routeData, context.Request.Query);
+                }
+
+                foreach (var appender in matching.OfType<IViewModelAppender>())
+                {
+                    pending.Add
+                    (
+                        appender.Append(vm, routeData, context.Request.Query)
+                    );
                 }
 
                 if (pending.Count == 0)
