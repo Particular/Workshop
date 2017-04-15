@@ -11,6 +11,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITOps.ViewModelComposition.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITOps.ViewModelComposition", "ITOps.ViewModelComposition\ITOps.ViewModelComposition.csproj", "{10268718-D7A5-4F3B-A91C-A991DD93FAF6}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sales", "Sales", "{C243015C-AEC9-4694-889E-4B57E208FD2A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Sales.ViewModelComposition", "Divergent.Sales.ViewModelComposition\Divergent.Sales.ViewModelComposition.csproj", "{7F90C43D-41F7-4243-823C-A05034FEADE2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +33,10 @@ Global
 		{10268718-D7A5-4F3B-A91C-A991DD93FAF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10268718-D7A5-4F3B-A91C-A991DD93FAF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10268718-D7A5-4F3B-A91C-A991DD93FAF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F90C43D-41F7-4243-823C-A05034FEADE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F90C43D-41F7-4243-823C-A05034FEADE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F90C43D-41F7-4243-823C-A05034FEADE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F90C43D-41F7-4243-823C-A05034FEADE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -36,5 +44,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{1B2BC5FF-3F95-4429-8AE1-5AC6C99B689A} = {DB3EFAF6-6B45-48ED-BCB9-5F44FAB30CF9}
 		{10268718-D7A5-4F3B-A91C-A991DD93FAF6} = {DB3EFAF6-6B45-48ED-BCB9-5F44FAB30CF9}
+		{7F90C43D-41F7-4243-823C-A05034FEADE2} = {C243015C-AEC9-4694-889E-4B57E208FD2A}
 	EndGlobalSection
 EndGlobal

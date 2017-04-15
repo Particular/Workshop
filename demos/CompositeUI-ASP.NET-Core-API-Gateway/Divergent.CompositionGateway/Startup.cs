@@ -15,7 +15,7 @@ namespace Divergent.CompositionGateway
 
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
-            app.UseViewModelCompositionGateway();
+            app.RunViewModelCompositionWithDefaultRoutes();
         }
     }
 }

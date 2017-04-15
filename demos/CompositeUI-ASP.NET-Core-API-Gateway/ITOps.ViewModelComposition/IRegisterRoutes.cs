@@ -5,8 +5,8 @@ using System.Text;
 
 namespace ITOps.ViewModelComposition
 {
-    public interface IRegisterRoutes
-    {
-        void RegisterRoutes(IRouteBuilder routeBuilder, IRouteHandler gatewayRouteHandler);
-    }
+    //public interface IRegisterRoutes
+    //{
+    //    void RegisterRoutes(IRouteBuilder routeBuilder);
+    //}
 }
