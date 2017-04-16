@@ -2,50 +2,57 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using Topics.Radical.ComponentModel.Messaging;
 
 namespace Divergent.ITOps.ViewModelComposition
 {
-    class DynamicViewModel : DynamicObject, ISubscriptionStorage, IViewModel
+    abstract class Subscription
     {
-        //Action<dynamic> onDataRetrivalCompletedHandler = vm => { };
-        IMessageBroker inMemoryBroker;
-        RequestContext request;
+        public abstract Task Invoke(dynamic viewModel, object @event, RequestContext requestContext);
+    }
 
-        public DynamicViewModel(IMessageBroker inMemoryBroker, RequestContext request)
+    class Subscription<T> : Subscription
+    {
+        private Func<dynamic, T, RequestContext, Task> subscription;
+
+        public Subscription(Func<dynamic, T, RequestContext, Task> subscription)
         {
-            this.inMemoryBroker = inMemoryBroker;
-            this.request = request;
+            this.subscription = subscription;
         }
 
-        Dictionary<string, object> properties = new Dictionary<string, object>();
+        public override Task Invoke(dynamic viewModel, object @event, RequestContext requestContext)
+        {
+            return subscription(viewModel, (T)@event, requestContext);
+        }
+    }
 
-        //public void OnDataRetrivalCompleted(Action<dynamic> handler)
-        //{
-        //    this.onDataRetrivalCompletedHandler = handler;
-        //}
 
-        //void RaiseOnDataRetrivalCompleted()
-        //{
-        //    if (onDataRetrivalCompletedHandler != null)
-        //    {
-        //        onDataRetrivalCompletedHandler(this);
-        //    }
-        //}
+    class DynamicViewModel : DynamicObject, ISubscriptionStorage, IViewModel
+    {
+        RequestContext requestContext;
+        IDictionary<Type, IList<Subscription>> subscriptions = new Dictionary<Type, IList<Subscription>>();
+        IDictionary<string, object> properties = new Dictionary<string, object>();
+
+        public DynamicViewModel(RequestContext requestContext)
+        {
+            this.requestContext = requestContext;
+        }
 
         internal void CleanupSubscribers()
         {
-            inMemoryBroker.Unsubscribe(this);
+            subscriptions.Clear();
         }
 
         public void Subscribe<T>(Func<dynamic, T, RequestContext, Task> subscription) where T : ICompositionEvent
         {
-            inMemoryBroker.Subscribe<T>(this, (sender, @event) =>
+            IList<Subscription> subscribers;
+            if (!subscriptions.TryGetValue(typeof(T), out subscribers))
             {
-                return subscription(sender, @event, request);
-            });
+                subscribers = new List<Subscription>();
+                subscriptions.Add(typeof(T), subscribers);
+            }
+
+            subscribers.Add(new Subscription<T>(subscription));
         }
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
@@ -77,9 +84,28 @@ namespace Divergent.ITOps.ViewModelComposition
             return false;
         }
 
+        public override IEnumerable<string> GetDynamicMemberNames()
+        {
+            return base.GetDynamicMemberNames()
+                .Union(properties.Keys)
+                .Union(new[] { "RaiseEventAsync", "RaiseEvent" });
+        }
+
         public Task RaiseEventAsync(ICompositionEvent @event)
         {
-            return inMemoryBroker.BroadcastAsync(this, @event);
+            IList<Subscription> subscribers;
+            if (subscriptions.TryGetValue(@event.GetType(), out subscribers))
+            {
+                var tasks = new List<Task>();
+                foreach (var subscriber in subscribers)
+                {
+                    tasks.Add(subscriber.Invoke(this, @event, requestContext));
+                }
+
+                return Task.WhenAll(tasks);
+            }
+
+            return Task.CompletedTask;
         }
     }
 }
