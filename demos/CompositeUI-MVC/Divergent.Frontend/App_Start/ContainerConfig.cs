@@ -1,4 +1,5 @@
 ﻿using Castle.MicroKernel.Registration;
+using Castle.MicroKernel.Resolvers.SpecializedResolvers;
 using Castle.Windsor;
 using Divergent.ITOps.ViewModelComposition;
 using System;
@@ -15,18 +16,17 @@ namespace Divergent.Frontend
     {
         public static IWindsorContainer ConfigContainer()
         {
+            var container = new WindsorContainer();
+            container.Kernel.Resolver.AddSubResolver(new ArrayResolver(container.Kernel, true));
+
             var bin = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin");
-            var concreteTypes = Directory.EnumerateFiles(bin, "Divergent.*")
+            var concreteTypes = Directory.EnumerateFiles(bin, "Divergent*.dll")
                 .SelectMany(path => Assembly.LoadFile(path).GetTypes())
                 .Where(t => !t.IsInterface);
 
-            var container = new WindsorContainer();
-            foreach (var t in concreteTypes.Where(t => typeof(IResultFilter).IsAssignableFrom(t)))
-            {
-                container.Register(Component.For<IResultFilter>()
-                    .ImplementedBy(t)
+            container.Register(Component.For<IResultFilter>()
+                    .ImplementedBy<CompositionActionFilter>()
                     .LifestyleTransient());
-            }
 
             foreach (var t in concreteTypes.Where(t => typeof(IRouteInterceptor).IsAssignableFrom(t)))
             {
