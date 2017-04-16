@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 
@@ -13,9 +8,7 @@ namespace Divergent.Frontend
     {
         protected void Application_Start()
         {
-            var bin = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin");
-            var bootstrapper = new Radical.Bootstrapper.WindsorBootstrapper(bin, "Divergent.*");
-            var container = bootstrapper.Boot();
+            var container = ContainerConfig.ConfigContainer();
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters, container);

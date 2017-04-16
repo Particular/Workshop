@@ -88,7 +88,6 @@
     <Compile Include="DynamicViewModel.cs" />
     <Compile Include="HttpContentExtensions.cs" />
     <Compile Include="ICompositionEvent.cs" />
-    <Compile Include="Installers\ViewModelCompositionInstaller.cs" />
     <Compile Include="IRouteInterceptor.cs" />
     <Compile Include="ISubscribeToCompositionEvents.cs" />
     <Compile Include="ISubscriptionStorage.cs" />
