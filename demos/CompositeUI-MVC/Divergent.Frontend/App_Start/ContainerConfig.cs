@@ -45,6 +45,7 @@ namespace Divergent.Frontend
                 }
             }
 
+            return container;
         }
     }
 }
