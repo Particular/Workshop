@@ -2,25 +2,22 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Topics.Radical.ComponentModel.Messaging;
 
 namespace Divergent.ITOps.ViewModelComposition
 {
     public class CompositionActionFilter : IResultFilter
     {
-        IMessageBroker inMemoryBroker;
         IRouteInterceptor[] routeInterceptors;
 
-        public CompositionActionFilter(IMessageBroker inMemoryBroker, IRouteInterceptor[] routeInterceptors)
+        public CompositionActionFilter(IRouteInterceptor[] routeInterceptors)
         {
-            this.inMemoryBroker = inMemoryBroker;
             this.routeInterceptors = routeInterceptors;
         }
 
         public void OnResultExecuting(ResultExecutingContext filterContext)
         {
             var requestInfo = new RequestContext(filterContext.RouteData, filterContext.HttpContext.Request.QueryString);
-            var vm = new DynamicViewModel(inMemoryBroker, requestInfo);
+            var vm = new DynamicViewModel(requestInfo);
 
             //can be cached by URL
             var interceptors = routeInterceptors
