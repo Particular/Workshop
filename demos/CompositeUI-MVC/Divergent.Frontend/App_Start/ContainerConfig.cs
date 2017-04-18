@@ -22,7 +22,7 @@ namespace Divergent.Frontend
             var bin = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin");
             var concreteTypes = Directory.EnumerateFiles(bin, "Divergent*.dll")
                 .SelectMany(path => Assembly.LoadFile(path).GetTypes())
-                .Where(t => !t.IsInterface);
+                .Where(t => !t.IsInterface && !t.IsAbstract);
 
             container.Register(Component.For<IResultFilter>()
                     .ImplementedBy<CompositionActionFilter>()
