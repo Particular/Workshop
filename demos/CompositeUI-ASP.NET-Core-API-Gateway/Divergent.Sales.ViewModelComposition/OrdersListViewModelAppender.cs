@@ -6,6 +6,7 @@ using ITOps.ViewModelComposition;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Http;
 using Divergent.Sales.ViewModelComposition.Events;
+using ITOps.ViewModelComposition.Json;
 
 namespace Divergent.Sales.ViewModelComposition
 {
@@ -26,13 +27,13 @@ namespace Divergent.Sales.ViewModelComposition
             var pageIndex = (string)query["pageindex"] ?? "0";
             var pageSize = (string)query["pageSize"] ?? "10";
 
-            //var url = $"http://localhost:20195/api/orders?pageSize={pageSize}&pageIndex={pageIndex}";
-            //var client = new HttpClient();
-            //var response = await client.GetAsync(url).ConfigureAwait(false);
+            var url = $"http://localhost:20295/api/orders?pageSize={pageSize}&pageIndex={pageIndex}";
+            var client = new HttpClient();
+            var response = await client.GetAsync(url).ConfigureAwait(false);
 
-            //dynamic[] orders = await response.Content.AsExpandoArrayAsync().ConfigureAwait(false);
+            dynamic[] orders = await response.Content.AsExpandoArrayAsync().ConfigureAwait(false);
 
-            vm.OrdersViewModel = MapToDictionary(/*orders*/);
+            vm.OrdersViewModel = MapToDictionary(orders);
 
             await vm.RaiseEventAsync(new OrdersLoaded()
             {
@@ -40,33 +41,17 @@ namespace Divergent.Sales.ViewModelComposition
             }).ConfigureAwait(false);
         }
 
-        //IDictionary<dynamic, dynamic> MapToDictionary(dynamic[] orders)
-        //{
-        //    var ordersViewModel = new Dictionary<dynamic, dynamic>();
-
-        //    foreach (dynamic order in orders)
-        //    {
-        //        dynamic vm = new ExpandoObject();
-        //        vm.OrderNumber = order.Number;
-        //        vm.OrderItemsCount = order.ItemsCount;
-
-        //        ordersViewModel[order.Id] = vm;
-        //    }
-
-        //    return ordersViewModel;
-        //}
-
-        IDictionary<dynamic, dynamic> MapToDictionary()
+        IDictionary<dynamic, dynamic> MapToDictionary(dynamic[] orders)
         {
             var ordersViewModel = new Dictionary<dynamic, dynamic>();
 
-            for (int i = 0; i < 5; i++)
+            foreach (dynamic order in orders)
             {
                 dynamic vm = new ExpandoObject();
-                vm.OrderNumber = i;
-                vm.OrderItemsCount = i * 5;
+                vm.OrderNumber = order.Number;
+                vm.OrderItemsCount = order.ItemsCount;
 
-                ordersViewModel[i] = vm;
+                ordersViewModel[order.Id] = vm;
             }
 
             return ordersViewModel;
