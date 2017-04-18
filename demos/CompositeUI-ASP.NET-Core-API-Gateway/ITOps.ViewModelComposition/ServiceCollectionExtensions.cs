@@ -20,11 +20,14 @@ namespace ITOps.ViewModelComposition
                     .GetTypes()
                     .Where(t =>
                     {
-                        return !t.GetTypeInfo().IsInterface &&
-                        (
-                            typeof(IRouteInterceptor).IsAssignableFrom(t)
-                            //|| typeof(IRegisterRoutes).IsAssignableFrom(t)
-                        );
+                        var typeInfo = t.GetTypeInfo();
+                        return !typeInfo.IsInterface 
+                            && !typeInfo.IsAbstract 
+                            &&
+                            (
+                                typeof(IRouteInterceptor).IsAssignableFrom(t)
+                                //|| typeof(IRegisterRoutes).IsAssignableFrom(t)
+                            );
                     });
 
                 types.AddRange(temp);
