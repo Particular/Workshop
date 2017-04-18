@@ -11,30 +11,7 @@ namespace Divergent.Frontend.Controllers
     {
         public IActionResult Index()
         {
-            dynamic vm = new ExpandoObject();
-            vm.Foo = 10;
-            vm.Bar = "Sample";
-
-            return View(vm);
-        }
-
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
-
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Error()
-        {
-            return View();
+            return RedirectToRoute(new { controller = "Orders" });
         }
     }
 }
