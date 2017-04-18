@@ -1,4 +1,5 @@
 ﻿using ITOps.ViewModelComposition;
+using ITOps.ViewModelComposition.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using System.Net.Http;
@@ -17,20 +18,18 @@ namespace Divergent.Shipping.ViewModelComposition
                 && routeData.Values.ContainsKey("id");
         }
 
-        public Task Append(dynamic vm, RouteData routeData, IQueryCollection query)
+        public async Task Append(dynamic vm, RouteData routeData, IQueryCollection query)
         {
             var id = (string)routeData.Values["id"];
 
-            //var url = $"http://localhost:20196/api/shippinginfo/order/{id}";
-            //var client = new HttpClient();
-            //var response = await client.GetAsync(url).ConfigureAwait(false);
+            var url = $"http://localhost:20296/api/shippinginfo/order/{id}";
+            var client = new HttpClient();
+            var response = await client.GetAsync(url).ConfigureAwait(false);
 
-            //dynamic shipping = await response.Content.AsExpandoAsync().ConfigureAwait(false);
+            dynamic shipping = await response.Content.AsExpandoAsync().ConfigureAwait(false);
 
-            vm.ShippingStatus = "Shipped";
-            vm.ShippingCourier = "UPS";
-
-            return Task.CompletedTask;
+            vm.ShippingStatus = shipping.Status;
+            vm.ShippingCourier = shipping.Courier;
         }
     }
 }
