@@ -14,8 +14,11 @@ namespace Divergent.Sales.ViewModelComposition
     {
         public bool Matches(RouteData routeData, string verb)
         {
+            /*
+             * matching is a bit weak in this sample, it's designed 
+             * this way to satisfy both the Gateway and the Mvc sample
+             */
             var controller = (string)routeData.Values["controller"];
-            //var action = (string)request.RouteData.Values["action"];
 
             return HttpMethods.IsGet(verb)
                 && controller.ToLowerInvariant() == "orders"
