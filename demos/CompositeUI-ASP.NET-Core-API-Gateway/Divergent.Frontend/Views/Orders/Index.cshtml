@@ -1,0 +1,22 @@
+﻿<h2>Orders</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Order</th>
+            <th>Shipment status</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (dynamic order in Model.OrdersViewModel.Values)
+        {
+            <tr>
+                <td><a href="/Orders/Details/@order.OrderNumber">Number: #@order.OrderNumber</a></td>
+                <td>@order.ShippingStatus</td>
+            </tr>
+
+        }
+
+    </tbody>
+</table>

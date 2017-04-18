@@ -27,6 +27,7 @@
     <ProjectReference Include="..\Divergent.Sales.ViewModelComposition\Divergent.Sales.ViewModelComposition.csproj" />
     <ProjectReference Include="..\Divergent.Shipping.ViewModelComposition\Divergent.Shipping.ViewModelComposition.csproj" />
     <ProjectReference Include="..\ITOps.ViewModelComposition.Gateway\ITOps.ViewModelComposition.Gateway.csproj" />
+    <ProjectReference Include="..\ITOps.ViewModelComposition.Mvc\ITOps.ViewModelComposition.Mvc.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\api\" />

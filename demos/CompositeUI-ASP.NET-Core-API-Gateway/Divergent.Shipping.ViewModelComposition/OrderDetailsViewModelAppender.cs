@@ -11,6 +11,10 @@ namespace Divergent.Shipping.ViewModelComposition
     {
         public bool Matches(RouteData routeData, string verb)
         {
+            /*
+             * matching is a bit weak in this sample, it's designed 
+             * this way to satisfy both the Gateway and the Mvc sample
+             */
             var controller = (string)routeData.Values["controller"];
 
             return HttpMethods.IsGet(verb)
