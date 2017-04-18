@@ -10,37 +10,26 @@ namespace ITOps.ViewModelComposition.Mvc
     {
         public async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
         {
-            if (context.Controller is Controller ctrl)
+            if (context.Result is ViewResult viewResult && viewResult.ViewData.Model == null)
             {
-                //we support only non-POCO Controller ATM
+                //MVC
                 var compositionResult = await CompositionHandler.HandleGetRequest(context.HttpContext);
                 if (compositionResult.StatusCode == StatusCodes.Status200OK)
                 {
-                    ctrl.ViewData.Model = compositionResult.ViewModel;
+                    viewResult.ViewData.Model = compositionResult.ViewModel;
+                }
+            }
+            else if (context.Result is ObjectResult objectResult && objectResult.Value == null)
+            {
+                //WebAPI
+                var compositionResult = await CompositionHandler.HandleGetRequest(context.HttpContext);
+                if (compositionResult.StatusCode == StatusCodes.Status200OK)
+                {
+                    objectResult.Value = compositionResult.ViewModel;
                 }
             }
 
             await next();
-
-            //if (context.Result is ViewResult viewResult && viewResult.ViewData.Model == null)
-            //{
-            //    //MVC
-            //    var compositionResult = await CompositionHandler.HandleGetRequest(context.HttpContext);
-            //    if (compositionResult.StatusCode == StatusCodes.Status200OK)
-            //    {
-
-            //    }
-            //}
-            //else if (context.Result is ObjectResult objectResult && objectResult.Value == null)
-            //{
-            //    //WebAPI
-            //    var compositionResult = await CompositionHandler.HandleGetRequest(context.HttpContext);
-            //    if (compositionResult.StatusCode == StatusCodes.Status200OK)
-            //    {
-            //        objectResult.Value = compositionResult.ViewModel;
-            //        objectResult.StatusCode = StatusCodes.Status200OK;
-            //    }
-            //}
         }
     }
 }
