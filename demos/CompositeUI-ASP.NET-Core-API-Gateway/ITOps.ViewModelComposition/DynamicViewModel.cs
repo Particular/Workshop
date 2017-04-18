@@ -83,9 +83,12 @@ namespace ITOps.ViewModelComposition.Engine
 
         public override IEnumerable<string> GetDynamicMemberNames()
         {
-            return base.GetDynamicMemberNames()
-                .Union(properties.Keys)
-                .Union(new[] { "RaiseEventAsync" });
+            foreach (var item in properties.Keys)
+            {
+                yield return item;
+            }
+
+            yield return "RaiseEventAsync";
         }
 
         public Task RaiseEventAsync(object @event)
