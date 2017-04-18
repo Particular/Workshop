@@ -86,9 +86,13 @@ namespace Divergent.ITOps.ViewModelComposition
 
         public override IEnumerable<string> GetDynamicMemberNames()
         {
-            return base.GetDynamicMemberNames()
-                .Union(properties.Keys)
-                .Union(new[] { "RaiseEventAsync", "RaiseEvent" });
+            foreach (var item in properties.Keys)
+            {
+                yield return item;
+            }
+
+            yield return "RaiseEvent";
+            yield return "RaiseEventAsync";
         }
 
         public Task RaiseEventAsync(ICompositionEvent @event)
