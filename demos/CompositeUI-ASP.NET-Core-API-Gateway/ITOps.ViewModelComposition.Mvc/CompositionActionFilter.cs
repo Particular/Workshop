@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ITOps.ViewModelComposition.Mvc
 {
-    public class CompositionActionFilter : IAsyncResultFilter
+    class CompositionActionFilter : IAsyncResultFilter
     {
         public async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
         {

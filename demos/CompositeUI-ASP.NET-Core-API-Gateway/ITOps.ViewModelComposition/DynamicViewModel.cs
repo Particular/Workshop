@@ -28,7 +28,7 @@ namespace ITOps.ViewModelComposition.Engine
         }
     }
 
-    public class DynamicViewModel : DynamicObject, ISubscriptionStorage, IViewModel
+    class DynamicViewModel : DynamicObject, ISubscriptionStorage, IViewModel
     {
         RouteData routeData;
         IQueryCollection query;
