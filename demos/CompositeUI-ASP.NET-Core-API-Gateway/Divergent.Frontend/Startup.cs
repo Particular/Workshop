@@ -34,12 +34,10 @@ namespace Divergent.Frontend
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc(options =>
-            {
-                //can we automatically add this is Mvc is in the services?
-                options.Filters.Add(typeof(CompositionActionFilter));
-            });
             services.AddViewModelComposition();
+            services
+                .AddMvc()
+                .AddViewModelCompositionMvcSupport();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
