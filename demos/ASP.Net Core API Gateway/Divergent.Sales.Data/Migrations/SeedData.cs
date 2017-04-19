@@ -1,9 +1,6 @@
-﻿using System;
+﻿using Divergent.Sales.Data.Models;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Divergent.Sales.Data.Models;
 
 namespace Divergent.Sales.Data.Migrations
 {

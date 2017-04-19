@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Divergent.Sales.Data.Context;
+using SQLite.CodeFirst;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Divergent.Sales.Data.Context;
-using SQLite.CodeFirst;
 
 namespace Divergent.Sales.Data.Migrations
 {

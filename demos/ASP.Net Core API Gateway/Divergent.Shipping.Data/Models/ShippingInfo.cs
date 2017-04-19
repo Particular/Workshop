@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Divergent.Shipping.Data.Models
+﻿namespace Divergent.Shipping.Data.Models
 {
     public class ShippingInfo
     {
