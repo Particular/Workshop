@@ -1,10 +1,10 @@
-﻿using System.Net.Http;
-using System;
-using Divergent.Sales.ViewModelComposition.Events;
+﻿using Divergent.Sales.ViewModelComposition.Events;
 using ITOps.ViewModelComposition;
+using ITOps.ViewModelComposition.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
-using ITOps.ViewModelComposition.Json;
+using System;
+using System.Net.Http;
 
 namespace Divergent.Shipping.ViewModelComposition
 {

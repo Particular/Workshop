@@ -1,9 +1,9 @@
 ﻿using ITOps.ViewModelComposition;
-using System.Threading.Tasks;
+using ITOps.ViewModelComposition.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using System.Net.Http;
-using ITOps.ViewModelComposition.Json;
+using System.Threading.Tasks;
 
 namespace Divergent.Sales.ViewModelComposition
 {
