@@ -1,0 +1,5 @@
+fonts/
+scripts/
+style/
+app/**/*.js
+app/**/*.js.map
