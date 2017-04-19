@@ -23,11 +23,7 @@ namespace ITOps.ViewModelComposition
                         var typeInfo = t.GetTypeInfo();
                         return !typeInfo.IsInterface 
                             && !typeInfo.IsAbstract 
-                            &&
-                            (
-                                typeof(IRouteInterceptor).IsAssignableFrom(t)
-                                //|| typeof(IRegisterRoutes).IsAssignableFrom(t)
-                            );
+                            && typeof(IRouteInterceptor).IsAssignableFrom(t);
                     });
 
                 types.AddRange(temp);
@@ -35,11 +31,6 @@ namespace ITOps.ViewModelComposition
 
             foreach (var type in types)
             {
-                //if (typeof(IRegisterRoutes).IsAssignableFrom(type))
-                //{
-                //    services.AddSingleton(typeof(IRegisterRoutes), type);
-                //}
-
                 if (typeof(IRouteInterceptor).IsAssignableFrom(type))
                 {
                     services.AddSingleton(typeof(IRouteInterceptor), type);
