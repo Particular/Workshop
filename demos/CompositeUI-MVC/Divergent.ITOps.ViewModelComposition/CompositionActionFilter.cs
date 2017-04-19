@@ -22,24 +22,23 @@ namespace Divergent.ITOps.ViewModelComposition
             var requestInfo = new RequestContext(filterContext.RouteData, filterContext.HttpContext.Request.QueryString);
             var vm = new DynamicViewModel(inMemoryBroker, requestInfo);
 
+            //can be cached by URL
+            var interceptors = routeInterceptors
+                .Where(a => a.Matches(requestInfo))
+                .ToArray();
+
             try
             {
                 var pending = new List<Task>();
 
-                foreach (var interceptor in routeInterceptors.Where(a => a.Matches(requestInfo)))
+                foreach (var subscriber in interceptors.OfType<ISubscribeToCompositionEvents>())
                 {
-                    var subscriber = interceptor as ISubscribeToCompositionEvents;
-                    if (subscriber != null)
-                    {
-                        subscriber.Subscribe(vm);
-                    }
+                    subscriber.Subscribe(vm);
+                }
 
-                    var appender = interceptor as IViewModelAppender;
-                    if (appender != null)
-                    {
-                        var task = appender.Append(requestInfo, vm);
-                        pending.Add(task);
-                    }
+                foreach (var appender in interceptors.OfType<IViewModelAppender>())
+                {
+                    pending.Add(appender.Append(requestInfo, vm));
                 }
 
                 if (pending.Count > 0)
