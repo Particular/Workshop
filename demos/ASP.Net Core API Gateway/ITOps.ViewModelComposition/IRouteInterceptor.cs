@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Routing;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 
 namespace ITOps.ViewModelComposition
 {
