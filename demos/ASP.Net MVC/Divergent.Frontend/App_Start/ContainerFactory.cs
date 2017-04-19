@@ -10,35 +10,35 @@ using System.Web.Mvc;
 
 namespace Divergent.Frontend
 {
-    public class ContainerConfig
+    public static class ContainerFactory
     {
-        public static IWindsorContainer ConfigContainer()
+        public static IWindsorContainer Create()
         {
             var container = new WindsorContainer();
             container.Kernel.Resolver.AddSubResolver(new ArrayResolver(container.Kernel, true));
-
-            var bin = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin");
-            var concreteTypes = Directory.EnumerateFiles(bin, "Divergent*.dll")
-                .SelectMany(path => Assembly.LoadFile(path).GetTypes())
-                .Where(t => !t.IsInterface && !t.IsAbstract);
 
             container.Register(Component.For<IResultFilter>()
                     .ImplementedBy<CompositionActionFilter>()
                     .LifestyleTransient());
 
-            foreach (var t in concreteTypes.Where(t => typeof(IRouteInterceptor).IsAssignableFrom(t)))
+            var bin = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "bin");
+            var concreteTypes = Directory.EnumerateFiles(bin, "Divergent*.dll")
+                .SelectMany(path => Assembly.LoadFile(path).GetTypes())
+                .Where(type => !type.IsInterface && !type.IsAbstract);
+
+            foreach (var type in concreteTypes.Where(t => typeof(IRouteInterceptor).IsAssignableFrom(t)))
             {
-                if (typeof(ISubscribeToCompositionEvents).IsAssignableFrom(t))
+                if (typeof(ISubscribeToCompositionEvents).IsAssignableFrom(type))
                 {
                     container.Register(Component.For<ISubscribeToCompositionEvents, IRouteInterceptor>()
-                        .ImplementedBy(t)
+                        .ImplementedBy(type)
                         .LifestyleSingleton());
                 }
 
-                if (typeof(IViewModelAppender).IsAssignableFrom(t))
+                if (typeof(IViewModelAppender).IsAssignableFrom(type))
                 {
                     container.Register(Component.For<IViewModelAppender, IRouteInterceptor>()
-                        .ImplementedBy(t)
+                        .ImplementedBy(type)
                         .LifestyleSingleton());
                 }
             }

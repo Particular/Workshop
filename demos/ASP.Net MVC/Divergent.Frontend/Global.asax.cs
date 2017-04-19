@@ -8,7 +8,7 @@ namespace Divergent.Frontend
     {
         protected void Application_Start()
         {
-            var container = ContainerConfig.ConfigContainer();
+            var container = ContainerFactory.Create();
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters, container);
