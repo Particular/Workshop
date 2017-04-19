@@ -9,21 +9,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IT-Ops", "IT-Ops", "{DB3EFA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITOps.ViewModelComposition.Gateway", "ITOps.ViewModelComposition.Gateway\ITOps.ViewModelComposition.Gateway.csproj", "{1B2BC5FF-3F95-4429-8AE1-5AC6C99B689A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITOps.ViewModelComposition", "ITOps.ViewModelComposition\ITOps.ViewModelComposition.csproj", "{10268718-D7A5-4F3B-A91C-A991DD93FAF6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITOps.ViewModelComposition", "ITOps.ViewModelComposition\ITOps.ViewModelComposition.csproj", "{10268718-D7A5-4F3B-A91C-A991DD93FAF6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sales", "Sales", "{C243015C-AEC9-4694-889E-4B57E208FD2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Sales.ViewModelComposition", "Divergent.Sales.ViewModelComposition\Divergent.Sales.ViewModelComposition.csproj", "{7F90C43D-41F7-4243-823C-A05034FEADE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.Sales.ViewModelComposition", "Divergent.Sales.ViewModelComposition\Divergent.Sales.ViewModelComposition.csproj", "{7F90C43D-41F7-4243-823C-A05034FEADE2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Sales.ViewModelComposition.Events", "Divergent.Sales.ViewModelComposition.Events\Divergent.Sales.ViewModelComposition.Events.csproj", "{5875B01D-5A47-4B08-99B2-48D217F09B30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.Sales.ViewModelComposition.Events", "Divergent.Sales.ViewModelComposition.Events\Divergent.Sales.ViewModelComposition.Events.csproj", "{5875B01D-5A47-4B08-99B2-48D217F09B30}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shipping", "Shipping", "{9D36D6A4-373C-4CB0-8B54-D15505E2AE91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Shipping.ViewModelComposition", "Divergent.Shipping.ViewModelComposition\Divergent.Shipping.ViewModelComposition.csproj", "{657A5136-DDDE-493F-9247-B2789B3294F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.Shipping.ViewModelComposition", "Divergent.Shipping.ViewModelComposition\Divergent.Shipping.ViewModelComposition.csproj", "{657A5136-DDDE-493F-9247-B2789B3294F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Frontend", "Divergent.Frontend\Divergent.Frontend.csproj", "{C0264A37-1119-44EC-9E52-BF8BF73BC5E7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.SPA", "Divergent.SPA\Divergent.SPA.csproj", "{950E5460-09CA-4182-9F45-CEAE1BEEA885}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.Frontend", "Divergent.Frontend\Divergent.Frontend.csproj", "{C0264A37-1119-44EC-9E52-BF8BF73BC5E7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Sales.Data", "Divergent.Sales.Data\Divergent.Sales.Data.csproj", "{80F82F7D-3F0A-4316-87CD-49F19DBD5B85}"
 EndProject
@@ -33,9 +31,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Shipping.Data", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Shipping.API.Host", "Divergent.Shipping.API.Host\Divergent.Shipping.API.Host.csproj", "{0059E3AC-0AFA-43F6-B631-200CBB723F94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITOps.ViewModelComposition.Json", "ITOps.ViewModelComposition.Json\ITOps.ViewModelComposition.Json.csproj", "{4951C5A4-59D4-4AE1-B74C-B6F667544211}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITOps.ViewModelComposition.Json", "ITOps.ViewModelComposition.Json\ITOps.ViewModelComposition.Json.csproj", "{4951C5A4-59D4-4AE1-B74C-B6F667544211}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITOps.ViewModelComposition.Mvc", "ITOps.ViewModelComposition.Mvc\ITOps.ViewModelComposition.Mvc.csproj", "{536CBB25-3800-4ED5-9A0A-E3FC8FE180A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITOps.ViewModelComposition.Mvc", "ITOps.ViewModelComposition.Mvc\ITOps.ViewModelComposition.Mvc.csproj", "{536CBB25-3800-4ED5-9A0A-E3FC8FE180A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,10 +69,6 @@ Global
 		{C0264A37-1119-44EC-9E52-BF8BF73BC5E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0264A37-1119-44EC-9E52-BF8BF73BC5E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0264A37-1119-44EC-9E52-BF8BF73BC5E7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{950E5460-09CA-4182-9F45-CEAE1BEEA885}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{950E5460-09CA-4182-9F45-CEAE1BEEA885}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{950E5460-09CA-4182-9F45-CEAE1BEEA885}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{950E5460-09CA-4182-9F45-CEAE1BEEA885}.Release|Any CPU.Build.0 = Release|Any CPU
 		{80F82F7D-3F0A-4316-87CD-49F19DBD5B85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{80F82F7D-3F0A-4316-87CD-49F19DBD5B85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80F82F7D-3F0A-4316-87CD-49F19DBD5B85}.Release|Any CPU.ActiveCfg = Release|Any CPU
