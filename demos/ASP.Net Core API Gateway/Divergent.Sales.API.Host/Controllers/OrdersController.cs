@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using Divergent.Sales.Data.Context;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Http;
-using Divergent.Sales.Data.Context;
 
 namespace Divergent.Sales.API.Host.Controllers
 {
