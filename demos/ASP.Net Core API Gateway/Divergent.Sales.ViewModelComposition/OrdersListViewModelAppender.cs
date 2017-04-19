@@ -1,12 +1,12 @@
-﻿using System.Net.Http;
-using System.Threading.Tasks;
-using System.Dynamic;
-using System.Collections.Generic;
+﻿using Divergent.Sales.ViewModelComposition.Events;
 using ITOps.ViewModelComposition;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Http;
-using Divergent.Sales.ViewModelComposition.Events;
 using ITOps.ViewModelComposition.Json;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
+using System.Collections.Generic;
+using System.Dynamic;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Divergent.Sales.ViewModelComposition
 {
