@@ -14,9 +14,6 @@ namespace ITOps.ViewModelComposition
             this.subscription = subscription;
         }
 
-        public override Task Invoke(dynamic viewModel, object @event, RouteData routeData, IQueryCollection query)
-        {
-            return subscription(viewModel, (T)@event, routeData, query);
-        }
+        public override Task Invoke(dynamic viewModel, object @event, RouteData routeData, IQueryCollection query) => subscription(viewModel, (T)@event, routeData, query);
     }
 }
