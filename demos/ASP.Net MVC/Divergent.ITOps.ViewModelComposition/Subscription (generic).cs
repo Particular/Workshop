@@ -5,16 +5,13 @@ namespace Divergent.ITOps.ViewModelComposition
 {
     class Subscription<T> : Subscription
     {
-        private Func<dynamic, T, RequestContext, Task> subscription;
+        Func<dynamic, T, RequestContext, Task> subscription;
 
         public Subscription(Func<dynamic, T, RequestContext, Task> subscription)
         {
             this.subscription = subscription;
         }
 
-        public override Task Invoke(dynamic viewModel, object @event, RequestContext requestContext)
-        {
-            return subscription(viewModel, (T)@event, requestContext);
-        }
+        public override Task Invoke(dynamic viewModel, object @event, RequestContext requestContext) => subscription(viewModel, (T)@event, requestContext);
     }
 }

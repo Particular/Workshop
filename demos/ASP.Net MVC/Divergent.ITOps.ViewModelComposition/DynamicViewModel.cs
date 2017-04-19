@@ -16,10 +16,7 @@ namespace Divergent.ITOps.ViewModelComposition
             this.requestContext = requestContext;
         }
 
-        internal void CleanupSubscribers()
-        {
-            subscriptions.Clear();
-        }
+        internal void CleanupSubscribers() => subscriptions.Clear();
 
         public void Subscribe<T>(Func<dynamic, T, RequestContext, Task> subscription) where T : ICompositionEvent
         {
@@ -33,10 +30,7 @@ namespace Divergent.ITOps.ViewModelComposition
             subscribers.Add(new Subscription<T>(subscription));
         }
 
-        public override bool TryGetMember(GetMemberBinder binder, out object result)
-        {
-            return properties.TryGetValue(binder.Name, out result);
-        }
+        public override bool TryGetMember(GetMemberBinder binder, out object result) => properties.TryGetValue(binder.Name, out result);
 
         public override bool TrySetMember(SetMemberBinder binder, object value)
         {
