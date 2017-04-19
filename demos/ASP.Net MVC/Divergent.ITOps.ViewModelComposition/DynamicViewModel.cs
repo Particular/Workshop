@@ -5,27 +5,6 @@ using System.Threading.Tasks;
 
 namespace Divergent.ITOps.ViewModelComposition
 {
-    abstract class Subscription
-    {
-        public abstract Task Invoke(dynamic viewModel, object @event, RequestContext requestContext);
-    }
-
-    class Subscription<T> : Subscription
-    {
-        private Func<dynamic, T, RequestContext, Task> subscription;
-
-        public Subscription(Func<dynamic, T, RequestContext, Task> subscription)
-        {
-            this.subscription = subscription;
-        }
-
-        public override Task Invoke(dynamic viewModel, object @event, RequestContext requestContext)
-        {
-            return subscription(viewModel, (T)@event, requestContext);
-        }
-    }
-
-
     class DynamicViewModel : DynamicObject, ISubscriptionStorage, IViewModel
     {
         RequestContext requestContext;
