@@ -20,10 +20,7 @@ namespace ITOps.ViewModelComposition.Engine
             this.query = context.Request.Query;
         }
 
-        public void CleanupSubscribers()
-        {
-            subscriptions.Clear();
-        }
+        public void CleanupSubscribers() => subscriptions.Clear();
 
         public void Subscribe<T>(Func<dynamic, T, RouteData, IQueryCollection, Task> subscription)
         {
@@ -36,10 +33,7 @@ namespace ITOps.ViewModelComposition.Engine
             subscribers.Add(new Subscription<T>(subscription));
         }
 
-        public override bool TryGetMember(GetMemberBinder binder, out object result)
-        {
-            return properties.TryGetValue(binder.Name, out result);
-        }
+        public override bool TryGetMember(GetMemberBinder binder, out object result) => properties.TryGetValue(binder.Name, out result);
 
         public override bool TrySetMember(SetMemberBinder binder, object value)
         {

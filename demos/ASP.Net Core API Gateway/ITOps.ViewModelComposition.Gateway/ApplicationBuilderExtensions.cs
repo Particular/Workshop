@@ -13,11 +13,6 @@ namespace ITOps.ViewModelComposition.Gateway
             var routeBuilder = new RouteBuilder(app);
             routes?.Invoke(routeBuilder);
 
-            //foreach (var rr in app.ApplicationServices.GetServices<IRegisterRoutes>())
-            //{
-            //    rr.RegisterRoutes(routeBuilder);
-            //}
-
             app.UseRouter(routeBuilder.Build());
         }
 
