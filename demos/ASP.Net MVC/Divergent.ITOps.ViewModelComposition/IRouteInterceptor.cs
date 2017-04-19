@@ -1,6 +1,4 @@
-﻿using System.Web.Routing;
-
-namespace Divergent.ITOps.ViewModelComposition
+﻿namespace Divergent.ITOps.ViewModelComposition
 {
     public interface IRouteInterceptor
     {

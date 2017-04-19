@@ -1,11 +1,5 @@
-﻿using Divergent.ITOps.ViewModelComposition;
-using Divergent.Sales.ViewModelComposition;
-using Divergent.Shipping.ViewModelComposition;
-using System.Collections.Generic;
-using System.Web;
+﻿using Castle.Windsor;
 using System.Web.Mvc;
-using Castle.Windsor;
-using System;
 
 namespace Divergent.Frontend
 {

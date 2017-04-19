@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Divergent.Sales.Data.Migrations;
+﻿using Divergent.Sales.Data.Migrations;
 using Divergent.Sales.Data.Models;
+using System.Data.Entity;
 
 namespace Divergent.Sales.Data.Context
 {

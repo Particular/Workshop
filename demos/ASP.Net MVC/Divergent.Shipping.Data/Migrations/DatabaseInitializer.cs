@@ -1,8 +1,7 @@
-﻿using System.Data.Entity;
-using System.Data.Entity.Migrations;
-using System.Linq;
+﻿using Divergent.Shipping.Data.Context;
 using SQLite.CodeFirst;
-using Divergent.Shipping.Data.Context;
+using System.Data.Entity;
+using System.Data.Entity.Migrations;
 
 namespace Divergent.Shipping.Data.Migrations
 {

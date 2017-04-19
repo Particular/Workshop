@@ -1,11 +1,9 @@
 ﻿using Divergent.ITOps.ViewModelComposition;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Web.Routing;
-using System.Linq;
-using System.Dynamic;
 using Divergent.Sales.ViewModelComposition.Events;
 using System.Collections.Generic;
+using System.Dynamic;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Divergent.Sales.ViewModelComposition
 {

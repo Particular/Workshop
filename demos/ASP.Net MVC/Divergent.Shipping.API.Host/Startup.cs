@@ -1,7 +1,6 @@
 ﻿using Microsoft.Owin.Cors;
 using Newtonsoft.Json.Serialization;
 using Owin;
-using System;
 using System.Net.Http.Formatting;
 using System.Web.Http;
 
