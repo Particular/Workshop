@@ -42,6 +42,24 @@ namespace Divergent.Frontend
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            DefaultAppConfigure(app, env, loggerFactory);
+
+            app.UseStaticFiles();
+
+            app.Map("/compose", appBuilder =>
+            {
+                //via branching composition gateway can be hosted alongside anohter Mvc App.
+                appBuilder.RunCompositionGatewayWithDefaultRoutes();
+            });
+
+            app.Map("", appBuilder =>
+            {
+                appBuilder.UseMvcWithDefaultRoute();
+            });
+        }
+
+        void DefaultAppConfigure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
@@ -54,24 +72,6 @@ namespace Divergent.Frontend
             {
                 app.UseExceptionHandler("/Home/Error");
             }
-
-            app.UseStaticFiles();
-
-            app.Map("/compose", appBuilder =>
-            {
-                //this demonstrates that branching is supported and the composition gateway can be hosted within anohter Mvc App.
-                appBuilder.RunCompositionGatewayWithDefaultRoutes();
-            });
-
-            app.Map("", appBuilder =>
-            {
-                appBuilder.UseMvc(routes =>
-                {
-                    routes.MapRoute(
-                        name: "default",
-                        template: "{controller=Home}/{action=Index}/{id?}");
-                });
-            });
         }
     }
 }
