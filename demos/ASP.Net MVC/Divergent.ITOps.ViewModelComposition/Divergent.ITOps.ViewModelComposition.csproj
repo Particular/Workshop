@@ -88,7 +88,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestContext.cs" />
     <Compile Include="StringExtensions.cs" />
-    <Compile Include="Subscription %28generic%29.cs" />
+    <Compile Include="Subscription-generic.cs" />
     <Compile Include="Subscription.cs" />
   </ItemGroup>
   <ItemGroup>
