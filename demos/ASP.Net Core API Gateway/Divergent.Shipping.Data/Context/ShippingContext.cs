@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Divergent.Shipping.Data.Migrations;
+﻿using Divergent.Shipping.Data.Migrations;
 using Divergent.Shipping.Data.Models;
+using System.Data.Entity;
 
 namespace Divergent.Shipping.Data.Context
 {
