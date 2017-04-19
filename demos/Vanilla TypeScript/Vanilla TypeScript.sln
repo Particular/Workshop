@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Sales.Data", "Divergent.Sales.Data\Divergent.Sales.Data.csproj", "{80F82F7D-3F0A-4316-87CD-49F19DBD5B85}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sales", "Sales", "{3F113598-B240-4E06-B41A-6C684C208F2A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shipping", "Shipping", "{B1EE955F-F325-4F06-BB63-BAE30C506AA5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Shipping.Data", "Divergent.Shipping.Data\Divergent.Shipping.Data.csproj", "{0EFF2E29-829B-4B1C-A7C6-47D63B05F52B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Shipping.API.Host", "Divergent.Shipping.API.Host\Divergent.Shipping.API.Host.csproj", "{0059E3AC-0AFA-43F6-B631-200CBB723F94}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Sales.API.Host", "Divergent.Sales.API.Host\Divergent.Sales.API.Host.csproj", "{DC8ADA37-837C-490F-BDFC-FC8D1001417E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.SPA", "Divergent.SPA\Divergent.SPA.csproj", "{5FC0F496-0ED9-4E8E-93A4-1EF489BAB87D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{80F82F7D-3F0A-4316-87CD-49F19DBD5B85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80F82F7D-3F0A-4316-87CD-49F19DBD5B85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80F82F7D-3F0A-4316-87CD-49F19DBD5B85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80F82F7D-3F0A-4316-87CD-49F19DBD5B85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EFF2E29-829B-4B1C-A7C6-47D63B05F52B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EFF2E29-829B-4B1C-A7C6-47D63B05F52B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EFF2E29-829B-4B1C-A7C6-47D63B05F52B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EFF2E29-829B-4B1C-A7C6-47D63B05F52B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0059E3AC-0AFA-43F6-B631-200CBB723F94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0059E3AC-0AFA-43F6-B631-200CBB723F94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0059E3AC-0AFA-43F6-B631-200CBB723F94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0059E3AC-0AFA-43F6-B631-200CBB723F94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC8ADA37-837C-490F-BDFC-FC8D1001417E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC8ADA37-837C-490F-BDFC-FC8D1001417E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC8ADA37-837C-490F-BDFC-FC8D1001417E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC8ADA37-837C-490F-BDFC-FC8D1001417E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FC0F496-0ED9-4E8E-93A4-1EF489BAB87D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FC0F496-0ED9-4E8E-93A4-1EF489BAB87D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FC0F496-0ED9-4E8E-93A4-1EF489BAB87D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FC0F496-0ED9-4E8E-93A4-1EF489BAB87D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{80F82F7D-3F0A-4316-87CD-49F19DBD5B85} = {3F113598-B240-4E06-B41A-6C684C208F2A}
+		{0EFF2E29-829B-4B1C-A7C6-47D63B05F52B} = {B1EE955F-F325-4F06-BB63-BAE30C506AA5}
+		{0059E3AC-0AFA-43F6-B631-200CBB723F94} = {B1EE955F-F325-4F06-BB63-BAE30C506AA5}
+		{DC8ADA37-837C-490F-BDFC-FC8D1001417E} = {3F113598-B240-4E06-B41A-6C684C208F2A}
+	EndGlobalSection
+EndGlobal
