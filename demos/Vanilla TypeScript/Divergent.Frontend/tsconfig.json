@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noEmitOnError": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "target": "es5",
+    "module": "commonjs",
+    "strictNullChecks": true
+  },
+  "exclude": [
+    "./Scripts/dist",
+    "./node_modules"
+  ],
+  "typescript.tsdk": "./node_modules/bin/tsc",
+  "compileOnSave": false
+}
