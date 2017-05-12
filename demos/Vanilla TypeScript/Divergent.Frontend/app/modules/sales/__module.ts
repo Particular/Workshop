@@ -1,10 +1,16 @@
-﻿import FooAppender from './FooAppender';
-import CompositionHandler from '../../it-ops/compositionHandler';
-import { IModule } from '../../it-ops/IModule';
+﻿import OrderDetailsAppender from "./OrderDetailsAppender";
+import { IModule } from "../../it-ops/IModule";
+import { IRegisterComponents } from "../../it-ops/IRegisterComponents";
+import { IRequestsGateway } from "../../it-ops/IRequestsGateway";
 
 export default class SalesModule implements IModule {
-    init() {
-        CompositionHandler.registerAppender('foo', new FooAppender());
-        console.debug('Sales module...');
+
+    init(componentsRegistry: IRegisterComponents, requestsGateway: IRequestsGateway) {
+
+        componentsRegistry.registerAppender(new OrderDetailsAppender());
+
+        window.console.debug("Sales module...");
+
     }
+
 }

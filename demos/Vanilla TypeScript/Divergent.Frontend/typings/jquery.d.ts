@@ -48,7 +48,7 @@ interface JQueryAjaxSettings {
      * An object of string/regular-expression pairs that determine how jQuery will parse the response, given its content type. (version added: 1.5)
      */
     contents?: { [key: string]: any; };
-    //According to jQuery.ajax source code, ajax's option actually allows contentType to set to "false"
+    //According to jQuery.ajax source code, ajax"s option actually allows contentType to set to "false"
     // https://github.com/DefinitelyTyped/DefinitelyTyped/issues/742
     /**
      * When sending data to the server, use this content type. Default is "application/x-www-form-urlencoded; charset=UTF-8", which is fine for most cases. If you explicitly pass in a content-type to $.ajax(), then it is always sent to the server (even if no data is sent). The W3C XMLHttpRequest specification dictates that the charset is always UTF-8; specifying another charset will not force the browser to change the encoding.
@@ -59,7 +59,7 @@ interface JQueryAjaxSettings {
      */
     context?: any;
     /**
-     * An object containing dataType-to-dataType converters. Each converter's value is a function that returns the transformed value of the response. (version added: 1.5)
+     * An object containing dataType-to-dataType converters. Each converter"s value is a function that returns the transformed value of the response. (version added: 1.5)
      */
     converters?: { [key: string]: any; };
     /**
@@ -67,15 +67,15 @@ interface JQueryAjaxSettings {
      */
     crossDomain?: boolean;
     /**
-     * Data to be sent to the server. It is converted to a query string, if not already a string. It's appended to the url for GET-requests. See processData option to prevent this automatic processing. Object must be key-value pairs. If value is an Array, jQuery serializes multiple values with same key based on the value of the traditional setting (described below).
+     * Data to be sent to the server. It is converted to a query string, if not already a string. It"s appended to the url for GET-requests. See processData option to prevent this automatic processing. Object must be key-value pairs. If value is an Array, jQuery serializes multiple values with same key based on the value of the traditional setting (described below).
      */
     data?: any;
     /**
-     * A function to be used to handle the raw response data of XMLHttpRequest.This is a pre-filtering function to sanitize the response. You should return the sanitized data. The function accepts two arguments: The raw data returned from the server and the 'dataType' parameter.
+     * A function to be used to handle the raw response data of XMLHttpRequest.This is a pre-filtering function to sanitize the response. You should return the sanitized data. The function accepts two arguments: The raw data returned from the server and the "dataType" parameter.
      */
     dataFilter?(data: any, ty: any): any;
     /**
-     * The type of data that you're expecting back from the server. If none is specified, jQuery will try to infer it based on the MIME type of the response (an XML MIME type will yield XML, in 1.4 JSON will yield a JavaScript object, in 1.4 script will execute the script, and anything else will be returned as a string).
+     * The type of data that you"re expecting back from the server. If none is specified, jQuery will try to infer it based on the MIME type of the response (an XML MIME type will yield XML, in 1.4 JSON will yield a JavaScript object, in 1.4 script will execute the script, and anything else will be returned as a string).
      */
     dataType?: string;
     /**
@@ -91,7 +91,7 @@ interface JQueryAjaxSettings {
      */
     headers?: { [key: string]: any; };
     /**
-     * Allow the request to be successful only if the response has changed since the last request. This is done by checking the Last-Modified header. Default value is false, ignoring the header. In jQuery 1.4 this technique also checks the 'etag' specified by the server to catch unmodified data.
+     * Allow the request to be successful only if the response has changed since the last request. This is done by checking the Last-Modified header. Default value is false, ignoring the header. In jQuery 1.4 this technique also checks the "etag" specified by the server to catch unmodified data.
      */
     ifModified?: boolean;
     /**
@@ -99,11 +99,11 @@ interface JQueryAjaxSettings {
      */
     isLocal?: boolean;
     /**
-     * Override the callback function name in a jsonp request. This value will be used instead of 'callback' in the 'callback=?' part of the query string in the url. So {jsonp:'onJSONPLoad'} would result in 'onJSONPLoad=?' passed to the server. As of jQuery 1.5, setting the jsonp option to false prevents jQuery from adding the "?callback" string to the URL or attempting to use "=?" for transformation. In this case, you should also explicitly set the jsonpCallback setting. For example, { jsonp: false, jsonpCallback: "callbackName" }
+     * Override the callback function name in a jsonp request. This value will be used instead of "callback" in the "callback=?" part of the query string in the url. So {jsonp:"onJSONPLoad"} would result in "onJSONPLoad=?" passed to the server. As of jQuery 1.5, setting the jsonp option to false prevents jQuery from adding the "?callback" string to the URL or attempting to use "=?" for transformation. In this case, you should also explicitly set the jsonpCallback setting. For example, { jsonp: false, jsonpCallback: "callbackName" }
      */
     jsonp?: any;
     /**
-     * Specify the callback function name for a JSONP request. This value will be used instead of the random name automatically generated by jQuery. It is preferable to let jQuery generate a unique name as it'll make it easier to manage the requests and provide callbacks and error handling. You may want to specify the callback when you want to enable better browser caching of GET requests. As of jQuery 1.5, you can also use a function for this setting, in which case the value of jsonpCallback is set to the return value of that function.
+     * Specify the callback function name for a JSONP request. This value will be used instead of the random name automatically generated by jQuery. It is preferable to let jQuery generate a unique name as it"ll make it easier to manage the requests and provide callbacks and error handling. You may want to specify the callback when you want to enable better browser caching of GET requests. As of jQuery 1.5, you can also use a function for this setting, in which case the value of jsonpCallback is set to the return value of that function.
      */
     jsonpCallback?: any;
     /**
@@ -371,7 +371,7 @@ interface JQueryPromise<T> extends JQueryGenericPromise<T> {
     pipe(doneFilter?: (x: any) => any, failFilter?: (x: any) => any, progressFilter?: (x: any) => any): JQueryPromise<any>;
 
     /**
-     * Return a Deferred's Promise object.
+     * Return a Deferred"s Promise object.
      *
      * @param target Object onto which the promise methods have to be attached
      * @see {@link https://api.jquery.com/deferred.promise/}
@@ -474,7 +474,7 @@ interface JQueryDeferred<T> extends JQueryGenericPromise<T> {
     resolveWith(context: any, args?: T[]): JQueryDeferred<T>;
 
     /**
-     * Return a Deferred's Promise object.
+     * Return a Deferred"s Promise object.
      *
      * @param target Object onto which the promise methods have to be attached
      * @see {@link https://api.jquery.com/deferred.promise/}
@@ -526,7 +526,7 @@ interface BaseJQueryEventObject extends Event {
      */
     namespace: string;
     /**
-     * The browser's original Event object.
+     * The browser"s original Event object.
      * @see {@link https://api.jquery.com/category/events/event-object/}
      */
     originalEvent: Event;
@@ -614,8 +614,8 @@ interface JQueryEventObject extends BaseJQueryEventObject, JQueryInputEventObjec
 /**
  * A collection of properties that represent the presence of different browser features or bugs.
  *
- * Intended for jQuery's internal use; specific properties may be removed when they are no longer needed internally
- * to improve page startup performance. For your own project's feature-detection needs, we strongly recommend the
+ * Intended for jQuery"s internal use; specific properties may be removed when they are no longer needed internally
+ * to improve page startup performance. For your own project"s feature-detection needs, we strongly recommend the
  * use of an external library such as {@link http://modernizr.com/|Modernizr} instead of dependency on properties
  * in jQuery.support.
  *
@@ -890,7 +890,7 @@ interface JQueryStatic {
     Callbacks(flags?: string): JQueryCallback;
 
     /**
-     * Holds or releases the execution of jQuery's ready event.
+     * Holds or releases the execution of jQuery"s ready event.
      *
      * @param hold Indicates whether the ready hold is being requested or released
      * @see {@link https://api.jquery.com/jQuery.holdReady/}
@@ -971,7 +971,7 @@ interface JQueryStatic {
     (html: string, attributes: Object): JQuery;
 
     /**
-     * Relinquish jQuery's control of the $ variable.
+     * Relinquish jQuery"s control of the $ variable.
      *
      * @param removeAll A Boolean indicating whether to remove all jQuery variables from the global scope (including jQuery itself).
      * @see {@link https://api.jquery.com/jQuery.noConflict/}
@@ -1154,7 +1154,7 @@ interface JQueryStatic {
     contains(container: Element, contained: Element): boolean;
 
     /**
-     * A generic iterator function, which can be used to seamlessly iterate over both objects and arrays. Arrays and array-like objects with a length property (such as a function's arguments object) are iterated by numeric index, from 0 to length-1. Other objects are iterated via their named properties.
+     * A generic iterator function, which can be used to seamlessly iterate over both objects and arrays. Arrays and array-like objects with a length property (such as a function"s arguments object) are iterated by numeric index, from 0 to length-1. Other objects are iterated via their named properties.
      *
      * @param collection The object or array to iterate over.
      * @param callback The function that will be executed on every object.
@@ -1166,7 +1166,7 @@ interface JQueryStatic {
     ): any;
 
     /**
-     * A generic iterator function, which can be used to seamlessly iterate over both objects and arrays. Arrays and array-like objects with a length property (such as a function's arguments object) are iterated by numeric index, from 0 to length-1. Other objects are iterated via their named properties.
+     * A generic iterator function, which can be used to seamlessly iterate over both objects and arrays. Arrays and array-like objects with a length property (such as a function"s arguments object) are iterated by numeric index, from 0 to length-1. Other objects are iterated via their named properties.
      *
      * @param collection The object or array to iterate over.
      * @param callback The function that will be executed on every object.
@@ -1235,7 +1235,7 @@ interface JQueryStatic {
     /**
      * Check to see if an object is empty (contains no enumerable properties).
      *
-     * @param obj The object that will be checked to see if it's empty.
+     * @param obj The object that will be checked to see if it"s empty.
      * @see {@link https://api.jquery.com/jQuery.isEmptyObject/}
      */
     isEmptyObject(obj: any): boolean;
@@ -1256,7 +1256,7 @@ interface JQueryStatic {
     /**
      * Check to see if an object is a plain object (created using "{}" or "new Object").
      *
-     * @param obj The object that will be checked to see if it's a plain object.
+     * @param obj The object that will be checked to see if it"s a plain object.
      * @see {@link https://api.jquery.com/jQuery.isPlainObject/}
      */
     isPlainObject(obj: any): boolean;
@@ -1270,7 +1270,7 @@ interface JQueryStatic {
     /**
      * Check to see if a DOM node is within an XML document (or is an XML document).
      *
-     * @param node The DOM node that will be checked to see if it's in an XML document.
+     * @param node The DOM node that will be checked to see if it"s in an XML document.
      * @see {@link https://api.jquery.com/jQuery.isXMLDoc/}
      */
     isXMLDoc(node: Node): boolean;
@@ -1595,7 +1595,7 @@ interface JQuery {
     removeProp(propertyName: string): JQuery;
 
     /**
-     * Add or remove one or more classes from each element in the set of matched elements, depending on either the class's presence or the value of the switch argument.
+     * Add or remove one or more classes from each element in the set of matched elements, depending on either the class"s presence or the value of the switch argument.
      *
      * @param className One or more class names (separated by spaces) to be toggled for each element in the matched set.
      * @param swtch A Boolean (not just truthy/falsy) value to determine whether the class should be added or removed.
@@ -1603,14 +1603,14 @@ interface JQuery {
      */
     toggleClass(className: string, swtch?: boolean): JQuery;
     /**
-     * Add or remove one or more classes from each element in the set of matched elements, depending on either the class's presence or the value of the switch argument.
+     * Add or remove one or more classes from each element in the set of matched elements, depending on either the class"s presence or the value of the switch argument.
      *
      * @param swtch A boolean value to determine whether the class should be added or removed.
      * @see {@link https://api.jquery.com/toggleClass/#toggleClass-state}
      */
     toggleClass(swtch?: boolean): JQuery;
     /**
-     * Add or remove one or more classes from each element in the set of matched elements, depending on either the class's presence or the value of the switch argument.
+     * Add or remove one or more classes from each element in the set of matched elements, depending on either the class"s presence or the value of the switch argument.
      *
      * @param func A function that returns class names to be toggled in the class attribute of each element in the matched set. Receives the index position of the element in the set, the old class value, and the switch as arguments.
      * @param swtch A boolean value to determine whether the class should be added or removed.
@@ -1740,7 +1740,7 @@ interface JQuery {
     /**
      * Get the current computed height for the first element in the set of matched elements, including padding, border, and optionally margin. Returns an integer (without "px") representation of the value or null if called on an empty set of elements.
      *
-     * @param includeMargin A Boolean indicating whether to include the element's margin in the calculation.
+     * @param includeMargin A Boolean indicating whether to include the element"s margin in the calculation.
      * @see {@link https://api.jquery.com/outerHeight/#outerHeight-includeMargin}
      */
     outerHeight(includeMargin?: boolean): number;
@@ -1756,7 +1756,7 @@ interface JQuery {
     /**
      * Get the current computed width for the first element in the set of matched elements, including padding and border.
      *
-     * @param includeMargin A Boolean indicating whether to include the element's margin in the calculation.
+     * @param includeMargin A Boolean indicating whether to include the element"s margin in the calculation.
      * @see {@link https://api.jquery.com/outerWidth/#outerWidth-includeMargin}
      */
     outerWidth(includeMargin?: boolean): number;
@@ -2962,7 +2962,7 @@ interface JQuery {
      * Remove a previously-attached event handler from the elements.
      *
      * @param eventType A string containing a JavaScript event type, such as click or submit.
-     * @param fls Unbinds the corresponding 'return false' function that was bound using .bind( eventType, false ).
+     * @param fls Unbinds the corresponding "return false" function that was bound using .bind( eventType, false ).
      * @see {@link https://api.jquery.com/unbind/#unbind-eventType-false}
      */
     unbind(eventType: string, fls: boolean): JQuery;
@@ -3121,7 +3121,7 @@ interface JQuery {
      * Create a deep copy of the set of matched elements.
      *
      * @param withDataAndEvents A Boolean indicating whether event handlers and data should be copied along with the elements. The default value is false.
-     * @param deepWithDataAndEvents A Boolean indicating whether event handlers and data for all children of the cloned element should be copied. By default its value matches the first argument's value (which defaults to false).
+     * @param deepWithDataAndEvents A Boolean indicating whether event handlers and data for all children of the cloned element should be copied. By default its value matches the first argument"s value (which defaults to false).
      * @see {@link https://api.jquery.com/clone/}
      */
     clone(withDataAndEvents?: boolean, deepWithDataAndEvents?: boolean): JQuery;
@@ -3436,28 +3436,28 @@ interface JQuery {
     eq(index: number): JQuery;
 
     /**
-     * Reduce the set of matched elements to those that match the selector or pass the function's test.
+     * Reduce the set of matched elements to those that match the selector or pass the function"s test.
      *
      * @param selector A string containing a selector expression to match the current set of elements against.
      * @see {@link https://api.jquery.com/filter/#filter-selector}
      */
     filter(selector: string): JQuery;
     /**
-     * Reduce the set of matched elements to those that match the selector or pass the function's test.
+     * Reduce the set of matched elements to those that match the selector or pass the function"s test.
      *
      * @param func A function used as a test for each element in the set. this is the current DOM element.
      * @see {@link https://api.jquery.com/filter/#filter-function}
      */
     filter(func: (index: number, element: Element) => any): JQuery;
     /**
-     * Reduce the set of matched elements to those that match the selector or pass the function's test.
+     * Reduce the set of matched elements to those that match the selector or pass the function"s test.
      *
      * @param element An element to match the current set of elements against.
      * @see {@link https://api.jquery.com/filter/#filter-elements}
      */
     filter(element: Element): JQuery;
     /**
-     * Reduce the set of matched elements to those that match the selector or pass the function's test.
+     * Reduce the set of matched elements to those that match the selector or pass the function"s test.
      *
      * @param obj An existing jQuery object to match the current set of elements against.
      * @see {@link https://api.jquery.com/filter/#filter-selection}
@@ -3517,7 +3517,7 @@ interface JQuery {
     /**
      * Check the current matched set of elements against a selector, element, or jQuery object and return true if at least one of these elements matches the given arguments.
      *
-     * @param func A function used as a test for the set of elements. It accepts one argument, index, which is the element's index in the jQuery collection.Within the function, this refers to the current DOM element.
+     * @param func A function used as a test for the set of elements. It accepts one argument, index, which is the element"s index in the jQuery collection.Within the function, this refers to the current DOM element.
      * @see {@link https://api.jquery.com/is/#is-function}
      */
     is(func: (index: number, element: Element) => boolean): boolean;

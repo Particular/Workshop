@@ -1,5 +1,5 @@
 ﻿"use strict";
-var webpack = require('webpack');
+var webpack = require("webpack");
 module.exports = {
     entry: {app: "./app/main.ts"},
 	debug: true,
@@ -8,17 +8,17 @@ module.exports = {
 		filename: "[name].bundle.js",
 		sourceMapFilename: "[name].bundle.js.map"
 }, resolve: {
-        extensions: ['', '.webpack.js', '.web.js', '.ts', '.js']
+        extensions: ["", ".webpack.js", ".web.js", ".ts", ".js"]
     },
    
     // Turn on sourcemaps
-    devtool: 'source-map',
+    devtool: "source-map",
     module: {
         preLoaders: [
             {
                 test: /\.ts$/,
                 exclude: /(node_modules)[\\\/]/,
-                loader: 'tslint-loader'
+                loader: "tslint-loader"
             }
         ],
         loaders: [
@@ -30,7 +30,7 @@ module.exports = {
         ]
     },
     tslint: {
-        configFile: './tslint.json',
+        configFile: "./tslint.json",
         emitErrors: true,
         failOnHint: true
     },
@@ -48,9 +48,9 @@ module.exports = {
                 drop_console: true
             },
             mangle: {
-                except: ['$', 'webpackJsonp'],
-                screw_ie8: true, // Don't care about IE8  
-                //keep_fnames: true // Don't mangle function names
+                except: ["$", "webpackJsonp"],
+                screw_ie8: true, // Don"t care about IE8  
+                //keep_fnames: true // Don"t mangle function names
             }
         })
     ]

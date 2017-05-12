@@ -14,5 +14,8 @@
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.1" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="app\branding\" />
+  </ItemGroup>
 
 </Project>

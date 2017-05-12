@@ -1,1 +1,3 @@
-﻿export interface ISubscribeToCompositionEvents{}
+﻿export interface ISubscribeToCompositionEvents {
+    requestIdentifier: string
+}

@@ -1,9 +1,16 @@
-﻿import SalesModules from './modules/sales/__module';
-import * as $ from 'jquery';
+﻿import ModulesConfig from "./ModulesConfig";
+import * as $ from "jquery";
+import CompositionEngine from "./it-ops/CompositionEngine";
 
-$(() => {
+$(async () => {
 
-    const m = new SalesModules();
-    m.init();
+    const engine = new CompositionEngine();
 
+    const modules = ModulesConfig.GetModules();
+    for (let i = 0; i < modules.length; i++) {
+        const mod = modules[i];
+        mod.init(engine, engine);
+    }
+
+    window.console.log("Init...");
 });
