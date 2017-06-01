@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -36,12 +37,14 @@ namespace Divergent.Sales.ViewModelComposition
 
             dynamic[] orders = await response.Content.AsExpandoArrayAsync().ConfigureAwait(false);
 
-            vm.OrdersViewModel = MapToDictionary(orders);
+            var ordersViewModelDictionary = MapToDictionary(orders);
 
             await vm.RaiseEventAsync(new OrdersLoaded()
             {
-                OrdersViewModel = vm.OrdersViewModel
+                OrdersViewModel = ordersViewModelDictionary
             }).ConfigureAwait(false);
+
+            vm.Orders = ordersViewModelDictionary.Values.ToArray();
         }
 
         IDictionary<dynamic, dynamic> MapToDictionary(dynamic[] orders)

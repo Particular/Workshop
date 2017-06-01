@@ -45,8 +45,6 @@ namespace ITOps.ViewModelComposition.Gateway
                 {
                     await Task.WhenAll(pending);
 
-                    //result transformer? e.g. to change from vm.OrdersViewModel to orders[]
-
                     return (vm, StatusCodes.Status200OK);
                 }
             }
