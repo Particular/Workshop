@@ -9,7 +9,7 @@
     </thead>
     <tbody>
 
-        @foreach (dynamic order in Model.OrdersViewModel.Values)
+        @foreach (dynamic order in Model.Orders)
         {
             <tr>
                 <td><a href="/Orders/Details/@order.OrderNumber">Number: #@order.OrderNumber</a></td>
