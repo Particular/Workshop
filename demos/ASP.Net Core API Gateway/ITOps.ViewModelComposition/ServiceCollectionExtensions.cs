@@ -16,7 +16,7 @@ namespace ITOps.ViewModelComposition
             var types = new List<Type>();
             foreach (var fileName in fileNames)
             {
-                var temp = Assembly.Load(new AssemblyName(Path.GetFileNameWithoutExtension(fileName)))
+                var temp = AssemblyLoader.Load(fileName)
                     .GetTypes()
                     .Where(t =>
                     {
