@@ -17,7 +17,7 @@ namespace Divergent.Sales.API
 
             config.SendOnly();
 
-            var licensePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "License.xml");
+            var licensePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\License.xml");
             config.LicensePath(licensePath);
 
             config.UseTransport<MsmqTransport>().ConnectionString("deadLetter=false;journal=false");

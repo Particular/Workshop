@@ -29,7 +29,7 @@ namespace Divergent.Shipping.Config
 
             var container = ContainerSetup.Create();
 
-            var licensePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "License.xml");
+            var licensePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\..\\..\\License.xml");
             endpointConfiguration.LicensePath(licensePath);
             endpointConfiguration.UseSerialization<JsonSerializer>();
             endpointConfiguration.Recoverability().Delayed(c => c.NumberOfRetries(0));
