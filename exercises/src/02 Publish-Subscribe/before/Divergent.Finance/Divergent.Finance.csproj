@@ -111,7 +111,6 @@
   <ItemGroup>
     <Compile Include="Config\ContainerSetup.cs" />
     <Compile Include="Config\EndpointConfig.cs" />
-    <Compile Include="Messages\Commands\InitiatePaymentProcessCommand.cs" />
     <Compile Include="PaymentClient\ReliablePaymentClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
