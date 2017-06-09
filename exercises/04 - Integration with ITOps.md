@@ -294,7 +294,7 @@ public class ShipWithFedexCommandHandler : IHandleMessages<ShipWithFedexCommand>
     private XDocument CreateFedexRequest(PackageInfo packageInfo, CustomerInfo customerInfo)
     {
         var shipment =
-        new XDocument(
+            new XDocument(
                 new XElement("FedExShipment",
                     new XElement("ShipTo",
                         new XElement("Name", customerInfo.Name),
@@ -302,7 +302,7 @@ public class ShipWithFedexCommandHandler : IHandleMessages<ShipWithFedexCommand>
                         new XElement("City", customerInfo.City),
                         new XElement("PostalCode", customerInfo.PostalCode),
                         new XElement("Country", customerInfo.Country)),
-        new XElement("Measurements",
+                    new XElement("Measurements",
                         new XElement("Volume", packageInfo.Volume),
                         new XElement("Weight", packageInfo.Weight))));
         return shipment;
@@ -310,7 +310,7 @@ public class ShipWithFedexCommandHandler : IHandleMessages<ShipWithFedexCommand>
 
     private Task CallFedexWebService(XDocument fedExRequest)
     {
-        //do web service call etc.         
+        //do web service call etc.
         return Task.FromResult(0);
     }
 }
