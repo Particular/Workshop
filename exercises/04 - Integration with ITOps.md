@@ -135,7 +135,7 @@ In this exercise, we'll implement the customer provider in the Customers service
 
 ### Step 1
 
-The `Divergent.ITOps.Interfaces` project contains an interface called `IProvideCustomerInfo.cs`. It has a single method that takes a customer id and returns a `CustomerInfo` instance with name, street, etc. for the specified customer.
+The `Divergent.ITOps.Interfaces` project, have a look at `IProvideCustomerInfo.cs`. The interface has a single method that takes a customer ID and returns a `CustomerInfo` instance with name, street, etc. for the specified customer.
 
 ### Step 2
 
