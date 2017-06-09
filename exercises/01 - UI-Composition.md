@@ -1,6 +1,6 @@
 # Exercise 1: UI Composition
 
-Vertical slices are autonomous and span across all layers starting from the UI, through all other application layers, and even in the database.
+Vertical slices are autonomous and span across all layers starting from the UI, through all other application layers, and even the database.
 
 ## Overview
 
