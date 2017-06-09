@@ -40,23 +40,15 @@ In this exercise you'll replace the two handlers in `Shipping` with a saga. The 
 
 ### Step 1
 
-Compile the application to restore all NuGet packages.
-
-### Step 2
-
-Open the `Divergent.Shipping` project.
-
-### Step 3
-
 Have a look at the `OrderSubmittedHandler` and `PaymentSucceededHandler` in `Divergent.Shipping` project.   
 These are the handlers receiving the accompanying events. The events that can arrive out of order.   
 Remove both handlers.
 
-### Step 4
+### Step 2
 
 We're now left with an empty `Handlers` folder. **Rename** it to `Sagas`.
 
-### Step 5
+### Step 3
 
 Add a new class to this folder called `ShippingSaga.cs` and have it implement the `Saga<T>` class. We'll start out with `object` for T and get back later to what it does. You should end up with your class looking like this:
 
@@ -66,7 +58,7 @@ class ShippingSaga : Saga<object>
 }
 ```
 
-### Step 6
+### Step 4
 
 Now we will have our saga implement both handlers for `OrderSubmittedEvent` and `PaymentSucceededEvent`. Have the class implement the `IAmStartedByMessages<T>` interface for both events.  
 
