@@ -22,7 +22,7 @@ The application consists of three vertical slices:
 
 The application UI consists of two pages: Dashboard and Orders. In this exercise you'll display additional information in the Orders page by modifying the API, view model and view templates. 
 
-First, you'll display an additional property in the existing view: the number of items contained in the order. Then you'll create a whole new vertical slice responsible for calculating and displaying the total price of items in the order.
+First, you'll display an additional property in the existing view: the number of items contained in the order. Then you'll create a whole new vertical slice responsible for calculating and displaying the total price of the items in the order.
 
 ## Exercise 1.1: display the count of items in an order
 
