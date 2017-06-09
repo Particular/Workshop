@@ -89,7 +89,7 @@ We need to define what state we want to store for our saga. This saga is about a
     }
 ```
 
-NOTE: The saga data implementation utilize the `virtual` property modifier to simplify the migration of this sample to a persistent storage such as SQL Server. It's not required when using an in-memory persister.
+NOTE: The saga data implementation utilizes the `virtual` property modifier beacuse saga instances are stored in SQL Server via the `NServiceBus.NHibernate` persister, and NHibernate requires properties to be `virtual`.
 
 **3)** Now we'll add this class as saga state to our saga. We'll end up with a class like this.
 
