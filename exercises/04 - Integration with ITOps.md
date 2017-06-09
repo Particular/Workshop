@@ -35,11 +35,7 @@ In this exercise, we'll have the saga in `Divergent.Shipping` service tell IT/Op
 
 ### Step 1
 
-Open the `Divergent.ItOps.Messages` project.
-
-### Step 2
-
-Create a new class `ShipWithFedexCommand` in the Commands folder. It should contain the order Id, customer Id, and a list of product Ids.
+In the `Divergent.ItOps.Messages` project, create a new class `ShipWithFedexCommand` in the Commands folder. It should contain the order Id, customer Id, and a list of product Ids.
 
 ```c#
 public class ShipWithFedexCommand
@@ -50,13 +46,9 @@ public class ShipWithFedexCommand
 }
 ```
 
-### Step 3
+### Step 2
 
-Open the `Divergent.Shipping` project.
-
-### Step 4
-
-Open `ShippingSaga.cs` and look at the `ProcessOrder` method. The method should check if the order has been both submitted (`Data.IsOrderSubmitted`) and paid for (`Data.IsPaymentProcessedYet`). If so, it should send the new `ShipWithFedexCommand`.
+In the `Divergent.Shipping` project, open `ShippingSaga.cs` and look at the `ProcessOrder` method. The method should check if the order has been both submitted (`Data.IsOrderSubmitted`) and paid for (`Data.IsPaymentProcessedYet`). If so, it should send the new `ShipWithFedexCommand`.
 
 ```c#
 private async Task ProcessOrder(IMessageHandlerContext context)
@@ -75,13 +67,9 @@ private async Task ProcessOrder(IMessageHandlerContext context)
 }
 ```
 
-### Step 5
+### Step 3
 
-Open `app.config` in the `Divergent.Shipping` project.
-
-### Step 6
-
-Add a new message mapping to let `Divergent.Shipping` know where to send messages for IT/Ops. Do this by adding `<add Assembly="Divergent.ITOps.Messages" Endpoint="Divergent.ITOps" />` to the UnicastBus/MessageEndpointMappings element. It should look like this:
+In `app.config` in the `Divergent.Shipping` project, add a new message mapping to let `Divergent.Shipping` know where to send messages for IT/Ops. Do this by adding `<add Assembly="Divergent.ITOps.Messages" Endpoint="Divergent.ITOps" />` to the UnicastBus/MessageEndpointMappings element. It should look like this:
 
 ```xml
 <UnicastBusConfig>
@@ -93,13 +81,9 @@ Add a new message mapping to let `Divergent.Shipping` know where to send message
 </UnicastBusConfig>
 ```
 
-### Step 7
+### Step 4
 
-Open the `Divergent.ITOps` project.
-
-### Step 8
-
-Add a class under Handlers called `ShipWithFedexCommandHandler`. It should contain a message handler for `ShipWithFedexCommand` that calls a fake FedEx Web Service. Hard-code the customer information for now.
+In the `Divergent.ITOps` project, add a class under Handlers called `ShipWithFedexCommandHandler`. It should contain a message handler for `ShipWithFedexCommand` that calls a fake FedEx Web Service. Hard-code the customer information for now.
 
 ```c#
 public class ShipWithFedexCommandHandler : IHandleMessages<ShipWithFedexCommand>
@@ -141,10 +125,9 @@ public class ShipWithFedexCommandHandler : IHandleMessages<ShipWithFedexCommand>
 }
 ```
 
-### Step 9
+### Step 5
 
 Run the solution and verify that the IT/Ops message handler is invoked whenever you submit a new order in the UI.
-
 
 ## Exercise 4.2: implement customer provider
 
@@ -152,11 +135,11 @@ In this exercise, we'll implement the customer provider in the Customers service
 
 ### Step 1
 
-Open the `Divergent.ITOps.Interfaces` project. It contains an interface called `IProvideCustomerInfo.cs`. It has a single method that takes a customer id and returns a `CustomerInfo` instance with name, street, etc. for the specified customer.
+The `Divergent.ITOps.Interfaces` project contains an interface called `IProvideCustomerInfo.cs`. It has a single method that takes a customer id and returns a `CustomerInfo` instance with name, street, etc. for the specified customer.
 
 ### Step 2
 
-Open the `Divergent.Customers.Data` project. Add a new class called `CustomerInfoProvider` in the ITOps folder. It should implement the `IProvideCustomerInfo` interface from `Divergent.ITOps.Interfaces`. 
+In the `Divergent.Customers.Data` project, add a new class called `CustomerInfoProvider` in the ITOps folder. It should implement the `IProvideCustomerInfo` interface from `Divergent.ITOps.Interfaces`. 
 
 ```c#
 public class CustomerInfoProvider : IProvideCustomerInfo
@@ -192,7 +175,7 @@ This "deploys" the provider into a location that IT/Ops knows. IT/Ops doesn't ne
 
 ### Step 4
 
-Open up the `ShipWithFedexCommandHandler.cs`. This class should take a constructor dependency on `IProvideCustomerInfo`. The Dependency Injection framework will find the provider implementations as long as they are copied to IT/Ops. The handler should use this dependency to fetch the customer information instead of using the hard-coded values.
+Open `ShipWithFedexCommandHandler.cs`. This class should take a constructor dependency on `IProvideCustomerInfo`. The Dependency Injection framework will find the provider implementations as long as they are copied to IT/Ops. The handler should use this dependency to fetch the customer information instead of using the hard-coded values.
 
 ```c#
 public class ShipWithFedexCommandHandler : IHandleMessages<ShipWithFedexCommand>
@@ -281,7 +264,7 @@ copy /Y "$(TargetDir)$(ProjectName).dll" "$(SolutionDir)Divergent.ITOps\Provider
 
 ### Step 3
 
-Open up `ShipWithFedexCommandHandler.cs` in `Divergent.ITOps`. it should now also take a constructor dependency on `IProvideShippingInfo`.
+Open `ShipWithFedexCommandHandler.cs` in `Divergent.ITOps`. It should now also take a constructor dependency on `IProvideShippingInfo`.
 
 ```c#
 public class ShipWithFedexCommandHandler : IHandleMessages<ShipWithFedexCommand>
