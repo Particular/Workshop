@@ -151,7 +151,24 @@ In this exercise you will process the messages coming in and make sure the messa
     }
 ```
 
+NOTE: If the `IsPaymentProcessedYet` property is generated using refactoring tools, it may have a internal setter:
+
+```c#
+public bool IsPaymentProcessedYet { get; internal set; }
+```
+
+Make sure you remove the `internal` keyword to make the setter public. Otherwise, when `ShippingSagaData` is rehydrated from storage, the property may not be set correctly.
+
 **3)** To verify if `OrderSubmittedEvent` has been received, we can set a boolean property on the saga state. Add a boolean property to `ShippingSagaData` called `IsOrderSubmitted`, and in the handler for the `OrderSubmittedEvent` set this property to true.
+
+
+NOTE: If the `IsOrderSubmitted` property is generated using refactoring tools, it may have a internal setter:
+
+```c#
+public bool IsOrderSubmitted { get; internal set; }
+```
+
+Make sure you remove the `internal` keyword to make the setter public. Otherwise, when `ShippingSagaData` is rehydrated from storage, the property may not be set correctly.
 
 The client or service should verify if its a valid order and not have the user be able to submit the order without any products. Commands and events can technically fail, but should not functionally fail because proper validation was not done on the sending side.
 
