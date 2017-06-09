@@ -155,9 +155,9 @@ In this exercise you will process the messages coming in and make sure the messa
 
 The client or service should verify if its a valid order and not have the user be able to submit the order without any products. Commands and events can technically fail, but should not functionally fail because proper validation was not done on the sending side.
 
-The following is the `ShippingSagaData` class with all the required properties created during this exercise:
+Here's how the `ShippingSagaData` class looks with all the required properties created during this exercise:
 
-```
+```c#
 class ShippingSagaData : ContainSagaData
 {
     public virtual int OrderId { get; set; }
