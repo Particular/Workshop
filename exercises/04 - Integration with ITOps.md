@@ -1,4 +1,4 @@
-# Exercise 04: Integration
+# Exercise 4: Integration
 
 You will quickly run into the need for integration with 3rd party systems. You will use Web Services, REST based APIs, you'll emails or export files. Most of the time data need to be retrieved from several different services before interacting with a 3rd party.
 
