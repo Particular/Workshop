@@ -175,7 +175,7 @@ This "deploys" the provider into a location that IT/Ops knows. IT/Ops doesn't ne
 
 ### Step 4
 
-Open `ShipWithFedexCommandHandler.cs`. This class should take a constructor dependency on `IProvideCustomerInfo`. The Dependency Injection framework will find the provider implementations as long as they are copied to IT/Ops. The handler should use this dependency to fetch the customer information instead of using the hard-coded values.
+Open `ShipWithFedexCommandHandler.cs` in the `Divergent.ITOps`. This class should take a constructor dependency on `IProvideCustomerInfo`. The Dependency Injection framework will find the provider implementations as long as they are copied to IT/Ops. The handler should use this dependency to fetch the customer information instead of using the hard-coded values.
 
 ```c#
 public class ShipWithFedexCommandHandler : IHandleMessages<ShipWithFedexCommand>
