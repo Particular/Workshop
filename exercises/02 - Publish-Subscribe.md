@@ -278,7 +278,7 @@ In the `App.config` file in the `Divergent.Customers` project add a new configur
 
 
 
-## Exercise 02.3: create and publish the `PaymentSucceededEvent`
+## Exercise 2.3: create and publish the `PaymentSucceededEvent`
 
 In this exercise we'll create a new event called `PaymentSucceededEvent`. This event will be published by the `InitiatePaymentProcessCommandHandler` in the `Divergent.Finance` project.
 
@@ -313,7 +313,7 @@ public async Task Handle(InitiatePaymentProcessCommand message, IMessageHandlerC
 }
 ```
 
-## Exercise 02.4: handle `PaymentSucceededEvent`
+## Exercise 2.4: handle `PaymentSucceededEvent`
 
 In this exercise we'll handle the `PaymentSucceededEvent` by logging the information in the `PaymentSucceededHandler` class in `Divergent.Shipping`.
 
