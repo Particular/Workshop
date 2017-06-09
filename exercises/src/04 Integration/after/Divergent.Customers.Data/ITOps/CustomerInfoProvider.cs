@@ -1,6 +1,5 @@
-﻿using System;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using System.Linq;
 using Divergent.ITOps.Interfaces;
 
 namespace Divergent.Customers.Data.ITOps

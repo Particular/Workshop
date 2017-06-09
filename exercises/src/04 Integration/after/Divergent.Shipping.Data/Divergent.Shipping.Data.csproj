@@ -52,6 +52,7 @@
       <Name>Divergent.ITOps.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy /Y "$(TargetDir)$(ProjectName).dll" "$(SolutionDir)Divergent.ITOps\Providers\$(ProjectName).dll"</PostBuildEvent>

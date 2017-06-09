@@ -41,7 +41,6 @@ namespace Divergent.Sales.Handlers
                 _context.Orders.Add(order);
                 await _context.SaveChangesAsync();
 
-                // Publish event
                 await context.Publish<OrderSubmittedEvent>(e =>
                 {
                     e.OrderId = order.Id;

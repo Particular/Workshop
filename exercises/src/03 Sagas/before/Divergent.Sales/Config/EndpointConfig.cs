@@ -1,14 +1,13 @@
 using System;
+using System.Configuration;
+using System.IO;
 using System.Linq;
 using Divergent.Sales.Data.Context;
 using NServiceBus;
-using NServiceBus.Features;
 using NServiceBus.Logging;
+using NServiceBus.Persistence;
 using ILog = Common.Logging.ILog;
 using LogManager = Common.Logging.LogManager;
-using System.IO;
-using System.Configuration;
-using NServiceBus.Persistence;
 
 namespace Divergent.Sales.Config
 {

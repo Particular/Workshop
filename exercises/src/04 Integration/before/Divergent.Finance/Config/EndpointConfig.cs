@@ -33,7 +33,7 @@ namespace Divergent.Finance.Config
             var licensePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\..\\..\\License.xml");
             endpointConfiguration.LicensePath(licensePath);
             endpointConfiguration.UseSerialization<JsonSerializer>();
-            endpointConfiguration.Recoverability().Delayed(c=>c.NumberOfRetries(0));
+            endpointConfiguration.Recoverability().Delayed(c => c.NumberOfRetries(0));
             endpointConfiguration.UseContainer<AutofacBuilder>(c => c.ExistingLifetimeScope(container));
             endpointConfiguration.UseTransport<MsmqTransport>()
                 .ConnectionString("deadLetter=false;journal=false");

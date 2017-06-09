@@ -34,22 +34,23 @@ namespace Divergent.ITOps.Handlers
         private XDocument CreateFedexRequest(PackageInfo packageInfo, CustomerInfo customerInfo)
         {
             var shipment =
-                new XElement("FedExShipment",
-                    new XElement("ShipTo",
-                        new XElement("Name", customerInfo.Name),
-                        new XElement("Street", customerInfo.Street),
-                        new XElement("City", customerInfo.City),
-                        new XElement("PostalCode", customerInfo.PostalCode),
-                        new XElement("Country", customerInfo.Country)),
-                    new XElement("Measurements",
-                        new XElement("Volume", packageInfo.Volume),
-                        new XElement("Weight", packageInfo.Weight)));
-            return shipment.Document;
+                new XDocument(
+                    new XElement("FedExShipment",
+                        new XElement("ShipTo",
+                            new XElement("Name", customerInfo.Name),
+                            new XElement("Street", customerInfo.Street),
+                            new XElement("City", customerInfo.City),
+                            new XElement("PostalCode", customerInfo.PostalCode),
+                            new XElement("Country", customerInfo.Country)),
+                        new XElement("Measurements",
+                            new XElement("Volume", packageInfo.Volume),
+                            new XElement("Weight", packageInfo.Weight))));
+            return shipment;
         }
 
         private Task CallFedexWebService(XDocument fedExRequest)
         {
-            //do webservice call etc
+            //do web service call etc.
             return Task.FromResult(0);
         }
     }
