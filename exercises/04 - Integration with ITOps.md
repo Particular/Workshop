@@ -236,7 +236,7 @@ In this exercise, you'll implement the shipping provider in the Shipping service
 
 ### Step 1
 
-Open the `Divergent.Shipping.Data` project. Add a new class called `ShippingInfoProvider` in the ITOps folder. It should implement the `IProvideShippingInfo` interface from `Divergent.ITOps.Interfaces`.  The implementation should use `VolumeEstimator` and `WeightCalculator` to implement the `GetPackageInfo` method.
+In the `Divergent.Shipping.Data` project, add a new class named `ShippingInfoProvider` in the ITOps folder. It should implement the `IProvideShippingInfo` interface from `Divergent.ITOps.Interfaces`.  The implementation should use `VolumeEstimator` and `WeightCalculator` to implement the `GetPackageInfo` method.
 
 ```c#
 public class ShippingInfoProvider : IProvideShippingInfo
