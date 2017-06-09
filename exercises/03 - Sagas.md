@@ -70,8 +70,8 @@ The class should now look like this:
 
 ```c#
 class ShippingSaga : Saga<object>,
-        IAmStartedByMessages<OrderSubmittedEvent>,
-        IAmStartedByMessages<PaymentSucceededEvent>
+    IAmStartedByMessages<OrderSubmittedEvent>,
+    IAmStartedByMessages<PaymentSucceededEvent>
 {
 }
 ```
@@ -124,8 +124,8 @@ Now we'll add this class as saga state to our saga. We'll end up with a class li
 
 ```c#
 class ShippingSaga : Saga<ShippingSagaData>,
-        IAmStartedByMessages<OrderSubmittedEvent>,
-        IAmStartedByMessages<PaymentSucceededEvent>
+    IAmStartedByMessages<OrderSubmittedEvent>,
+    IAmStartedByMessages<PaymentSucceededEvent>
 {
 }
 ```
@@ -143,11 +143,8 @@ public async Task Handle(OrderSubmittedEvent message, IMessageHandlerContext con
 {
     Data.OrderId = message.OrderId;
     Data.CustomerId = message.CustomerId;
-    var projection = message.Products
-                            .Select(p => new ShippingSagaData.Product
-                            {
-                                Identifier = p
-                            });
+    
+    var projection = message.Products.Select(p => new ShippingSagaData.Product { Identifier = p });
     Data.Products = projection.ToList();
 }
 
