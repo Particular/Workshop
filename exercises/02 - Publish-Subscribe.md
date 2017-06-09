@@ -1,4 +1,4 @@
-# Exercise 02: Publish-Subscribe
+# Exercise 2: Publish-Subscribe
 
 NServiceBus endpoints communicate by sending each other messages. In this exercise, we'll focus on a specific type of messages: events. We will also explore a very powerful and popular messaging pattern: Publish-Subscribe (Pub-Sub).
 
