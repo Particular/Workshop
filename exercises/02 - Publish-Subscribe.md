@@ -303,13 +303,14 @@ At the end of `InitiatePaymentProcessCommandHandler`, publish the `PaymentSuccee
 ```c#
 public async Task Handle(InitiatePaymentProcessCommand message, IMessageHandlerContext context)
 {
-   Log.Info("Handle InitiatePaymentProcessCommand");
+    Log.Info("Handle InitiatePaymentProcessCommand");
 
-   await _reliablePaymentClient.ProcessPayment(message.CustomerId, message.Amount);
-   await context.Publish<PaymentSucceededEvent>(e =>
-   {
-      e.OrderId = message.OrderId;
-   });
+    await _reliablePaymentClient.ProcessPayment(message.CustomerId, message.Amount);
+
+    await context.Publish<PaymentSucceededEvent>(e =>
+    {
+        e.OrderId = message.OrderId;
+    });
 }
 ```
 
