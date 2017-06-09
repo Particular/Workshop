@@ -40,8 +40,10 @@ In this exercise you'll replace the two handlers in `Shipping` with a saga. The 
 
 ### Step 1
 
-Have a look at the `OrderSubmittedHandler` and `PaymentSucceededHandler` in `Divergent.Shipping` project.   
-These are the handlers receiving the accompanying events. The events that can arrive out of order.   
+Have a look at the `OrderSubmittedHandler` and `PaymentSucceededHandler` in `Divergent.Shipping` project.
+
+These are the handlers receiving the accompanying events. The events that can arrive out of order.
+
 Remove both handlers.
 
 ### Step 2
@@ -65,6 +67,7 @@ Now we will have our saga implement both handlers for `OrderSubmittedEvent` and 
 NOTE: We're not using `IHandleMessages<T>` to initiate the saga, but rather `IAmStartedByMessages<T>`. The reason is that some messages can start the saga, whereas others should assume the saga to be already instantiated. At least one message should start the saga. We'll get back to this later with more details.
 
 The class should now look like this:
+
 ```c#
 class ShippingSaga : Saga<object>,
         IAmStartedByMessages<OrderSubmittedEvent>,
