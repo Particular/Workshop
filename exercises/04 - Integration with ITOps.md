@@ -319,3 +319,16 @@ public class ShipWithFedexCommandHandler : IHandleMessages<ShipWithFedexCommand>
 ### Step 4
 
 Run the solution and verify that the IT/Ops message handler now fetches both the customer and shipping information via the providers.
+
+NOTE: It might happen that the exercise fails at run time with an `Autofac` exception, similar to the following:
+
+```
+Autofac.Core.DependencyResolutionException: None of the constructors found with 'Autofac.Core.Activators.Reflection.DefaultConstructorFinder' on type 'Divergent.ITOps.Handlers.ShipWithFedexCommandHandler' can be invoked with the available services and parameters:
+Cannot resolve parameter 'Divergent.ITOps.Interfaces.IProvideShippingInfo shippingProvider' of constructor 'Void .ctor(Divergent.ITOps.Interfaces.IProvideShippingInfo, Divergent.ITOps.Interfaces.IProvideCustomerInfo)'.
+```
+
+To keep the example and 'deployment' simple, a post-build event is used to copy the binary assembly to the `IT/Ops` folder. Via reflection the assembly is loaded and registered in `Autofac`, the configured dependency injection container.
+
+Due to various reasons, these files might be missing and the aforementioned error might occur for either the `IProvideCustomerInfo` or `IProvideShippingInfo` parameters in the constructor of the `ShipWithFedexCommandHandler` class.
+
+Do a full rebuild of the entire solution using `CTRL+SHIFT+B`
