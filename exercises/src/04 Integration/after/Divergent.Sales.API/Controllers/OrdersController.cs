@@ -44,9 +44,9 @@ namespace Divergent.Sales.API.Controllers
             using (var _context = new SalesContext())
             {
                 var orders = _context.Orders
-                .Include(i => i.Items)
-                .Include(i => i.Items.Select(x => x.Product))
-                .ToArray();
+                    .Include(i => i.Items)
+                    .Include(i => i.Items.Select(x => x.Product))
+                    .ToArray();
 
                 return orders
                     .Skip(p * s)

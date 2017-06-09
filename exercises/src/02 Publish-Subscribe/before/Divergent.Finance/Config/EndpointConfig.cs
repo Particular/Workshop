@@ -1,13 +1,11 @@
 using System;
-using System.Linq;
+using System.Configuration;
+using System.IO;
 using NServiceBus;
-using NServiceBus.Features;
 using NServiceBus.Logging;
+using NServiceBus.Persistence;
 using ILog = Common.Logging.ILog;
 using LogManager = Common.Logging.LogManager;
-using System.IO;
-using NServiceBus.Persistence;
-using System.Configuration;
 
 namespace Divergent.Finance.Config
 {

@@ -1,10 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.Data.Entity;
+using System.Threading.Tasks;
+using Divergent.Customers.Data.Context;
 using Divergent.Sales.Messages.Events;
 using NServiceBus.Logging;
-using Divergent.Customers.Data.Context;
-using Divergent.Customers.Data.Models;
-using System.Data.Entity;
-using System.Linq;
 
 namespace Divergent.Customers.Handlers
 {
@@ -19,10 +17,10 @@ namespace Divergent.Customers.Handlers
             using (var db = new CustomersContext())
             {
                 var customer = await db.Customers
-                    .Include(c=>c.Orders)
-                    .SingleAsync(c=>c.Id == message.CustomerId);
+                    .Include(c => c.Orders)
+                    .SingleAsync(c => c.Id == message.CustomerId);
 
-                customer.Orders.Add(new Order()
+                customer.Orders.Add(new Data.Models.Order()
                 {
                     CustomerId = message.CustomerId,
                     OrderId = message.OrderId

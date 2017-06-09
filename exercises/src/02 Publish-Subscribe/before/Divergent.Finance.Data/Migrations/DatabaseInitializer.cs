@@ -1,6 +1,6 @@
-﻿using System.Data.Entity.Migrations;
+﻿using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using Divergent.Finance.Data.Context;
-using System.Data.Entity;
 
 namespace Divergent.Finance.Data.Migrations
 {

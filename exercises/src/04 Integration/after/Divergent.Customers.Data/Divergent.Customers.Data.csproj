@@ -53,7 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context\CustomersContext.cs" />
-    <Compile Include="ITOps\ProvideCustomerInfo.cs" />
+    <Compile Include="ITOps\CustomerInfoProvider.cs" />
     <Compile Include="Migrations\DatabaseInitializer.cs" />
     <Compile Include="Migrations\SeedData.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -70,6 +70,7 @@
       <Name>Divergent.ITOps.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy /Y "$(TargetDir)$(ProjectName).dll" "$(SolutionDir)Divergent.ITOps\Providers\$(ProjectName).dll"</PostBuildEvent>

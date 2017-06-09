@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Divergent.Finance.Messages.Events;
 using Divergent.Sales.Messages.Events;
@@ -40,6 +39,7 @@ namespace Divergent.Shipping.Sagas
 
             Data.OrderId = message.OrderId;
             Data.IsPaymentProcessedYet = true;
+
             await ProcessOrder(context);
         }
 
