@@ -2,7 +2,7 @@
 
 NServiceBus endpoints communicate by sending each other messages. In this exercise, we'll focus on a specific type of messages: events. We will also explore a very powerful and popular messaging pattern: Publish-Subscribe (Pub-Sub).
 
-Events are used to communicate that some action has taken place. They're informing us of a fact that something occurred in the past. In Pub-Sub the sender (called Publisher) and the receiver (called Subscriber) are loosely coupled. There might be zero, one or multiple Subscribers interested in a specific event. In order to receive that event, they need to explicitly subscribe to it. In NServiceBus a subscription request is handled by the framework, together with message mappings and implementions of handlers which will process the event. The Publisher sends a copy of the event message to each subscriber.
+Events are used to communicate that some action has taken place. They're informing us of a fact that something occurred in the past. In Pub-Sub, the sender (called Publisher) and the receiver (called Subscriber) are loosely coupled. There might be zero, one or multiple Subscribers interested in a specific event. In order to receive that event, they need to explicitly subscribe to it. In NServiceBus a subscription request is handled by the framework, together with message mappings and implementions of handlers which will process the event. The Publisher sends a copy of the event message to each subscriber.
 
 ## Overview
 
