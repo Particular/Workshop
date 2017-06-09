@@ -1,4 +1,4 @@
-# Exercise 03: Sagas
+# Exercise 3: Sagas
 
 In NServiceBus a saga is the coordinator of a long running (business) process. They are very powerful and once fully grasped, can greatly increase flexibility in projects.
 
