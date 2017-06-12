@@ -11,7 +11,7 @@ namespace Divergent.Shipping.Handlers
 
         public async Task Handle(PaymentSucceededEvent message, IMessageHandlerContext context)
         {
-            Log.Debug("Handle");
+            Log.Info("Handle");
 
             // Store in database that payment succeeded.
             // The order incl. products should also already have arrived and stored in database as well.
