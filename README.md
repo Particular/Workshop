@@ -1,7 +1,6 @@
 # Workshop: Microservice development (with examples in NServiceBus)
 
 - [How to get ready for the workshop](#how-to-get-ready-for-the-workshop)
-- [Agenda](#agenda)
 - [FAQ](faq.md)
 
 ## How to get ready for the workshop
