@@ -6,7 +6,7 @@ using NServiceBus.Logging;
 
 namespace Divergent.Customers.Handlers
 {
-    public class OrderSubmittedHandler : NServiceBus.IHandleMessages<OrderSubmittedEvent>
+    public class OrderSubmittedHandler : IHandleMessages<OrderSubmittedEvent>
     {
         private static readonly ILog Log = LogManager.GetLogger<OrderSubmittedHandler>();
 
