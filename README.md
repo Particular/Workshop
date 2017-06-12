@@ -44,8 +44,8 @@ NOTE: On a clean machine do not install latest version, as of this writing 13.1,
 
 To simplify `LocalDB` instance setup 2 PowerShell scripts, in the [exercises/scripts](exercises/scripts) folder, are provided for your convenience. Both need to be run from an elevated PowerShell console.
 
-* Run `Setup.ps1`, with elevation, to create the `LocalDB` instance and all the required databases
-* Run `Teardown.ps1`, with elevation, to drop all the databases and delete the `LocalDB` instance
+* Run `Setup-Databases.ps1`, with elevation, to create the `LocalDB` instance and all the required databases
+* Run `Teardown-Databases.ps1`, with elevation, to drop all the databases and delete the `LocalDB` instance
 
 The created `LocalDB` instance is named `(localdb)\microservices-workshop`.
 
