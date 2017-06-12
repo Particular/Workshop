@@ -56,6 +56,8 @@ var vm = {
 };
 ```
 
+Note that the client side property is camelCased: "itemsCount", whereas the server side property is PascalCased: "ItemsCount".
+
 ### Step 3
 
 Update the `orders` list template (`Divergent.Frontend\app\branding\orders\ordersView.html`) to display the new information
