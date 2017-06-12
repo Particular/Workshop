@@ -339,7 +339,7 @@ namespace Divergent.Shipping.Handlers
 
         public async Task Handle(PaymentSucceededEvent message, IMessageHandlerContext context)
         {
-            Log.Debug("Handle");
+            Log.Info("Handle");
         }
     }
 }
