@@ -206,7 +206,7 @@ In the `Divergent.Finance` project create the `InitiatePaymentProcessCommandHand
 ```c#
 namespace Divergent.Finance.Handlers
 {
-    class InitiatePaymentProcessCommandHandler : IHandleMessages<InitiatePaymentProcessCommand>
+    public class InitiatePaymentProcessCommandHandler : IHandleMessages<InitiatePaymentProcessCommand>
     {
         private static readonly ILog Log = LogManager.GetLogger<InitiatePaymentProcessCommand>();
         private readonly ReliablePaymentClient _reliablePaymentClient;
@@ -233,7 +233,7 @@ In the `Divergent.Customers` project create the `OrderSubmittedHandler` class in
 ```c#
 namespace Divergent.Customers.Handlers
 {
-    public class OrderSubmittedHandler : NServiceBus.IHandleMessages<OrderSubmittedEvent>
+    public class OrderSubmittedHandler : IHandleMessages<OrderSubmittedEvent>
     {
         private static readonly ILog Log = LogManager.GetLogger<OrderSubmittedHandler>();
     

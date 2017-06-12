@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Divergent.Finance.Messages.Commands;
 using Divergent.Finance.Messages.Events;
 using Divergent.Finance.PaymentClient;
@@ -7,7 +7,7 @@ using NServiceBus.Logging;
 
 namespace Divergent.Finance.Handlers
 {
-    class InitiatePaymentProcessCommandHandler : IHandleMessages<InitiatePaymentProcessCommand>
+    public class InitiatePaymentProcessCommandHandler : IHandleMessages<InitiatePaymentProcessCommand>
     {
         private static readonly ILog Log = LogManager.GetLogger<InitiatePaymentProcessCommand>();
         private readonly ReliablePaymentClient _reliablePaymentClient;
