@@ -220,7 +220,7 @@ In the saga add a new async method called `ProcessOrder` that you will call from
     {
         if (Data.IsOrderSubmitted && Data.IsPaymentProcessedYet)
         {
-            // Send a message to execute shipment
+            await Task.CompletedTask; // Send a message to execute shipment
             MarkAsComplete();
         }
     }
