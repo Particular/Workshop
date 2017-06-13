@@ -240,7 +240,7 @@ Sagas are excellent for coordinating a business process. In the current saga we 
 
 We can request a timeout in our saga so that, after a certain amount of time, we can take action such as notifying the shipping or sales department. In the real world, a saga in the Finance bounded context would take care of this, but let's also take some action after the timeout elapses. Otherwise, this saga would live forever without anyone noticing the order processing failed in some way.
 
-## Advanced Exercise 2
+### Advanced exercise 2
 
 This is an expert-level exercise.
 
@@ -248,7 +248,7 @@ The Finance bounded context contacts a payment provider to execute payments. The
 
 Although this is a good and extremely reliable payment provider, it's also very expensive. Business is growing, and it would be prudent to look for alternatives to cut costs. There is another payment provider, but it's less reliable. Obviously this can't get in the way of our payments, but we can at least try to use it. If it fails, we can fallback to the reliable, but more expensive, provider.
 
-### Exercise
+#### Exercise
 
 Create a new saga in the Finance bounded context which first tries to process the payment with the unreliable payment provider. If that fails (i.e. you don't receive `PaymentSucceededEvent` within the expected time frame), fall back to the reliable provider.
 
