@@ -98,7 +98,7 @@ class ShippingSagaData : ContainSagaData
 
 ### Step 2
 
-Now we'll add products. A minor problem is that we can't add `IList<int>` for the products as NServiceBus persisters can't map this properly to tables or documents in SQL-Server and/or RavenDB. We need a complex type. Create a class called `Product`, and in `ShippingSagaData` add a property of `ICollection<Product>` to contain the products. Of course the `Product` class needs to hold the unique id of each ordered product, so we need to add a property for that as well. We'll end up with a class like this:
+Now we'll add products. A minor problem is that we can't add `IList<int>` for the products as NServiceBus persisters can't map this properly to tables or documents in SQL Server and/or RavenDB. We need a complex type. Create a class called `Product`, and in `ShippingSagaData` add a property of `ICollection<Product>` to contain the products. Of course the `Product` class needs to hold the unique id of each ordered product, so we need to add a property for that as well. We'll end up with a class like this:
 
 ```c#
 class ShippingSagaData : ContainSagaData
@@ -114,7 +114,7 @@ class ShippingSagaData : ContainSagaData
 }
 ```
 
-NOTE: The saga data properties require the `virtual` modifier to allow NHibernate to store and retreive them correctly in SQL Server. The `virtual` modifier is not required when using other persistence providers.
+NOTE: The saga data properties require the `virtual` modifier to allow NHibernate to store and retreive them correctly using SQL Server. The `virtual` modifier is not required when using other persistence providers.
 
 ### Step 3
 
