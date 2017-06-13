@@ -82,8 +82,6 @@ Override saga base class `ConfigureHowToFindSaga` abstract method and implement 
 
 A saga is coordinating long-running business processes. The saga you implement, takes decisions based on data that it receives. Imagine a business process that is running for days, years even. Some business processes actually never end. Our saga can't keep all that data in memory forever, so it needs to store this data somewhere.
 
-NOTE: In this exercise, to reduce the system configuration complexity, the configured saga storage is in-memory. In a production environment you would store saga state, and other NServiceBus related data, in a durable persistence storage like SQL-Server, Azure Storage or RavenDB. You can [read more on NServiceBus persistence](http://docs.particular.net/nservicebus/persistence/).
-
 We need to define what state we want to store for our saga. This saga is about a customer's order, so we should store both the `CustomerId` and the `OrderId`. We also want to store the products coming in with the `OrderSubmittedEvent`.
 
 ### Step 1
@@ -100,7 +98,7 @@ class ShippingSagaData : ContainSagaData
 
 ### Step 2
 
-Now we'll add products. A minor problem is that we can't add `IList<int>` for the products as NServiceBus persisters can't map this properly to tables or documents in SQL-Server and/or RavenDB. We need a complex type. Create a class called `Product`, and in `ShippingSagaData` add a property of `ICollection<Product>` to contain the products. Of course the `Product` class needs to hold the unique id of each ordered product, so we need to add a property for that as well. We'll end up with a class like this:
+Now we'll add products. A minor problem is that we can't add `IList<int>` for the products as NServiceBus persisters can't map this properly to tables or documents in SQL Server and/or RavenDB. We need a complex type. Create a class called `Product`, and in `ShippingSagaData` add a property of `ICollection<Product>` to contain the products. Of course the `Product` class needs to hold the unique id of each ordered product, so we need to add a property for that as well. We'll end up with a class like this:
 
 ```c#
 class ShippingSagaData : ContainSagaData
@@ -116,7 +114,7 @@ class ShippingSagaData : ContainSagaData
 }
 ```
 
-NOTE: The saga data implementation utilize the `virtual` property modifier to simplify the migration of this sample to a persistent storage such as SQL Server. It's not required when using an in-memory persister.
+NOTE: The saga data properties require the `virtual` modifier to allow NHibernate to store and retreive them correctly using SQL Server. The `virtual` modifier is not required when using other persistence providers.
 
 ### Step 3
 
@@ -181,7 +179,7 @@ There are various ways to check in what state the saga is. We can add flags to t
 
 ### Step 2
 
-To verify if `PaymentSucceededEvent` has been received, we can set a boolean property on the saga state. Add a boolean property to `ShippingSagaData` called `IsPaymentProcessedYet` and in the handler for the `PaymentSuccedeedEvent` we set this property to true.
+To verify if `PaymentSucceededEvent` has been received, we can set a boolean property on the saga state. Add a boolean property to `ShippingSagaData` called `IsPaymentProcessedYet` and in the handler for the `PaymentSuccedeedEvent` we set this property to true. Remember to make the new property `virtual` since we are using NHibernate for persistence.
 
 ```c#
 public async Task Handle(PaymentSucceededEvent message, IMessageHandlerContext context)
@@ -194,19 +192,19 @@ public async Task Handle(PaymentSucceededEvent message, IMessageHandlerContext c
 NOTE: If the `IsPaymentProcessedYet` property is generated using refactoring tools, it may have a internal setter:
 
 ```c#
-public bool IsPaymentProcessedYet { get; internal set; }
+public virtual bool IsPaymentProcessedYet { get; internal set; }
 ```
 
 Make sure you remove the `internal` keyword to make the setter public. Otherwise, when `ShippingSagaData` is rehydrated from storage, the property may not be set correctly.
 
 ### Step 3
 
-To verify if `OrderSubmittedEvent` has been received, we can set a boolean property on the saga state. Add a boolean property to `ShippingSagaData` called `IsOrderSubmitted`, and in the handler for the `OrderSubmittedEvent` set this property to true.
+To verify if `OrderSubmittedEvent` has been received, we can set a boolean property on the saga state. Add a boolean property to `ShippingSagaData` called `IsOrderSubmitted`, and in the handler for the `OrderSubmittedEvent` set this property to true. Remember to make the new property `virtual` since we are using NHibernate for persistence.
 
 NOTE: If the `IsOrderSubmitted` property is generated using refactoring tools, it may have a internal setter:
 
 ```c#
-public bool IsOrderSubmitted { get; internal set; }
+public virtual bool IsOrderSubmitted { get; internal set; }
 ```
 
 Make sure you remove the `internal` keyword to make the setter public. Otherwise, when `ShippingSagaData` is rehydrated from storage, the property may not be set correctly.
