@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 
 namespace ITOps.ViewModelComposition
 {
-    abstract class Subscription
+    interface ISubscription
     {
-        public abstract Task Invoke(dynamic viewModel, object @event, RouteData routeData, IQueryCollection query);
+        Task Invoke(dynamic viewModel, object @event, RouteData routeData, IQueryCollection query);
     }
 }

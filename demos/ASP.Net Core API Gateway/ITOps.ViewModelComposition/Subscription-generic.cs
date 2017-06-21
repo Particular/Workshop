@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ITOps.ViewModelComposition
 {
-    class Subscription<T> : Subscription
+    class Subscription<T> : ISubscription
     {
         private Func<dynamic, T, RouteData, IQueryCollection, Task> subscription;
 
@@ -14,6 +14,6 @@ namespace ITOps.ViewModelComposition
             this.subscription = subscription;
         }
 
-        public override Task Invoke(dynamic viewModel, object @event, RouteData routeData, IQueryCollection query) => subscription(viewModel, (T)@event, routeData, query);
+        public Task Invoke(dynamic viewModel, object @event, RouteData routeData, IQueryCollection query) => subscription(viewModel, (T)@event, routeData, query);
     }
 }
