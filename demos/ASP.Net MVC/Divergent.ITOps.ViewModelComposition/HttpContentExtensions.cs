@@ -9,16 +9,14 @@ namespace Divergent.ITOps.ViewModelComposition
     {
         public static async Task<ExpandoObject> AsExpandoAsync(this HttpContent content)
         {
-            var obj = JsonConvert.DeserializeObject<ExpandoObject>(await content.ReadAsStringAsync(), CamelCaseToPascalSettings.GetSerializerSettings());
-
-            return obj;
+            var result = await content.ReadAsStringAsync().ConfigureAwait(false);
+            return JsonConvert.DeserializeObject<ExpandoObject>(result, CamelCaseToPascalSettings.GetSerializerSettings());
         }
 
         public static async Task<ExpandoObject[]> AsExpandoArrayAsync(this HttpContent content)
         {
-            var obj = JsonConvert.DeserializeObject<ExpandoObject[]>(await content.ReadAsStringAsync(), CamelCaseToPascalSettings.GetSerializerSettings());
-
-            return obj;
+            var result = await content.ReadAsStringAsync().ConfigureAwait(false);
+            return JsonConvert.DeserializeObject<ExpandoObject[]>(result, CamelCaseToPascalSettings.GetSerializerSettings());
         }
     }
 }
