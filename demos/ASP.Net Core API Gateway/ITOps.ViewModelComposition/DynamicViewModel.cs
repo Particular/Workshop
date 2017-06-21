@@ -11,7 +11,7 @@ namespace ITOps.ViewModelComposition.Engine
     {
         RouteData routeData;
         IQueryCollection query;
-        IDictionary<Type, IList<Subscription>> subscriptions = new Dictionary<Type, IList<Subscription>>();
+        IDictionary<Type, IList<ISubscription>> subscriptions = new Dictionary<Type, IList<ISubscription>>();
         IDictionary<string, object> properties = new Dictionary<string, object>();
 
         public DynamicViewModel(HttpContext context)
@@ -24,9 +24,9 @@ namespace ITOps.ViewModelComposition.Engine
 
         public void Subscribe<T>(Func<dynamic, T, RouteData, IQueryCollection, Task> subscription)
         {
-            if (!subscriptions.TryGetValue(typeof(T), out IList<Subscription> subscribers))
+            if (!subscriptions.TryGetValue(typeof(T), out IList<ISubscription> subscribers))
             {
-                subscribers = new List<Subscription>();
+                subscribers = new List<ISubscription>();
                 subscriptions.Add(typeof(T), subscribers);
             }
 
@@ -66,7 +66,7 @@ namespace ITOps.ViewModelComposition.Engine
 
         public Task RaiseEventAsync(object @event)
         {
-            if (subscriptions.TryGetValue(@event.GetType(), out IList<Subscription> subscribers))
+            if (subscriptions.TryGetValue(@event.GetType(), out IList<ISubscription> subscribers))
             {
                 var tasks = new List<Task>();
                 foreach (var subscriber in subscribers)
