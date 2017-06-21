@@ -1,4 +1,5 @@
 ﻿using Divergent.Shipping.Data.Context;
+using Divergent.Shipping.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Divergent.Shipping.API.Host.Controllers
     {
         [HttpGet]
         [Route("order/{id}")]
-        public dynamic Order(int id)
+        public ShippingInfo Order(int id)
         {
             using (var db = new ShippingContext())
             {
@@ -25,7 +26,7 @@ namespace Divergent.Shipping.API.Host.Controllers
 
         [HttpGet]
         [Route("orders")]
-        public IEnumerable<dynamic> Orders(string ids)
+        public IEnumerable<ShippingInfo> Orders(string ids)
         {
             using (var db = new ShippingContext())
             {
