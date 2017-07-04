@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Divergent.Sales.ViewModelComposition.Events\Divergent.Sales.ViewModelComposition.Events.csproj" />
+    <ProjectReference Include="..\ITOps.ViewModelComposition.Json\ITOps.ViewModelComposition.Json.csproj" />
+    <ProjectReference Include="..\ITOps.ViewModelComposition\ITOps.ViewModelComposition.csproj" />
+  </ItemGroup>
+
+</Project>
