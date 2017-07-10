@@ -31,10 +31,7 @@ namespace ITOps.ViewModelComposition
 
             foreach (var type in types)
             {
-                if (typeof(IRouteInterceptor).IsAssignableFrom(type))
-                {
-                    services.AddSingleton(typeof(IRouteInterceptor), type);
-                }
+                services.AddSingleton(typeof(IRouteInterceptor), type);
             }
         }
     }
