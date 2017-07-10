@@ -39,7 +39,7 @@ namespace Divergent.Frontend
 
             app.Map("/compose", appBuilder =>
             {
-                //via branching composition gateway can be hosted alongside anohter Mvc App.
+                //via branching composition gateway can be hosted alongside another Mvc App.
                 appBuilder.RunCompositionGatewayWithDefaultRoutes();
             });
 
