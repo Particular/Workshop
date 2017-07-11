@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title>vaadin-grid – Basic Usage</title>
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+  <link rel="import" href="../../paper-checkbox/paper-checkbox.html">
+  <link rel="import" href="../../iron-ajax/iron-ajax.html">
+
+  <link rel="import" href="common.html">
+</head>
+
+<body unresolved>
+  <div class="vertical-section-container centered">
+    <demo-navigation></demo-navigation>
+
+    <h3>Basic Binding</h3>
+    <p>
+      Cells contents can be defined using <code>&lt;template&gt;</code> elements.
+      Inside templates, variables like <code>[[index]]</code> and <code>[[item.prop]]</code>
+      can be used to add dynamic content.
+    </p>
+    <p>
+      <b>Note:</b> By default, the height of a row is determined by the height of its cell contents,
+      as seen in this example.
+    </p>
+    <demo-snippet>
+      <template>
+        <dom-bind>
+          <template is="dom-bind">
+            <!-- Fetch an array of users to be shown in the grid -->
+            <iron-ajax auto url="https://demo.vaadin.com/demo-data/1.0/people?count=200" handle-as="json" last-response="{{users}}"></iron-ajax>
+
+            <!-- The array is set as the <vaadin-grid>'s "items" property -->
+            <vaadin-grid aria-label="Basic Binding Example" items="[[users.result]]">
+
+              <vaadin-grid-column width="50px" flex-grow="0">
+                <template class="header">#</template>
+                <template>[[index]]</template>
+                <!-- If necessary, the footer could be set using <template class="footer"> -->
+                <template class="footer">#</template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column>
+                <template class="header">
+                  <span draggable="true">
+                    First Name
+                  </span>
+                </template>
+                <template>
+                  <span draggable="true">
+                    [[item.firstName]]
+                  </span>
+                </template>
+                <template class="footer">First Name</template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column>
+                <template class="header">Last Name</template>
+                <template>[[item.lastName]]</template>
+                <template class="footer">Last Name</template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column width="150px">
+                <template class="header">Address</template>
+                <template>
+                  <p style="white-space: normal">[[item.address.street]], [[item.address.city]]</p>
+                </template>
+                <template class="footer">Address</template>
+              </vaadin-grid-column>
+
+            </vaadin-grid>
+          </template>
+        </dom-bind>
+      </template>
+    </demo-snippet>
+
+    <h3>Two-Way Binding</h3>
+    <p>
+      Some template variables, like the item properties, can be modified using <a href="https://www.polymer-project.org/1.0/docs/devguide/data-binding" target="_blank">Polymer's two-way binding</a>.
+    </p>
+    <demo-snippet>
+      <template>
+        <dom-bind>
+          <template is="dom-bind">
+            <custom-style>
+              <style is="custom-style">
+                input[readonly] {
+                  border: 2px solid transparent;
+                }
+
+                input {
+                  font: inherit;
+                }
+              </style>
+            </custom-style>
+            <iron-ajax auto url="https://demo.vaadin.com/demo-data/1.0/people?count=200" handle-as="json" last-response="{{users}}"></iron-ajax>
+
+            <paper-checkbox checked="{{editing}}" style="margin-bottom: 20px">Enable Editing</paper-checkbox>
+
+            <vaadin-grid aria-label="Two-way Binding Example" items="[[users.result]]">
+
+              <vaadin-grid-column>
+                <template class="header">First Name</template>
+                <template>
+                  <input value="{{item.firstName::input}}" readonly$="[[!editing]]">
+                </template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column>
+                <template class="header">Last Name</template>
+                <template>
+                  <input value="{{item.lastName::input}}" readonly$="[[!editing]]">
+                </template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column width="200px">
+                <template class="header">Email</template>
+                <template>
+                  <div>[[item.firstName]].[[item.lastName]]@example.com</div>
+                </template>
+              </vaadin-grid-column>
+
+            </vaadin-grid>
+          </template>
+        </dom-bind>
+      </template>
+    </demo-snippet>
+
+  </div>
+</body>
+
+</html>

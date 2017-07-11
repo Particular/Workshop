@@ -1,0 +1,29 @@
+<link rel="import" href="./lib/polymer/polymer.html">
+<link rel="import" href="./lib/iron-icons/iron-icons.html">
+<link rel="import" href="./shared-styles.html">
+
+<dom-module id="view-main">
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+                padding: 10px;
+            }
+        </style>
+
+        <div class="card">
+            <h1>Product Catalog</h1>
+            <p>Ut labores minimum atomorum pro. Laudem tibique ut has.</p>
+            <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>
+        </div>
+
+    </template>
+
+    <script>
+        class ViewMain extends Polymer.Element {
+            static get is() { return 'view-main'; }
+        }
+
+        window.customElements.define(ViewMain.is, ViewMain); 
+    </script>
+</dom-module>

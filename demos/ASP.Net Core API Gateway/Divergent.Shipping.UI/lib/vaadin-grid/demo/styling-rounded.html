@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title>vaadin-grid – Styling: Rounded Rows</title>
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+  <link rel="import" href="common.html">
+  <link rel="import" href="../vaadin-grid-selection-column.html">
+  <link rel="import" href="../../paper-checkbox/paper-checkbox.html">
+  <link rel="import" href="../../iron-icon/iron-icon.html">
+  <link rel="import" href="../../iron-icons/iron-icons.html">
+  <link rel="import" href="../../paper-styles/color.html">
+  <link rel="import" href="../vaadin-grid-sorter.html">
+  <link rel="import" href="../vaadin-grid-filter.html">
+  <link rel="import" href="../vaadin-grid-column-group.html">
+
+</head>
+
+<body unresolved>
+
+  <div class="vertical-section-container centered">
+    <demo-navigation></demo-navigation>
+
+    <h3>Rounded Rows</h3>
+    <demo-snippet>
+      <template>
+        <dom-bind>
+          <template is="dom-bind">
+            <custom-style>
+              <style is="custom-style">
+                vaadin-grid#rounded-rows {
+                  font: 300 14px "Open Sans", sans-serif;
+                  color: rgb(222, 230, 233);
+                  background: rgb(80, 91, 102);
+                  border: none;
+                  padding: 8px;
+                  --divider-color: transparent;
+
+                  --vaadin-grid-cell: {
+                    background: rgb(80, 91, 102);
+                  };
+
+                  --vaadin-grid-body-cell: {
+                    padding: 0 0 10px;
+                  };
+
+                  --vaadin-grid-header-cell: {
+                    text-transform: uppercase;
+                    padding: 16px;
+                  };
+
+                  --vaadin-grid-focused-cell: {
+                    box-shadow: none;
+                    font-weight: bold;
+                  };
+                }
+
+                vaadin-grid#rounded-rows .bodycell {
+                  padding: 16px;
+                  background: rgb(90, 103, 116);
+                  border-top: 1px solid rgb(105, 118, 132);
+                  border-bottom: 1px solid rgb(105, 118, 132);
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                }
+
+                vaadin-grid#rounded-rows .left {
+                  border-left: 1px solid rgb(105, 118, 132);
+                  border-radius: 3px 0 0 3px;
+                  margin-left: 8px;
+                }
+
+                vaadin-grid#rounded-rows .right {
+                  margin-right: 8px;
+                  border-right: 1px solid rgb(105, 118, 132);
+                  border-radius: 0 3px 3px 0;
+                }
+
+              </style>
+            </custom-style>
+
+            <x-array-data-provider items="{{items}}"></x-array-data-provider>
+
+            <vaadin-grid id="rounded-rows" items="[[items]]" size="200">
+
+              <vaadin-grid-column>
+                <template class="header">Name</template>
+                <template>
+                  <div class="bodycell left">[[item.name.first]]</div>
+                </template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column>
+                <template class="header">Email</template>
+                <template>
+                  <div class="bodycell">[[item.email]]</div>
+                </template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column>
+                <template class="header">City</template>
+                <template>
+                  <div class="bodycell">[[item.location.city]]</div>
+                </template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column>
+                <template class="header">State</template>
+                <template>
+                  <div class="bodycell right">[[item.location.state]]</div>
+                </template>
+              </vaadin-grid-column>
+
+            </vaadin-grid>
+          </template>
+        </dom-bind>
+
+      </template>
+    </demo-snippet>
+
+  </div>
+</body>
+
+</html>

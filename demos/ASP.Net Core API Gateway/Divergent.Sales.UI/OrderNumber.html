@@ -1,0 +1,32 @@
+﻿<link rel="import" href="/lib/polymer/polymer.html">
+<link rel="import" href="/lib/iron-ajax/iron-ajax.html">
+<link rel="import" href="/lib/iron-icons/maps-icons.html">
+<link rel="import" href="/lib/vaadin-grid/all-imports.html">
+<link rel="import" href="/lib/paper-icon-button/paper-icon-button.html" />
+
+<dom-module id="order-number">
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+                padding: 10px;
+            }
+        </style>
+
+        <span>[[order.orderNumber]]</span>
+
+    </template>
+    <script>
+        class OrderNumber extends Polymer.Element {
+            static get is() { return 'order-number'; }
+
+            static get properties() {
+                return {
+                    order: Object
+                }
+            }
+        }
+
+        window.customElements.define(OrderNumber.is, OrderNumber);
+    </script>
+</dom-module>

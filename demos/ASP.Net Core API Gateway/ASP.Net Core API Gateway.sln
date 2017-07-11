@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26403.7
+VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.CompositionGateway", "Divergent.CompositionGateway\Divergent.CompositionGateway.csproj", "{C0E4CD4F-657A-4872-969C-D97768636BDA}"
 EndProject
@@ -35,7 +35,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITOps.ViewModelComposition.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITOps.ViewModelComposition.Mvc", "ITOps.ViewModelComposition.Mvc\ITOps.ViewModelComposition.Mvc.csproj", "{536CBB25-3800-4ED5-9A0A-E3FC8FE180A0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Sales.UI", "Divergent.Sales.UI\Divergent.Sales.UI.csproj", "{AD1EA841-23E5-405D-AFD7-50C149652F91}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Divergent.Shipping.UI", "Divergent.Shipping.UI\Divergent.Shipping.UI.shproj", "{CA6F517F-490A-4439-AAF5-0CE3C3DE5695}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Divergent.Shipping.UI\Divergent.Shipping.UI.projitems*{ca6f517f-490a-4439-aaf5-0ce3c3de5695}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -93,6 +100,10 @@ Global
 		{536CBB25-3800-4ED5-9A0A-E3FC8FE180A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{536CBB25-3800-4ED5-9A0A-E3FC8FE180A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{536CBB25-3800-4ED5-9A0A-E3FC8FE180A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD1EA841-23E5-405D-AFD7-50C149652F91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD1EA841-23E5-405D-AFD7-50C149652F91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD1EA841-23E5-405D-AFD7-50C149652F91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD1EA841-23E5-405D-AFD7-50C149652F91}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -109,5 +120,7 @@ Global
 		{0059E3AC-0AFA-43F6-B631-200CBB723F94} = {9D36D6A4-373C-4CB0-8B54-D15505E2AE91}
 		{4951C5A4-59D4-4AE1-B74C-B6F667544211} = {DB3EFAF6-6B45-48ED-BCB9-5F44FAB30CF9}
 		{536CBB25-3800-4ED5-9A0A-E3FC8FE180A0} = {DB3EFAF6-6B45-48ED-BCB9-5F44FAB30CF9}
+		{AD1EA841-23E5-405D-AFD7-50C149652F91} = {C243015C-AEC9-4694-889E-4B57E208FD2A}
+		{CA6F517F-490A-4439-AAF5-0CE3C3DE5695} = {9D36D6A4-373C-4CB0-8B54-D15505E2AE91}
 	EndGlobalSection
 EndGlobal

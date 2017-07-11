@@ -7,6 +7,17 @@
   <PropertyGroup>
     <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wp8+wpa81;</PackageTargetFallback>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="wwwroot\js\**" />
+    <Content Remove="wwwroot\js\**" />
+    <EmbeddedResource Remove="wwwroot\js\**" />
+    <None Remove="wwwroot\js\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="wwwroot\view-details.html" />
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />
@@ -25,9 +36,6 @@
     <ProjectReference Include="..\Divergent.Shipping.ViewModelComposition\Divergent.Shipping.ViewModelComposition.csproj" />
     <ProjectReference Include="..\ITOps.ViewModelComposition.Gateway\ITOps.ViewModelComposition.Gateway.csproj" />
     <ProjectReference Include="..\ITOps.ViewModelComposition.Mvc\ITOps.ViewModelComposition.Mvc.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controllers\api\" />
   </ItemGroup>
 
 </Project>

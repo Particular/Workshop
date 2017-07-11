@@ -1,0 +1,133 @@
+<script>
+  window.vaadin = window.vaadin || {};
+  vaadin.elements = vaadin.elements || {};
+  vaadin.elements.grid = vaadin.elements.grid || {};
+
+  /**
+   * @polymerBehavior vaadin.elements.grid.ArrayDataProviderBehavior
+   */
+  vaadin.elements.grid.ArrayDataProviderBehavior = {
+
+    properties: {
+
+      /**
+       * An array containing the items which will be stamped to the column template
+       * instances.
+       */
+      items: Array
+
+    },
+
+    observers: [
+      '_itemsChanged(items, items.*)'
+    ],
+
+    _itemsChanged: function(items, splices) {
+      if (items === undefined || splices === undefined) {
+        return;
+      }
+
+      this.size = (items || []).length;
+      this.dataProvider = this.dataProvider || this._arrayDataProvider;
+      this.clearCache();
+    },
+
+    _arrayDataProvider: function(opts, cb) {
+      var items = (this.items || []).slice(0);
+
+      if (this._checkPaths(this._filters, 'filtering', items)) {
+        items = this._filter(items);
+      }
+
+      this.size = items.length;
+
+      if (opts.sortOrders.length && this._checkPaths(this._sorters, 'sorting', items)) {
+        items = items.sort(this._multiSort.bind(this));
+      }
+
+      var start = opts.page * opts.pageSize;
+      var end = start + opts.pageSize;
+      var slice = items.slice(start, end);
+      cb(slice, items.length);
+    },
+
+    /**
+     * Check array of filters/sorters for paths validity, console.warn invalid items
+     * @param {Array}  arrayToCheck The array of filters/sorters to check
+     * @param {string} action       The name of action to include in warning (filtering, sorting)
+     * @param {Array}  items
+     */
+    _checkPaths: function(arrayToCheck, action, items) {
+      if (!items.length) {
+        return false;
+      }
+
+      var result = true;
+
+      for (var i in arrayToCheck) {
+        var path = arrayToCheck[i].path;
+
+        // skip simple paths
+        if (!path || path.indexOf('.') === -1) {
+          continue;
+        }
+
+        var parentProperty = path.replace(/\.[^\.]*$/, ''); // a.b.c -> a.b
+        if (Polymer.Base.get(parentProperty, items[0]) === undefined) {
+          console.warn(
+            'Path "' + path + '" used for ' + action + ' does not exist in all of the items, ' + action + ' is disabled.'
+          );
+          result = false;
+        }
+      }
+
+      return result;
+    },
+
+    _multiSort: function(a, b) {
+      return this._sorters.map(function(sort) {
+        if (sort.direction === 'asc') {
+          return this._compare(Polymer.Base.get(sort.path, a), Polymer.Base.get(sort.path, b));
+        } else if (sort.direction === 'desc') {
+          return this._compare(Polymer.Base.get(sort.path, b), Polymer.Base.get(sort.path, a));
+        }
+        return 0;
+      }, this).reduce(function firstNonZeroValue(p, n) {
+        return p ? p : n;
+      }, 0);
+    },
+
+    _normalizeEmptyValue: function(value) {
+      if ([undefined, null].indexOf(value) >= 0) {
+        return '';
+      } else if (isNaN(value)) {
+        return value.toString();
+      } else {
+        return value;
+      }
+    },
+
+    _compare: function(a, b) {
+      a = this._normalizeEmptyValue(a);
+      b = this._normalizeEmptyValue(b);
+
+      if (a < b) {
+        return -1;
+      }
+      if (a > b) {
+        return 1;
+      }
+      return 0;
+    },
+
+    _filter: function(items) {
+      return items.filter(function(item, index) {
+        return this._filters.filter(function(filter) {
+          var value = this._normalizeEmptyValue(Polymer.Base.get(filter.path, item));
+          return value.toString().toLowerCase().indexOf(filter.value.toString().toLowerCase()) === -1;
+        }.bind(this)).length === 0;
+      }, this);
+    }
+
+  };
+</script>

@@ -1,0 +1,171 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title>vaadin-grid – Row Details</title>
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+  <link rel="import" href="../../paper-checkbox/paper-checkbox.html">
+
+  <link rel="import" href="common.html">
+</head>
+
+<body unresolved>
+  <div class="vertical-section-container centered">
+    <demo-navigation></demo-navigation>
+
+    <h3>Row Details</h3>
+    <p>
+      Row Details can be enabled by providing a <code>&lt;template class="row-details"&gt;</code>
+      and expanding/collapsing items by using <code>{{expanded}}</code> template variable,
+      <code>expandedItems</code> property or <code>expandItem(item)</code> and
+      <code>collapseItem(item)</code> methods.
+    </p>
+    <demo-snippet>
+      <template>
+        <dom-bind>
+          <template is="dom-bind">
+            <custom-style>
+              <style is="custom-style">
+                .details {
+                  padding: 10px;
+                  margin: 10px;
+                  display: flex;
+                  justify-content: space-around;
+                  align-items: center;
+                  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14);
+                  font-size: 20px;
+                }
+
+                img {
+                  width: 80px;
+                  height: 80px;
+                }
+              </style>
+            </custom-style>
+            <x-data-provider data-provider="{{dataProvider}}"></x-data-provider>
+
+            <vaadin-grid active-item={{activeItem}} aria-label="Row Details Example" data-provider="[[dataProvider]]" size="200">
+
+              <template class="row-details">
+                <div class="details">
+                  <img src="[[item.picture.large]]"></img>
+                  <p>Hi! My name is [[item.name.first]]!</p>
+                </div>
+              </template>
+
+              <vaadin-grid-column width="50px" flex-grow="0">
+                <template class="header">#</template>
+                <template>[[index]]</template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column>
+                <template class="header">First Name</template>
+                <template>[[item.name.first]]</template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column>
+                <template class="header">Last Name</template>
+                <template>[[item.name.last]]</template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column width="100px">
+                <template class="header"></template>
+                <template>
+                  <paper-checkbox aria-label$="Show Details for [[item.name.first]]" checked="{{expanded}}">Show Details</paper-checkbox>
+                </template>
+              </vaadin-grid-column>
+
+            </vaadin-grid>
+          </template>
+        </dom-bind>
+      </template>
+    </demo-snippet>
+
+    <h3>Expanding Items Without Data Binding</h3>
+    <p>
+      In this example the grid's <code>activeItem</code> property is bound to <code>expandedItems</code> property.
+    </p>
+    <p>
+      <b>Hint: </b>Click a row to toggle the active item.
+    </p>
+    <demo-snippet>
+      <template>
+        <bind-expanded-items></bind-expanded-items>
+        <dom-module id="bind-expanded-items">
+          <template>
+            <style>
+              :host {
+                display: block;
+              }
+
+              .details {
+                padding: 10px;
+                margin: 10px;
+                display: flex;
+                justify-content: space-around;
+                align-items: center;
+                box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14);
+                font-size: 20px;
+              }
+
+              img {
+                width: 80px;
+                height: 80px;
+              }
+            </style>
+
+            <x-data-provider data-provider="{{dataProvider}}"></x-data-provider>
+
+            <vaadin-grid on-active-item-changed="_onActiveItemChanged" id="grid" aria-label="Expanded Items Example" data-provider="[[dataProvider]]" size="200">
+
+              <template class="row-details">
+                <div class="details">
+                  <img src="[[item.picture.large]]"></img>
+                  <p>Hi! My name is [[item.name.first]]!</p>
+                </div>
+              </template>
+
+              <vaadin-grid-column width="50px" flex-grow="0">
+                <template class="header">#</template>
+                <template>[[index]]</template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column>
+                <template class="header">First Name</template>
+                <template>[[item.name.first]]</template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column>
+                <template class="header">Last Name</template>
+                <template>[[item.name.last]]</template>
+              </vaadin-grid-column>
+
+            </vaadin-grid>
+
+          </template>
+          <script>
+            addEventListener('WebComponentsReady', function() {
+              Polymer({
+                is: 'bind-expanded-items',
+
+                _onActiveItemChanged: function(e) {
+                  this.$.grid.expandedItems = [e.detail.value];
+                }
+              });
+            });
+          </script>
+        </dom-module>
+
+      </template>
+    </demo-snippet>
+
+  </div>
+</body>
+
+</html>

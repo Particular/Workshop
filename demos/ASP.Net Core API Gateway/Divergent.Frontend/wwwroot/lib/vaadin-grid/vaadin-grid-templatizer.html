@@ -1,0 +1,166 @@
+<link rel="import" href="../polymer/polymer.html">
+
+<script>
+  window.vaadin = window.vaadin || {};
+  vaadin.elements = vaadin.elements || {};
+  vaadin.elements.grid = vaadin.elements.grid || {};
+
+  vaadin.elements.grid.Templatizer = Polymer({
+    is: 'vaadin-grid-templatizer',
+
+    behaviors: [Polymer.Templatizer],
+
+    properties: {
+      dataHost: Object,
+      template: Object,
+
+      _templateInstances: {
+        type: Array,
+        value: function() {
+          return [];
+        }
+      },
+
+      _parentPathValues: {
+        value: function() {
+          return {};
+        }
+      }
+    },
+
+    observers: [
+      '_templateInstancesChanged(_templateInstances.*, _parentPathValues.*)'
+    ],
+
+    created: function() {
+      // needed for V2 to enable event.model on declarative event listeners.
+      this._parentModel = true;
+
+      this._instanceProps = {
+        expanded: true,
+        index: true,
+        item: true,
+        selected: true
+      };
+    },
+
+    createInstance: function() {
+      this._ensureTemplatized();
+      var instance = this.stamp({});
+      this.addInstance(instance);
+
+      return instance;
+    },
+
+    addInstance: function(instance) {
+      if (this._templateInstances.indexOf(instance) === -1) {
+        this.push('_templateInstances', instance);
+      }
+    },
+
+    removeInstance: function(instance) {
+      var index = this._templateInstances.indexOf(instance);
+      this.splice('_templateInstances', index, 1);
+    },
+
+    _ensureTemplatized: function() {
+      // Avoid multiple templatize for the template
+      if (!this.template._templatized) {
+        this.template._templatized = true;
+
+        this.templatize(this.template);
+
+        // TODO: hack to avoid: https://github.com/Polymer/polymer/issues/3307
+        this._parentProps = this._parentProps || {};
+
+        // TODO: V1 only. For some reason, parent properties are not forwarded
+        // initially, they need manual forwarding.
+        if (!Polymer.Element) {
+          Object.keys(this._parentProps).forEach(function(prop) {
+            if (this._parentProps[prop]) {
+              // this._forwardParentProp(prop, this.dataHost[prop]);
+            }
+          }, this);
+        }
+      }
+    },
+
+    _forwardInstanceProp: function(inst, prop, value) {
+      // fire notification event only when a prop is changed through a user-action.
+      // e.g. 'expanded' is different from the originally bound '__expanded__' value.
+      if (inst['__' + prop + '__'] !== undefined &&
+        inst['__' + prop + '__'] !== value) {
+        this.fire('template-instance-changed', {
+          prop: prop,
+          value: value,
+          inst: inst
+        });
+      }
+    },
+
+    _forwardInstancePath: function(inst, path, value) {
+      // TODO: assuming we're currently just listening to [[item.xxxx]] properties
+      // which affect only cells on the current row.
+      if (path.indexOf('item.') === 0 && !this._suppressItemChangeEvent) {
+        this.fire('item-changed', {
+          item: inst.item,
+          // stripping 'item.' from path.
+          path: path.substring(5),
+          value: value
+        });
+      }
+    },
+
+    _notifyInstancePropV2: function(inst, prop, value) {
+      this._forwardInstanceProp(inst, prop, value);
+      this._forwardInstancePath(inst, prop, value);
+    },
+
+    _forwardParentProp: function(prop, value) {
+      this._parentPathValues[prop] = value;
+      this._templateInstances.forEach(function(inst) {
+        inst.set(prop, value);
+      }, this);
+    },
+
+    _forwardParentPath: function(path, value) {
+      this.set(['_parentPathValues', path], value);
+      this._templateInstances.forEach(function(inst) {
+        inst.notifyPath(path, value);
+      }, this);
+    },
+
+    _forwardHostPropV2: function(prop, value) {
+      this._forwardParentProp(prop, value);
+
+      // TODO: _forwardedParentPropsChanged isn't triggered for some reason in
+      // all cases in Hybrid mode. Try removing this after running pure P2.
+      if (this._templateInstances) {
+        this._templateInstances.forEach(function(inst) {
+          inst.notifyPath(prop, value);
+        }, this);
+      }
+    },
+
+    _templateInstancesChanged: function(t, p) {
+      var index, count;
+      if (t.path === '_templateInstances') {
+        // Iterate all instances
+        index = 0;
+        count = this._templateInstances.length;
+      } else if (t.path === '_templateInstances.splices') {
+        // Iterate only new instances
+        index = t.value.index;
+        count = t.value.addedCount;
+      } else {
+        return;
+      }
+      Object.keys(this._parentPathValues || {}).forEach(function(keyName) {
+        for (var i = index; i < index + count; i++) {
+          this._templateInstances[i].set(keyName, this._parentPathValues[keyName]);
+        }
+      }, this);
+    }
+
+  });
+</script>

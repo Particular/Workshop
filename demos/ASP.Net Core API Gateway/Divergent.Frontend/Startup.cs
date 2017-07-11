@@ -35,6 +35,7 @@ namespace Divergent.Frontend
         {
             DefaultAppConfigure(app, env, loggerFactory);
 
+            app.UseDefaultFiles();
             app.UseStaticFiles();
 
             app.Map("/compose", appBuilder =>

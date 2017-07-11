@@ -1,0 +1,291 @@
+<!--
+@license
+Copyright (c) 2017 Vaadin Ltd.
+This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+-->
+
+<!--
+
+`vaadin-grid-sorter` is a helper element for the `vaadin-grid` that provides out-of-the-box UI controls,
+visual feedback, and handlers for sorting the grid data.
+
+
+### Styling
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--vaadin-grid-sorter-arrow` | Mixin applied to the arrow | `{}`
+`--vaadin-grid-sorter-order` | Mixin applied to the order | `{}`
+
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="vaadin-grid-cell-click-behavior.html">
+
+<style>
+  @font-face {
+    font-family: 'vaadin-grid-sorter-icons';
+    src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAAQwAA0AAAAABuwAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABGRlRNAAAEFAAAABkAAAAcfep+mUdERUYAAAP4AAAAHAAAAB4AJwAOT1MvMgAAAZgAAAA/AAAAYA8TBPpjbWFwAAAB7AAAAFUAAAFeF1fZ4mdhc3AAAAPwAAAACAAAAAgAAAAQZ2x5ZgAAAlgAAABcAAAAnMvguMloZWFkAAABMAAAAC8AAAA2C5Ap72hoZWEAAAFgAAAAHQAAACQGbQPHaG10eAAAAdgAAAAUAAAAHAoAAABsb2NhAAACRAAAABIAAAASAIwAYG1heHAAAAGAAAAAFgAAACAACwAKbmFtZQAAArQAAAECAAACZxWCgKhwb3N0AAADuAAAADUAAABZCrApUXicY2BkYGAA4rDECVrx/DZfGbhZGEDgyqNPOxH0/wNMq5kPALkcDEwgUQBWRA0dAHicY2BkYGA+8P8AAwMLAwgwrWZgZEAFbABY4QM8AAAAeJxjYGRgYOAAQiYGEICQSAAAAi8AFgAAeJxjYGY6yziBgZWBgWkm0xkGBoZ+CM34msGYkZMBFTAKoAkwODAwvmRiPvD/AIMDMxCD1CDJKjAwAgBktQsXAHicY2GAAMZQCM0EwqshbAALxAEKeJxjYGBgZoBgGQZGBhCIAPIYwXwWBhsgzcXAwcAEhIwMCi+Z/v/9/x+sSuElA4T9/4k4K1gHFwMMMILMY2QDYmaoABOQYGJABUA7WBiGNwAAJd4NIQAAAAAAAAAACAAIABAAGAAmAEAATgAAeJyNjLENgDAMBP9tIURJwQCMQccSZgk2i5fIYBDAidJjycXr7x5EPwE2wY8si7jmyBNXGo/bNBerxJNrpxhbO3/fEFpx8ZICpV+ghxJ74fAMe+h7Ox14AbrsHB14nK2QQWrDMBRER4mTkhQK3ZRQKOgCNk7oGQqhhEIX2WSlWEI1BAlkJ5CDdNsj5Ey9Rncdi38ES+jzNJo/HwTgATcoDEthhY3wBHc4CE+pfwsX5F/hGe7Vo/AcK/UhvMSz+mGXKhZU6pww8ISz3oWn1BvhgnwTnuEJf8Jz1OpFeIlX9YULDLdFi4ASHolkSR0iuYdjLak1vAequBhj21D61Nqyi6l3qWybGPjySbPHGScGJl6dP58MYcQRI0bts7mjebBqrFENH7t3qWtj0OuqHnXcW7b0HOTZFnKryRGW2hFX1m0O2vEM3opNMfTau+CS6Z3Vx6veNnEXY6jwDxhsc2gAAHicY2BiwA84GBgYmRiYGJkZmBlZGFkZ2djScyoLMgzZS/MyDQwMwLSrpYEBlIbxjQDrzgsuAAAAAAEAAf//AA94nGNgZGBg4AFiMSBmYmAEQnYgZgHzGAAD6wA2eJxjYGBgZACCKyoz1cD0o087YTQATOcIewAAAA==) format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+</style>
+
+<dom-module id="vaadin-grid-sorter">
+  <template>
+    <style>
+      :host {
+        position: relative;
+        display: inline-flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+      }
+
+      #indicators {
+        position: relative;
+      }
+
+      #order {
+        position: absolute;
+        right: 0;
+        top: 0;
+        transform: translateY(-6px) scale(0.7);
+        @apply(--vaadin-grid-sorter-order);
+      }
+
+      #indicators::before {
+        font-family: 'vaadin-grid-sorter-icons';
+        display: block;
+        padding: 0 10px;
+        @apply(--vaadin-grid-sorter-arrow);
+      }
+
+      :host(:not([direction])) #indicators::before {
+        content: "\e901";
+        opacity: 0.2;
+      }
+
+      :host([direction=asc]) #indicators::before {
+        content: "\e900";
+      }
+
+      :host([direction=desc]) #indicators::before {
+        content: "\e902";
+      }
+
+      #announcer {
+        position: absolute;
+        z-index: -1;
+        clip: rect(0, 0, 0, 0);
+        text-transform: none;
+      }
+
+      #content {
+        display: inline-block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        flex: 1;
+      }
+    </style>
+
+    <div id="content" on-focus="_onContentFocus">
+      <slot></slot>
+    </div>
+    <div id="announcer" aria-hidden="true">
+      <div>[[_getAriaLabel(direction, _order)]]</div>
+    </div>
+    <div id="indicators" aria-hidden="true" on-focus="_onContentFocus">
+      <div id="order">[[_getDisplayOrder(_order)]]</div>
+    </div>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'vaadin-grid-sorter',
+
+      properties: {
+
+        /**
+         * JS Path of the property in the item used for sorting the data.
+         */
+        path: String,
+
+        /**
+         * How to sort the data.
+         * Possible values are `asc` to use an ascending algorithm, `desc` to sort the data in
+         * descending direction, or `null` for not sorting the data.
+         */
+        direction: {
+          type: String,
+          reflectToAttribute: true,
+          notify: true,
+          value: null
+        },
+
+        _order: {
+          type: Number,
+          value: null
+        },
+
+        _cellHasFocus: {
+          type: Boolean,
+          value: false
+        },
+
+        _boundOnCellContentFocusin: {
+          type: Function,
+          value: function() {
+            return this._onCellContentFocusin.bind(this);
+          }
+        },
+
+        _boundOnCellContentFocusout: {
+          type: Function,
+          value: function() {
+            return this._onCellContentFocusout.bind(this);
+          }
+        },
+
+      },
+
+      observers: [
+        '_pathOrDirectionChanged(path, direction, isAttached)',
+        '_directionOrOrderChanged(direction, _order)',
+        '_cellHasFocusChanged(_cellHasFocus)'
+      ],
+
+      behaviors: [
+        vaadin.elements.grid.CellClickBehavior
+      ],
+
+      attached: function() {
+        this._cellContent = this._getClosestCellContent();
+        if (this._cellContent) {
+          this._cellContent.addEventListener('cell-focusin', this._boundOnCellContentFocusin);
+          this._cellContent.addEventListener('cell-focusout', this._boundOnCellContentFocusout);
+        }
+      },
+
+      detached: function() {
+        if (this._cellContent) {
+          this._cellContent.removeEventListener('cell-focusin', this._boundOnCellContentFocusin);
+          this._cellContent.removeEventListener('cell-focusout', this._boundOnCellContentFocusout);
+          this._cellContent = undefined;
+        }
+      },
+
+      _onContentFocus: function(e) {
+        /* Need to move the focus to the correct trap. This is only required for IE11. */
+        var grid = this;
+        while (grid.localName !== 'vaadin-grid') {
+          grid = Polymer.dom(grid).parentNode;
+        }
+
+        var thisCell = grid.$.scroller._getCellByCellContent(this);
+        if (thisCell.is === 'vaadin-grid-table-footer-cell') {
+          grid.$.scroller._virtualFocus = grid.$.scroller.$.footer;
+        } else {
+          grid.$.scroller._virtualFocus = grid.$.scroller.$.header;
+        }
+        grid.$.scroller.interacting = false;
+        grid.focus();
+      },
+
+      _getClosestCellContent: function() {
+        var el = this;
+        while (el = Polymer.dom(el).parentNode) {
+          if (el.is === 'vaadin-grid' || el === document.body) {
+            // not found
+            return null;
+          }
+          if (el.localName === 'vaadin-grid-cell-content') {
+            // found
+            return el;
+          }
+        }
+      },
+
+      _onCellContentFocusin: function() {
+        this._cellHasFocus = true;
+      },
+
+      _onCellContentFocusout: function() {
+        this._cellHasFocus = false;
+      },
+
+      _pathOrDirectionChanged: function(path, direction, isAttached) {
+        if (path === undefined || direction === undefined || isAttached === undefined) {
+          return;
+        }
+
+        if (isAttached) {
+          this.fire('sorter-changed');
+        }
+      },
+
+      _getDisplayOrder: function(order) {
+        return order === null ? '' : order + 1;
+      },
+
+      _cellClick: function(e) {
+        e.preventDefault();
+        if (this.direction === 'asc') {
+          this.direction = 'desc';
+        } else if (this.direction === 'desc') {
+          this.direction = null;
+        } else {
+          this.direction = 'asc';
+        }
+      },
+
+      _getAriaLabel: function(direction, order) {
+        if (direction) {
+          var label = 'Sorted ';
+          label += direction === 'asc' ? 'ascending' : 'descending';
+          label += order === null ? '. ' : (', Order ' + (order + 1) + '.');
+          return label;
+        } else {
+          return 'Unsorted.';
+        }
+      },
+
+      _directionOrOrderChanged: function(direction, order) {
+        if (direction === undefined || order === undefined) {
+          return;
+        }
+
+        this.debounce('direction-announce', function() {
+          this.fire('iron-announce', {text: this._getAriaLabel(direction, order)});
+        }, 1);
+
+        // Safari has an issue with repainting shadow root element styles when a host attribute changes.
+        // Need this workaround (toggle any inline css property on and off) until the issue gets fixed.
+        var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+        if (isSafari && this.root) {
+          this.root.querySelectorAll('*').forEach(function(el) {
+            el.style['-webkit-backface-visibility'] = 'visible';
+            el.style['-webkit-backface-visibility'] = '';
+          });
+        }
+      },
+
+      _cellHasFocusChanged: function(cellHasFocus) {
+        // Let us hide the a11y announces when the cell content parent
+        // of the sorter does not have virtual focus. This is needed to prevent
+        // the sorter announcement on every body cell of the sortable column.
+        if (cellHasFocus) {
+          this.$.announcer.setAttribute('aria-hidden', 'false');
+        } else {
+          // Wait before hiding the label to prevent readers like NVDA from reacting
+          // to changes for the unfocused cell.
+          this.async(function() {
+            this.$.announcer.setAttribute('aria-hidden', 'true');
+          }, 1);
+        }
+      }
+
+    });
+  </script>
+</dom-module>
