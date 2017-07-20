@@ -9,7 +9,9 @@ namespace ITOps.ViewModelComposition
 {
     public static class ServiceCollectionExtensions
     {
-        public static void AddViewModelComposition(this IServiceCollection services, string assemblySearchPattern = "*ViewModelComposition*.dll")
+        public static void AddViewModelComposition(this IServiceCollection services) => AddViewModelComposition(services, "*ViewModelComposition*.dll");
+
+        public static void AddViewModelComposition(this IServiceCollection services, string assemblySearchPattern)
         {
             var fileNames = Directory.GetFiles(AppContext.BaseDirectory, assemblySearchPattern);
 
