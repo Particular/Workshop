@@ -21,7 +21,7 @@ namespace ITOps.ViewModelComposition.Gateway
             app.RunCompositionGateway(routes =>
             {
                 routes.MapComposableGet( template: "{controller}/{id:int?}");
-                routes.MapRoute("{*NotFound}", context =>
+                routes.MapRoute("*", context =>
                  {
                      context.Response.StatusCode = StatusCodes.Status404NotFound;
                      return Task.CompletedTask;
