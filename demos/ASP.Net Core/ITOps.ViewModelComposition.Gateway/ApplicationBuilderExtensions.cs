@@ -20,7 +20,7 @@ namespace ITOps.ViewModelComposition.Gateway
         {
             app.RunCompositionGateway(routes =>
             {
-                routes.MapComposableGet( template: "{controller}/{id:int?}");
+                routes.MapComposableGet(template: "{controller}/{id:int?}");
                 routes.MapRoute("*", context =>
                  {
                      context.Response.StatusCode = StatusCodes.Status404NotFound;
