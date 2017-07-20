@@ -7,10 +7,11 @@ namespace ITOps.ViewModelComposition.Gateway
 {
     public static class RouteBuilderExtentions
     {
-        public static IRouteBuilder MapComposableGet(this IRouteBuilder routeBuilder,
-           string template,
-           RouteValueDictionary defaults = null,
-           RouteValueDictionary dataTokens = null)
+        public static IRouteBuilder MapComposableGet(
+            this IRouteBuilder routeBuilder,
+            string template,
+            RouteValueDictionary defaults = null,
+            RouteValueDictionary dataTokens = null)
         {
             var route = new Route(
                 target: new RouteHandler(ctx => ComposableRouteHandler.HandleGetRequest(ctx)),
