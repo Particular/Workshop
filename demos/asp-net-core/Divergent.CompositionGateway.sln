@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Shipping.API.Host
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITOps.Json", "ITOps.Json\ITOps.Json.csproj", "{4951C5A4-59D4-4AE1-B74C-B6F667544211}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.SPA.Frontend", "Divergent.SPA.Frontend\Divergent.SPA.Frontend.csproj", "{A9A4CACD-5007-43A7-963A-D8A13F5B636D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{4951C5A4-59D4-4AE1-B74C-B6F667544211}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4951C5A4-59D4-4AE1-B74C-B6F667544211}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4951C5A4-59D4-4AE1-B74C-B6F667544211}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9A4CACD-5007-43A7-963A-D8A13F5B636D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9A4CACD-5007-43A7-963A-D8A13F5B636D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9A4CACD-5007-43A7-963A-D8A13F5B636D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9A4CACD-5007-43A7-963A-D8A13F5B636D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

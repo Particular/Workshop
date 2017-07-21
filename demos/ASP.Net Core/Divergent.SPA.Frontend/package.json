@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "jquery": "3.1.1",
+    "underscore": "1.8.3",
+    "bootstrap": "3.3.7"
+  },
+  "devDependencies": {
+    "@types/underscore": "1.7.36",
+    "copy-webpack-plugin": "4.0.1",
+    "grunt": "1.0.1",
+    "grunt-contrib-clean": "1.1.0",
+    "grunt-run": "0.7.0",
+    "grunt-shell": "2.1.0",
+    "install": "0.10.1",
+    "less": "2.7.2",
+    "less-loader": "4.0.5",
+    "ts-loader": "2.3.0",
+    "tslint": "^5.5.0",
+    "tslint-webpack-plugin": "^0.5.0",
+    "typescript": "2.4.1",
+    "webpack": "3.3.0",
+    "webpack-uglify-js-plugin": "1.1.9"
+  },
+  "private": true,
+  "version": "1.0.0"
+}

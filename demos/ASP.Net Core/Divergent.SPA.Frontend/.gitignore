@@ -1,0 +1,4 @@
+*.js.map
+wwwroot/dist/**/*.*
+wwwroot/lib/**/*.*
+app/**/*.js
