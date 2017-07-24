@@ -69,9 +69,9 @@ The exercises are composed of 8 different Visual Studio solutions. All the solut
   - Ensure all HTML template files are closed when the application is run, or:
   - Manually change the browser address to the root URL.
 
-## Frequently Asked Questions
+## FAQ
 
-This document contains various questions & answers for issues that might arise during the workshop. If the answer is not found, consult your trainer on-site.
+This section contains various questions & answers for issues that might arise during the workshop. If the answer is not found, consult your trainer on-site.
 
 ### How can I empty the orders list or database?
 
