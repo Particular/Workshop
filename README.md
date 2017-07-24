@@ -32,7 +32,7 @@ In order to run the exercises the following machine configuration is required:
 ```
 Set-ExecutionPolicy Unrestricted
 ```
-* Visual Studio 2015 Update 3 (Community Edition is supported), available for download at https://www.visualstudio.com/downloads/
+* Visual Studio (2017 or 2015 Update 3) (Community Edition is supported), available for download at https://www.visualstudio.com/downloads/
 * .Net framework 4.6.1 Targeting pack for Visual Studio, available for download at https://www.microsoft.com/en-us/download/details.aspx?id=49978
 * A SQL Server edition or the `LocalDb` instance installed by Visual Studio, in case of a clean machine with `LocalDb` only please install:
    * Microsoft ODBC Driver 11 for SQL Server, available for download at https://www.microsoft.com/en-us/download/details.aspx?id=36434
