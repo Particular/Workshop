@@ -1,7 +1,8 @@
 # Workshop: Microservice development (with examples in NServiceBus)
 
 - [How to get ready for the workshop](#how-to-get-ready-for-the-workshop)
-- [FAQ](faq.md)
+- [How to run the exercise solutions](#how-to-run-the-exercise-solutions)
+- [FAQ](#faq)
 
 ## How to get ready for the workshop
 
@@ -56,3 +57,22 @@ NOTE: In case the database setup script fails with a "sqllocaldb command not fou
 ### Nuget packages restore
 
 The exercises are composed of 8 different Visual Studio solutions. All the solutions stored on GitHub rely upon `Nuget package restore` to be run at the first build. Please verify with the workshop organizers if internet access is available at the venue. It is required to run the Nuget restore, otherwise be sure to run the `Nuget package restore` for each solution before attending the workshop.
+
+## How to run the exercise solutions
+
+- Each exercise solution is configured to be running and fully functional just by pressing <kbd>F5</kbd> in Visual Studio.
+  - In case you have problems, the projects that need to be configured as startup projects are listed in the instructions for each exercise.
+- The solutions contain single page applications (SPAs) and use `IIS Express`. To prevent caching issues, before switching to another exercise:
+  - Ensure that `IIS Express` is shut down
+  - Clear the browser cache (or disable it entirely). Alternatively, the cache can cleared by refreshing the page using <kbd>Ctrl</kbd>+<kbd>F5</kbd> in some browsers.
+- When running a solution, the wrong page is sometimes displayed in the browser. Either:
+  - Ensure all HTML template files are closed when the application is run, or:
+  - Manually change the browser address to the root URL.
+
+## Frequently Asked Questions
+
+This document contains various questions & answers for issues that might arise during the workshop. If the answer is not found, consult your trainer on-site.
+
+### How can I empty the orders list or database?
+
+Simply connect to the `(localdb)\microservices-workshop` SQL Server instance and manually delete, or truncate, tables that need to be rset. Another option is to run, from an elevated PowerShell console, the `Teardown.ps1` script found in the [exercises/scripts](exercises/scripts) folder. Be aware that the `Teardown.ps1` script will reset the entire instance.
