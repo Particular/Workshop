@@ -1,5 +1,7 @@
 # Exercise 3: Sagas
 
+**Important: Before attempting the exercise, please ensure you have followed [the instructions for preparing your machine](README.md#preparing-your-machine-for-the-workshop) and that you have read [the instructions for running the exercise solutions](/README.md#running-the-exercise-solutions).**
+
 In NServiceBus a saga is the coordinator of a long running (business) process. They are very powerful and once fully grasped, can greatly increase flexibility in projects.
 
 ## Overview

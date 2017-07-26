@@ -1,78 +1,103 @@
-# Workshop: Microservice development (with examples in NServiceBus)
+# Microservices workshop (with examples in NServiceBus)
 
-- [How to get ready for the workshop](#how-to-get-ready-for-the-workshop)
-- [How to run the exercise solutions](#how-to-run-the-exercise-solutions)
+**Please ensure you have prepared your machine well in advance of the workshop. Your time during the workshop is valuable, and we want to use it for learning, rather than setting up machines.**
+
+- [Preparing your machine for the workshop](#preparing-your-machine-for-the-workshop)
+- [Running the exercise solutions](#running-the-exercise-solutions)
 - [FAQ](#faq)
 
-## How to get ready for the workshop
+## Preparing your machine for the workshop
 
-Please be sure you have completed the following steps to prepare your machine:
+### Install the pre-requisites
+
+To complete the exercises, you require a Windows machine and Visual Studio. Please ensure you have followed these steps:
+
+* Install [Visual Studio 2017](https://www.visualstudio.com/downloads/) or Visual Studio 2015 Update 3 (the "Community" edition is enough).
+
+* If you have a full SQL Server instance installed, you can choose to use that for the exercises. Otherwise, you will be using LocalDB. In the case of a clean machine with LocalDB only, please install:
+  * [Microsoft ODBC Driver 11 for SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=36434)
+  * [Microsoft ODBC Command Line Utilities 11 for SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=36433)
+
+  NOTE: Do not install versions 13.1 of these componentsas they contain a bug that prevents the LocalDB instance from being accessible at configuration time.
+
+* Set the PowerShell execution policy to allow script execution. From an elevated PowerShell prompt, run the following:
+  ```PowerShell
+  Set-ExecutionPolicy Unrestricted
+  ```
 
 ### Get a copy of this repository
 
-Clone or download this repo locally on your machine. If you're downloading a zip copy of the repo please be sure the zip file is unblocked before decompressing it. In order to unblock the zip file:
+Clone or download this repo to your local machine.
+
+If you're downloading a zip copy of the repo, please ensure the zip file is unblocked before decompressing it:
+
 * Right-click on the downloaded copy
-* Choose Property
-* On the Property page tick the unblock checkbox
-* Press OK
+* Click "Properties"
+* On the "General" properties page, check the "Unblock" checkbox
+* Click "OK"
 
 ### Run the Particular Platform Installer
 
-In order to correctly install MSMQ and configure the DTC download and run the [Particular Platform Installer](https://particular.net/start-platform-download). At the installation screen select at least:
+To ensure MSMQ and the DTC are correctly installed, please run the [Particular Platform Installer](https://particular.net/start-platform-download). In the installation screen, select a minimum of:
 
-* `Configure Microsoft Message Queuing`
-* `Configure MSDTC for NServiceBus`
+* "Configure MSDTC for NServiceBus"
+* "Configure Microsoft Message Queuing"
 
 All other components are optional.
 
-### Check your machine is correctly configured
+### Set up the databases
 
-In order to run the exercises the following machine configuration is required:
+#### When using LocalDB
 
-* Powershell execution policy to allow script execution, from an elevated Powershell run the following:
-```
-Set-ExecutionPolicy Unrestricted
-```
-* Visual Studio (2017 or 2015 Update 3) (Community Edition is supported), available for download at https://www.visualstudio.com/downloads/
-* .Net framework 4.6.1 Targeting pack for Visual Studio, available for download at https://www.microsoft.com/en-us/download/details.aspx?id=49978
-* A SQL Server edition or the `LocalDb` instance installed by Visual Studio, in case of a clean machine with `LocalDb` only please install:
-   * Microsoft ODBC Driver 11 for SQL Server, available for download at https://www.microsoft.com/en-us/download/details.aspx?id=36434
-   * Microsoft ODBC Command Line Utilities 11 for SQL Server, available for download at https://www.microsoft.com/en-us/download/details.aspx?id=36433
+The simplest way to manage the databases is to use the PowerShell scripts located in [exercises/scripts](exercises/scripts).
 
-NOTE: On a clean machine do not install latest version, as of this writing 13.1, of Microsoft ODBC Driver and Microsoft ODBC Command Line Utilities as the latter contains a bug that prevents the `LocalDb` instance to be accessible at configuration time.
+**These scripts must be run from an elevated PowerShell prompt.**
 
-### Databases setup
+* Run `Setup-Databases.ps1` to create a LocalDB instance named `(localdb)\microservices-workshop`, containing all the required databases.
 
-To simplify `LocalDB` instance setup 2 PowerShell scripts, in the [exercises/scripts](exercises/scripts) folder, are provided for your convenience. Both need to be run from an elevated PowerShell console.
-
-* Run `Setup-Databases.ps1`, with elevation, to create the `LocalDB` instance and all the required databases
-* Run `Teardown-Databases.ps1`, with elevation, to drop all the databases and delete the `LocalDB` instance
-
-The created `LocalDB` instance is named `(localdb)\microservices-workshop`.
+When you have finished the workshop, you may optionally run `Teardown-Databases.ps1` to drop all the databases and delete the LocalDB instance.
 
 NOTE: If you receive errors regarding "Microsoft ODBC Driver", you can work around these by connecting to the `(localdb)\microservices-workshop` database using, for example, Visual Studio or SQL Managerment Studio, and running the SQL contained in the `.sql` file (`Setup-Databases.sql` or `Teardown-Databases.sql`) corresponding to the `.ps1` file which raised the error.
 
-NOTE: In case the database setup script fails with a "sqllocaldb command not found" error it is possible to install LocalDb as a standalone package by downloading it separately at https://www.microsoft.com/en-us/download/details.aspx?id=29062
+NOTE: If the setup script fails with a "sqllocaldb command not found" error, your machine may be missing some files related to `LocalDB`. To fix this, try installing [the `LocalDB` standalone package](https://www.microsoft.com/en-us/download/details.aspx?id=29062) and then re-run the script.
 
-### Nuget packages restore
+#### When using a full SQL Server instance
 
-The exercises are composed of 8 different Visual Studio solutions. All the solutions stored on GitHub rely upon `Nuget package restore` to be run at the first build. Please verify with the workshop organizers if internet access is available at the venue. It is required to run the Nuget restore, otherwise be sure to run the `Nuget package restore` for each solution before attending the workshop.
+Connect to the instance and run `exercises\scripts\Setup-Databases.sql`.
 
-## How to run the exercise solutions
+When you have finished the workshop, you may optionally run `Teardown-Databases.sql` to drop all the databases.
 
-- Each exercise solution is configured to be running and fully functional just by pressing <kbd>F5</kbd> in Visual Studio.
+### Restore the NuGet packages
+
+The exercises are contained in eight Visual Studio solutions under [exercises](exercises). All the solutions require NuGet package restoration before building. This may be possible at the workshop venue (you can verify with the workshop organizers if internet access is available at the venue) but to ensure you can build the solutions during the workshop, we recommend you run NuGet package restore before the workshop. The simplest way to do this is to open each of the solutions and build them, which will automatically restore the NuGet packages.
+
+## Running the exercise solutions
+
+- Each exercise solution is configured to run and be fully functional just by pressing <kbd>F5</kbd> in Visual Studio.
   - In case you have problems, the projects that need to be configured as startup projects are listed in the instructions for each exercise.
 - The solutions contain single page applications (SPAs) and use `IIS Express`. To prevent caching issues, before switching to another exercise:
   - Ensure that `IIS Express` is shut down
-  - Clear the browser cache (or disable it entirely). Alternatively, the cache can cleared by refreshing the page using <kbd>Ctrl</kbd>+<kbd>F5</kbd> in some browsers.
+  - Clear the browser cache (or disable it entirely). Alternatively, the cache can cleared by refreshing the page using <kbd>Shift</kbd>+<kbd>F5</kbd> or <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> in some browsers.
 - When running a solution, the wrong page is sometimes displayed in the browser. Either:
   - Ensure all HTML template files are closed when the application is run, or:
   - Manually change the browser address to the root URL.
 
 ## FAQ
 
-This section contains various questions & answers for issues that might arise during the workshop. If the answer is not found, consult your trainer on-site.
+If the answer to your question is not listed here, consult your on-site trainer.
 
-### How can I empty the orders list or database?
+### How can I clear the orders list?
 
-Simply connect to the `(localdb)\microservices-workshop` SQL Server instance and manually delete, or truncate, tables that need to be rset. Another option is to run, from an elevated PowerShell console, the `Teardown.ps1` script found in the [exercises/scripts](exercises/scripts) folder. Be aware that the `Teardown.ps1` script will reset the entire instance.
+The simplest method is to reset all the databases (see below). Bear in mind that this will reset _all the databases_ for _all the exercises_.
+
+Alternatively, if you want to clear the orders list for a specific exercise, connect to the SQL Server instance, and either pick out and run the `drop` and `create` statements for that exercise from the scripts, or manually delete, or truncate, the tables that need to be cleared.
+
+To reset all the databases:
+
+#### When using LocalDB
+
+Using an elevated PowerShell prompt, run `Teardown-Databases.ps1` followed by `Setup-Databases.ps1`, both located in the [exercises/scripts](exercises/scripts) folder. 
+
+#### When using a full SQL Server instance (or LocalDB)
+
+Connect to the instance and run `Teardown-Databases.sql` followed by `Setup-Databases.sql`, both located in the [exercises/scripts](exercises/scripts) folder. 
