@@ -2,6 +2,8 @@
 
 **Please ensure you have prepared your machine well in advance of the workshop. Your time during the workshop is valuable, and we want to use it for learning, rather than setting up machines.**
 
+If you have any difficulty preparing your machine, or following this document, please raise an issue in this repository ASAP so that we can resolve the problem before the workshop begins.
+
 - [Preparing your machine for the workshop](#preparing-your-machine-for-the-workshop)
 - [Running the exercise solutions](#running-the-exercise-solutions)
 - [FAQ](#faq)
