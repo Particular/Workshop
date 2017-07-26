@@ -15,7 +15,7 @@
                 "ASPNETCORE_ENVIRONMENT": "Development"
             }
         },
-        "Divergent.Frontend": {
+        "Divergent.Website": {
             "commandName": "Project",
             "launchBrowser": true,
             "environmentVariables": {

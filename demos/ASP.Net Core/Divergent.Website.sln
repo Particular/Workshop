@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITOps.ViewModelComposition.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITOps.ViewModelComposition.Mvc", "ITOps.ViewModelComposition.Mvc\ITOps.ViewModelComposition.Mvc.csproj", "{536CBB25-3800-4ED5-9A0A-E3FC8FE180A0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.Frontend", "Divergent.Frontend\Divergent.Frontend.csproj", "{5E61C4D1-452B-4529-B013-CBCEA6DB1B68}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.Website", "Divergent.Website\Divergent.Website.csproj", "{5E61C4D1-452B-4529-B013-CBCEA6DB1B68}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

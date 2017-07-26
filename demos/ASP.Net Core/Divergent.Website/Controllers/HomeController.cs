@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Divergent.Frontend.Controllers
+namespace Divergent.Website.Controllers
 {
     public class HomeController : Controller
     {

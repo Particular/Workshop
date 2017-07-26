@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using System.IO;
 
-namespace Divergent.Frontend
+namespace Divergent.Website
 {
     public class Program
     {
