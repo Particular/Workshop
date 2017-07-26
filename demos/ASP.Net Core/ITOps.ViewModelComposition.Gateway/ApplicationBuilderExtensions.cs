@@ -16,17 +16,15 @@ namespace ITOps.ViewModelComposition.Gateway
             app.UseRouter(routeBuilder.Build());
         }
 
-        public static void RunCompositionGatewayWithDefaultRoutes(this IApplicationBuilder app)
-        {
+        public static void RunCompositionGatewayWithDefaultRoutes(this IApplicationBuilder app) =>
             app.RunCompositionGateway(routes =>
             {
                 routes.MapComposableGet(template: "{controller}/{id:int?}");
                 routes.MapRoute("*", context =>
-                 {
-                     context.Response.StatusCode = StatusCodes.Status404NotFound;
-                     return Task.CompletedTask;
-                 });
+                {
+                    context.Response.StatusCode = StatusCodes.Status404NotFound;
+                    return Task.CompletedTask;
+                });
             });
-        }
     }
 }
