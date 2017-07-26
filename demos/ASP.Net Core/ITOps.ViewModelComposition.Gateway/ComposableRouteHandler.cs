@@ -13,6 +13,7 @@ namespace ITOps.ViewModelComposition.Gateway
             var result = await CompositionHandler.HandleGetRequest(context);
             if (result.StatusCode == StatusCodes.Status200OK)
             {
+                //For the purposes of the sample, we're not respecting the HTTP Accept header and assuming that a JSON response is OK.
                 string json = JsonConvert.SerializeObject(result.ViewModel, GetSettings(context));
                 context.Response.ContentType = "application/json; charset=utf-8";
                 await context.Response.WriteAsync(json);
