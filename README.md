@@ -20,7 +20,7 @@ To complete the exercises, you require a Windows machine and Visual Studio. Plea
   * [Microsoft ODBC Driver 11 for SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=36434)
   * [Microsoft ODBC Command Line Utilities 11 for SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=36433)
 
-  NOTE: Do not install versions 13.1 of these componentsas they contain a bug that prevents the LocalDB instance from being accessible at configuration time.
+  NOTE: Do not install versions 13.1 of these components as they contain a bug that prevents the LocalDB instance from being accessible at configuration time.
 
 * Set the PowerShell execution policy to allow script execution. From an elevated PowerShell prompt, run the following:
   ```PowerShell
