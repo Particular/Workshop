@@ -69,6 +69,8 @@ Connect to the instance and run `exercises\scripts\Setup-Databases.sql`.
 
 When you have finished the workshop, you may optionally run `Teardown-Databases.sql` to drop all the databases.
 
+NOTE: If you are using a full SQL Server instance, you will need to change the connection strings in all the exercises. Change all instances of `Data Source=(localdb)\microservices-workshop` to point to the full SQL Server intsance.
+
 ### Restore the NuGet packages
 
 The exercises are contained in eight Visual Studio solutions under [exercises](exercises). All the solutions require NuGet package restoration before building. This may be possible at the workshop venue (you can verify with the workshop organizers if internet access is available at the venue) but to ensure you can build the solutions during the workshop, we recommend you run NuGet package restore before the workshop. The simplest way to do this is to open each of the solutions and build them, which will automatically restore the NuGet packages.
