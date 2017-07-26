@@ -36,17 +36,7 @@ namespace Divergent.Frontend
             DefaultAppConfigure(app, env, loggerFactory);
 
             app.UseStaticFiles();
-
-            app.Map("/compose", appBuilder =>
-            {
-                //via branching composition gateway can be hosted alongside another Mvc App.
-                appBuilder.RunCompositionGatewayWithDefaultRoutes();
-            });
-
-            app.Map("", appBuilder =>
-            {
-                appBuilder.UseMvcWithDefaultRoute();
-            });
+            app.UseMvcWithDefaultRoute();
         }
 
         void DefaultAppConfigure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
