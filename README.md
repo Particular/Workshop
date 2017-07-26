@@ -59,7 +59,7 @@ When you have finished the workshop, you may optionally run `Teardown-Databases.
 
 NOTE: If you receive errors regarding "Microsoft ODBC Driver", you can work around these by connecting to the `(localdb)\microservices-workshop` database using, for example, Visual Studio or SQL Managerment Studio, and running the SQL contained in the `.sql` file (`Setup-Databases.sql` or `Teardown-Databases.sql`) corresponding to the `.ps1` file which raised the error.
 
-NOTE: If the setup script fails with a "sqllocaldb command not found" error, your machine may be missing some files related to `LocalDB`. To fix this, try installing [the `LocalDB` standalone package](https://www.microsoft.com/en-us/download/details.aspx?id=29062) and then re-run the script.
+NOTE: If the setup script fails with a "sqllocaldb command not found" error, your machine may be missing some files related to LocalDB. To fix this, try installing [the LocalDB standalone package](https://www.microsoft.com/en-us/download/details.aspx?id=29062) and then re-run the script.
 
 #### When using a full SQL Server instance
 
