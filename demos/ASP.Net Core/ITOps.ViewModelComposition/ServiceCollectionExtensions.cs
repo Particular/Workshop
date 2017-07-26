@@ -20,13 +20,7 @@ namespace ITOps.ViewModelComposition
             {
                 var temp = AssemblyLoader.Load(fileName)
                     .GetTypes()
-                    .Where(t =>
-                    {
-                        var typeInfo = t.GetTypeInfo();
-                        return !typeInfo.IsInterface 
-                            && !typeInfo.IsAbstract 
-                            && typeof(IRouteInterceptor).IsAssignableFrom(t);
-                    });
+                    .Where(t => !t.GetTypeInfo().IsAbstract && typeof(IRouteInterceptor).IsAssignableFrom(t));
 
                 types.AddRange(temp);
             }
