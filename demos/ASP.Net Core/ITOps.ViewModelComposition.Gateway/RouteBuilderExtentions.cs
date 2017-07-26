@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace ITOps.ViewModelComposition.Gateway
 {
-    public static class RouteBuilderExtentions
+    public static class RouteBuilderExtensions
     {
         public static IRouteBuilder MapComposableGet(
             this IRouteBuilder routeBuilder,
