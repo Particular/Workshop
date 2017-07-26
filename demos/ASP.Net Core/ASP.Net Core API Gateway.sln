@@ -29,7 +29,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Shipping.Data", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Shipping.API.Host", "Divergent.Shipping.API.Host\Divergent.Shipping.API.Host.csproj", "{0059E3AC-0AFA-43F6-B631-200CBB723F94}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITOps.ViewModelComposition.Json", "ITOps.ViewModelComposition.Json\ITOps.ViewModelComposition.Json.csproj", "{4951C5A4-59D4-4AE1-B74C-B6F667544211}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITOps.Json", "ITOps.Json\ITOps.Json.csproj", "{4951C5A4-59D4-4AE1-B74C-B6F667544211}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

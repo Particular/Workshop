@@ -1,6 +1,6 @@
 ﻿using Divergent.Sales.ViewModelComposition.Events;
 using ITOps.ViewModelComposition;
-using ITOps.ViewModelComposition.Json;
+using ITOps.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using System;
