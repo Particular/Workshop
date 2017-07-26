@@ -1,5 +1,7 @@
 # Exercise 4: Integration
 
+**Important: Before attempting the exercise, please ensure you have followed [the instructions for preparing your machine](README.md#preparing-your-machine-for-the-workshop) and that you have read [the instructions for running the exercise solutions](/README.md#running-the-exercise-solutions).**
+
 You will quickly run into the need for integration with 3rd party systems. You will use Web Services, REST based APIs, you'll emails or export files. Most of the time data need to be retrieved from several different services before interacting with a 3rd party.
 
 Use a specific endpoint called IT/Ops for integration. It defines a set of interfaces for getting the data needed to integrate with 3rd parties. Services will implement those IT/Ops interfaces. Each service needs to provide the functionality for accessing its own data to avoid breaking service autonomy. Each service deploys its providers to the IT/Ops endpoint, which will co-host all of them and perform the 3rd party integration. It is important to note that IT/Ops has no dependencies on any service. It only defines provider interfaces and uses implementations from services after deployment at run time.
