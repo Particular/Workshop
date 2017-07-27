@@ -10,12 +10,17 @@ namespace Divergent.CompositionGateway
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddRouting();
             services.AddViewModelComposition();
         }
 
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
+            app.UseCors(builder => 
+                builder.AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowAnyOrigin());
             app.RunCompositionGatewayWithDefaultRoutes();
         }
     }
