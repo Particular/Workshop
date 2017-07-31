@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ITOps.ViewModelComposition.Engine
 {
-    class DynamicViewModel : DynamicObject, ISubscriptionStorage, IViewModel
+    class DynamicViewModel : DynamicObject, ISubscriptionStorage
     {
         RouteData routeData;
         IQueryCollection query;
