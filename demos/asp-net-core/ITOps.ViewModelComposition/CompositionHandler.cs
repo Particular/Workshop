@@ -20,16 +20,16 @@ namespace ITOps.ViewModelComposition.Gateway
             try
             {
                 //matching interceptors could be cached by URL
-                var matching = interceptors
-                    .Where(a => a.Matches(context.GetRouteData(), HttpMethods.Get))
+                var matchingInterceptors = interceptors
+                    .Where(interceptor => interceptor.Matches(context.GetRouteData(), HttpMethods.Get))
                     .ToArray();
 
-                foreach (var subscriber in matching.OfType<ISubscribeToCompositionEvents>())
+                foreach (var subscriber in matchingInterceptors.OfType<ISubscribeToCompositionEvents>())
                 {
                     subscriber.Subscribe(vm, routeData, context.Request.Query);
                 }
 
-                foreach (var appender in matching.OfType<IViewModelAppender>())
+                foreach (var appender in matchingInterceptors.OfType<IViewModelAppender>())
                 {
                     pending.Add
                     (
