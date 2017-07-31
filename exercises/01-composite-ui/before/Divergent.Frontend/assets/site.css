@@ -10,3 +10,13 @@ body {
 .button {
   cursor: pointer;
 }
+
+.data-load {
+    color: #5e5e5e;
+    height: 50px;
+    padding: 15px 15px;
+    font-size: 18px;
+    line-height: 20px;
+    font-style: italic;
+    text-align: center;
+}

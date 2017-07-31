@@ -6,13 +6,19 @@
 
                 var ctrl = this;
 
-                ctrl.isBusy = null;
+                ctrl.loadingData = true;
                 ctrl.orders = null;
 
-                ctrl.isBusy = backendCompositionService
+                backendCompositionService
                     .get('orders-list', { pageIndex: 0, pageSize: 10 })
                     .then(function (viewModel) {
                         ctrl.orders = viewModel.orders;
+                    })
+                    .catch(function (error) {
+                        $log.error('Ooops, something went wroing: ', error);
+                    })
+                    .finally(function () {
+                        ctrl.loadingData = false;
                     });
 
             }]);
