@@ -30,9 +30,9 @@ namespace Divergent.Shipping.API.Host.Controllers
         {
             using (var db = new ShippingContext())
             {
-                var _ids = ids.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(s=>int.Parse(s)).ToArray();
+                var idArray = ids.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(s=>int.Parse(s)).ToArray();
                 var info = db.ShippingInfos
-                    .Where(si => _ids.Any(id => id == si.OrderId))
+                    .Where(si => idArray.Any(id => id == si.OrderId))
                     .ToArray();
 
                 return info;
