@@ -23,13 +23,34 @@
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
     </nav>
-    <div class="container" id="app">Hey, this is the app!</div>
+    <div class="container" id="app">
+        <section class="orders" style="display: none">
+            <h2>Orders list</h2>
+            <table class="orders-table table table-striped">
+                <thead>
+                    <tr>
+                        <td>Order #</td>
+                        <td>Items Count</td>
+                        <td>Shipping Courier</td>
+                        <td>Shipping Status</td>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </section>
+        <section class="order" style="display: none">
+            <h2>Order</h2>
+            <table class="order-table table table-striped">
+                <tbody></tbody>
+            </table>
+        </section>
+    </div>
     <script type="text/javascript" src="/lib/scripts/jquery.min.js"></script>
     <script type="text/javascript" src="/lib/scripts/bootstrap.min.js"></script>
     <script type="text/javascript" src="/dist/scripts/app.bundle.js"></script>
