@@ -1,6 +1,6 @@
 ﻿using Divergent.Sales.ViewModelComposition.Events;
-using ITOps.ViewModelComposition;
 using ITOps.Json;
+using ITOps.ViewModelComposition;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using System;
@@ -14,7 +14,7 @@ namespace Divergent.Shipping.ViewModelComposition
         {
             /*
              * matching is a bit weak in this sample, it's designed 
-             * this way to satisfy both the Gateway and the Mvc sample
+             * this way to satisfy both the composite gateway and website samples
              */
             var controller = (string)routeData.Values["controller"];
 
