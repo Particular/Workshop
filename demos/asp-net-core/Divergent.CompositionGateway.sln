@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.CompositionGateway", "Divergent.CompositionGateway\Divergent.CompositionGateway.csproj", "{C0E4CD4F-657A-4872-969C-D97768636BDA}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IT-Ops", "IT-Ops", "{DB3EFAF6-6B45-48ED-BCB9-5F44FAB30CF9}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ITOps", "ITOps", "{DB3EFAF6-6B45-48ED-BCB9-5F44FAB30CF9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITOps.ViewModelComposition.Gateway", "ITOps.ViewModelComposition.Gateway\ITOps.ViewModelComposition.Gateway.csproj", "{1B2BC5FF-3F95-4429-8AE1-5AC6C99B689A}"
 EndProject
