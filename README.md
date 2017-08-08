@@ -86,9 +86,17 @@ The exercises are contained in eight Visual Studio solutions under [exercises](e
 
 ## Running the exercise solutions
 
-- Each exercise solution is configured to run and be fully functional just by pressing <kbd>F5</kbd> in Visual Studio.
-  - In case you have problems, the projects that need to be configured as startup projects are listed in the instructions for each exercise.
-- The solutions contain single page applications (SPAs) and use `IIS Express`. To prevent caching issues, before switching to another exercise:
+- Before you run a given exercise solution, configure the startup projects listed in the instructions for that exercise:
+  - In Visual Studio, right click the solution in the Solution Explorer
+  - Click "Properties"
+  - Ensure that, in the left hand pane, "Common Properties", "Start Project" is selected.
+  - Select the "Multiple startup projects" radio button
+  - Set the "Action" for each project listed in the instructions for the exercise to "Start".
+- Press <kbd>F5</kbd> in Visual Studio. The exercise solution will now be running and be fully functional.
+
+### Note
+
+The solutions contain single page applications (SPAs) and use `IIS Express`. To prevent caching issues, before switching to another exercise:
   - Ensure that `IIS Express` is shut down
   - Clear the browser cache (or disable it entirely). Alternatively, the cache can cleared by refreshing the page using <kbd>Shift</kbd>+<kbd>F5</kbd> or <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> in some browsers.
 - When running a solution, the wrong page is sometimes displayed in the browser. Either:
