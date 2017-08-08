@@ -12,11 +12,13 @@ In the last exercise you extended the UI by showing additional information. For 
 
 ## Start-up projects
 
+For more info, please see [the instructions for running the exercise solutions](/README.md#running-the-exercise-solutions).
+
 * Divergent.Customers
 * Divergent.Customers.API
 * Divergent.Finance
 * Divergent.Finance.API
-* Divergent.Frontent
+* Divergent.Frontend
 * Divergent.Sales
 * Divergent.Sales.API
 * Divergent.Shipping

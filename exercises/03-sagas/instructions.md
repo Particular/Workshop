@@ -16,6 +16,8 @@ NOTE: In order to view saga details in ServiceInsight, the [SagaAudit Plugin](ht
 
 ## Start-up projects
 
+For more info, please see [the instructions for running the exercise solutions](/README.md#running-the-exercise-solutions).
+
 * Divergent.Customers
 * Divergent.Customers.API
 * Divergent.Finance

@@ -16,6 +16,8 @@ A note about deployment: In a production environment one would package each prov
 
 ## Start-up projects
 
+For more info, please see [the instructions for running the exercise solutions](/README.md#running-the-exercise-solutions).
+
 * Divergent.Customers
 * Divergent.Customers.API
 * Divergent.Finance

@@ -15,10 +15,12 @@ The application consists of three vertical slices:
 
 ## Start-up projects
 
-* Divergent.Finance.API
+For more info, please see [the instructions for running the exercise solutions](/README.md#running-the-exercise-solutions).
+
 * Divergent.Customers.API
-* Divergent.Sales.API
+* Divergent.Finance.API
 * Divergent.Frontend
+* Divergent.Sales.API
 
 ## Business requirements
 
