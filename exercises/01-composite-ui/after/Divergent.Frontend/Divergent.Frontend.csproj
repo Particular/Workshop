@@ -71,6 +71,8 @@
     <Content Include="app\modules\customers\_module.js" />
     <Content Include="app\modules\finance\ordersLoadedSubscriber.js" />
     <Content Include="app\modules\sales\orderListAppender.js" />
+    <Content Include="lib\angular-busy\angular-busy.min.css" />
+    <Content Include="lib\angular-busy\angular-busy.min.js" />
     <Content Include="lib\bootstrap\css\bootstrap-theme.css.map" />
     <Content Include="lib\bootstrap\css\bootstrap-theme.min.css.map" />
     <Content Include="lib\bootstrap\css\bootstrap.css.map" />

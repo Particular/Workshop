@@ -7,10 +7,11 @@
     angular.module('app.services', []);
 
     var app = angular.module('app', [
-                'ngRoute',
-                'ui.router',
-                'app.controllers',
-                'app.services'
+        'ngRoute',
+        'ui.router',
+        'cgBusy',
+        'app.controllers',
+        'app.services'
     ]);
 
     app.run(['$log', '$rootScope',
