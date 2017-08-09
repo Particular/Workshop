@@ -95,17 +95,10 @@ The `OrderSubmittedHandler` should process the `OrderSubmittedEvent` published b
 
 ### Step 3
 
-In the `App.config` file in the `Divergent.Shipping` project, add a new configuration section called `UnicastBusConfig` and specify `MessageEndpointMappings` for the assembly containing `OrderSubmittedEvent` event. The route information provided in the mapping is used by NServiceBus internally to send subscription requests from the subscriber to the publisher.
+In the `Divergent.Shipping` project, configure the publisher for the `OrderSubmittedHandler`. To do this use the `routing` object obtained when configuring the transport and add the following statement
 
-```xml
-<configSections>
-  <section name="UnicastBusConfig" type="NServiceBus.Config.UnicastBusConfig, NServiceBus.Core" />
-</configSections>
-<UnicastBusConfig>
-  <MessageEndpointMappings>
-    <add Assembly="Divergent.Sales.Messages" Endpoint="Divergent.Sales" />
-  </MessageEndpointMappings>
-</UnicastBusConfig>
+```
+routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
 ```
 
 ### Step 4
@@ -137,19 +130,12 @@ The `OrderSubmittedHandler` should also process the `OrderSubmittedEvent` publis
 
 ### Step 7
 
-In the `App.config` file in the `Divergent.Finance` project, add a new configuration section called `UnicastBusConfig` and specify `MessageEndpointMappings` for the assembly containing `OrderSubmittedEvent` event.
+In the `Divergent.Finance` project, configure the publisher for the `OrderSubmittedHandler`. To do this use the `routing` object obtained when configuring the transport and add the following statement
 
-```xml
-<configSections>
-  <section name="UnicastBusConfig" type="NServiceBus.Config.UnicastBusConfig, NServiceBus.Core" />
-</configSections>
-
-<UnicastBusConfig>
-  <MessageEndpointMappings>
-    <add Assembly="Divergent.Sales.Messages" Endpoint="Divergent.Sales" />
-  </MessageEndpointMappings>
-</UnicastBusConfig>
 ```
+routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
+```
+
 
 ### Step 8
 
@@ -264,21 +250,11 @@ namespace Divergent.Customers.Handlers
 
 ### Step 11
 
-In the `App.config` file in the `Divergent.Customers` project add a new configuration section called `UnicastBusConfig` and specify `MessageEndpointMappings` for the assembly containing `OrderSubmittedEvent` event.
+In the `Divergent.Customers` project, configure the publisher for the `OrderSubmittedHandler`. To do this use the `routing` object obtained when configuring the transport and add the following statement
 
-```xml
-<configSections>
-    <section name="UnicastBusConfig" type="NServiceBus.Config.UnicastBusConfig, NServiceBus.Core" />
-</configSections>
-
-<UnicastBusConfig>
-  <MessageEndpointMappings>
-    <add Assembly="Divergent.Sales.Messages" Endpoint="Divergent.Sales" />
-  </MessageEndpointMappings>
-</UnicastBusConfig>
 ```
-
-
+routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
+```
 
 ## Exercise 2.3: create and publish the `PaymentSucceededEvent`
 
@@ -349,13 +325,8 @@ namespace Divergent.Shipping.Handlers
 
 ### Step 4
 
-In the `App.config` file in the `Divergent.Shipping` project, add `MessageEndpointMappings` for the assembly containing `PaymentSucceededEvent`.
+In the `Divergent.Shipping` project, configure the publisher for the `PaymentSucceededEvent`. To do this use the `routing` object obtained when configuring the transport and add the following statement
 
-```xml
-<UnicastBusConfig>
-  <MessageEndpointMappings>
-    <add Assembly="Divergent.Finance.Messages" Endpoint="Divergent.Finance" />
-    <add Assembly="Divergent.Sales.Messages" Endpoint="Divergent.Sales" />
-  </MessageEndpointMappings>
-</UnicastBusConfig>
+```
+routing.RegisterPublisher(typeof(PaymentSucceededEvent), "Divergent.Finance");
 ```

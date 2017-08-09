@@ -33,8 +33,11 @@ namespace Divergent.Finance.Config
             endpointConfiguration.UseSerialization<JsonSerializer>();
             endpointConfiguration.Recoverability().Delayed(c=>c.NumberOfRetries(0));
             endpointConfiguration.UseContainer<AutofacBuilder>(c => c.ExistingLifetimeScope(container));
-            endpointConfiguration.UseTransport<MsmqTransport>()
-                .ConnectionString("deadLetter=false;journal=false");
+
+            var routing = endpointConfiguration.UseTransport<MsmqTransport>()
+                .ConnectionString("deadLetter=false;journal=false")
+                .Routing();
+
             endpointConfiguration.UsePersistence<NHibernatePersistence>()
                 .ConnectionString(ConfigurationManager.ConnectionStrings["Divergent.Finance"].ToString());
 
