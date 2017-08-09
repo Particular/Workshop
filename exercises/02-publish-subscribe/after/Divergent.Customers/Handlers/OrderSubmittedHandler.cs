@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Divergent.Customers.Data.Context;
 using Divergent.Sales.Messages.Events;
+using NServiceBus;
 using NServiceBus.Logging;
 
 namespace Divergent.Customers.Handlers
