@@ -95,7 +95,7 @@ The `OrderSubmittedHandler` should process the `OrderSubmittedEvent` published b
 
 ### Step 3
 
-In the `Divergent.Shipping` project, configure the publisher for the `OrderSubmittedHandler`. To do this use the `routing` object obtained when configuring the transport and add the following statement
+In the `Divergent.Shipping` project, configure the publisher for the `OrderSubmittedEvent`. To do this use the `routing` object obtained when configuring the transport and add the following statement
 
 ```
 routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
@@ -130,7 +130,7 @@ The `OrderSubmittedHandler` should also process the `OrderSubmittedEvent` publis
 
 ### Step 7
 
-In the `Divergent.Finance` project, configure the publisher for the `OrderSubmittedHandler`. To do this use the `routing` object obtained when configuring the transport and add the following statement
+In the `Divergent.Finance` project, configure the publisher for the `OrderSubmittedEvent`. To do this use the `routing` object obtained when configuring the transport and add the following statement
 
 ```
 routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
@@ -250,7 +250,7 @@ namespace Divergent.Customers.Handlers
 
 ### Step 11
 
-In the `Divergent.Customers` project, configure the publisher for the `OrderSubmittedHandler`. To do this use the `routing` object obtained when configuring the transport and add the following statement
+In the `Divergent.Customers` project, configure the publisher for the `OrderSubmittedEvent`. To do this use the `routing` object obtained when configuring the transport and add the following statement
 
 ```
 routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");

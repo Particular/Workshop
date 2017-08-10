@@ -6,6 +6,7 @@ using Castle.Windsor;
 using NServiceBus;
 using Castle.MicroKernel.Registration;
 using System.IO;
+using Divergent.Sales.Messages.Commands;
 
 namespace Divergent.Sales.API
 {
@@ -20,7 +21,12 @@ namespace Divergent.Sales.API
             var licensePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\License.xml");
             config.LicensePath(licensePath);
 
-            config.UseTransport<MsmqTransport>().ConnectionString("deadLetter=false;journal=false");
+            var routing = config.UseTransport<MsmqTransport>()
+                .ConnectionString("deadLetter=false;journal=false")
+                .Routing();
+
+            routing.RouteToEndpoint(typeof(SubmitOrderCommand), "Divergent.Sales");
+
             config.UseSerialization<JsonSerializer>();
             config.UsePersistence<InMemoryPersistence>();
 

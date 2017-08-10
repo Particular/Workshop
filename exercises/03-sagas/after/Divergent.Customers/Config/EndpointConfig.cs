@@ -7,6 +7,7 @@ using LogManager = Common.Logging.LogManager;
 using System.IO;
 using NServiceBus.Persistence;
 using System.Configuration;
+using Divergent.Sales.Messages.Events;
 
 namespace Divergent.Customers.Config
 {
@@ -34,8 +35,13 @@ namespace Divergent.Customers.Config
             endpointConfiguration.UseSerialization<JsonSerializer>();
             endpointConfiguration.Recoverability().Delayed(c=>c.NumberOfRetries(0));
             endpointConfiguration.UseContainer<AutofacBuilder>(c => c.ExistingLifetimeScope(container));
-            endpointConfiguration.UseTransport<MsmqTransport>()
-                .ConnectionString("deadLetter=false;journal=false");
+
+            var routing = endpointConfiguration.UseTransport<MsmqTransport>()
+                .ConnectionString("deadLetter=false;journal=false")
+                .Routing();
+
+            routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
+
             endpointConfiguration.UsePersistence<NHibernatePersistence>()
                 .ConnectionString(ConfigurationManager.ConnectionStrings["Divergent.Customers"].ToString());
 
