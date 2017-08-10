@@ -14,7 +14,7 @@
                                 var orderIds = args.ordersViewModelDictionary.keys;
 
                                 var uri = config.apiUrl + '/customers/byorders?orderIds=' + orderIds;
-                                $http.get(uri)
+                                return $http.get(uri)
                                     .then(function (response) {
 
                                         angular.forEach(response.data, function (value, key) {
