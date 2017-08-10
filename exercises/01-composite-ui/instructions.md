@@ -100,7 +100,7 @@ Add the following code to the module
                                 var orderIds = args.ordersViewModelDictionary.keys;
 
                                 var uri = config.apiUrl + '/prices/orders/total?orderIds=' + orderIds;
-                                $http.get(uri)
+                                return $http.get(uri)
                                     .then(function (response) {
 
                                         angular.forEach(response.data, function (value, key) {
