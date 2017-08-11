@@ -100,7 +100,7 @@ Add the following code to the module
                                 var orderIds = args.ordersViewModelDictionary.keys;
 
                                 var uri = config.apiUrl + '/prices/orders/total?orderIds=' + orderIds;
-                                $http.get(uri)
+                                return $http.get(uri)
                                     .then(function (response) {
 
                                         angular.forEach(response.data, function (value, key) {
@@ -117,8 +117,6 @@ Add the following code to the module
 }())
 ```
 
-The content of the module file is also available in the solution folder in `finance_ordersLoadedSubscriber.js.txt`
-
 ### Step 3
 
 Update the `orders` list template (`app\branding\orders\ordersView.html`) to display the new information:
@@ -127,5 +125,3 @@ Update the `orders` list template (`app\branding\orders\ordersView.html`) to dis
 <br />
 <strong>Order total:</strong> {{order.orderTotalPrice}}
 ```
-
-The content of the template file is also available in the solution folder in `finance_price.html.txt`

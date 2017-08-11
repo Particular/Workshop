@@ -1,1 +1,0 @@
-﻿<br /><strong>Order total:</strong> {{order.orderTotalPrice}}
