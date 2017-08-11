@@ -332,3 +332,79 @@ In the `Divergent.Shipping` project, configure the publisher for the `PaymentSuc
 ```
 routing.RegisterPublisher(typeof(PaymentSucceededEvent), "Divergent.Finance");
 ```
+
+
+## Advanced exercise 2.5 : monitoring endpoints
+
+**Important: Before attempting the advanced exercises, please ensure you have followed [the instructions for preparing your machine for the advanced exercises](README.md#preparing-your-machine-for-the-advanced-exercises).**
+
+### Step 1
+
+In Visual Studio, open the `Divergent.Customers` project and have a look at the endpoint configuration. There should be configuration for forwarding messages to the audit queue and sending poison messages to the error queue.
+
+Our documentation contains more information about [auditing messages](https://docs.particular.net/nservicebus/operations/auditing) and how to configure [error handling](https://docs.particular.net/nservicebus/recoverability/configure-error-handling).
+
+### Step 2
+
+Verify that the audit and error queues have been created. You can use Windows Computer Management for this. Press <kbd>Win</kbd>+<kbd>X</kbd> to open the Windows system menu and select 'Computer Management'. You should see the queues Under "Service and Applications", "Message Queueing", "Private Queues". 
+
+NOTE: The MSMQ MMC snap-in is very limited in functionality. [QueueExplorer](http://www.cogin.com/mq/) is a great tool which provides much more.
+
+### Step 3
+
+After following the instructions for preparing your machine for the advanced exercises, an instance of ServiceControl should already be running as a Windows service. Run the exercise solution again and perform some actions to ensure that it has processed some messages.
+
+### Step 4
+
+Now, Let's have a look at ServicePulse.
+
+Navigate to http://localhost:9090/
+
+The list of 'Last 10 events' shows that messages have been received from at least one endpoint, but those endpoints are not yet being monitored. To do that, we need to install the monitoring plugin into those endpoints.
+
+Note: If ServicePulse doesn't seem to be running, or it cannot connect to ServiceControl, verify that both instances are running as Windows services. By default, the names of both services begin with "Particular".
+
+### Step 5
+
+Let's install the ServiceControl [heartbeat plugin]((https://docs.particular.net/servicecontrol/plugins/heartbeat)) into the NServiceBus endpoints. Install this plugin into every project that hosts an endpoint via the Visual Studio NuGet user interface or via the Package Manager Console.
+
+### Step 6
+
+The heartbeat plugin sends messages directly to the ServiceControl queue rather than using the audit or error queues. The documentation shows how to configure the endpoint and tell it which queue it should send heartbeat messages to. 
+
+You can find out the name of the queue by accessing the 'ServiceControl Management' app in the Windows Start menu. The name of the instance is also the name of the queue.
+
+Make sure you configure every project that hosts an endpoint. You can easily copy & paste this since every project should be sending heartbeats to the same queue.
+
+### Step 7
+
+Run the solution and naviate to ServicePulse while the projects are starting.
+
+After a while the 'Last 10 events' should show that some of the `Divergent` endpoints have started. Soon afer it will show that those endpoints are running the heartbeats plugin.
+
+### Step 8
+
+Turn off the endpoints by stopping debugging in Visual Studio or shutting down the console windows.
+
+ServiceControl is expecting heartbeat messages from every endpoint. If it doesn't continue to receive them, it will wait a little while (the default is 40 seconds) and then report that those endpoints are down.
+
+When you restart the projects, ServicePulse should report that the endpoints are up again.
+
+### Step 9
+
+At the top of the page in ServicePulse, you will see a menu with various options. Check 'Failed Messages' to see if there are any messages that failed to be processed.
+
+If you see nothing there, try and simluate a failure by adding the throwing of an exception to a message handler and running the solution with that in place. Due to immediate and delayed retries it might take a while for the message to end up in the error queue. You can read up on how to configure [immediate](https://docs.particular.net/nservicebus/recoverability/configure-immediate-retries) and [delayed](https://docs.particular.net/nservicebus/recoverability/configure-delayed-retries) retries so that they will be either sped-up or disabled.
+
+See how the messages can be group and retried individually or per group.
+
+Next, stop the solution, remove the throwing of the exception and restart it. Try retrying the failed message in ServicePulse and see that it should now be processed successfully.
+
+This is a powerful feature which could be of huge value to operations activities. Imagine a system with high throughput. To perform maintenance, the database containing your business data was brought offline for a couple of minutes. Tthousands of messages ended up in the error queue and you can see those in ServicePulse. Once the system is up and running again, we can retry them and they should be processed successfully.
+
+### Step 10
+
+We now have a dashboard that can inform us when an endpoint is  or messages failed to be processed. A few things to consider:
+
+- No-one wants to watch the dashboard all day. Fortunately, ServiceControl also uses pub/sub to notify subscribers of events. You can build an endpoint that subscribes to ServiceControl events and informs you of downtime or failed email, SMS or other means. Read more about [using ServiceControl events](https://docs.particular.net/servicecontrol/contracts).
+- You might notice several endpoints with the same name. Endpoints send heartbeats with a unique host identifier, made up of their endpoint name and a hash of the folder the endpoint is installed in. Our exercises all have the same endpoint name, but different folders. Another example is when you deploy endpoints using [Octopus](https://octopus.com/). This will deploy every version in its own folder, with the result that every version will spawn a new monitored endpoint in ServicePulse. You can solve this by [overriding the host identifier](https://docs.particular.net/nservicebus/hosting/override-hostid.

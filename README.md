@@ -109,6 +109,43 @@ The solutions contain single page applications (SPAs) and use `IIS Express`. To 
   - Ensure all HTML template files are closed when the application is run, or:
   - Manually change the browser address to the root URL.
 
+## Preparing your machine for the advanced exercises
+
+If you completed all the standard exercises, first of all, well done!
+
+You can now attempt the advanced exercises. Don't worry if you don't manage to start or complete the advanced exercises during the workshop. You can also attempt them after the workshop is finished. If you have questions, you can ask them during the workshop or in our [community discussion forum](https://groups.google.com/forum/#!forum/particularsoftware).
+
+It is likely that you will have to read documentation for the Particular Service Platform to finish the advanced exercises. Links to documentation will be provided.
+
+To complete the advanced exercises, you first need to install the rest of the Particular Service Platform:
+
+- ServicePulse: a web app which monitors your endpoints.
+- ServiceInsight: a desktop app which visualises the flow of messages within and between endpoints in detail.
+- ServiceControl: a Windows service which collects the data that drives ServicePulse and ServiceInsight.
+
+Run the [Particular Platform Installer](https://particular.net/start-platform-download) again, selecting ServiceControl, ServiceInsight, and ServicePulse.
+
+When installation has completed, click "Start ServiceControl Management".
+
+You may now close the Particular Service Platform Installation window.
+
+In the ServiceControl Management window, click "Add new instance".
+
+In the settings for the new instance, there are two choices you must make:
+
+- "Transport": choose "MSMQ".
+- "Audit forwarding": choose "Off".
+
+All other settings should be left with their default values.
+
+Click "Add".
+
+After the instance has been added, make a note of the name of the instance. This will usually be "Particular.ServiceControl".
+
+You may now close the ServiceControl Management window.
+
+You're now ready to attempt the advanced exercises!
+
 ## FAQ
 
 If the answer to your question is not listed here, consult your on-site trainer.
