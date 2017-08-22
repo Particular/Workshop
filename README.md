@@ -21,7 +21,7 @@ The [`asp-net-mvc` solution](demos/asp-net-mvc) demonstrates the use of ASP.NET 
 
 ### Install the pre-requisites
 
-To complete the exercises, you require a Windows machine and Visual Studio. You must be using a Windows client edition, such as Windows 10, rather than a server edition, such as Windows Server 2016. The Particular Platfom Installer does not work on server editions of Windows.
+To complete the exercises, you require a Windows machine and Visual Studio. You must be using a Windows client edition, such as Windows 10, rather than a server edition, such as Windows Server 2016. The Particular Platfom Installer does not support server editions of Windows.
 
 Please ensure you have followed these steps:
 
