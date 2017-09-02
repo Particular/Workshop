@@ -199,7 +199,7 @@ NOTE: If the `IsPaymentProcessedYet` property is generated using refactoring too
 public virtual bool IsPaymentProcessedYet { get; internal set; }
 ```
 
-Make sure you remove the `internal` keyword to make the setter public. Otherwise, when `ShippingSagaData` is rehydrated from storage, the property may not be set correctly.
+Make sure you remove the `internal` keyword to make the setter public. Otherwise, when `ShippingSagaData` is dehydrated from storage, the property may not be set correctly.
 
 ### Step 3
 
