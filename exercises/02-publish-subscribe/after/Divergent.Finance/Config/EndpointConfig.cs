@@ -1,6 +1,7 @@
 using System;
 using System.Configuration;
 using System.IO;
+using Divergent.Sales.Messages.Events;
 using NServiceBus;
 using NServiceBus.Logging;
 using NServiceBus.Persistence;
@@ -33,8 +34,13 @@ namespace Divergent.Finance.Config
             endpointConfiguration.UseSerialization<JsonSerializer>();
             endpointConfiguration.Recoverability().Delayed(c=>c.NumberOfRetries(0));
             endpointConfiguration.UseContainer<AutofacBuilder>(c => c.ExistingLifetimeScope(container));
-            endpointConfiguration.UseTransport<MsmqTransport>()
-                .ConnectionString("deadLetter=false;journal=false");
+
+            var routing = endpointConfiguration.UseTransport<MsmqTransport>()
+                .ConnectionString("deadLetter=false;journal=false")
+                .Routing();
+
+            routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
+
             endpointConfiguration.UsePersistence<NHibernatePersistence>()
                 .ConnectionString(ConfigurationManager.ConnectionStrings["Divergent.Finance"].ToString());
 

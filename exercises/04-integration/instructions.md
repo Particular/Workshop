@@ -73,16 +73,10 @@ private async Task ProcessOrder(IMessageHandlerContext context)
 
 ### Step 3
 
-In `app.config` in the `Divergent.Shipping` project, add a new message mapping to let `Divergent.Shipping` know where to send messages for IT/Ops. Do this by adding `<add Assembly="Divergent.ITOps.Messages" Endpoint="Divergent.ITOps" />` to the UnicastBus/MessageEndpointMappings element. It should look like this:
+In the `Divergent.Shipping` project, configure the destination endpoint for the `ShipWithFedexCommand`. To do this use the `routing` object obtained when configuring the transport and add the following statement
 
-```xml
-<UnicastBusConfig>
-    <MessageEndpointMappings>
-    <add Assembly="Divergent.Finance.Messages" Endpoint="Divergent.Finance" />
-    <add Assembly="Divergent.Sales.Messages" Endpoint="Divergent.Sales" />
-    <add Assembly="Divergent.ITOps.Messages" Endpoint="Divergent.ITOps" />
-    </MessageEndpointMappings>
-</UnicastBusConfig>
+```
+routing.RouteToEndpoint(typeof(ShipWithFedexCommand), "Divergent.ITOps");
 ```
 
 ### Step 4
