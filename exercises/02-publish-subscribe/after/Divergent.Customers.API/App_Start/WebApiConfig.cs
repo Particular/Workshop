@@ -1,5 +1,4 @@
 ﻿using System.Web.Http;
-using System.Linq;
 using Newtonsoft.Json.Serialization;
 using Castle.Windsor;
 using Radical.Bootstrapper.Windsor.AspNet.Infrastructure;

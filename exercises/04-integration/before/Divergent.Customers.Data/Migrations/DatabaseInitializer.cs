@@ -1,6 +1,5 @@
 ﻿using System.Data.Entity;
 using System.Data.Entity.Migrations;
-using System.Linq;
 using Divergent.Customers.Data.Context;
 
 namespace Divergent.Customers.Data.Migrations

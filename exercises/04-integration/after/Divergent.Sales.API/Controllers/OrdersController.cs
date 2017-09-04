@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Castle.Core.Internal;
 using Divergent.Sales.Data.Context;
 using NServiceBus;
 using Divergent.Sales.Messages.Commands;
@@ -24,12 +22,12 @@ namespace Divergent.Sales.API.Controllers
         [HttpPost, Route("createOrder")]
         public async Task<dynamic> CreateOrder(dynamic payload)
         {
-            var customerId = int.Parse((String)payload.customerId);
+            var customerId = int.Parse((string)payload.customerId);
             var productIds = ((IEnumerable<dynamic>)payload.products)
-                .Select(p => int.Parse((String)p.productId))
+                .Select(p => int.Parse((string)p.productId))
                 .ToList();
 
-            await _endpoint.Send(new SubmitOrderCommand()
+            await _endpoint.Send(new SubmitOrderCommand
             {
                 CustomerId = customerId,
                 Products = productIds

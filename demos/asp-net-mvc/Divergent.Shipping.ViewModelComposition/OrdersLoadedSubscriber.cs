@@ -1,13 +1,12 @@
 ﻿using Divergent.ITOps.ViewModelComposition;
 using Divergent.Sales.ViewModelComposition.Events;
-using System;
 using System.Net.Http;
 
 namespace Divergent.Shipping.ViewModelComposition
 {
     public class OrdersLoadedSubscriber : ISubscribeToCompositionEvents
     {
-        public bool Matches(ITOps.ViewModelComposition.RequestContext request)
+        public bool Matches(RequestContext request)
         {
             var controller = (string)request.RouteData.Values["controller"];
             var action = (string)request.RouteData.Values["action"];
@@ -19,7 +18,7 @@ namespace Divergent.Shipping.ViewModelComposition
         {
             subscriptionStorage.Subscribe<OrdersLoaded>(async (pageViewModel, @event, request) =>
             {
-                var ids = String.Join(",", @event.OrdersViewModel.Keys);
+                var ids = string.Join(",", @event.OrdersViewModel.Keys);
                 var url = $"http://localhost:20196/api/shippinginfo/orders?ids={ids}";
                 var client = new HttpClient();
 
@@ -27,7 +26,7 @@ namespace Divergent.Shipping.ViewModelComposition
 
                 dynamic[] shippingInfos = await response.Content.AsExpandoArrayAsync().ConfigureAwait(false);
 
-                foreach (dynamic item in shippingInfos)
+                foreach (var item in shippingInfos)
                 {
                     @event.OrdersViewModel[item.OrderId].ShippingStatus = item.Status;
                     @event.OrdersViewModel[item.OrderId].ShippingCourier = item.Courier;

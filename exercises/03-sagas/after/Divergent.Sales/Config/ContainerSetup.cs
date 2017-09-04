@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using Common.Logging;
-using Divergent.Sales.Data.Context;
 
 namespace Divergent.Sales.Config
 {

@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Divergent.Customers.Data.Models;
 
@@ -22,10 +20,10 @@ namespace Divergent.Customers.Data.Repositories
             var nserviceBusId = Guid.Parse("24453089-e36d-41ff-b119-82ae57482c74");
             var nserivceBusOrderId = Guid.Parse("41f74caf-2ef9-46ca-9445-2fcdf35751fb");
 
-            return new List<CustomerOrderRelationship>()
+            return new List<CustomerOrderRelationship>
             {
-                new CustomerOrderRelationship() { CustomerId= particularId, OrderId = particularOrderId},
-                new CustomerOrderRelationship() { CustomerId= nserviceBusId, OrderId = nserivceBusOrderId},
+                new CustomerOrderRelationship { CustomerId= particularId, OrderId = particularOrderId},
+                new CustomerOrderRelationship { CustomerId= nserviceBusId, OrderId = nserivceBusOrderId},
             };
         }
     }

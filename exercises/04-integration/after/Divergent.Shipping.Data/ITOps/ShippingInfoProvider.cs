@@ -11,7 +11,7 @@ namespace Divergent.Shipping.Data.ITOps
         {
             var count = productIds.Count();
 
-            return Task.FromResult(new PackageInfo()
+            return Task.FromResult(new PackageInfo
             {
                 Weight = WeightCalculator.CalculateWeight(count),
                 Volume = VolumeEstimator.Calculate(count)

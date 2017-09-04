@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Divergent.Sales.Data.Models;
 
 namespace Divergent.Sales.Data.Migrations
@@ -17,19 +14,19 @@ namespace Divergent.Sales.Data.Migrations
         static int returnOfTheJedi = 5;
         static int theForceAwakens = 6;
 
-        static Product theForceAwakensProduct = new Product() { Id = theForceAwakens, Name = "Star Wars : The Force Awakens" };
-        static Product aNewHopeProduct = new Product() { Id = aNewHope, Name = "Star Wars : A New Hope" };
+        static Product theForceAwakensProduct = new Product { Id = theForceAwakens, Name = "Star Wars : The Force Awakens" };
+        static Product aNewHopeProduct = new Product { Id = aNewHope, Name = "Star Wars : A New Hope" };
 
         internal static List<Product> Products()
         {
-            return new List<Product>()
+            return new List<Product>
             {
-                new Product() {Id = thePhantomMenace, Name = "Star Wars : The Phantom Menace"},
-                new Product() {Id = attackOfTheClones, Name = "Star Wars : Attack of the Clones"},
-                new Product() {Id = revengeOfTheSith, Name = "Star Wars : Revenge of the Sith"},
+                new Product {Id = thePhantomMenace, Name = "Star Wars : The Phantom Menace"},
+                new Product {Id = attackOfTheClones, Name = "Star Wars : Attack of the Clones"},
+                new Product {Id = revengeOfTheSith, Name = "Star Wars : Revenge of the Sith"},
                 aNewHopeProduct,
-                new Product() {Id = theEmpireStrikesBack, Name = "Star Wars : The Empire Strikes Back"},
-                new Product() {Id = returnOfTheJedi, Name = "Star Wars : Return of the Jedi"},
+                new Product {Id = theEmpireStrikesBack, Name = "Star Wars : The Empire Strikes Back"},
+                new Product {Id = returnOfTheJedi, Name = "Star Wars : Return of the Jedi"},
                 theForceAwakensProduct
             };
         }
@@ -42,36 +39,32 @@ namespace Divergent.Sales.Data.Migrations
             var nserviceBusId = 2;
             var nserivceBusOrderId = 2;
 
-            //
             // 'orderlines' for particular order
-            //
-            var particularItems = new Item[]
+            var particularItems = new[]
             {
-                new Item()
+                new Item
                 {
                     Product = theForceAwakensProduct
                 },
-                new Item()
+                new Item
                 {
                     Product = aNewHopeProduct
                 }
             };
 
-            //
             // 'orderline' for nservicebus order
-            //
-            var nservicebusItems = new Item[]
+            var nservicebusItems = new[]
             {
-                new Item()
+                new Item
                 {
                     Product = theForceAwakensProduct
                 }
             };
 
-            return new List<Order>()
+            return new List<Order>
             {
-                new Order() { CustomerId = particularId, DateTimeUtc = new DateTime(2016, 01, 01), State = "Payment Succeeded", Id = particularOrderId, Items = particularItems},
-                new Order() { CustomerId = nserviceBusId, DateTimeUtc = new DateTime(2016, 01, 02), State = "Payment awaiting", Id = nserivceBusOrderId, Items = nservicebusItems }
+                new Order { CustomerId = particularId, DateTimeUtc = new DateTime(2016, 01, 01), State = "Payment Succeeded", Id = particularOrderId, Items = particularItems},
+                new Order { CustomerId = nserviceBusId, DateTimeUtc = new DateTime(2016, 01, 02), State = "Payment awaiting", Id = nserivceBusOrderId, Items = nservicebusItems }
             };
         }
 

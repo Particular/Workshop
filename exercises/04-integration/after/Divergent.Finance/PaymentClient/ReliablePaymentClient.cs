@@ -11,11 +11,11 @@ namespace Divergent.Finance.PaymentClient
         {
             HttpResponseMessage response;
 
-            using (HttpClient httpClient = new HttpClient())
+            using (var httpClient = new HttpClient())
             {
                 httpClient.BaseAddress = new Uri("http://localhost:1234/");
                 var url = "/api/reliable/processpayment/";
-                var msg = new PaymentRequest()
+                var msg = new PaymentRequest
                 {
                     CustomerId = customerId,
                     Amount = amount

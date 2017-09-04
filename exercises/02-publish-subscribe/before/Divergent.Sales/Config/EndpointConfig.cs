@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using Divergent.Sales.Data.Context;
 using NServiceBus;
-using NServiceBus.Features;
 using NServiceBus.Logging;
 using ILog = Common.Logging.ILog;
 using LogManager = Common.Logging.LogManager;
@@ -31,9 +30,9 @@ namespace Divergent.Sales.Config
         {
             Log.Debug("Initializing database");
 
-            SalesContext context = new SalesContext();
+            var context = new SalesContext();
             var products = context.Products.ToList();
-            
+
             Log.DebugFormat("Database initialized, first product is {0}", products.First());
         }
 
@@ -56,7 +55,7 @@ namespace Divergent.Sales.Config
             endpointConfiguration.SendFailedMessagesTo("error");
             endpointConfiguration.AuditProcessedMessagesTo("audit");
 
-            ConventionsBuilder conventions = endpointConfiguration.Conventions();
+            var conventions = endpointConfiguration.Conventions();
             conventions.DefiningCommandsAs(t => t.Namespace != null && t.Namespace.StartsWith("Divergent") && t.Namespace.EndsWith("Commands") && t.Name.EndsWith("Command"));
             conventions.DefiningEventsAs(t => t.Namespace != null && t.Namespace.StartsWith("Divergent") && t.Namespace.EndsWith("Events") && t.Name.EndsWith("Event"));
 

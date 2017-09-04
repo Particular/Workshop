@@ -1,5 +1,4 @@
 ﻿using Divergent.Finance.Data.Models;
-using System;
 using System.Collections.Generic;
 
 namespace Divergent.Finance.Data.Migrations
@@ -16,15 +15,15 @@ namespace Divergent.Finance.Data.Migrations
             var returnOfTheJedi = 5;
             var theForceAwakens = 6;
 
-            return new List<Price>()
+            return new List<Price>
             {
-                new Price() { ProductId = thePhantomMenace, ItemPrice = 10 },
-                new Price() { ProductId = attackOfTheClones, ItemPrice = 10 },
-                new Price() { ProductId = revengeOfTheSith, ItemPrice = 10 },
-                new Price() { ProductId = aNewHope, ItemPrice = 15 },
-                new Price() { ProductId = theEmpireStrikesBack, ItemPrice = 15 },
-                new Price() { ProductId = returnOfTheJedi, ItemPrice = 15 },
-                new Price() { ProductId = theForceAwakens, ItemPrice = 25 }
+                new Price { ProductId = thePhantomMenace, ItemPrice = 10 },
+                new Price { ProductId = attackOfTheClones, ItemPrice = 10 },
+                new Price { ProductId = revengeOfTheSith, ItemPrice = 10 },
+                new Price { ProductId = aNewHope, ItemPrice = 15 },
+                new Price { ProductId = theEmpireStrikesBack, ItemPrice = 15 },
+                new Price { ProductId = returnOfTheJedi, ItemPrice = 15 },
+                new Price { ProductId = theForceAwakens, ItemPrice = 25 }
             };
         }
 
@@ -33,15 +32,15 @@ namespace Divergent.Finance.Data.Migrations
             var particularOrderId = 1;
             var nserivceBusOrderId = 2;
 
-            return new List<OrderItemPrice>()
+            return new List<OrderItemPrice>
             {
-                new OrderItemPrice() { OrderId = particularOrderId, ItemPrice = 10 },
-                new OrderItemPrice() { OrderId = particularOrderId, ItemPrice = 10 },
-                new OrderItemPrice() { OrderId = particularOrderId, ItemPrice = 10 },
-                new OrderItemPrice() { OrderId = particularOrderId,  ItemPrice = 15 },
-                new OrderItemPrice() { OrderId = nserivceBusOrderId, ItemPrice = 15 },
-                new OrderItemPrice() { OrderId = nserivceBusOrderId, ItemPrice = 15 },
-                new OrderItemPrice() { OrderId = nserivceBusOrderId, ItemPrice = 25 }
+                new OrderItemPrice { OrderId = particularOrderId, ItemPrice = 10 },
+                new OrderItemPrice { OrderId = particularOrderId, ItemPrice = 10 },
+                new OrderItemPrice { OrderId = particularOrderId, ItemPrice = 10 },
+                new OrderItemPrice { OrderId = particularOrderId,  ItemPrice = 15 },
+                new OrderItemPrice { OrderId = nserivceBusOrderId, ItemPrice = 15 },
+                new OrderItemPrice { OrderId = nserivceBusOrderId, ItemPrice = 15 },
+                new OrderItemPrice { OrderId = nserivceBusOrderId, ItemPrice = 25 }
             };
         }
     }

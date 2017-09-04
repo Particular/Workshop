@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Divergent.Customers.Data.Models;
 
 namespace Divergent.Customers.Data.Migrations
@@ -19,27 +15,27 @@ namespace Divergent.Customers.Data.Migrations
 
             var acmeId = 3;
 
-            return new List<Customer>()
+            return new List<Customer>
             {
-                    new Customer()
+                    new Customer
                     {
                         Id = particularId,
                         Name = "Particular Software ",
-                        Orders = new List<Order>()
+                        Orders = new List<Order>
                         {
-                            new Order() { CustomerId = particularId, OrderId = particularOrderId }
+                            new Order { CustomerId = particularId, OrderId = particularOrderId }
                         }
                     },
-                    new Customer()
+                    new Customer
                     {
                         Id = nserviceBusId,
                         Name = "NServiceBus Ltd.",
-                        Orders = new List<Order>()
+                        Orders = new List<Order>
                         {
-                            new Order() { CustomerId = nserviceBusId, OrderId = nserivceBusOrderId }
+                            new Order { CustomerId = nserviceBusId, OrderId = nserivceBusOrderId }
                         }
                     },
-                    new Customer() { Id = acmeId, Name = "Acme Inc.", Orders = new List<Order>() }
+                    new Customer { Id = acmeId, Name = "Acme Inc.", Orders = new List<Order>() }
             };
         }
     }
