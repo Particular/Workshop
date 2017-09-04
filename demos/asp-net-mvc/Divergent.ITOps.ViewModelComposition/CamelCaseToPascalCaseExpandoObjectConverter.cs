@@ -90,7 +90,7 @@ namespace Divergent.ITOps.ViewModelComposition
                     case JsonToken.Comment:
                         break;
                     default:
-                        object v = ReadValue(reader);
+                        var v = ReadValue(reader);
 
                         list.Add(v);
                         break;
@@ -113,12 +113,12 @@ namespace Divergent.ITOps.ViewModelComposition
                     case JsonToken.PropertyName:
                         //CHANGED
                         //added call to ToPascalCase extension method
-                        string propertyName = reader.Value.ToString().ToPascalCase();
+                        var propertyName = reader.Value.ToString().ToPascalCase();
 
                         if (!reader.Read())
                             throw new Exception("Unexpected end.");
 
-                        object v = ReadValue(reader);
+                        var v = ReadValue(reader);
 
                         expandoObject[propertyName] = v;
                         break;

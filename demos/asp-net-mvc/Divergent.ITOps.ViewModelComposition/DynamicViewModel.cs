@@ -44,12 +44,12 @@ namespace Divergent.ITOps.ViewModelComposition
 
             if (binder.Name == "RaiseEvent")
             {
-                this.RaiseEventAsync((ICompositionEvent)args[0]).GetAwaiter().GetResult();
+                RaiseEventAsync((ICompositionEvent)args[0]).GetAwaiter().GetResult();
                 return true;
             }
-            else if (binder.Name == "RaiseEventAsync")
+            if (binder.Name == "RaiseEventAsync")
             {
-                result = this.RaiseEventAsync((ICompositionEvent)args[0]);
+                result = RaiseEventAsync((ICompositionEvent)args[0]);
                 return true;
             }
 

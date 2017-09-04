@@ -27,6 +27,7 @@
     </NuGetPackageImportStamp>
     <ApplicationInsightsResourceId>/subscriptions/df309d46-bb54-42b3-90a2-03f0a16cdf55/resourcegroups/Default-ApplicationInsights-EastUS/providers/microsoft.insights/components/Divergent.Frontend</ApplicationInsightsResourceId>
     <TargetFrameworkProfile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -124,6 +125,18 @@
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <ProjectReference Include="..\Divergent.ITOps.ViewModelComposition\Divergent.ITOps.ViewModelComposition.csproj">
+      <Project>{CD335477-4643-4656-8DEE-B3DE67C37416}</Project>
+      <Name>Divergent.ITOps.ViewModelComposition</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Divergent.Sales.ViewModelComposition\Divergent.Sales.ViewModelComposition.csproj">
+      <Project>{8AC2EFC9-BE87-44ED-9F01-9CF3809D9618}</Project>
+      <Name>Divergent.Sales.ViewModelComposition</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Divergent.Shipping.ViewModelComposition\Divergent.Shipping.ViewModelComposition.csproj">
+      <Project>{00659877-8DA6-42D3-B0CF-8D68DD5D03F0}</Project>
+      <Name>Divergent.Shipping.ViewModelComposition</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\ContainerFactory.cs" />
@@ -135,9 +148,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -186,33 +196,11 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Orders\Details.cshtml" />
     <Content Include="Views\Orders\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Scripts\jquery-3.1.1.min.map" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Divergent.ITOps.ViewModelComposition\Divergent.ITOps.ViewModelComposition.csproj">
-      <Project>{CD335477-4643-4656-8DEE-B3DE67C37416}</Project>
-      <Name>Divergent.ITOps.ViewModelComposition</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Divergent.Sales.ViewModelComposition\Divergent.Sales.ViewModelComposition.csproj">
-      <Project>{8AC2EFC9-BE87-44ED-9F01-9CF3809D9618}</Project>
-      <Name>Divergent.Sales.ViewModelComposition</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Divergent.Shipping.ViewModelComposition\Divergent.Shipping.ViewModelComposition.csproj">
-      <Project>{00659877-8DA6-42D3-B0CF-8D68DD5D03F0}</Project>
-      <Name>Divergent.Shipping.ViewModelComposition</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -249,10 +237,4 @@
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
     <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.2.0.1\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.2.0.1\build\Microsoft.Net.Compilers.props'))" />
   </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target> -->
 </Project>
