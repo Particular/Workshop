@@ -201,7 +201,7 @@ NOTE: If the `IsPaymentProcessedYet` property is generated using refactoring too
 public virtual bool IsPaymentProcessedYet { get; internal set; }
 ```
 
-Make sure you remove the `internal` keyword to make the setter public. Otherwise, when `ShippingSagaData` is dehydrated from storage, the property may not be set correctly.
+Make sure you remove the `internal` keyword to make the setter public. Otherwise, when `ShippingSagaData` is hydrated from storage, the property may not be set correctly.
 
 ### Step 3
 
@@ -213,7 +213,7 @@ NOTE: If the `IsOrderSubmitted` property is generated using refactoring tools, i
 public virtual bool IsOrderSubmitted { get; internal set; }
 ```
 
-Make sure you remove the `internal` keyword to make the setter public. Otherwise, when `ShippingSagaData` is rehydrated from storage, the property may not be set correctly.
+Make sure you remove the `internal` keyword to make the setter public. Otherwise, when `ShippingSagaData` is hydrated from storage, the property may not be set correctly.
 
 The client or service should verify if its a valid order and not have the user be able to submit the order without any products. Commands and events can technically fail, but should not functionally fail because proper validation was not done on the sending side.
 
