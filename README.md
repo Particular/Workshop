@@ -51,13 +51,18 @@ If you're downloading a zip copy of the repo, please ensure the zip file is unbl
 
 ### Run the Particular Platform Installer
 
-To ensure MSMQ and the DTC are correctly installed, please run the [Particular Platform Installer](https://particular.net/start-platform-download). In the installation screen, select a minimum of:
+To ensure MSMQ and the DTC are correctly installed, please run the [Particular Platform Installer](https://particular.net/start-platform-download). 
+
+NOTE: If you are using Microsoft Edge see [How do I download Platform Installer with Microsoft Edge](#how-do-i-download-platform-installer-with-microsoft-edge)
+
+In the installation screen, select a minimum of:
 
 * "Configure MSDTC for NServiceBus"
 * "Configure Microsoft Message Queuing"
 
 All other components are optional.
 
+### My Multi Word Header
 ### Set up the databases
 
 #### When using LocalDB
@@ -124,3 +129,16 @@ Using an elevated PowerShell prompt, run `Teardown-Databases.ps1` followed by `S
 #### When using a full SQL Server instance (or LocalDB)
 
 Connect to the instance and run `Teardown-Databases.sql` followed by `Setup-Databases.sql`, both located in the [exercises/scripts](exercises/scripts) folder. 
+
+### How do I download Platform Installer with Microsoft Edge
+After navigating to Platform Installer download [page]() and presented with
+
+![download prompt](\img\platform-installer-on-edge\download-prompt.PNG) 
+
+click on `View Downloads`. On the the `Downloads list` view 
+
+![download list](\img\platform-installer-on-edge\downloads-list.PNG) 
+
+right click `This unsafe download was blocked by SmartScreen Filter.` and choose 
+
+![download unsafe file](\img\platform-installer-on-edge\download-unsafe-file-option.png)
