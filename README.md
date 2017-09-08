@@ -62,7 +62,6 @@ In the installation screen, select a minimum of:
 
 All other components are optional.
 
-### My Multi Word Header
 ### Set up the databases
 
 #### When using LocalDB
