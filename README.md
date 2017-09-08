@@ -53,7 +53,7 @@ If you're downloading a zip copy of the repo, please ensure the zip file is unbl
 
 To ensure MSMQ and the DTC are correctly installed, please run the [Particular Platform Installer](https://particular.net/start-platform-download). 
 
-NOTE: If you are using Microsoft Edge see [How do I download Platform Installer with Microsoft Edge](#how-do-i-download-platform-installer-with-microsoft-edge)
+NOTE: If you are using Microsoft Edge, see [the FAQ](#how-do-i-download-the-particular-platform-installer-with-microsoft-edge).
 
 In the installation screen, select a minimum of:
 
@@ -129,15 +129,18 @@ Using an elevated PowerShell prompt, run `Teardown-Databases.ps1` followed by `S
 
 Connect to the instance and run `Teardown-Databases.sql` followed by `Setup-Databases.sql`, both located in the [exercises/scripts](exercises/scripts) folder. 
 
-### How do I download Platform Installer with Microsoft Edge
-After navigating to Platform Installer download [page]() and being presented with
+### How do I download the Particular Platform Installer with Microsoft Edge?
 
-![download prompt](img/platform-installer-on-edge/download-prompt.PNG?raw=true) 
+When you attempt to download the installer, you will be presented with this message:
 
-click on `View Downloads`. On the the `Downloads list` view 
+![download prompt](img/platform-installer-on-edge/download-prompt.png?raw=true) 
 
-![download list](img/platform-installer-on-edge/downloads-list.PNG?raw=true) 
+Click on "View Downloads" to show the "Downloads" window:
 
-right click `This unsafe download was blocked by SmartScreen Filter.` and choose `Download unsafe file`
+![download list](img/platform-installer-on-edge/downloads-list.png?raw=true) 
+
+**Right-click** the red text "This unsafe download was blocked by SmartScreen Filter." to show the context menu:
 
 ![download unsafe file](img/platform-installer-on-edge/download-unsafe-file-option.png?raw=true)
+
+ Click "Download unsafe file".
