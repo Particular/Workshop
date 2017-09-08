@@ -132,12 +132,12 @@ Connect to the instance and run `Teardown-Databases.sql` followed by `Setup-Data
 ### How do I download Platform Installer with Microsoft Edge
 After navigating to Platform Installer download [page]() and presented with
 
-![download prompt](\img\platform-installer-on-edge\download-prompt.PNG) 
+![download prompt](\img\platform-installer-on-edge\download-prompt.PNG?raw=true) 
 
 click on `View Downloads`. On the the `Downloads list` view 
 
-![download list](\img\platform-installer-on-edge\downloads-list.PNG) 
+![download list](\img\platform-installer-on-edge\downloads-list.PNG?raw=true) 
 
 right click `This unsafe download was blocked by SmartScreen Filter.` and choose 
 
-![download unsafe file](\img\platform-installer-on-edge\download-unsafe-file-option.png)
+![download unsafe file](\img\platform-installer-on-edge\download-unsafe-file-option.png?raw=true)
