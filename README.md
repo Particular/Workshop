@@ -130,7 +130,7 @@ Using an elevated PowerShell prompt, run `Teardown-Databases.ps1` followed by `S
 Connect to the instance and run `Teardown-Databases.sql` followed by `Setup-Databases.sql`, both located in the [exercises/scripts](exercises/scripts) folder. 
 
 ### How do I download Platform Installer with Microsoft Edge
-After navigating to Platform Installer download [page]() and presented with
+After navigating to Platform Installer download [page]() and being presented with
 
 ![download prompt](img/platform-installer-on-edge/download-prompt.PNG?raw=true) 
 
@@ -138,6 +138,6 @@ click on `View Downloads`. On the the `Downloads list` view
 
 ![download list](img/platform-installer-on-edge/downloads-list.PNG?raw=true) 
 
-right click `This unsafe download was blocked by SmartScreen Filter.` and choose 
+right click `This unsafe download was blocked by SmartScreen Filter.` and choose `Download unsafe file`
 
 ![download unsafe file](img/platform-installer-on-edge/download-unsafe-file-option.png?raw=true)
