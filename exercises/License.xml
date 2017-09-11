@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<license id="22a7cb36-eb74-41a8-8347-5de8b3d0d904" expiration="2017-09-08T00:00:00.0000000" type="Trial" Applications="All" LicenseVersion="6.0" WorkerThreads="Max" AllowedNumberOfWorkerNodes="Max" LicenseType="Trial" MaxMessageThroughputPerSecond="Max">
+<license id="10b10276-3c58-48a6-baae-d71b0573e186" expiration="2017-10-31T00:00:00.0000000" type="Trial" Applications="All" LicenseVersion="6.0" WorkerThreads="Max" AllowedNumberOfWorkerNodes="Max" LicenseType="Trial" MaxMessageThroughputPerSecond="Max">
   <name>mauro.servienti@particular.net</name>
   <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
     <SignedInfo>
@@ -10,9 +10,9 @@
           <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
         </Transforms>
         <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <DigestValue>2XAQ5JaTq+KLlFHBmjJdxryzW8A=</DigestValue>
+        <DigestValue>y+CbE9Xg+Ftzzz8itW+Ic9hnYgc=</DigestValue>
       </Reference>
     </SignedInfo>
-    <SignatureValue>LUSfImo2HJSJJJNyiUC/T1EQ9E4BhkdnWixa0CNQyDbcB1xI5UNkVFB+qqZ9rGONvI7H6QEsT8wNYD172Ng3Y9275tMfZwH64ngUp6MXR4+YLumiyIzsy4CeX6HJJ00uMj4q/RFwX01Opy47pz914l0NqC5Z+jVYarIQjEgF/0A=</SignatureValue>
+    <SignatureValue>mpeYWpwa/XzCsz5lIl3xZrhJ1UvOLyDaXJiDX625wicLUjPJyXTVToxrQaRDMjkLd1XLtECYf+IQ4UFo9m4CDniTI0WaKptLJWVDXQI99miw4bBbzc2Akt2PyxW73ctav1DqBHSj3Yr2+QqUh/hnEP1BjOx9dK0/fH9tDkxwTjY=</SignatureValue>
   </Signature>
 </license>
