@@ -97,7 +97,7 @@ The `OrderSubmittedHandler` should process the `OrderSubmittedEvent` published b
 
 ### Step 3
 
-In the `Divergent.Shipping` project, configure the publisher for the `OrderSubmittedEvent`. To do this use the `routing` object obtained when configuring the transport and add the following statement
+In the `Divergent.Shipping` project navigate to `EndpointConfig` class and specify the publisher for the `OrderSubmittedEvent`. To do this use the `routing` object obtained when configuring the transport and add the following statement
 
 ```
 routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
@@ -132,7 +132,7 @@ The `OrderSubmittedHandler` should also process the `OrderSubmittedEvent` publis
 
 ### Step 7
 
-In the `Divergent.Finance` project, configure the publisher for the `OrderSubmittedEvent`. To do this use the `routing` object obtained when configuring the transport and add the following statement
+In the `Divergent.Finance` project navigate to `EndpointConfig` class and specify the publisher for the `OrderSubmittedEvent`. To do this use the `routing` object obtained when configuring the transport and add the following statement
 
 ```
 routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
@@ -141,7 +141,7 @@ routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
 
 ### Step 8
 
-When Finance receives the `OrderSubmittedEvent` message it needs to keep track of item prices that belong to the submitted order. And finally initiate the payment process by sending the `InitiatePaymentProcessCommand` message.
+When Finance receives the `OrderSubmittedEvent` message it records prices for the items that belong to the submitted order. And finally initiate the payment process by sending the `InitiatePaymentProcessCommand` message.
 
 ```c#
 namespace Divergent.Finance.Handlers
