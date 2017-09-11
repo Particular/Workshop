@@ -150,11 +150,13 @@ public async Task Handle(OrderSubmittedEvent message, IMessageHandlerContext con
     
     var projection = message.Products.Select(p => new ShippingSagaData.Product { Identifier = p });
     Data.Products = projection.ToList();
+    return Task.CompletedTask;
 }
 
 public async Task Handle(PaymentSucceededEvent message, IMessageHandlerContext context)
 {
     Data.OrderId = message.OrderId;
+    return Task.CompletedTask;
 }
 ```
 
