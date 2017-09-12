@@ -1,5 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.Data.Entity;
+using System.Threading.Tasks;
 using Divergent.Sales.Messages.Events;
+using Divergent.Shipping.Data.Context;
+using Divergent.Shipping.Data.Models;
 using NServiceBus;
 using NServiceBus.Logging;
 
@@ -11,12 +14,20 @@ namespace Divergent.Shipping.Handlers
 
         public async Task Handle(OrderSubmittedEvent message, IMessageHandlerContext context)
         {
-            Log.Info("Handle");
-
-            // Store in database that order was submitted and which products belong to it.
-            // If payment succeeds, we store that as well.
-            //
-            // When orders are paid before 12am, they will be shipped and arrive the next business day.
+            using (var db = new ShippingContext())
+            {
+                var shipment = await db.Shipments.FirstOrDefaultAsync(x => x.OrderId == message.OrderId);
+                if (shipment == null)
+                {
+                    shipment = new Shipment
+                    {
+                        OrderId = message.OrderId
+                    };
+                    db.Shipments.Add(shipment);
+                }
+                shipment.IsOrderSubmitted = true;
+                await db.SaveChangesAsync().ConfigureAwait(false);
+            }
         }
     }
 }
