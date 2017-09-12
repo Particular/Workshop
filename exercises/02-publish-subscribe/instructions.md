@@ -105,7 +105,7 @@ routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
 
 ### Step 4
 
-Use the provided logger to log information that the event was received and handled.
+Add the code in the handler to create a new shipment entity if one does not exist for a given order. Set the `IsOrderSubmitted` flag to indicate an order has been submitted.
 
 ```c#
 namespace Divergent.Shipping.Handlers
@@ -116,7 +116,20 @@ namespace Divergent.Shipping.Handlers
 
         public async Task Handle(OrderSubmittedEvent message, IMessageHandlerContext context)
         {
-            Log.Info("Handle");
+            using (var db = new ShippingContext())
+            {
+                var shipment = await db.Shipments.FirstOrDefaultAsync(x => x.OrderId == message.OrderId);
+                if (shipment == null)
+                {
+                    shipment = new Shipment
+                    {
+                        OrderId = message.OrderId
+                    };
+                    db.Shipments.Add(shipment);
+                }
+                shipment.IsOrderSubmitted = true;
+                await db.SaveChangesAsync().ConfigureAwait(false);
+            }
         }
     }
 }
@@ -308,7 +321,7 @@ The `PaymentSucceededHandler` should process the `PaymentSucceededEvent` publish
 
 ### Step 3
 
-Use the provided logger to log information that the event was received and handled.
+Add the code in the handler to create a new shipment entity if one does not exist for a given order. Set the `IsPaymentProcessed` flag to indicate a payment has been processed.
 
 ```c#
 namespace Divergent.Shipping.Handlers
@@ -319,7 +332,20 @@ namespace Divergent.Shipping.Handlers
 
         public async Task Handle(PaymentSucceededEvent message, IMessageHandlerContext context)
         {
-            Log.Info("Handle");
+            using (var db = new ShippingContext())
+            {
+                var shipment = await db.Shipments.FirstOrDefaultAsync(x => x.OrderId == message.OrderId);
+                if (shipment == null)
+                {
+                    shipment = new Shipment
+                    {
+                        OrderId = message.OrderId
+                    };
+                    db.Shipments.Add(shipment);
+                }
+                shipment.IsPaymentProcessed = true;
+                await db.SaveChangesAsync().ConfigureAwait(false);
+            }
         }
     }
 }

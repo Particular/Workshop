@@ -101,6 +101,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BatchJobs\ShippingBatchJob.cs" />
     <Compile Include="Config\ContainerSetup.cs" />
     <Compile Include="Config\EndpointConfig.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -117,6 +118,10 @@
     <ProjectReference Include="..\Divergent.Sales.Messages\Divergent.Sales.Messages.csproj">
       <Project>{FD850B7B-46A5-43EC-9571-C13736E6B033}</Project>
       <Name>Divergent.Sales.Messages</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Divergent.Shipping.Data\Divergent.Shipping.Data.csproj">
+      <Project>{C825BBFF-297D-4E68-ABB9-276FD81D4AD4}</Project>
+      <Name>Divergent.Shipping.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
