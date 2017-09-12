@@ -187,20 +187,20 @@ There are various ways to check in what state the saga is. We can add flags to t
 
 ### Step 2
 
-To verify if `PaymentSucceededEvent` has been received, we can set a boolean property on the saga state. Add a boolean property to `ShippingSagaData` called `IsPaymentProcessedYet` and in the handler for the `PaymentSuccedeedEvent` we set this property to true. Remember to make the new property `virtual` since we are using NHibernate for persistence.
+To verify if `PaymentSucceededEvent` has been received, we can set a boolean property on the saga state. Add a boolean property to `ShippingSagaData` called `IsPaymentProcessed` and in the handler for the `PaymentSuccedeedEvent` we set this property to true. Remember to make the new property `virtual` since we are using NHibernate for persistence.
 
 ```c#
 public async Task Handle(PaymentSucceededEvent message, IMessageHandlerContext context)
 {
     Data.OrderId = message.OrderId;
-    Data.IsPaymentProcessedYet = true;
+    Data.IsPaymentProcessed = true;
 }
 ```
 
-NOTE: If the `IsPaymentProcessedYet` property is generated using refactoring tools, it may have a internal setter:
+NOTE: If the `IsPaymentProcessed` property is generated using refactoring tools, it may have a internal setter:
 
 ```c#
-public virtual bool IsPaymentProcessedYet { get; internal set; }
+public virtual bool IsPaymentProcessed { get; internal set; }
 ```
 
 Make sure you remove the `internal` keyword to make the setter public. Otherwise, when `ShippingSagaData` is hydrated from storage, the property may not be set correctly.
@@ -221,12 +221,12 @@ The client or service should verify if its a valid order and not have the user b
 
 ### Step 4
 
-In the saga add a new async method called `ProcessOrder` that you will call from both `Handle` methods. Inside this method, verify if the saga state property `IsPaymentProcessedYet` was set and if the `IsOrderSubmitted` property was set as well. If yes, invoke `MarkAsComplete()`. This method signals NServiceBus that we're done with this saga and that it can be removed from the underlying storage.
+In the saga add a new async method called `ProcessOrder` that you will call from both `Handle` methods. Inside this method, verify if the saga state property `IsPaymentProcessed` was set and if the `IsOrderSubmitted` property was set as well. If yes, invoke `MarkAsComplete()`. This method signals NServiceBus that we're done with this saga and that it can be removed from the underlying storage.
 
 ```c#
     private async Task ProcessOrder(IMessageHandlerContext context)
     {
-        if (Data.IsOrderSubmitted && Data.IsPaymentProcessedYet)
+        if (Data.IsOrderSubmitted && Data.IsPaymentProcessed)
         {
             await Task.CompletedTask; // Send a message to execute shipment
             MarkAsComplete();
