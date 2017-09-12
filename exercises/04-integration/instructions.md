@@ -52,12 +52,12 @@ public class ShipWithFedexCommand
 
 ### Step 2
 
-In the `Divergent.Shipping` project, open `ShippingSaga.cs` and look at the `ProcessOrder` method. The method should check if the order has been both submitted (`Data.IsOrderSubmitted`) and paid for (`Data.IsPaymentProcessedYet`). If so, it should send the new `ShipWithFedexCommand`.
+In the `Divergent.Shipping` project, open `ShippingSaga.cs` and look at the `ProcessOrder` method. The method should check if the order has been both submitted (`Data.IsOrderSubmitted`) and paid for (`Data.IsPaymentProcessed`). If so, it should send the new `ShipWithFedexCommand`.
 
 ```c#
 private async Task ProcessOrder(IMessageHandlerContext context)
 {
-    if (Data.IsOrderSubmitted && Data.IsPaymentProcessedYet)
+    if (Data.IsOrderSubmitted && Data.IsPaymentProcessed)
     {
         await context.Send<ShipWithFedexCommand>(cmd =>
         {

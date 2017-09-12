@@ -39,13 +39,13 @@ namespace Divergent.Shipping.Sagas
             Log.Info("Handle PaymentSucceededEvent");
 
             Data.OrderId = message.OrderId;
-            Data.IsPaymentProcessedYet = true;
+            Data.IsPaymentProcessed = true;
             await ProcessOrder(context);
         }
 
         private async Task ProcessOrder(IMessageHandlerContext context)
         {
-            if (Data.IsOrderSubmitted && Data.IsPaymentProcessedYet)
+            if (Data.IsOrderSubmitted && Data.IsPaymentProcessed)
             {
                 MarkAsComplete();
             }
