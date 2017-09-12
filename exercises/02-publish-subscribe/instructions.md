@@ -141,7 +141,7 @@ routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
 
 ### Step 8
 
-When Finance receives the `OrderSubmittedEvent` message it records prices for the items that belong to the submitted order (this is need to make sure that even when the product prices change the client will be charged the an amount first show on the UI - value returned through `Divergent.Finance.API`). And finally initiate the payment process by sending the `InitiatePaymentProcessCommand` message.
+When Finance receives the `OrderSubmittedEvent` message it records prices for the items that belong to the submitted order (this is needed to make sure that even when the product prices change, the client will be charged the amount first shown in the UI - value returned through `Divergent.Finance.API`). And finally initiate the payment process by sending the `InitiatePaymentProcessCommand` message.
 
 ```c#
 namespace Divergent.Finance.Handlers
