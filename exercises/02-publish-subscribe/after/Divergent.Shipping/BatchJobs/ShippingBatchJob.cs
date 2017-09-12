@@ -19,7 +19,7 @@ namespace Divergent.Shipping.BatchJobs
         {
             using (var db = new ShippingContext())
             {
-                var readyToShip = await db.Shipments.Where(x => !x.IsShippedYet && x.IsOrderSubmitted && x.IsPaymentProcessedYet)
+                var readyToShip = await db.Shipments.Where(x => !x.IsShippedYet && x.IsOrderSubmitted && x.IsPaymentProcessed)
                     .ToListAsync()
                     .ConfigureAwait(false);
 

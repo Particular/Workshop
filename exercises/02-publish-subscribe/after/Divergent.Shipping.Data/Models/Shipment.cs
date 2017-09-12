@@ -7,7 +7,7 @@ namespace Divergent.Shipping.Data.Models
         public int Id { get; set; }
         public int OrderId { get; set; }
         public bool IsOrderSubmitted { get; set; }
-        public bool IsPaymentProcessedYet { get; set; }
+        public bool IsPaymentProcessed { get; set; }
         public bool IsShippedYet { get; set; }
     }
 }

@@ -321,7 +321,7 @@ The `PaymentSucceededHandler` should process the `PaymentSucceededEvent` publish
 
 ### Step 3
 
-Add the code in the handler to create a new shipment entity if one does not exist for a given order. Set the `IsPaymentProcessedYet` flag to indicate a payment has been processed.
+Add the code in the handler to create a new shipment entity if one does not exist for a given order. Set the `IsPaymentProcessed` flag to indicate a payment has been processed.
 
 ```c#
 namespace Divergent.Shipping.Handlers
@@ -343,7 +343,7 @@ namespace Divergent.Shipping.Handlers
                     };
                     db.Shipments.Add(shipment);
                 }
-                shipment.IsPaymentProcessedYet = true;
+                shipment.IsPaymentProcessed = true;
                 await db.SaveChangesAsync().ConfigureAwait(false);
             }
         }

@@ -25,7 +25,7 @@ namespace Divergent.Shipping.Handlers
                     };
                     db.Shipments.Add(shipment);
                 }
-                shipment.IsPaymentProcessedYet = true;
+                shipment.IsPaymentProcessed = true;
                 await db.SaveChangesAsync().ConfigureAwait(false);
             }
         }
