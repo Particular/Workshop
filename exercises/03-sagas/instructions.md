@@ -143,7 +143,7 @@ Make sure everything compiles.
 Store the `CustomerId`, `OrderId` and products in the state of the saga. We can do this by accessing the saga's `Data` property, as in `Data.CustomerId`. Set the appropriate properties in both `Handle` methods.
 
 ```c#
-public async Task Handle(OrderSubmittedEvent message, IMessageHandlerContext context)
+public Task Handle(OrderSubmittedEvent message, IMessageHandlerContext context)
 {
     Data.OrderId = message.OrderId;
     Data.CustomerId = message.CustomerId;
@@ -153,7 +153,7 @@ public async Task Handle(OrderSubmittedEvent message, IMessageHandlerContext con
     return Task.CompletedTask;
 }
 
-public async Task Handle(PaymentSucceededEvent message, IMessageHandlerContext context)
+public Task Handle(PaymentSucceededEvent message, IMessageHandlerContext context)
 {
     Data.OrderId = message.OrderId;
     return Task.CompletedTask;
