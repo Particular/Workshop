@@ -10,7 +10,7 @@ namespace Divergent.ITOps.ViewModelComposition
 
         static CamelCaseToPascalSettings()
         {
-            settings = new JsonSerializerSettings()
+            settings = new JsonSerializerSettings
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver(),
                 Converters = new List<JsonConverter> { new CamelCaseToPascalCaseExpandoObjectConverter() }

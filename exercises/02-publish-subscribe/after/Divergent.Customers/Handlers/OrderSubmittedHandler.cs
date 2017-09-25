@@ -11,7 +11,7 @@ namespace Divergent.Customers.Handlers
     {
         private static readonly ILog Log = LogManager.GetLogger<OrderSubmittedHandler>();
 
-        public async Task Handle(OrderSubmittedEvent message, NServiceBus.IMessageHandlerContext context)
+        public async Task Handle(OrderSubmittedEvent message, IMessageHandlerContext context)
         {
             Log.Info("Handling: OrderSubmittedEvent.");
 
@@ -21,7 +21,7 @@ namespace Divergent.Customers.Handlers
                     .Include(c => c.Orders)
                     .SingleAsync(c => c.Id == message.CustomerId);
 
-                customer.Orders.Add(new Data.Models.Order()
+                customer.Orders.Add(new Data.Models.Order
                 {
                     CustomerId = message.CustomerId,
                     OrderId = message.OrderId

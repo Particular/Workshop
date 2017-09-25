@@ -7,7 +7,7 @@
             if(string.IsNullOrEmpty(s) || !char.IsLower(s[ 0 ]))
                 return s;
 
-            string str = char.ToUpperInvariant(s[ 0 ]).ToString();
+            var str = char.ToUpperInvariant(s[ 0 ]).ToString();
 
             if(s.Length > 1)
                 str = str + s.Substring(1);

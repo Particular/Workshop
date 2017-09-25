@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
-using Divergent.Finance.Messages.Events;
-using Divergent.Finance.PaymentClient;
 using Divergent.Sales.Messages.Events;
 using NServiceBus;
 using NServiceBus.Logging;
@@ -30,7 +26,7 @@ namespace Divergent.Finance.Handlers
 
                 foreach (var price in query)
                 {
-                    var op = new OrderItemPrice()
+                    var op = new OrderItemPrice
                     {
                         OrderId = message.OrderId,
                         ItemPrice = price.ItemPrice,
@@ -45,7 +41,7 @@ namespace Divergent.Finance.Handlers
                 await db.SaveChangesAsync();
             }
 
-            await context.SendLocal(new InitiatePaymentProcessCommand()
+            await context.SendLocal(new InitiatePaymentProcessCommand
             {
                 CustomerId = message.CustomerId,
                 OrderId = message.OrderId,

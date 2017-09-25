@@ -28,15 +28,15 @@ namespace Divergent.Finance.Data.Repositories
             var returnOfTheJedi = Guid.Parse("11cb4ecd-5383-4da2-b3d4-8fd2a4e2117f");
             var theForceAwakens = Guid.Parse("5e449efa-3f48-45d2-82f0-22483d97516a");
 
-            return new List<Price>()
+            return new List<Price>
             {
-                new Price() { ProductId = thePhantomMenace, ItemPrice = 10 },
-                new Price() { ProductId = attackOfTheClones, ItemPrice = 10 },
-                new Price() { ProductId = revengeOfTheSith, ItemPrice = 10 },
-                new Price() { ProductId = aNewHope, ItemPrice = 15 },
-                new Price() { ProductId = theEmpireStrikesBack, ItemPrice = 15 },
-                new Price() { ProductId = returnOfTheJedi, ItemPrice = 15 },
-                new Price() { ProductId = theForceAwakens, ItemPrice = 25 }
+                new Price { ProductId = thePhantomMenace, ItemPrice = 10 },
+                new Price { ProductId = attackOfTheClones, ItemPrice = 10 },
+                new Price { ProductId = revengeOfTheSith, ItemPrice = 10 },
+                new Price { ProductId = aNewHope, ItemPrice = 15 },
+                new Price { ProductId = theEmpireStrikesBack, ItemPrice = 15 },
+                new Price { ProductId = returnOfTheJedi, ItemPrice = 15 },
+                new Price { ProductId = theForceAwakens, ItemPrice = 25 }
             };
         }
     }

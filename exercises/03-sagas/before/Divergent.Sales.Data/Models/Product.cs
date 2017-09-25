@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Divergent.Sales.Data.Models
+﻿namespace Divergent.Sales.Data.Models
 {
     public class Product
     {

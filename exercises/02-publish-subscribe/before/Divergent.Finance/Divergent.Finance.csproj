@@ -107,22 +107,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Config\ContainerSetup.cs" />
-    <Compile Include="Config\EndpointConfig.cs" />
-    <Compile Include="Messages\Commands\InitiatePaymentProcessCommand.cs" />
-    <Compile Include="PaymentClient\ReliablePaymentClient.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="nservicebus.host.exe.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Divergent.Finance.Data\Divergent.Finance.Data.csproj">
       <Project>{fee53dc5-b52d-49db-8f07-a8c835998283}</Project>
       <Name>Divergent.Finance.Data</Name>
@@ -137,17 +121,19 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config\ContainerSetup.cs" />
+    <Compile Include="Config\EndpointConfig.cs" />
+    <Compile Include="Messages\Commands\InitiatePaymentProcessCommand.cs" />
+    <Compile Include="PaymentClient\ReliablePaymentClient.cs" />
+    <None Include="App.config" />
+    <None Include="nservicebus.host.exe.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
     <Folder Include="Handlers\" />
     <Folder Include="Sagas\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
   <PropertyGroup>
     <StartAction>Program</StartAction>
     <StartProgram>$(ProjectDir)$(OutputPath)NServiceBus.Host.exe</StartProgram>

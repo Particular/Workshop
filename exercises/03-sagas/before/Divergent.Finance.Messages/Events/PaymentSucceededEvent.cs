@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Divergent.Finance.Messages.Events
+﻿namespace Divergent.Finance.Messages.Events
 {
     public class PaymentSucceededEvent
     {

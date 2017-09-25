@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Divergent.Finance.Messages.Events;
 using Divergent.ITOps.Messages.Commands;

@@ -99,18 +99,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Config\ContainerSetup.cs" />
-    <Compile Include="Config\EndpointConfig.cs" />
-    <Compile Include="Handlers\OrderSubmittedHandler.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Divergent.Customers.Data\Divergent.Customers.Data.csproj">
       <Project>{314aa28e-e5a9-40b3-aa9b-c2c0e5bad059}</Project>
       <Name>Divergent.Customers.Data</Name>
@@ -125,16 +113,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config\ContainerSetup.cs" />
+    <Compile Include="Config\EndpointConfig.cs" />
+    <Compile Include="Handlers\OrderSubmittedHandler.cs" />
+    <None Include="App.config" />
+    <None Include="packages.config" />
     <Folder Include="Sagas\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
   <PropertyGroup>
     <StartAction>Program</StartAction>
     <StartProgram>$(ProjectDir)$(OutputPath)NServiceBus.Host.exe</StartProgram>

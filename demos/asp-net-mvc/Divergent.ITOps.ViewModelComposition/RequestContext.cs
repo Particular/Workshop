@@ -7,8 +7,8 @@ namespace Divergent.ITOps.ViewModelComposition
     {
         public RequestContext(RouteData routeData, NameValueCollection quesryString)
         {
-            this.RouteData = routeData;
-            this.QueryString = quesryString;
+            RouteData = routeData;
+            QueryString = quesryString;
         }
 
         public RouteData RouteData { get; private set; }

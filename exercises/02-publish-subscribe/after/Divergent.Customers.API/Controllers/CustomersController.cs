@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web.Http;
 using Divergent.Customers.Data.Models;
 using Divergent.Customers.Data.Context;

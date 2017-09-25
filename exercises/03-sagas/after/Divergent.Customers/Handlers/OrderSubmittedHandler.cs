@@ -23,7 +23,7 @@ namespace Divergent.Customers.Handlers
                     .Where(c=>c.Id == message.CustomerId)
                     .Single();
 
-                customer.Orders.Add(new Order()
+                customer.Orders.Add(new Order
                 {
                     CustomerId = message.CustomerId,
                     OrderId = message.OrderId

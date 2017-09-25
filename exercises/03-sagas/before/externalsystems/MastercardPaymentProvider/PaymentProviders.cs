@@ -20,7 +20,7 @@ namespace PaymentProviders
                 if (_random.Next(3) == 0)
                     return HttpStatusCode.BadRequest;
 
-                var response = new PaymentResponse()
+                var response = new PaymentResponse
                 {
                     CustomerId = item.CustomerId,
                     PaymentSucceeded = _random.Next(2) != 0
@@ -33,7 +33,7 @@ namespace PaymentProviders
             {
                 var item = this.Bind<PaymentRequest>();
 
-                var response = new PaymentResponse()
+                var response = new PaymentResponse
                 {
                     CustomerId = item.CustomerId,
                     PaymentSucceeded = true

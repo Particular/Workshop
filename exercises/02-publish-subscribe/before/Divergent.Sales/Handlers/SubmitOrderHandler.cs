@@ -24,12 +24,12 @@ namespace Divergent.Sales.Handlers
 
                 var products = _context.Products.ToList();
 
-                message.Products.ForEach(p => items.Add(new Item()
+                message.Products.ForEach(p => items.Add(new Item
                 {
                     Product = products.Single(s => s.Id == p)
                 }));
 
-                var order = new Divergent.Sales.Data.Models.Order()
+                var order = new Data.Models.Order
                 {
                     CustomerId = message.CustomerId,
                     DateTimeUtc = DateTime.UtcNow,

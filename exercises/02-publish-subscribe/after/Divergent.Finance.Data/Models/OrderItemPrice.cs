@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Divergent.Finance.Data.Models
+﻿namespace Divergent.Finance.Data.Models
 {
     public class OrderItemPrice
     {

@@ -26,7 +26,7 @@ namespace Divergent.Finance.Handlers
 
                 foreach (var price in query)
                 {
-                    var op = new OrderItemPrice()
+                    var op = new OrderItemPrice
                     {
                         OrderId = message.OrderId,
                         ItemPrice = price.ItemPrice,
@@ -41,7 +41,7 @@ namespace Divergent.Finance.Handlers
                 await db.SaveChangesAsync();
             }
 
-            await context.SendLocal(new InitiatePaymentProcessCommand()
+            await context.SendLocal(new InitiatePaymentProcessCommand
             {
                 CustomerId = message.CustomerId,
                 OrderId = message.OrderId,

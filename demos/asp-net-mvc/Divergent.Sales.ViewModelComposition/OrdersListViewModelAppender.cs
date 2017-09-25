@@ -9,7 +9,7 @@ namespace Divergent.Sales.ViewModelComposition
 {
     public class OrdersListViewModelAppender : IViewModelAppender
     {
-        public bool Matches(ITOps.ViewModelComposition.RequestContext request)
+        public bool Matches(RequestContext request)
         {
             var controller = (string)request.RouteData.Values["controller"];
             var action = (string)request.RouteData.Values["action"];
@@ -17,7 +17,7 @@ namespace Divergent.Sales.ViewModelComposition
             return controller == "Orders" && action == "Index";
         }
 
-        public async Task Append(ITOps.ViewModelComposition.RequestContext request, dynamic viewModel)
+        public async Task Append(RequestContext request, dynamic viewModel)
         {
             var pageIndex = (string)request.QueryString["pageindex"] ?? "0";
             var pageSize = (string)request.QueryString["pageSize"] ?? "10";
@@ -30,7 +30,7 @@ namespace Divergent.Sales.ViewModelComposition
 
             viewModel.OrdersViewModel = MapToDictionary(orders);
 
-            await viewModel.RaiseEventAsync(new OrdersLoaded()
+            await viewModel.RaiseEventAsync(new OrdersLoaded
             {
                 OrdersViewModel = viewModel.OrdersViewModel
             }).ConfigureAwait(false);
@@ -40,7 +40,7 @@ namespace Divergent.Sales.ViewModelComposition
         {
             var ordersViewModel = new Dictionary<dynamic, dynamic>();
 
-            foreach (dynamic order in orders)
+            foreach (var order in orders)
             {
                 ordersViewModel[order.Id] = new ExpandoObject();
                 ordersViewModel[order.Id].OrderNumber = order.Number;

@@ -46,10 +46,10 @@ namespace PaymentProviders
         {
             HttpResponseMessage response = null;
 
-            using (HttpClient httpClient = new HttpClient())
+            using (var httpClient = new HttpClient())
             {
                 httpClient.BaseAddress = new Uri("http://127.0.0.1:1234/");
-                var msg = new PaymentRequest()
+                var msg = new PaymentRequest
                 {
                     CustomerId = 12,
                     Amount = 300d
