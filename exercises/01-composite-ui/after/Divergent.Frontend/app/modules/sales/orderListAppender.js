@@ -11,7 +11,7 @@
                         var appender = {
                             append: function (args, viewModel) {
 
-                                var uri = config.apiUrl + '/orders?p=' + args.pageIndex + '&s=' + args.pageSize;
+                                var uri = config.apiUrl + '/orders';
                                 return $http.get(uri)
                                     .then(function (response) {
 

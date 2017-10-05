@@ -10,7 +10,7 @@
                 ctrl.orders = null;
 
                 ctrl.isLoading = backendCompositionService
-                    .get('orders-list', { pageIndex: 0, pageSize: 10 })
+                    .get('orders-list')
                     .then(function (viewModel) {
                         ctrl.orders = viewModel.orders;
                     })

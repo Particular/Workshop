@@ -17,7 +17,7 @@ namespace Divergent.Sales.API.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<dynamic> Get(int p = 0, int s = 10)
+        public IEnumerable<dynamic> Get()
         {
             var orders = _context.Orders
                 .Include(i => i.Items)
@@ -25,8 +25,6 @@ namespace Divergent.Sales.API.Controllers
                 .ToArray();
 
             return orders
-                .Skip(p * s)
-                .Take(s)
                 .Select(o => new
                 {
                     o.Id,
