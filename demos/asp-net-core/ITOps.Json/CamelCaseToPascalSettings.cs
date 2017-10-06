@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ITOps.Json
 {
-    public class CamelCaseToPascalSettings
+    internal class CamelCaseToPascalSettings
     {
         static JsonSerializerSettings settings;
 

@@ -1,6 +1,6 @@
 ﻿namespace ITOps.Json
 {
-    public static class StringExtensions
+    internal static class StringExtensions
     {
         public static string ToPascalCase(this string s)
         {
