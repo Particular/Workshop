@@ -6,7 +6,7 @@ using System.Globalization;
 
 namespace ITOps.Json
 {
-    public class CamelCaseToPascalCaseExpandoObjectConverter : JsonConverter
+    internal class CamelCaseToPascalCaseExpandoObjectConverter : JsonConverter
     {
         //CHANGED
         //the ExpandoObjectConverter needs this internal method so we have to copy it
