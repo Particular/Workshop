@@ -10,7 +10,15 @@ This demo is composed of two solutions which demonstrate UI Composition techniqu
 * `Divergent.Shipping.API.Host`
 * `Divergent.CompositionGateway`
 
-Use an HTTP client such as [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en) to test the gateway.
+Use an HTTP client such as [Postman](https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en) to test the gateway. Here are a few sample HTTP requests that can be used:
+
+* Order #1, Sales only: http://localhost:20295/api/orders/1 - gets order 1 details from the Sales endpoint
+* Order #1, Shipping only: http://localhost:20296/api/shippinginfo/order/1 - gets order 1 details from the Shipping endpoint
+* Order #1, composed: http://localhost:4457/orders/1 - gets order 1 from the composition gateway showing details composed from both Sales and Shipping
+* Orders list, Sales only: http://localhost:20295/api/orders?pageSize=10&pageIndex=0 - gets a list of order details from the Sales endpoint
+* Orders list, composed: http://localhost:4457/orders - gets a list of orders from the composition gateway showing details composed from both Sales and Shipping
+
+The [postman-collection.json](postman-collection.json) file contains the same set of HTTP requests as a collection that can be imported directly into Postman.
 
 ### Divergent.Website
 
