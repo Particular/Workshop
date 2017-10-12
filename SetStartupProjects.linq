@@ -6,8 +6,7 @@
 void Main()
 {
 	var currentDiretory = Path.GetDirectoryName(Util.CurrentQueryPath);
-	var exercises = Path.Combine(currentDiretory, "exercises");
-	SetStartupProjects(exercises);
+	SetStartupProjects(currentDiretory);
 }
 
 public static void SetStartupProjects(string codeDirectory)
