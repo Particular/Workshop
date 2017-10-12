@@ -12,7 +12,7 @@
         @foreach (dynamic order in Model.Orders)
         {
             <tr>
-                <td><a href="/Orders/Details/@order.OrderNumber">Number: #@order.OrderNumber</a></td>
+                <td><a asp-controller="Orders" asp-action="Details" asp-route-id=@order.OrderNumber>Number: #@order.OrderNumber</a></td>
                 <td>@order.ShippingStatus</td>
             </tr>
 
