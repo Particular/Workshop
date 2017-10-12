@@ -32,6 +32,8 @@ For more info, please see [the instructions for running the exercise solutions](
 
 At the moment we gather all successfully paid orders and the only option we have is to process them in batches. Business is growing rapidly and we would like to process orders as soon as possible, not just at predefined intervals.
 
+Note: This is a hypothetical case. From experience we've seen a lot of developers implement batch processes. Sagas are a better alternative to batch processes. For more info, read our blog post, "[Death to the batch job](https://particular.net/blog/death-to-the-batch-job)".
+
 ## Issues
 
 - After the handlers for both events store data in the database, we need a batch job to gather all successfully paid orders. It is impossible to run this batch job continuously throughout the day, as this will largely increase database locks and interfere with other operations happening in the system. We want to process orders near real-time.
@@ -68,7 +70,7 @@ class ShippingSaga : Saga<object>
 
 ### Step 4
 
-Now we will have our saga implement both handlers for `OrderSubmittedEvent` and `PaymentSucceededEvent`. Have the class implement the `IAmStartedByMessages<T>` interface for both events.  
+Now we will have our saga implement both handlers for `OrderSubmittedEvent` and `PaymentSucceededEvent`. Have the class implement the `IAmStartedByMessages<T>` interface for both events.
 
 NOTE: We're not using `IHandleMessages<T>` to initiate the saga, but rather `IAmStartedByMessages<T>`. The reason is that some messages can start the saga, whereas others should assume the saga to be already instantiated. At least one message should start the saga. We'll get back to this later with more details.
 
@@ -147,7 +149,7 @@ public Task Handle(OrderSubmittedEvent message, IMessageHandlerContext context)
 {
     Data.OrderId = message.OrderId;
     Data.CustomerId = message.CustomerId;
-    
+
     var projection = message.Products.Select(p => new ShippingSagaData.Product { Identifier = p });
     Data.Products = projection.ToList();
     return Task.CompletedTask;
@@ -264,3 +266,9 @@ Create a new saga in the Finance bounded context which first tries to process th
 Sagas are not supposed to retrieve data from a data store or call out to external systems. They should execute tasks using [the request/response pattern](http://docs.particular.net/nservicebus/sagas/#sagas-and-request-response). This means that, rather than processing the payment directly, the saga should send a message to another handler in the Finance bounded context to process the payment on its behalf. Whether it fails or succeeds, that handler should [reply to the saga](http://docs.particular.net/nservicebus/messaging/reply-to-a-message) with the status of the payment. If the payment failed, the saga should send another message to process the payment, but this time to the reliable, but expensive, provider.
 
 The solution should end up with at least two new handlers and a new saga. Depending on your solution, you may end up with more.
+
+## Conclusion
+
+This exercise has demonstrated how to use sagas to orchestrate business processes.
+
+If you'd like to discuss this more, please don't hesitate to drop us a line in our [community discussion forum](https://discuss.particular.net/).
