@@ -33,16 +33,16 @@ namespace Divergent.Sales.ViewModelComposition
 
             var url = $"http://localhost:20295/api/orders?pageSize={pageSize}&pageIndex={pageIndex}";
             var client = new HttpClient();
-            var response = await client.GetAsync(url).ConfigureAwait(false);
+            var response = await client.GetAsync(url);
 
-            dynamic[] orders = await response.Content.AsExpandoArrayAsync().ConfigureAwait(false);
+            dynamic[] orders = await response.Content.AsExpandoArrayAsync();
 
             var ordersViewModelDictionary = MapToDictionary(orders);
 
             await vm.RaiseEventAsync(new OrdersLoaded()
             {
                 OrdersViewModel = ordersViewModelDictionary
-            }).ConfigureAwait(false);
+            });
 
             vm.Orders = ordersViewModelDictionary.Values.ToArray();
         }
