@@ -11,31 +11,42 @@ namespace Divergent.Shipping.API.Host.Controllers
     public class ShippingInfoController : ApiController
     {
         [HttpGet]
-        [Route("order/{id}")]
-        public ShippingInfo Order(int id)
+        [Route("order/{orderNumber}")]
+        public dynamic Order(int orderNumber)
         {
             using (var db = new ShippingContext())
             {
                 var info = db.ShippingInfos
-                    .Where(si => si.OrderId == id)
+                    .Where(si => si.OrderNumber == orderNumber)
                     .SingleOrDefault();
 
-                return info;
+                return new
+                {
+                    info.OrderNumber,
+                    info.Courier,
+                    info.Status
+                };
             }
         }
 
         [HttpGet]
         [Route("orders")]
-        public IEnumerable<ShippingInfo> Orders(string ids)
+        public IEnumerable<dynamic> Orders(string orderNumbers)
         {
             using (var db = new ShippingContext())
             {
-                var idArray = ids.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(s=>int.Parse(s)).ToArray();
-                var info = db.ShippingInfos
-                    .Where(si => idArray.Any(id => id == si.OrderId))
+                var orderNumbersArray = orderNumbers.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(s => int.Parse(s)).ToArray();
+                var infos = db.ShippingInfos
+                    .Where(si => orderNumbersArray.Any(id => id == si.OrderNumber))
+                    .Select(si => new
+                    {
+                        si.OrderNumber,
+                        si.Courier,
+                        si.Status
+                    })
                     .ToArray();
 
-                return info;
+                return infos;
             }
         }
     }

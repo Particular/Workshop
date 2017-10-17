@@ -32,7 +32,7 @@ namespace Divergent.Sales.ViewModelComposition
 
             dynamic order = await response.Content.AsExpandoAsync().ConfigureAwait(false);
 
-            vm.OrderNumber = order.Number;
+            vm.OrderNumber = order.OrderNumber;
             vm.OrderItemsCount = order.ItemsCount;
         }
     }

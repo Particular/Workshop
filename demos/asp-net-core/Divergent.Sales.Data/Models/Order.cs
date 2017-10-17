@@ -7,6 +7,8 @@ namespace Divergent.Sales.Data.Models
     {
         public int Id { get; set; }
 
+        public int OrderNumber { get; set; }
+
         public DateTime DateTimeUtc { get; set; }
 
         public ICollection<Item> Items { get; set; }
