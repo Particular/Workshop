@@ -28,9 +28,9 @@ namespace Divergent.Sales.ViewModelComposition
 
             var url = $"http://localhost:20295/api/orders/{id}";
             var client = new HttpClient();
-            var response = await client.GetAsync(url).ConfigureAwait(false);
+            var response = await client.GetAsync(url);
 
-            dynamic order = await response.Content.AsExpandoAsync().ConfigureAwait(false);
+            dynamic order = await response.Content.AsExpandoAsync();
 
             vm.OrderNumber = order.OrderNumber;
             vm.OrderItemsCount = order.ItemsCount;
