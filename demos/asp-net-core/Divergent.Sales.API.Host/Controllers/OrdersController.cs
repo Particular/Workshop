@@ -9,18 +9,17 @@ namespace Divergent.Sales.API.Host.Controllers
     [RoutePrefix("api/orders")]
     public class OrdersController : ApiController
     {
-        [HttpGet]
-        public dynamic Get(int id)
+        [HttpGet, Route("{orderNumber}")]
+        public dynamic Get(int orderNumber)
         {
             using (var db = new SalesContext())
             {
                 var order = db.Orders
                     .Include(o => o.Items)
-                    .Where(o => o.Id == id)
+                    .Where(o => o.OrderNumber == orderNumber)
                     .Select(o => new
                     {
-                        Number = o.Id,
-                        o.Id,
+                        OrderNumber = o.OrderNumber,
                         ItemsCount = o.Items.Count
                     })
                     .SingleOrDefault();
@@ -36,13 +35,12 @@ namespace Divergent.Sales.API.Host.Controllers
             {
                 var orders = db.Orders
                     .Include(o => o.Items)
-                    .OrderBy(o => o.Id) //required by SQLite EF
+                    .OrderBy(o => o.OrderNumber) //required by SQLite EF
                     .Skip(pageSize * pageIndex)
                     .Take(pageSize)
                     .Select(o => new
                     {
-                        Number = o.Id,
-                        o.Id,
+                        OrderNumber = o.OrderNumber,
                         ItemsCount = o.Items.Count
                     })
                     .ToArray();

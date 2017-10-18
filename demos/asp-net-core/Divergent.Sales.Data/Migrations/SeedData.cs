@@ -12,7 +12,7 @@ namespace Divergent.Sales.Data.Migrations
             {
                 new Order()
                 {
-                    Id = 1,
+                    OrderNumber = 1,
                     DateTimeUtc = new DateTime(2016, 11, 01),
                     Items = new []
                     {
@@ -28,7 +28,7 @@ namespace Divergent.Sales.Data.Migrations
                 },
                 new Order()
                 {
-                    Id = 2,
+                    OrderNumber = 2,
                     DateTimeUtc = new DateTime(2017, 01, 19),
                     Items = new []
                     {
@@ -52,7 +52,7 @@ namespace Divergent.Sales.Data.Migrations
                 },
                 new Order()
                 {
-                    Id = 3,
+                    OrderNumber = 3,
                     DateTimeUtc = new DateTime(2017, 01, 19),
                     Items = new []
                     {

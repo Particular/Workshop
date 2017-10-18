@@ -27,9 +27,9 @@ namespace Divergent.Shipping.ViewModelComposition
         {
             subscriptionStorage.Subscribe<OrdersLoaded>(async (pageViewModel, @event, routeData, query) =>
             {
-                var ids = String.Join(",", @event.OrdersViewModel.Keys);
+                var orderNumbers = String.Join(",", @event.OrdersViewModel.Keys);
 
-                var url = $"http://localhost:20296/api/shippinginfo/orders?ids={ids}";
+                var url = $"http://localhost:20296/api/shippinginfo/orders?orderNumbers={orderNumbers}";
                 var client = new HttpClient();
 
                 var response = await client.GetAsync(url).ConfigureAwait(false);
@@ -38,8 +38,8 @@ namespace Divergent.Shipping.ViewModelComposition
 
                 foreach (dynamic item in shippingInfos)
                 {
-                    @event.OrdersViewModel[item.OrderId].ShippingStatus = item.Status;
-                    @event.OrdersViewModel[item.OrderId].ShippingCourier = item.Courier;
+                    @event.OrdersViewModel[item.OrderNumber].ShippingStatus = item.Status;
+                    @event.OrdersViewModel[item.OrderNumber].ShippingCourier = item.Courier;
                 }
             });
         }

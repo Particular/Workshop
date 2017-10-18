@@ -3,7 +3,7 @@
     public class ShippingInfo
     {
         public int Id { get; set; }
-        public int OrderId { get; internal set; }
+        public int OrderNumber { get; internal set; }
         public string Courier { get; internal set; }
         public string Status { get; internal set; }
     }

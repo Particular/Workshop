@@ -54,10 +54,10 @@ namespace Divergent.Sales.ViewModelComposition
             foreach (dynamic order in orders)
             {
                 dynamic vm = new ExpandoObject();
-                vm.OrderNumber = order.Number;
+                vm.OrderNumber = order.OrderNumber;
                 vm.OrderItemsCount = order.ItemsCount;
 
-                ordersViewModel[order.Id] = vm;
+                ordersViewModel[order.OrderNumber] = vm;
             }
 
             return ordersViewModel;
