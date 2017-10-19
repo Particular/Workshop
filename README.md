@@ -27,7 +27,7 @@ Please ensure you have followed these steps:
 
 * Install [Visual Studio 2017](https://www.visualstudio.com/downloads/) or Visual Studio 2015 Update 3 (the "Community" edition is enough).
 
-* If you have a full SQL Server instance installed, you can choose to use that for the exercises. Otherwise, you will be using LocalDB. In the case of a clean machine with LocalDB only, please install:
+* If you have a SQL Server instance installed (any edition, including SQL Server Express), you can choose to use that for the exercises. Otherwise, you will be using LocalDB. In the case of a clean machine with LocalDB only, please install:
   * [Microsoft ODBC Driver 11 for SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=36434)
   * [Microsoft ODBC Command Line Utilities 11 for SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=36433)
 
@@ -78,13 +78,13 @@ NOTE: If you receive errors regarding "Microsoft ODBC Driver", you can work arou
 
 NOTE: If the setup script fails with a "sqllocaldb command not found" error, your machine may be missing some files related to LocalDB. To fix this, try installing [the LocalDB standalone package](https://www.microsoft.com/en-us/download/details.aspx?id=29062) and then re-run the script.
 
-#### When using a full SQL Server instance
+#### When using a SQL Server instance
 
 Connect to the instance and run `exercises\scripts\Setup-Databases.sql`.
 
 When you have finished the workshop, you may optionally run `Teardown-Databases.sql` to drop all the databases.
 
-NOTE: If you are using a full SQL Server instance, you will need to change the connection strings in all the exercises. Change all instances of `Data Source=(localdb)\microservices-workshop` to point to the full SQL Server intsance.
+NOTE: If you are using a SQL Server instance, you will need to change the connection strings in all the exercises. Change all instances of `Data Source=(localdb)\microservices-workshop` to point to the SQL Server intsance.
 
 ### Restore the NuGet packages
 
@@ -162,7 +162,7 @@ To reset all the databases:
 
 Using an elevated PowerShell prompt, run `Teardown-Databases.ps1` followed by `Setup-Databases.ps1`, both located in the [exercises/scripts](exercises/scripts) folder. 
 
-#### When using a full SQL Server instance (or LocalDB)
+#### When using a SQL Server instance (or LocalDB)
 
 Connect to the instance and run `Teardown-Databases.sql` followed by `Setup-Databases.sql`, both located in the [exercises/scripts](exercises/scripts) folder. 
 
