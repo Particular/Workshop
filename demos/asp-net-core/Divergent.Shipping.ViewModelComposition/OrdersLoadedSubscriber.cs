@@ -10,29 +10,22 @@ namespace Divergent.Shipping.ViewModelComposition
 {
     public class OrdersLoadedSubscriber : ISubscribeToCompositionEvents
     {
-        public bool Matches(RouteData routeData, string httpVerb)
-        {
-            /*
-             * matching is a bit weak in this sample, it's designed 
-             * this way to satisfy both the composite gateway and website samples
-             */
-            var controller = (string)routeData.Values["controller"];
-
-            return HttpMethods.IsGet(httpVerb)
-                && controller.ToLowerInvariant() == "orders"
+        // Matching is a bit weak in this demo.
+        // It's written this way to satisfy both the composite gateway and website samples.
+        public bool Matches(RouteData routeData, string verb) =>
+            HttpMethods.IsGet(verb)
+                && string.Equals((string)routeData.Values["controller"], "orders", StringComparison.OrdinalIgnoreCase)
                 && !routeData.Values.ContainsKey("id");
-        }
 
         public void Subscribe(ISubscriptionStorage subscriptionStorage, RouteData rd, IQueryCollection queryString)
         {
             subscriptionStorage.Subscribe<OrdersLoaded>(async (pageViewModel, @event, routeData, query) =>
             {
-                var orderNumbers = String.Join(",", @event.OrdersViewModel.Keys);
+                var orderNumbers = string.Join(",", @event.OrdersViewModel.Keys);
 
+                // Hardcoded to simplify the demo. In a production app, a config object could be injected.
                 var url = $"http://localhost:20296/api/shippinginfo/orders?orderNumbers={orderNumbers}";
-                var client = new HttpClient();
-
-                var response = await client.GetAsync(url);
+                var response = await new HttpClient().GetAsync(url);
 
                 dynamic[] shippingInfos = await response.Content.AsExpandoArrayAsync();
 
