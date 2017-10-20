@@ -3,6 +3,7 @@ using ITOps.Json;
 using ITOps.ViewModelComposition;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
@@ -13,6 +14,13 @@ namespace Divergent.Sales.ViewModelComposition
 {
     public class OrdersListViewModelAppender : IViewModelAppender
     {
+        string apiBaseAddress;
+
+        public OrdersListViewModelAppender(IConfiguration config)
+        {
+            apiBaseAddress = config.GetSection("appenders:sales:apiBaseAddress").Value;
+        }
+
         public bool Matches(RouteData routeData, string verb)
         {
             /*
@@ -31,7 +39,7 @@ namespace Divergent.Sales.ViewModelComposition
             var pageIndex = (string)query["pageindex"] ?? "0";
             var pageSize = (string)query["pageSize"] ?? "10";
 
-            var url = $"http://localhost:20295/api/orders?pageSize={pageSize}&pageIndex={pageIndex}";
+            var url = $"{apiBaseAddress}/api/orders?pageSize={pageSize}&pageIndex={pageIndex}";
             var client = new HttpClient();
             var response = await client.GetAsync(url);
 

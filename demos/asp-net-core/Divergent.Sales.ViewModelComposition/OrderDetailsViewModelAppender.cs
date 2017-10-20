@@ -2,6 +2,7 @@
 using ITOps.ViewModelComposition;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Configuration;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -9,6 +10,13 @@ namespace Divergent.Sales.ViewModelComposition
 {
     public class OrderDetailsViewModelAppender : IViewModelAppender
     {
+        string apiBaseAddress;
+
+        public OrderDetailsViewModelAppender(IConfiguration config)
+        {
+            apiBaseAddress = config.GetSection("appenders:sales:apiBaseAddress").Value;
+        }
+
         public bool Matches(RouteData routeData, string verb)
         {
             /*
@@ -26,7 +34,7 @@ namespace Divergent.Sales.ViewModelComposition
         {
             var id = (string)routeData.Values["id"];
 
-            var url = $"http://localhost:20295/api/orders/{id}";
+            var url = $"{apiBaseAddress}/api/orders/{id}";
             var client = new HttpClient();
             var response = await client.GetAsync(url);
 
