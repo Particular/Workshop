@@ -25,7 +25,7 @@ namespace ITOps.ViewModelComposition
 
                 foreach (var subscriber in matchingInterceptors.OfType<ISubscribeToCompositionEvents>())
                 {
-                    subscriber.Subscribe(vm, routeData, context.Request.Query);
+                    subscriber.Subscribe(vm);
                 }
 
                 foreach (var appender in matchingInterceptors.OfType<IViewModelAppender>())

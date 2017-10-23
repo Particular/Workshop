@@ -12,14 +12,14 @@ namespace Divergent.Shipping.ViewModelComposition
     {
         // Matching is a bit weak in this demo.
         // It's written this way to satisfy both the composite gateway and website demos.
-        public bool Matches(RouteData routeData, string verb) =>
-            HttpMethods.IsGet(verb)
+        public bool Matches(RouteData routeData, string httpMethod) =>
+            HttpMethods.IsGet(httpMethod)
                 && string.Equals((string)routeData.Values["controller"], "orders", StringComparison.OrdinalIgnoreCase)
                 && !routeData.Values.ContainsKey("id");
 
-        public void Subscribe(ISubscriptionStorage subscriptionStorage, RouteData rd, IQueryCollection queryString)
+        public void Subscribe(IPublishCompositionEvents publisher)
         {
-            subscriptionStorage.Subscribe<OrdersLoaded>(async (pageViewModel, ordersLoaded, routeData, query) =>
+            publisher.Subscribe<OrdersLoaded>(async (pageViewModel, ordersLoaded, routeData, query) =>
             {
                 var orderNumbers = string.Join(",", ordersLoaded.OrderViewModelDictionary.Keys);
 

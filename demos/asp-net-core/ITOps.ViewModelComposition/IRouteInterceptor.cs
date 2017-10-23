@@ -4,6 +4,6 @@ namespace ITOps.ViewModelComposition
 {
     public interface IRouteInterceptor
     {
-        bool Matches(RouteData routeData, string httpVerb);
+        bool Matches(RouteData routeData, string httpMethod);
     }    
 }

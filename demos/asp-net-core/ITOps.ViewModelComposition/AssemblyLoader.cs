@@ -7,7 +7,7 @@ using System.Runtime.Loader;
 
 namespace ITOps.ViewModelComposition
 {
-    public static class AssemblyLoader
+    internal static class AssemblyLoader
     {
         public static Assembly Load(string assemblyFullPath)
         {
