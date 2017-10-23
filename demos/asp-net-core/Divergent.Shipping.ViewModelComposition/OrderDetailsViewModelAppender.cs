@@ -11,7 +11,7 @@ namespace Divergent.Shipping.ViewModelComposition
     public class OrderDetailsViewModelAppender : IViewModelAppender
     {
         // Matching is a bit weak in this demo.
-        // It's written this way to satisfy both the composite gateway and website samples.
+        // It's written this way to satisfy both the composite gateway and website demos.
         public bool Matches(RouteData routeData, string verb) =>
             HttpMethods.IsGet(verb)
                 && string.Equals((string)routeData.Values["controller"], "orders", StringComparison.OrdinalIgnoreCase)
