@@ -1,25 +1,26 @@
-﻿using Topshelf;
+﻿using System.Configuration;
+using Topshelf;
 
 namespace Divergent.Sales.API.Host
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            HostFactory.Run(x =>
+            HostFactory.Run(host =>
             {
-                x.Service<ServiceHost>(s =>
+                host.Service<SalesAPI>(service =>
                 {
-                    s.ConstructUsing(name => new ServiceHost());
-                    s.WhenStarted(tc => tc.Start());
-                    s.WhenStopped(tc => tc.Stop());
+                    service.ConstructUsing(name => new SalesAPI());
+                    service.WhenStarted(api => api.Start(ConfigurationManager.AppSettings["baseAddress"]));
+                    service.WhenStopped(api => api.Stop());
                 });
-                x.RunAsLocalService();
-                x.StartAutomatically();
 
-                x.SetDescription("Services UI Composition sample: Sales API Host");
-                x.SetDisplayName("Sales API Host");
-                x.SetServiceName("SalesAPIHost");
+                host.RunAsLocalService();
+                host.StartAutomatically();
+                host.SetDescription("Services UI Composition demo: Sales API Host");
+                host.SetDisplayName("Sales API Host");
+                host.SetServiceName("SalesAPIHost");
             });
         }
     }

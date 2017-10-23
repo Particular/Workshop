@@ -8,15 +8,12 @@ namespace Divergent.CompositionGateway
 {
     public class Startup
     {
-        public void ConfigureServices(IServiceCollection services)
-        {
-            services.AddRouting();
-            services.AddViewModelComposition();
-        }
+        public void ConfigureServices(IServiceCollection services) =>
+            services
+                .AddRouting()
+                .AddViewModelComposition();
 
-        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
-        {
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory) =>
             app.RunCompositionGatewayWithDefaultRoutes();
-        }
     }
 }
