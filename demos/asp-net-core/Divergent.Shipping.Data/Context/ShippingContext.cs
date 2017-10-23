@@ -11,13 +11,13 @@ namespace Divergent.Shipping.Data.Context
         {
         }
 
-        public IDbSet<ShippingInfo> ShippingInfos { get; set; }
+        public IDbSet<Shipment> Shipments { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             Database.SetInitializer(new DatabaseInitializer(modelBuilder));
 
-            modelBuilder.Entity<ShippingInfo>();
+            modelBuilder.Entity<Shipment>();
 
             base.OnModelCreating(modelBuilder);
         }

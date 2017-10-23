@@ -5,13 +5,13 @@ namespace Divergent.Shipping.Data.Migrations
 {
     internal static class SeedData
     {
-        internal static List<ShippingInfo> ShippingInfos()
+        internal static List<Shipment> Shipments()
         {
-            return new List<ShippingInfo>()
+            return new List<Shipment>()
             {
-                new ShippingInfo() { OrderNumber = 1, Courier = "FedEx", Status = "Delivered"},
-                new ShippingInfo() { OrderNumber = 2, Courier = "UPS", Status = "Shipment Pending"},
-                new ShippingInfo() { OrderNumber = 3, Courier = "FedEx", Status = "Shipped"}
+                new Shipment() { OrderNumber = 1, Courier = "FedEx", Status = "Delivered"},
+                new Shipment() { OrderNumber = 2, Courier = "UPS", Status = "Shipment Pending"},
+                new Shipment() { OrderNumber = 3, Courier = "FedEx", Status = "Shipped"}
             };
         }
     }
