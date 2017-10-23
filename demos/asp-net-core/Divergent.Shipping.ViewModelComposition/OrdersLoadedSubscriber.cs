@@ -21,7 +21,7 @@ namespace Divergent.Shipping.ViewModelComposition
         {
             subscriptionStorage.Subscribe<OrdersLoaded>(async (pageViewModel, @event, routeData, query) =>
             {
-                var orderNumbers = string.Join(",", @event.OrdersViewModel.Keys);
+                var orderNumbers = string.Join(",", @event.OrderViewModelDictionary.Keys);
 
                 // Hardcoded to simplify the demo. In a production app, a config object could be injected.
                 var url = $"http://localhost:20296/api/shippinginfo/orders?orderNumbers={orderNumbers}";
@@ -31,8 +31,8 @@ namespace Divergent.Shipping.ViewModelComposition
 
                 foreach (dynamic item in shippingInfos)
                 {
-                    @event.OrdersViewModel[item.OrderNumber].ShippingStatus = item.Status;
-                    @event.OrdersViewModel[item.OrderNumber].ShippingCourier = item.Courier;
+                    @event.OrderViewModelDictionary[item.OrderNumber].ShippingStatus = item.Status;
+                    @event.OrderViewModelDictionary[item.OrderNumber].ShippingCourier = item.Courier;
                 }
             });
         }
