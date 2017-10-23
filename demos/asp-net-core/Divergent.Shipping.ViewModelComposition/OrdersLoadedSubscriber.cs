@@ -24,15 +24,15 @@ namespace Divergent.Shipping.ViewModelComposition
                 var orderNumbers = string.Join(",", @event.OrderViewModelDictionary.Keys);
 
                 // Hardcoded to simplify the demo. In a production app, a config object could be injected.
-                var url = $"http://localhost:20296/api/shippinginfo/orders?orderNumbers={orderNumbers}";
+                var url = $"http://localhost:20296/api/shipments/orders?orderNumbers={orderNumbers}";
                 var response = await new HttpClient().GetAsync(url);
 
-                dynamic[] shippingInfos = await response.Content.AsExpandoArrayAsync();
+                dynamic[] shipments = await response.Content.AsExpandoArrayAsync();
 
-                foreach (dynamic item in shippingInfos)
+                foreach (dynamic shipment in shipments)
                 {
-                    @event.OrderViewModelDictionary[item.OrderNumber].ShippingStatus = item.Status;
-                    @event.OrderViewModelDictionary[item.OrderNumber].ShippingCourier = item.Courier;
+                    @event.OrderViewModelDictionary[shipment.OrderNumber].ShippingStatus = shipment.Status;
+                    @event.OrderViewModelDictionary[shipment.OrderNumber].ShippingCourier = shipment.Courier;
                 }
             });
         }

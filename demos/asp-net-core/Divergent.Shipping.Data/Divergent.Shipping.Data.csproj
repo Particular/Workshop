@@ -68,7 +68,7 @@
     <Compile Include="Context\ShippingContext.cs" />
     <Compile Include="Migrations\DatabaseInitializer.cs" />
     <Compile Include="Migrations\SeedData.cs" />
-    <Compile Include="Models\ShippingInfo.cs" />
+    <Compile Include="Models\Shipment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

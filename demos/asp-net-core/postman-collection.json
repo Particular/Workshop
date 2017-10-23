@@ -21,7 +21,7 @@
 		{
 			"name": "Order #1, Shipping only",
 			"request": {
-				"url": "http://localhost:20296/api/shippinginfo/order/1",
+				"url": "http://localhost:20296/api/shipments/order/1",
 				"method": "GET",
 				"header": [],
 				"body": {},

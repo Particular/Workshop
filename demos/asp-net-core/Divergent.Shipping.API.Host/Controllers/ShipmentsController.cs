@@ -7,8 +7,8 @@ using System.Web.Http;
 
 namespace Divergent.Shipping.API.Host.Controllers
 {
-    [RoutePrefix("api/shippinginfo")]
-    public class ShippingInfoController : ApiController
+    [RoutePrefix("api/shipments")]
+    public class ShipmentsController : ApiController
     {
         [HttpGet]
         [Route("order/{orderNumber}")]
@@ -16,15 +16,15 @@ namespace Divergent.Shipping.API.Host.Controllers
         {
             using (var db = new ShippingContext())
             {
-                var info = db.ShippingInfos
-                    .Where(si => si.OrderNumber == orderNumber)
+                var shipment = db.Shipments
+                    .Where(s => s.OrderNumber == orderNumber)
                     .SingleOrDefault();
 
                 return new
                 {
-                    info.OrderNumber,
-                    info.Courier,
-                    info.Status
+                    shipment.OrderNumber,
+                    shipment.Courier,
+                    shipment.Status
                 };
             }
         }
@@ -36,17 +36,17 @@ namespace Divergent.Shipping.API.Host.Controllers
             using (var db = new ShippingContext())
             {
                 var orderNumbersArray = orderNumbers.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(s => int.Parse(s)).ToArray();
-                var infos = db.ShippingInfos
-                    .Where(si => orderNumbersArray.Any(id => id == si.OrderNumber))
-                    .Select(si => new
+                var shipments = db.Shipments
+                    .Where(s => orderNumbersArray.Any(id => id == s.OrderNumber))
+                    .Select(s => new
                     {
-                        si.OrderNumber,
-                        si.Courier,
-                        si.Status
+                        s.OrderNumber,
+                        s.Courier,
+                        s.Status
                     })
                     .ToArray();
 
-                return infos;
+                return shipments;
             }
         }
     }

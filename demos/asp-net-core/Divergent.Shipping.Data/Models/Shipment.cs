@@ -1,6 +1,6 @@
 ﻿namespace Divergent.Shipping.Data.Models
 {
-    public class ShippingInfo
+    public class Shipment
     {
         public int Id { get; set; }
         public int OrderNumber { get; internal set; }

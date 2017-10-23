@@ -22,13 +22,13 @@ namespace Divergent.Shipping.ViewModelComposition
             var id = (string)routeData.Values["id"];
 
             // Hardcoded to simplify the demo. In a production app, a config object could be injected.
-            var url = $"http://localhost:20296/api/shippinginfo/order/{id}";
+            var url = $"http://localhost:20296/api/shipments/order/{id}";
             var response = await new HttpClient().GetAsync(url);
 
-            dynamic shipping = await response.Content.AsExpandoAsync();
+            dynamic shipment = await response.Content.AsExpandoAsync();
 
-            vm.ShippingStatus = shipping.Status;
-            vm.ShippingCourier = shipping.Courier;
+            vm.ShippingStatus = shipment.Status;
+            vm.ShippingCourier = shipment.Courier;
         }
     }
 }
