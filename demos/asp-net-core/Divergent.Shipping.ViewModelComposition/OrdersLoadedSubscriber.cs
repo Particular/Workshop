@@ -11,7 +11,7 @@ namespace Divergent.Shipping.ViewModelComposition
     public class OrdersLoadedSubscriber : ISubscribeToCompositionEvents
     {
         // Matching is a bit weak in this demo.
-        // It's written this way to satisfy both the composite gateway and website samples.
+        // It's written this way to satisfy both the composite gateway and website demos.
         public bool Matches(RouteData routeData, string verb) =>
             HttpMethods.IsGet(verb)
                 && string.Equals((string)routeData.Values["controller"], "orders", StringComparison.OrdinalIgnoreCase)
@@ -19,9 +19,9 @@ namespace Divergent.Shipping.ViewModelComposition
 
         public void Subscribe(ISubscriptionStorage subscriptionStorage, RouteData rd, IQueryCollection queryString)
         {
-            subscriptionStorage.Subscribe<OrdersLoaded>(async (pageViewModel, @event, routeData, query) =>
+            subscriptionStorage.Subscribe<OrdersLoaded>(async (pageViewModel, ordersLoaded, routeData, query) =>
             {
-                var orderNumbers = string.Join(",", @event.OrderViewModelDictionary.Keys);
+                var orderNumbers = string.Join(",", ordersLoaded.OrderViewModelDictionary.Keys);
 
                 // Hardcoded to simplify the demo. In a production app, a config object could be injected.
                 var url = $"http://localhost:20296/api/shipments/orders?orderNumbers={orderNumbers}";
@@ -31,8 +31,8 @@ namespace Divergent.Shipping.ViewModelComposition
 
                 foreach (dynamic shipment in shipments)
                 {
-                    @event.OrderViewModelDictionary[shipment.OrderNumber].ShippingStatus = shipment.Status;
-                    @event.OrderViewModelDictionary[shipment.OrderNumber].ShippingCourier = shipment.Courier;
+                    ordersLoaded.OrderViewModelDictionary[shipment.OrderNumber].ShippingStatus = shipment.Status;
+                    ordersLoaded.OrderViewModelDictionary[shipment.OrderNumber].ShippingCourier = shipment.Courier;
                 }
             });
         }
