@@ -4,7 +4,7 @@ using System.Data.Entity;
 
 namespace Divergent.Shipping.Data.Context
 {
-    [DbConfigurationType(typeof(SqLiteConfig))]
+    [DbConfigurationType(typeof(SQLiteConfig))]
     public class ShippingContext : DbContext
     {
         public ShippingContext() : base("Divergent.Shipping")
