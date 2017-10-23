@@ -14,7 +14,7 @@ namespace ITOps.ViewModelComposition.Gateway
             RouteValueDictionary dataTokens = null)
         {
             var route = new Route(
-                target: new RouteHandler(ctx => ComposableRouteHandler.HandleGetRequest(ctx)),
+                target: new RouteHandler(context => ComposableRouteHandler.HandleGetRequest(context)),
                 routeTemplate: template,
                 defaults: defaults,
                 constraints: new RouteValueDictionary(new
@@ -22,8 +22,7 @@ namespace ITOps.ViewModelComposition.Gateway
                     httpMethod = new HttpMethodRouteConstraint(HttpMethods.Get)
                 }),
                 dataTokens: dataTokens,
-                inlineConstraintResolver: routeBuilder.ServiceProvider.GetRequiredService<IInlineConstraintResolver>()
-            );
+                inlineConstraintResolver: routeBuilder.ServiceProvider.GetRequiredService<IInlineConstraintResolver>());
 
             routeBuilder.Routes.Add(route);
 

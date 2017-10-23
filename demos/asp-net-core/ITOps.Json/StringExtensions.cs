@@ -2,17 +2,19 @@
 {
     internal static class StringExtensions
     {
-        public static string ToPascalCase(this string s)
+        public static string ToPascalCase(this string text)
         {
-            if(string.IsNullOrEmpty(s) || !char.IsLower(s[ 0 ]))
-                return s;
+            char initial;
+            if (string.IsNullOrEmpty(text) || !char.IsLower(initial = text[0]))
+            {
+                return text;
+            }
 
-            string str = char.ToUpperInvariant(s[ 0 ]).ToString();
+            var upperInitial = char.ToUpperInvariant(initial).ToString();
 
-            if(s.Length > 1)
-                str = str + s.Substring(1);
-
-            return str;
+            return text.Length == 1
+                ? upperInitial
+                : upperInitial + text.Substring(1);
         }
     }
 }

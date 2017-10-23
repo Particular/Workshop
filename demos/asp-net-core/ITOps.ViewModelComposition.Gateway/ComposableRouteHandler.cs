@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Threading.Tasks;
@@ -11,11 +10,12 @@ namespace ITOps.ViewModelComposition.Gateway
         public static async Task HandleGetRequest(HttpContext context)
         {
             var result = await CompositionHandler.HandleGetRequest(context);
+
             if (result.StatusCode == StatusCodes.Status200OK)
             {
-                //For the purposes of the sample, we're not respecting the HTTP Accept header and assuming that a JSON response is OK.
-                string json = JsonConvert.SerializeObject(result.ViewModel, GetSettings(context));
+                // For the purposes of the demo, we're not respecting the HTTP Accept header and assuming that a JSON response is OK.
                 context.Response.ContentType = "application/json; charset=utf-8";
+                string json = JsonConvert.SerializeObject(result.ViewModel, GetSettings(context));
                 await context.Response.WriteAsync(json);
             }
             else
@@ -24,22 +24,19 @@ namespace ITOps.ViewModelComposition.Gateway
             }
         }
 
-        static JsonSerializerSettings GetSettings(HttpContext context)
+        private static JsonSerializerSettings GetSettings(HttpContext context)
         {
-            if (!context.Request.Headers.TryGetValue("Accept-Casing", out StringValues casing))
-            {
-                casing = "casing/camel";
-            }
+            context.Request.Headers.TryGetValue("Accept-Casing", out var casing);
 
             switch (casing)
             {
                 case "casing/pascal":
                     return new JsonSerializerSettings();
 
-                default: // "casing/camel":
-                    return new JsonSerializerSettings()
+                default: // camelCase
+                    return new JsonSerializerSettings
                     {
-                        ContractResolver = new CamelCasePropertyNamesContractResolver()
+                        ContractResolver = new CamelCasePropertyNamesContractResolver(),
                     };
             }
         }

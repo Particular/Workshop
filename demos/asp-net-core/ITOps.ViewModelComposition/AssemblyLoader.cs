@@ -9,18 +9,21 @@ namespace ITOps.ViewModelComposition
 {
     internal static class AssemblyLoader
     {
-        public static Assembly Load(string assemblyFullPath)
+        public static Assembly Load(string path)
         {
-            var fileNameWithOutExtension = Path.GetFileNameWithoutExtension(assemblyFullPath);
+            var assemblyName = Path.GetFileNameWithoutExtension(path);
 
-            var inCompileLibraries= DependencyContext.Default.CompileLibraries.Any(l => l.Name.Equals(fileNameWithOutExtension, StringComparison.OrdinalIgnoreCase));
-            var inRuntimeLibraries = DependencyContext.Default.RuntimeLibraries.Any(l => l.Name.Equals(fileNameWithOutExtension, StringComparison.OrdinalIgnoreCase));
+            return IsCompileLibrary(assemblyName) || IsRuntimeLibrary(assemblyName)
+                ? Assembly.Load(new AssemblyName(assemblyName))
+                : AssemblyLoadContext.Default.LoadFromAssemblyPath(path);
 
-            var assembly = (inCompileLibraries || inRuntimeLibraries)
-                ? Assembly.Load(new AssemblyName(fileNameWithOutExtension))
-                : AssemblyLoadContext.Default.LoadFromAssemblyPath(assemblyFullPath);
+            bool IsCompileLibrary(string name) =>
+                DependencyContext.Default.CompileLibraries
+                    .Any(library => library.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
 
-            return assembly;
+            bool IsRuntimeLibrary(string name) =>
+                DependencyContext.Default.RuntimeLibraries
+                    .Any(library => library.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
     }
 }
