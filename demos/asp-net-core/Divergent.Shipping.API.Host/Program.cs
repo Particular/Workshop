@@ -1,25 +1,26 @@
-﻿using Topshelf;
+﻿using System.Configuration;
+using Topshelf;
 
 namespace Divergent.Shipping.API.Host
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            HostFactory.Run(x =>
+            HostFactory.Run(host =>
             {
-                x.Service<ServiceHost>(s =>
+                host.Service<ShippingAPI>(service =>
                 {
-                    s.ConstructUsing(name => new ServiceHost());
-                    s.WhenStarted(tc => tc.Start());
-                    s.WhenStopped(tc => tc.Stop());
+                    service.ConstructUsing(name => new ShippingAPI());
+                    service.WhenStarted(api => api.Start(ConfigurationManager.AppSettings["baseAddress"]));
+                    service.WhenStopped(api => api.Stop());
                 });
-                x.RunAsLocalService();
-                x.StartAutomatically();
 
-                x.SetDescription("Services UI Composition sample: Shipping API Host");
-                x.SetDisplayName("Shipping API Host");
-                x.SetServiceName("ShippingAPIHost");
+                host.RunAsLocalService();
+                host.StartAutomatically();
+                host.SetDescription("Services UI Composition demo: Shipping API Host");
+                host.SetDisplayName("Shipping API Host");
+                host.SetServiceName("ShippingAPIHost");
             });
         }
     }

@@ -12,40 +12,36 @@ namespace Divergent.Sales.API.Host.Controllers
         [HttpGet, Route("{orderNumber}")]
         public dynamic Get(int orderNumber)
         {
-            using (var db = new SalesContext())
+            using (var sales = new SalesContext())
             {
-                var order = db.Orders
-                    .Include(o => o.Items)
-                    .Where(o => o.OrderNumber == orderNumber)
-                    .Select(o => new
+                return sales.Orders
+                    .Include(order => order.Items)
+                    .Where(order => order.OrderNumber == orderNumber)
+                    .Select(order => new
                     {
-                        OrderNumber = o.OrderNumber,
-                        ItemsCount = o.Items.Count
+                        OrderNumber = order.OrderNumber,
+                        ItemsCount = order.Items.Count,
                     })
                     .SingleOrDefault();
-
-                return order;
             }
         }
 
         [HttpGet]
         public IEnumerable<dynamic> Get(int pageIndex, int pageSize)
         {
-            using (var db = new SalesContext())
+            using (var sales = new SalesContext())
             {
-                var orders = db.Orders
-                    .Include(o => o.Items)
-                    .OrderBy(o => o.OrderNumber) //required by SQLite EF
+                return sales.Orders
+                    .Include(order => order.Items)
+                    .OrderBy(order => order.OrderNumber) //required by SQLite EF
                     .Skip(pageSize * pageIndex)
                     .Take(pageSize)
-                    .Select(o => new
+                    .Select(order => new
                     {
-                        OrderNumber = o.OrderNumber,
-                        ItemsCount = o.Items.Count
+                        OrderNumber = order.OrderNumber,
+                        ItemsCount = order.Items.Count,
                     })
-                    .ToArray();
-
-                return orders;
+                    .ToList();
             }
         }
     }

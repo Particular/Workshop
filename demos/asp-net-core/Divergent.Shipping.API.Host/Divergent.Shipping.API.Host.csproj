@@ -112,7 +112,7 @@
     <Compile Include="Controllers\ShipmentsController.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServiceHost.cs" />
+    <Compile Include="ShippingAPI.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
