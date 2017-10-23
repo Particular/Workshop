@@ -11,9 +11,7 @@ namespace Divergent.Shipping.Data.Migrations
         {
         }
 
-        protected override void Seed(ShippingContext context)
-        {
-            context.Shipments.AddOrUpdate(k => k.Id, SeedData.Shipments().ToArray());
-        }
+        protected override void Seed(ShippingContext context) =>
+            context.Shipments.AddOrUpdate(shipment => shipment.Id, SeedData.Shipments);
     }
 }

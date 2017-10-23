@@ -3,11 +3,11 @@ using System.Data.Entity.Core.Common;
 using System.Data.SQLite;
 using System.Data.SQLite.EF6;
 
-namespace Divergent.Shipping.Data.Context
+namespace Divergent.Sales.Data.Context
 {
-    internal class SqLiteConfig : DbConfiguration
+    internal class SQLiteConfig : DbConfiguration
     {
-        public SqLiteConfig()
+        public SQLiteConfig()
         {
             SetProviderFactory("System.Data.SQLite", SQLiteFactory.Instance);
             SetProviderFactory("System.Data.SQLite.EF6", SQLiteProviderFactory.Instance);

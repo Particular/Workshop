@@ -11,9 +11,7 @@ namespace Divergent.Sales.Data.Migrations
         {
         }
 
-        protected override void Seed(SalesContext context)
-        {
-            context.Orders.AddOrUpdate(k => k.Id, SeedData.Orders().ToArray());
-        }
+        protected override void Seed(SalesContext context) =>
+            context.Orders.AddOrUpdate(order => order.Id, SeedData.Orders);
     }
 }

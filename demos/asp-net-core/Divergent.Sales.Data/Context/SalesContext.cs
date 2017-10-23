@@ -4,7 +4,7 @@ using System.Data.Entity;
 
 namespace Divergent.Sales.Data.Context
 {
-    [DbConfigurationType(typeof(SqLiteConfig))]
+    [DbConfigurationType(typeof(SQLiteConfig))]
     public class SalesContext : DbContext
     {
         public SalesContext() : base("Divergent.Sales")
@@ -18,9 +18,9 @@ namespace Divergent.Sales.Data.Context
             Database.SetInitializer(new DatabaseInitializer(modelBuilder));
 
             modelBuilder.Entity<Order>()
-                .HasMany(e => e.Items)
+                .HasMany(order => order.Items)
                 .WithRequired()
-                .HasForeignKey(k => k.OrderId);
+                .HasForeignKey(item => item.OrderId);
 
             base.OnModelCreating(modelBuilder);
         }

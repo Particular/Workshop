@@ -5,7 +5,7 @@ namespace Divergent.Sales.Data.Models
 {
     public class Order
     {
-        public int Id { get; set; }
+        public int Id { get; set; } // required by EF
 
         public int OrderNumber { get; set; }
 
@@ -16,8 +16,10 @@ namespace Divergent.Sales.Data.Models
 
     public class Item
     {
-        public int Id { get; set; }
-        public int OrderId { get; set; }
+        public int Id { get; set; } // required by EF
+
+        public int OrderId { get; set; } // required by EF
+
         public int ProductId { get; set; }
     }
 }
