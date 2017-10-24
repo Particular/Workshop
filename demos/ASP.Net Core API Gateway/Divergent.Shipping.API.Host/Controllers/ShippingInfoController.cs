@@ -12,7 +12,7 @@ namespace Divergent.Shipping.API.Host.Controllers
     {
         [HttpGet]
         [Route("order/{id}")]
-        public ShippingInfo Order(int id)
+        public dynamic Order(int id)
         {
             using (var db = new ShippingContext())
             {
@@ -26,7 +26,7 @@ namespace Divergent.Shipping.API.Host.Controllers
 
         [HttpGet]
         [Route("orders")]
-        public IEnumerable<ShippingInfo> Orders(string ids)
+        public IEnumerable<dynamic> Orders(string ids)
         {
             using (var db = new ShippingContext())
             {

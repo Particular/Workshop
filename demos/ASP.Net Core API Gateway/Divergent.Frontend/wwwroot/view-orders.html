@@ -82,13 +82,6 @@
                     console.log(event.detail.request.xhr.response);
                 }
             }
-
-            //_showDetails(event) {
-            //    var orderId = event.model.item.orderNumber;
-            //    this.dispatchEvent(new CustomEvent('requestChangeRoute', { bubbles: true, composed: true, detail: {
-            //         routeData: { page: 'details', id: orderId}
-            //    }}));
-            //}
         }
 
         window.customElements.define(ViewOrders.is, ViewOrders);
