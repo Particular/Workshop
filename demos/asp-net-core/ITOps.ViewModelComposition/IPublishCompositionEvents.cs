@@ -2,6 +2,6 @@
 {
     public interface IPublishCompositionEvents
     {
-        void Subscribe<TEvent>(EventHandler handler);
+        void Subscribe<TEvent>(EventHandler<TEvent> handler);
     }
 }

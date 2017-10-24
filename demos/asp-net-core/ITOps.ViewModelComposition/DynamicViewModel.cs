@@ -11,7 +11,7 @@ namespace ITOps.ViewModelComposition
     {
         RouteData routeData;
         IQueryCollection query;
-        IDictionary<Type, IList<EventHandler>> subscriptions = new Dictionary<Type, IList<EventHandler>>();
+        IDictionary<Type, IList<EventHandler<object>>> subscriptions = new Dictionary<Type, IList<EventHandler<object>>>();
         IDictionary<string, object> properties = new Dictionary<string, object>();
 
         public DynamicViewModel(HttpContext context)
@@ -22,15 +22,15 @@ namespace ITOps.ViewModelComposition
 
         public void CleanupSubscribers() => subscriptions.Clear();
 
-        public void Subscribe<TEvent>(EventHandler handler)
+        public void Subscribe<TEvent>(EventHandler<TEvent> handler)
         {
             if (!subscriptions.TryGetValue(typeof(TEvent), out var handlers))
             {
-                handlers = new List<EventHandler>();
+                handlers = new List<EventHandler<object>>();
                 subscriptions.Add(typeof(TEvent), handlers);
             }
 
-            handlers.Add(handler);
+            handlers.Add((pageViewModel, @event, routeData, query) => handler(pageViewModel, (TEvent)@event, routeData, query));
         }
 
         public override bool TryGetMember(GetMemberBinder binder, out object result) => properties.TryGetValue(binder.Name, out result);

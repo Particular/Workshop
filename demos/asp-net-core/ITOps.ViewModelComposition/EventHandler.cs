@@ -4,5 +4,5 @@ using System.Threading.Tasks;
 
 namespace ITOps.ViewModelComposition
 {
-    public delegate Task EventHandler(dynamic pageViewModel, dynamic @event, RouteData routeData, IQueryCollection query);
+    public delegate Task EventHandler<TEvent>(dynamic pageViewModel, TEvent @event, RouteData routeData, IQueryCollection query);
 }
