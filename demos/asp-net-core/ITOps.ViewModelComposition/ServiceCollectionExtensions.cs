@@ -9,20 +9,20 @@ namespace ITOps.ViewModelComposition
 {
     public static class ServiceCollectionExtensions
     {
-        public static void AddViewModelComposition(this IServiceCollection services) => AddViewModelComposition(services, "*ViewModelComposition*.dll");
+        public static void AddViewModelComposition(this IServiceCollection services) =>
+            AddViewModelComposition(services, "*ViewModelComposition*.dll");
 
         public static void AddViewModelComposition(this IServiceCollection services, string assemblySearchPattern)
         {
-            var fileNames = Directory.GetFiles(AppContext.BaseDirectory, assemblySearchPattern);
-
             var types = new List<Type>();
-            foreach (var fileName in fileNames)
-            {
-                var temp = AssemblyLoader.Load(fileName)
-                    .GetTypes()
-                    .Where(t => !t.GetTypeInfo().IsAbstract && typeof(IRouteInterceptor).IsAssignableFrom(t));
 
-                types.AddRange(temp);
+            foreach (var assemblyPath in Directory.GetFiles(AppContext.BaseDirectory, assemblySearchPattern))
+            {
+                var assemblyTypes = AssemblyLoader.Load(assemblyPath)
+                    .GetTypes()
+                    .Where(type => !type.GetTypeInfo().IsAbstract && typeof(IRouteInterceptor).IsAssignableFrom(type));
+
+                types.AddRange(assemblyTypes);
             }
 
             foreach (var type in types)

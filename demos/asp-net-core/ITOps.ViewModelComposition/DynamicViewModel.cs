@@ -7,20 +7,19 @@ using System.Threading.Tasks;
 
 namespace ITOps.ViewModelComposition
 {
-    class DynamicViewModel : DynamicObject, IPublishCompositionEvents
+    internal class DynamicViewModel : DynamicObject, IPublishCompositionEvents
     {
-        RouteData routeData;
-        IQueryCollection query;
-        IDictionary<Type, IList<EventHandler<object>>> subscriptions = new Dictionary<Type, IList<EventHandler<object>>>();
-        IDictionary<string, object> properties = new Dictionary<string, object>();
+        private readonly RouteData routeData;
+        private readonly IQueryCollection query;
 
-        public DynamicViewModel(HttpContext context)
+        private IDictionary<Type, List<EventHandler<object>>> subscriptions = new Dictionary<Type, List<EventHandler<object>>>();
+        private IDictionary<string, object> properties = new Dictionary<string, object>();
+
+        public DynamicViewModel(RouteData routeData, IQueryCollection query)
         {
-            this.routeData = context.GetRouteData();
-            this.query = context.Request.Query;
+            this.routeData = routeData;
+            this.query = query;
         }
-
-        public void CleanupSubscribers() => subscriptions.Clear();
 
         public void Subscribe<TEvent>(EventHandler<TEvent> handler)
         {
@@ -32,6 +31,8 @@ namespace ITOps.ViewModelComposition
 
             handlers.Add((pageViewModel, @event, routeData, query) => handler(pageViewModel, (TEvent)@event, routeData, query));
         }
+
+        public void ClearSubscriptions() => subscriptions.Clear();
 
         public override bool TryGetMember(GetMemberBinder binder, out object result) => properties.TryGetValue(binder.Name, out result);
 
@@ -45,9 +46,9 @@ namespace ITOps.ViewModelComposition
         {
             result = null;
 
-            if (binder.Name == "RaiseEventAsync")
+            if (binder.Name == nameof(RaiseEventAsync))
             {
-                result = this.RaiseEventAsync(args[0]);
+                result = RaiseEventAsync(args[0]);
                 return true;
             }
 
@@ -56,15 +57,15 @@ namespace ITOps.ViewModelComposition
 
         public override IEnumerable<string> GetDynamicMemberNames()
         {
-            foreach (var item in properties.Keys)
+            foreach (var propertyName in properties.Keys)
             {
-                yield return item;
+                yield return propertyName;
             }
 
-            yield return "RaiseEventAsync";
+            yield return nameof(RaiseEventAsync);
         }
 
-        public Task RaiseEventAsync(object @event)
+        private Task RaiseEventAsync(object @event)
         {
             if (subscriptions.TryGetValue(@event.GetType(), out var handlers))
             {

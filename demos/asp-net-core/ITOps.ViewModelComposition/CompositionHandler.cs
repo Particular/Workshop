@@ -11,45 +11,42 @@ namespace ITOps.ViewModelComposition
     {
         public static async Task<(dynamic ViewModel, int StatusCode)> HandleGetRequest(HttpContext context)
         {
-            var vm = new DynamicViewModel(context);
-            var pending = new List<Task>();
+            var viewModel = new DynamicViewModel(context.GetRouteData(), context.Request.Query);
             var routeData = context.GetRouteData();
-            var interceptors = context.RequestServices.GetServices<IRouteInterceptor>();
+
+            // matching interceptors could be cached by URL
+            var interceptors = context.RequestServices.GetServices<IRouteInterceptor>()
+                .Where(interceptor => interceptor.Matches(context.GetRouteData(), HttpMethods.Get))
+                .ToList();
 
             try
             {
-                //matching interceptors could be cached by URL
-                var matchingInterceptors = interceptors
-                    .Where(interceptor => interceptor.Matches(context.GetRouteData(), HttpMethods.Get))
-                    .ToArray();
-
-                foreach (var subscriber in matchingInterceptors.OfType<ISubscribeToCompositionEvents>())
+                foreach (var subscriber in interceptors.OfType<ISubscribeToCompositionEvents>())
                 {
-                    subscriber.Subscribe(vm);
+                    subscriber.Subscribe(viewModel);
                 }
 
-                foreach (var appender in matchingInterceptors.OfType<IViewModelAppender>())
+                var pendingTasks = new List<Task>();
+
+                foreach (var appender in interceptors.OfType<IViewModelAppender>())
                 {
-                    pending.Add
-                    (
-                        appender.Append(vm, routeData, context.Request.Query)
-                    );
+                    pendingTasks.Add(appender.Append(viewModel, routeData, context.Request.Query));
                 }
 
-                if (pending.Count == 0)
+                if (!pendingTasks.Any())
                 {
                     return (null, StatusCodes.Status404NotFound);
                 }
                 else
                 {
-                    await Task.WhenAll(pending);
+                    await Task.WhenAll(pendingTasks);
 
-                    return (vm, StatusCodes.Status200OK);
+                    return (viewModel, StatusCodes.Status200OK);
                 }
             }
             finally
             {
-                vm.CleanupSubscribers();
+                viewModel.ClearSubscriptions();
             }
         }
     }
