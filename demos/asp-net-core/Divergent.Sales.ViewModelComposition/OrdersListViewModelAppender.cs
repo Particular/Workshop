@@ -16,12 +16,12 @@ namespace Divergent.Sales.ViewModelComposition
     {
         // Matching is a bit weak in this demo.
         // It's written this way to satisfy both the composite gateway and website demos.
-        public bool Matches(RouteData routeData, string verb) =>
-            HttpMethods.IsGet(verb)
+        public bool Matches(RouteData routeData, string httpMethod) =>
+            HttpMethods.IsGet(httpMethod)
                 && string.Equals((string)routeData.Values["controller"], "orders", StringComparison.OrdinalIgnoreCase)
                 && !routeData.Values.ContainsKey("id");
 
-        public async Task Append(dynamic vm, RouteData routeData, IQueryCollection query)
+        public async Task Append(dynamic viewModel, RouteData routeData, IQueryCollection query)
         {
             var pageIndex = (string)query["pageindex"] ?? "0";
             var pageSize = (string)query["pageSize"] ?? "10";
@@ -34,9 +34,9 @@ namespace Divergent.Sales.ViewModelComposition
 
             var orderViewModelDictionary = MapToViewModelDictionary(orders);
 
-            await vm.RaiseEventAsync(new OrdersLoaded { OrderViewModelDictionary = orderViewModelDictionary });
+            await viewModel.RaiseEventAsync(new OrdersLoaded { OrderViewModelDictionary = orderViewModelDictionary });
 
-            vm.Orders = orderViewModelDictionary.Values.ToArray();
+            viewModel.Orders = orderViewModelDictionary.Values.ToArray();
         }
 
         IDictionary<dynamic, dynamic> MapToViewModelDictionary(dynamic[] orders)

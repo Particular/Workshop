@@ -12,12 +12,12 @@ namespace Divergent.Shipping.ViewModelComposition
     {
         // Matching is a bit weak in this demo.
         // It's written this way to satisfy both the composite gateway and website demos.
-        public bool Matches(RouteData routeData, string verb) =>
-            HttpMethods.IsGet(verb)
+        public bool Matches(RouteData routeData, string httpMethod) =>
+            HttpMethods.IsGet(httpMethod)
                 && string.Equals((string)routeData.Values["controller"], "orders", StringComparison.OrdinalIgnoreCase)
                 && routeData.Values.ContainsKey("id");
 
-        public async Task Append(dynamic vm, RouteData routeData, IQueryCollection query)
+        public async Task Append(dynamic viewModel, RouteData routeData, IQueryCollection query)
         {
             var id = (string)routeData.Values["id"];
 
@@ -27,8 +27,8 @@ namespace Divergent.Shipping.ViewModelComposition
 
             dynamic shipment = await response.Content.AsExpandoAsync();
 
-            vm.ShippingStatus = shipment.Status;
-            vm.ShippingCourier = shipment.Courier;
+            viewModel.ShippingStatus = shipment.Status;
+            viewModel.ShippingCourier = shipment.Courier;
         }
     }
 }

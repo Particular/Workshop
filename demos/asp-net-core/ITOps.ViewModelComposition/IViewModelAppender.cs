@@ -6,6 +6,6 @@ namespace ITOps.ViewModelComposition
 {
     public interface IViewModelAppender : IRouteInterceptor
     {
-        Task Append(dynamic vm, RouteData routeData, IQueryCollection query);
+        Task Append(dynamic viewModel, RouteData routeData, IQueryCollection query);
     }
 }
