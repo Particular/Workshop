@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Divergent.Sales.Data.Models;
 
-namespace Divergent.Sales.Data.Migrations
+namespace Divergent.Sales.Data.Repositories
 {
-    internal static class SeedData
+    public class OrderRepository : IOrderRepository
     {
         internal static Guid thePhantomMenace = Guid.Parse("77158b05-437d-4aa7-baaa-05df0bc60f17");
         internal static Guid attackOfTheClones = Guid.Parse("a5f4fc6d-9eb7-41b7-ac93-e294cf2cc2fa");
@@ -16,6 +17,11 @@ namespace Divergent.Sales.Data.Migrations
 
         internal static Product theForceAwakensProduct = new Product { Id = theForceAwakens, Name = "Star Wars : The Force Awakens" };
         internal static Product aNewHopeProduct = new Product { Id = aNewHope, Name = "Star Wars : A New Hope" };
+
+        public async Task<List<Order>> Orders()
+        {
+            return OrderSeedData();
+        }
 
         internal static List<Product> Products()
         {
@@ -31,7 +37,7 @@ namespace Divergent.Sales.Data.Migrations
             };
         }
 
-        internal static List<Order> Orders()
+        internal static List<Order> OrderSeedData()
         {
             var particularId = Guid.Parse("be49443c-5e6d-4892-9b7b-7395add4a44b");
             var particularOrderId = Guid.Parse("6c3945c9-0b64-414a-9e5f-892de482ae2b");
@@ -70,6 +76,5 @@ namespace Divergent.Sales.Data.Migrations
                 new Order { CustomerId = nserviceBusId, DateTimeUtc = new DateTime(2016, 01, 02), State = "Payment awaiting", Id = nserivceBusOrderId, Items = nservicebusItems }
             };
         }
-
     }
 }
