@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net461</TargetFrameworks>
+    <OutputType>Exe</OutputType>
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Finance.Messages\Finance.Messages.csproj" />
+    <ProjectReference Include="..\Sales.Messages\Sales.Messages.csproj" />
+    <ProjectReference Include="..\Shared\Shared.csproj" />
+    <ProjectReference Include="..\Shipping.Messages\Shipping.Messages.csproj" />
+    <PackageReference Include="NServiceBus" Version="6.*" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Sagas\" />
+  </ItemGroup>
+</Project>
