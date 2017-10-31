@@ -9,7 +9,7 @@ namespace ITOps.ViewModelComposition.Mvc
         {
             builder.Services.Configure<MvcOptions>(options => 
             {
-                options.Filters.Add(typeof(CompositionActionFilter));
+                options.Filters.Add(typeof(CompositionFilter));
             });
 
             return builder;
