@@ -27,6 +27,8 @@ Please ensure you have followed these steps:
 
 * Install [Visual Studio 2017](https://www.visualstudio.com/downloads/) or Visual Studio 2015 Update 3 (the "Community" edition is enough).
 
+* Ensure you are able to build .NET Framework 4.6.1 projects in Visual Studio. This requires the [.NET Framework 4.6.1 Developer Pack](https://www.microsoft.com/net/download/windows) or a later version.
+
 * If you have a SQL Server instance installed (any edition, including SQL Server Express), you can choose to use that for the exercises. Otherwise, you will be using LocalDB. In the case of a clean machine with LocalDB only, please install:
   * [Microsoft ODBC Driver 11 for SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=36434)
   * [Microsoft ODBC Command Line Utilities 11 for SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=36433)
