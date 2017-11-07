@@ -125,3 +125,9 @@ Update the `orders` list template (`app\branding\orders\ordersView.html`) to dis
 <br />
 <strong>Order total:</strong> {{order.orderTotalPrice}}
 ```
+
+## Conclusion
+
+In this exercise we've seen how to combine data from various autonomous services into a single user interface.
+
+If you'd like to discuss this more, please don't hesitate to drop us a line in our [community discussion forum](https://discuss.particular.net/).

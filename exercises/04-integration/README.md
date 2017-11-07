@@ -426,6 +426,8 @@ Consider the following items and perhaps discuss them with your colleagues:
 - How did you deal with those? Did you have to run batch jobs, or connect directly to the database to hack the data manually? Or some other complicated workaround?
 - When this happened? Were you able to ask the business how to handle the failures and then design the system to match the solution described by the business? Or did you have to translate the business language into a complex set of technical operations which approximated the business language?
 
-Hopefully this exercise has demonstrated how powerful sagas can be to orchestrate business processes.
+## Conclusion
 
-If you'd like to discuss this more, please don't hesitate to drop us a line in our [community discussion forum](https://groups.google.com/forum/#!forum/particularsoftware).
+This exercise has demonstrated how to address integration issues where, as with the UI, data from multiple services needs to be combined in order to perform some action. We also saw, again, how powerful sagas can be in orchestrating business processes.
+
+If you'd like to discuss this more, please don't hesitate to drop us a line in our [community discussion forum](https://discuss.particular.net/).
