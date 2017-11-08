@@ -4,18 +4,10 @@
 
 If you have any difficulty preparing your machine, or following this document, please raise an issue in this repository ASAP so that we can resolve the problem before the workshop begins.
 
-- [Demos](#demos)
 - [Preparing your machine for the workshop](#preparing-your-machine-for-the-workshop)
 - [Running the exercise solutions](#running-the-exercise-solutions)
+- [Demos](#demos)
 - [FAQ](#faq)
-
-## Demos
-
-The [demos](demos) folder contains demos used during the workshop by your trainer.
-
-### Services UI Composition demo
-
-The [`asp-net-mvc` solution](demos/asp-net-mvc) demonstrates the use of ASP.NET MVC 5 to compose a UI with data from several microservices.
 
 ## Preparing your machine for the workshop
 
@@ -153,6 +145,14 @@ After the instance has been added, make a note of the name of the instance. This
 You may now close the ServiceControl Management window.
 
 You're now ready to attempt the advanced exercises!
+
+## Demos
+
+The [demos](demos) folder contains demos used during the workshop by your trainer.
+
+### Services UI Composition demo
+
+The [`asp-net-mvc` solution](demos/asp-net-mvc) demonstrates the use of ASP.NET MVC 5 to compose a UI with data from several microservices.
 
 ## FAQ
 
