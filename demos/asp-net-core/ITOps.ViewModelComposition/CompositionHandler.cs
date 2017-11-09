@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
@@ -11,12 +11,13 @@ namespace ITOps.ViewModelComposition
     {
         public static async Task<(dynamic ViewModel, int StatusCode)> HandleGetRequest(HttpContext context)
         {
-            var viewModel = new DynamicViewModel(context.GetRouteData(), context.Request.Query);
             var routeData = context.GetRouteData();
+
+            var viewModel = new DynamicViewModel(routeData, context.Request.Query);
 
             // matching interceptors could be cached by URL
             var interceptors = context.RequestServices.GetServices<IRouteInterceptor>()
-                .Where(interceptor => interceptor.Matches(context.GetRouteData(), HttpMethods.Get))
+                .Where(interceptor => interceptor.Matches(routeData, HttpMethods.Get))
                 .ToList();
 
             try
