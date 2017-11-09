@@ -6,6 +6,7 @@ If you have any difficulty preparing your machine, or following this document, p
 
 - [Preparing your machine for the workshop](#preparing-your-machine-for-the-workshop)
 - [Running the exercise solutions](#running-the-exercise-solutions)
+- [Preparing your machine for the advanced exercises](#preparing-your-machine-for-the-advanced-exercises)
 - [Demos](#demos)
 - [FAQ](#faq)
 
