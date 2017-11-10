@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NServiceBus;
+using NServiceBus.Logging;
 using Divergent.Sales.Data.Context;
 using Divergent.Sales.Data.Models;
 using Divergent.Sales.Messages.Commands;
 using Divergent.Sales.Messages.Events;
-using NServiceBus;
-using NServiceBus.Logging;
 
 namespace Divergent.Sales.Handlers
 {

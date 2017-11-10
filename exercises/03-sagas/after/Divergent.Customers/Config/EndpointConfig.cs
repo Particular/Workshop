@@ -1,31 +1,24 @@
 using System;
-using NServiceBus;
-using NServiceBus.Logging;
+using System.IO;
+using System.Configuration;
 using ILog = Common.Logging.ILog;
 using LogManager = Common.Logging.LogManager;
-using System.IO;
+using NServiceBus;
+using NServiceBus.Logging;
 using NServiceBus.Persistence;
-using System.Configuration;
 using Divergent.Sales.Messages.Events;
 
 namespace Divergent.Customers.Config
 {
-    [EndpointName("Divergent.Customers")]
-    public class EndpointConfig : IConfigureThisEndpoint, AsA_Server
+    public class EndpointConfig
     {
         private static readonly ILog Log = LogManager.GetLogger<EndpointConfig>();
 
-        public EndpointConfig()
-        {
-            NServiceBus.Logging.LogManager.Use<DefaultFactory>();
-
-            if (Environment.UserInteractive)
-                Console.Title = "Divergent.Customers";
-        }
-
-        public void Customize(EndpointConfiguration endpointConfiguration)
+        public static void Customize(EndpointConfiguration endpointConfiguration)
         {
             Log.Info("Customize...");
+
+            NServiceBus.Logging.LogManager.Use<DefaultFactory>();
 
             var container = ContainerSetup.Create();
 

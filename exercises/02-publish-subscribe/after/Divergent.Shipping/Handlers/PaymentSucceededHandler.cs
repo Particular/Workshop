@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Divergent.Finance.Messages.Events;
 using NServiceBus;
 using NServiceBus.Logging;
+using Divergent.Finance.Messages.Events;
 
 namespace Divergent.Shipping.Handlers
 {
@@ -9,10 +9,11 @@ namespace Divergent.Shipping.Handlers
     {
         private static readonly ILog Log = LogManager.GetLogger<PaymentSucceededHandler>();
 
-        public async Task Handle(PaymentSucceededEvent message, IMessageHandlerContext context)
+        public Task Handle(PaymentSucceededEvent message, IMessageHandlerContext context)
         {
             Log.Info("Handle");
 
+            return Task.CompletedTask;
             // Store in database that payment succeeded.
             // The order incl. products should also already have arrived and stored in database as well.
             //

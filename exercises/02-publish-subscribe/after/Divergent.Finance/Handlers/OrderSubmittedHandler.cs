@@ -1,11 +1,11 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using NServiceBus;
+using NServiceBus.Logging;
 using Divergent.Finance.Data.Context;
 using Divergent.Finance.Data.Models;
 using Divergent.Finance.Messages.Commands;
 using Divergent.Sales.Messages.Events;
-using NServiceBus;
-using NServiceBus.Logging;
 
 namespace Divergent.Finance.Handlers
 {

@@ -1,30 +1,24 @@
 using System;
-using NServiceBus;
-using NServiceBus.Logging;
+using System.IO;
 using ILog = Common.Logging.ILog;
 using LogManager = Common.Logging.LogManager;
-using System.IO;
-using NServiceBus.Persistence;
+using NServiceBus;
 using System.Configuration;
+using NServiceBus.Logging;
+using NServiceBus.Persistence;
+
 
 namespace Divergent.Shipping.Config
 {
-    [EndpointName("Divergent.Shipping")]
-    public class EndpointConfig : IConfigureThisEndpoint, AsA_Server
+    public class EndpointConfig
     {
         private static readonly ILog Log = LogManager.GetLogger<EndpointConfig>();
 
-        public EndpointConfig()
-        {
-            NServiceBus.Logging.LogManager.Use<DefaultFactory>();
-
-            if (Environment.UserInteractive)
-                Console.Title = "Divergent.Shipping";
-        }
-
-        public void Customize(EndpointConfiguration endpointConfiguration)
+        public static void Customize(EndpointConfiguration endpointConfiguration)
         {
             Log.Info("Customize...");
+
+            NServiceBus.Logging.LogManager.Use<DefaultFactory>();
 
             var container = ContainerSetup.Create();
 
