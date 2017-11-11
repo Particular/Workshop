@@ -7,9 +7,9 @@ namespace Divergent.Customers.Data.Repositories
 {
     public class CustomerOrderRepository
     {
-        public async Task<List<CustomerOrderRelationship>> CustomerOrderRelationships()
+        public Task<List<CustomerOrderRelationship>> CustomerOrderRelationships()
         {
-            return SeedCustomerOrderRelationship();
+            return Task.FromResult(SeedCustomerOrderRelationship());
         }
 
         private List<CustomerOrderRelationship> SeedCustomerOrderRelationship()

@@ -18,9 +18,9 @@ namespace Divergent.Sales.Data.Repositories
         internal static Product theForceAwakensProduct = new Product { Id = theForceAwakens, Name = "Star Wars : The Force Awakens" };
         internal static Product aNewHopeProduct = new Product { Id = aNewHope, Name = "Star Wars : A New Hope" };
 
-        public async Task<List<Order>> Orders()
+        public Task<List<Order>> Orders()
         {
-            return OrderSeedData();
+            return Task.FromResult(OrderSeedData());
         }
 
         internal static List<Product> Products()
