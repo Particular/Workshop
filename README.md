@@ -16,7 +16,7 @@ If you have any difficulty preparing your machine, or following this document, p
 - [Get a copy of this repository](#get-a-copy-of-this-repository)
 - [Run the Particular Platform Installer](#run-the-particular-platform-installer)
 - [Set up the databases](#set-up-the-databases)
-- [Restore the NuGet packages](#restore-the-nuget-packages)
+- [Build the exercise solutions](#build-the-exercise-solutions)
 
 ### Install the pre-requisites
 
@@ -52,7 +52,7 @@ If you're downloading a zip copy of the repo, please ensure the zip file is unbl
 
 ### Run the Particular Platform Installer
 
-To ensure MSMQ and the DTC are correctly installed, please run the [Particular Platform Installer](https://particular.net/start-platform-download). 
+To ensure MSMQ and the DTC are correctly installed, please run the [Particular Platform Installer](https://particular.net/start-platform-download).
 
 NOTE: If you are using Microsoft Edge, see [the FAQ](#how-do-i-download-the-particular-platform-installer-with-microsoft-edge).
 
@@ -87,9 +87,13 @@ When you have finished the workshop, you may optionally run `Teardown-Databases.
 
 NOTE: If you are using a SQL Server instance, you will need to change the connection strings in all the exercises. Change all instances of `Data Source=(localdb)\microservices-workshop` to point to the SQL Server intsance.
 
-### Restore the NuGet packages
+### Build the exercise solutions
 
-The exercises are contained in eight Visual Studio solutions under [exercises](exercises). All the solutions require NuGet package restoration before building. This may be possible at the workshop venue (you can verify with the workshop organizers if internet access is available at the venue) but to ensure you can build the solutions during the workshop, we recommend you run NuGet package restore before the workshop. The simplest way to do this is to open each of the solutions and build them, which will automatically restore the NuGet packages.
+The exercises are contained in eight Visual Studio solutions under [exercises](exercises). All the solutions require NuGet package restore. This may be possible at the workshop venue (you can verify with the workshop organizers if internet access is available at the venue) but to ensure you can build the solutions during the workshop, we recommend you restore all NuGet packages and build all the solutions before the workshop starts. The simplest way to do this is to run `.\build.cmd exercises`. (For a full list of build targets, run `.\build.cmd -T`, or `.\build.cmd -h` for help.) You can safely ignore any compiler warnings.
+
+### Note
+
+`.\build.cmd` assumes that you have Visual Studio 2017 installed. If you only have Visual Studio 2015, you will have to manually open and build each exercise solution in Visual Studio.
 
 ## Running the exercise solutions
 
@@ -169,21 +173,21 @@ To reset all the databases:
 
 #### When using LocalDB
 
-Using an elevated PowerShell prompt, run `Teardown-Databases.ps1` followed by `Setup-Databases.ps1`, both located in the [exercises/scripts](exercises/scripts) folder. 
+Using an elevated PowerShell prompt, run `Teardown-Databases.ps1` followed by `Setup-Databases.ps1`, both located in the [exercises/scripts](exercises/scripts) folder.
 
 #### When using a SQL Server instance (or LocalDB)
 
-Connect to the instance and run `Teardown-Databases.sql` followed by `Setup-Databases.sql`, both located in the [exercises/scripts](exercises/scripts) folder. 
+Connect to the instance and run `Teardown-Databases.sql` followed by `Setup-Databases.sql`, both located in the [exercises/scripts](exercises/scripts) folder.
 
 ### How do I download the Particular Platform Installer with Microsoft Edge?
 
 When you attempt to download the installer, you will be presented with this message:
 
-![download prompt](img/platform-installer-on-edge/download-prompt.png?raw=true) 
+![download prompt](img/platform-installer-on-edge/download-prompt.png?raw=true)
 
 Click on "View Downloads" to show the "Downloads" window:
 
-![download list](img/platform-installer-on-edge/downloads-list.png?raw=true) 
+![download list](img/platform-installer-on-edge/downloads-list.png?raw=true)
 
 **Right-click** the red text "This unsafe download was blocked by SmartScreen Filter." to show the context menu:
 
