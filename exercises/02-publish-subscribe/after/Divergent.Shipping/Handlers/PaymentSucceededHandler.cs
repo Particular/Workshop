@@ -17,6 +17,8 @@ namespace Divergent.Shipping.Handlers
             // The order incl. products should also already have arrived and stored in database as well.
             //
             // When orders are paid before 12am, they will be shipped and arrive the next business day.
+
+            await Task.CompletedTask;
         }
     }
 }

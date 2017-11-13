@@ -117,6 +117,7 @@ namespace Divergent.Shipping.Handlers
         public async Task Handle(OrderSubmittedEvent message, IMessageHandlerContext context)
         {
             Log.Info("Handle");
+            await Task.CompletedTask;
         }
     }
 }
@@ -226,23 +227,23 @@ namespace Divergent.Customers.Handlers
     public class OrderSubmittedHandler : IHandleMessages<OrderSubmittedEvent>
     {
         private static readonly ILog Log = LogManager.GetLogger<OrderSubmittedHandler>();
-    
+
         public async Task Handle(OrderSubmittedEvent message, NServiceBus.IMessageHandlerContext context)
         {
             Log.Info("Handling: OrderSubmittedEvent.");
-    
+
             using (var db = new CustomersContext())
             {
                 var customer = await db.Customers
                     .Include(c=>c.Orders)
                     .SingleAsync(c=>c.Id == message.CustomerId);
-    
+
                 customer.Orders.Add(new Data.Models.Order()
                 {
                     CustomerId = message.CustomerId,
                     OrderId = message.OrderId
                 });
-    
+
                 await db.SaveChangesAsync();
             }
         }
@@ -320,6 +321,7 @@ namespace Divergent.Shipping.Handlers
         public async Task Handle(PaymentSucceededEvent message, IMessageHandlerContext context)
         {
             Log.Info("Handle");
+            await Task.CompletedTask;
         }
     }
 }
@@ -346,7 +348,7 @@ Our documentation contains more information about [auditing messages](https://do
 
 ### Step 2
 
-Verify that the audit and error queues have been created. You can use Windows Computer Management for this. Press <kbd>Win</kbd>+<kbd>X</kbd> to open the Windows system menu and select 'Computer Management'. You should see the queues Under "Service and Applications", "Message Queueing", "Private Queues". 
+Verify that the audit and error queues have been created. You can use Windows Computer Management for this. Press <kbd>Win</kbd>+<kbd>X</kbd> to open the Windows system menu and select 'Computer Management'. You should see the queues Under "Service and Applications", "Message Queueing", "Private Queues".
 
 NOTE: The MSMQ MMC snap-in is very limited in functionality. [QueueExplorer](http://www.cogin.com/mq/) is a great tool which provides much more.
 
@@ -370,7 +372,7 @@ Let's install the ServiceControl [heartbeat plugin]((https://docs.particular.net
 
 ### Step 6
 
-The heartbeat plugin sends messages directly to the ServiceControl queue rather than using the audit or error queues. The documentation shows how to configure the endpoint and tell it which queue it should send heartbeat messages to. 
+The heartbeat plugin sends messages directly to the ServiceControl queue rather than using the audit or error queues. The documentation shows how to configure the endpoint and tell it which queue it should send heartbeat messages to.
 
 You can find out the name of the queue by accessing the 'ServiceControl Management' app in the Windows Start menu. The name of the instance is also the name of the queue.
 

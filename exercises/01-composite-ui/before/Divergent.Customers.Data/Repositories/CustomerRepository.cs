@@ -8,14 +8,14 @@ namespace Divergent.Customers.Data.Repositories
 {
     public class CustomerRepository : ICustomerRepository
     {
-        public async Task<List<Customer>> Customers()
+        public Task<List<Customer>> Customers()
         {
-            return SeedCustomers();
+            return Task.FromResult(SeedCustomers());
         }
 
-        public async Task<Customer> Customer(Guid id)
+        public Task<Customer> Customer(Guid id)
         {
-            return SeedCustomers().First(s => s.Id == id);
+            return Task.FromResult(SeedCustomers().First(s => s.Id == id));
         }
 
         private List<Customer> SeedCustomers()

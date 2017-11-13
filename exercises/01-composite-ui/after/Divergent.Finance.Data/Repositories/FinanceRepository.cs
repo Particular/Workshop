@@ -8,14 +8,14 @@ namespace Divergent.Finance.Data.Repositories
 {
     public class FinanceRepository : IFinanceRepository
     {
-        public async Task<List<Price>> Prices()
+        public Task<List<Price>> Prices()
         {
-            return SeedPrices();
+            return Task.FromResult(SeedPrices());
         }
 
-        public async Task<Price> Price(Guid productId)
+        public Task<Price> Price(Guid productId)
         {
-            return SeedPrices().First(s => s.ProductId == productId);
+            return Task.FromResult(SeedPrices().First(s => s.ProductId == productId));
         }
 
         private List<Price> SeedPrices()

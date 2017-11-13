@@ -7,9 +7,9 @@ namespace Divergent.Finance.Data.Repositories
 {
     public class OrdersTotalRepository
     {
-        public async Task<List<OrderTotalPrice>> OrderTotalPrices()
+        public Task<List<OrderTotalPrice>> OrderTotalPrices()
         {
-            return SeedOrderTotalPrices();
+            return Task.FromResult(SeedOrderTotalPrices());
         }
 
         private List<OrderTotalPrice> SeedOrderTotalPrices()

@@ -15,6 +15,8 @@ namespace Divergent.Shipping.Handlers
 
             // Store in database that order was successfully paid.
             // Look at all pending orders, paid and ready to be shipped, in batches to decide what to ship.
+
+            await Task.CompletedTask;
         }
     }
 }
