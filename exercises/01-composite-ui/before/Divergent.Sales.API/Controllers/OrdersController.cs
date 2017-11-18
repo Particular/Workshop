@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -27,7 +27,6 @@ namespace Divergent.Sales.API.Controllers
                     o.Id,
                     o.CustomerId,
                     ProductIds = o.Items.Select(i => i.Product.Id),
-                    ItemsCount = o.Items.Count
                 });
         }
     }
