@@ -1,0 +1,76 @@
+<!--
+@license
+Copyright (c) 2017 Vaadin Ltd.
+This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+-->
+
+<!--
+
+`vaadin-grid-filter` is a helper element for the `vaadin-grid` that provides out-of-the-box UI controls,
+and handlers for filtering the grid data.
+
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+
+<dom-module id="vaadin-grid-filter">
+  <template>
+    <style>
+      :host {
+        display: inline-flex;
+      }
+
+      #filter {
+        width: 100%;
+        box-sizing: border-box;
+      }
+    </style>
+    <slot name="filter">
+      <input id="filter" value="{{value::input}}">
+    </slot>
+
+  </template>
+  <script>
+    Polymer({
+      is: 'vaadin-grid-filter',
+
+      properties: {
+
+        /**
+         * JS Path of the property in the item used for filtering the data.
+         */
+        path: String,
+
+        /**
+         * Current filter value.
+         */
+        value: {
+          type: String,
+          notify: true
+        }
+      },
+
+      observers: ['_filterChanged(path, value, isAttached)'],
+
+      ready: function() {
+        var child = Polymer.dom(this).firstElementChild;
+        if (child && child.getAttribute('slot') !== 'filter') {
+          console.warn('Make sure you have assigned slot="filter" to the child elements of <vaadin-grid-filter>');
+          child.setAttribute('slot', 'filter');
+        }
+      },
+
+      _filterChanged: function(path, value, isAttached) {
+        if (path === undefined || value === undefined || isAttached === undefined) {
+          return;
+        }
+        
+        if (isAttached) {
+          this.debounce('filter-changed', function() {
+            this.fire('filter-changed');
+          }, 200);
+        }
+      }
+    });
+  </script>
+</dom-module>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>vaadin-grid</title>
+
+  <script src="../elements-demo-resources/ga.js"></script>
+  <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="../polymer/polymer.html">
+  <link rel="import" href="../iron-component-page/iron-component-page.html">
+  <link rel="import" href="vaadin-grid.html">
+  <link rel="import" href="vaadin-grid-selection-column.html">
+  <link rel="import" href="vaadin-grid-sorter.html">
+  <link rel="import" href="vaadin-grid-filter.html">
+  <link rel="import" href="vaadin-grid-column-group.html">
+</head>
+
+<body>
+  <style>
+    /*
+      snatched from GitHub, use to style the <kbd> elements in keyboard navigation
+      documentation in vaadin-grid.html.
+     */
+    kbd {
+      display: inline-block;
+      padding: 3px 5px;
+      font-size: 11px;
+      line-height: 10px;
+      color: #555;
+      vertical-align: middle;
+      background-color: #fcfcfc;
+      border: solid 1px #ccc;
+      border-bottom-color: #bbb;
+      border-radius: 3px;
+      box-shadow: inset 0 -1px 0 #bbb;
+    }
+  </style>
+
+  <vaadin-grid-docs></vaadin-grid-docs>
+  <dom-module id="vaadin-grid-docs">
+    <template>
+      <iron-component-page id="docs" src="index.html" on-doc-elements-changed="_filterElements" on-doc-behaviors-changed="_filterBehaviors"></iron-component-page>
+    </template>
+    <script>
+      document.addEventListener('WebComponentsReady', function() {
+        Polymer({
+          is: 'vaadin-grid-docs',
+
+          _filterBehaviors: function(e) {
+            if (this._modifyingBehaviors) {
+              return;
+            }
+
+            this._modifyingBehaviors = true;
+
+            this.$.docs._setDocBehaviors(this.$.docs.docBehaviors.filter(function(beh, index) {
+              // blacklist internal APIs
+              return !/Polymer|iron|Iron|Table|FocusableCellContainer/.test(beh.is);
+            }));
+
+            this._modifyingBehaviors = false;
+          },
+
+          _filterElements: function(e) {
+            if (this._modifyingElements) {
+              return;
+            }
+
+            this._modifyingElements = true;
+
+            this.$.docs._setDocElements(this.$.docs.docElements.filter(function(el, index) {
+              // whitelist public elements
+              return /vaadin-grid$|column|filter|sorter/.test(el.is);
+            }));
+
+            this._modifyingElements = false;
+          }
+        });
+      });
+    </script>
+  </dom-module>
+</body>
+
+</html>

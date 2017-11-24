@@ -1,0 +1,181 @@
+<script>
+  window.vaadin = window.vaadin || {};
+  vaadin.elements = vaadin.elements || {};
+  vaadin.elements.grid = vaadin.elements.grid || {};
+
+  /**
+   * @polymerBehavior vaadin.elements.grid.FocusableCellContainerBehavior
+   */
+  vaadin.elements.grid.FocusableCellContainerBehavior = {
+    properties: {
+      focused: {
+        type: Boolean,
+        reflectToAttribute: true
+      },
+      _focusedRow: Object,
+      _focusedRowIndex: Number,
+      _focusedCell: Object,
+      _focusedCellIndex: Number,
+      _lastFocusedCell: Object
+    },
+
+    observers: [
+      '_announceFocusedCell(_focusedCell, focused)',
+      '_dispatchEvents(_focusedCell, focused)',
+      '_focusedCellChanged(_focusedRowIndex, _focusedCellIndex)'
+    ],
+
+    _announceFocusedCell: function(cell, focused) {
+      if (cell === undefined || focused === undefined) {
+        return;
+      }
+
+      // changing activeTarget steals focus so we don't want to do that while interacting with
+      // cell contents.
+      // TODO: remember to change activeTarget when navigation mode is activated back.
+      if (!this.domHost.navigating || !focused) {
+        return;
+      }
+      // note: VoiceOver doesn't work with dynamic IDs.
+      var activeTarget = Polymer.Element ? cell._cellContent.getAttribute('slot') : cell._cellContent.id;
+
+      if (this.is === 'vaadin-grid-table-body' && !cell.hasAttribute('detailscell')) {
+        // note: having `cell.column.name` property for announcing would maybe be a good option here?
+        var index = Array.prototype.indexOf.call(Polymer.dom(cell.parentElement).querySelectorAll('.vaadin-grid-cell'), cell);
+        var lastHeaderRow = this.domHost.$.header.lastElementChild;
+        var headerCell = lastHeaderRow.children[index];
+        activeTarget = headerCell._cellContent.id + ' ' + activeTarget;
+      }
+      this.domHost.$.footerFocusTrap.activeTarget = activeTarget;
+    },
+
+    _dispatchEvents: function(cell, focused) {
+      if (cell === undefined || focused === undefined) {
+        return;
+      }
+
+      // Dispatches cell-focusin and cell-focusout events on the cell content
+      // for the virtual focus. This helps cell contents to detect if the cell
+      // has focus, which is useful for the accessibility reasons. Used by
+      // <vaadin-grid-sorter>.
+      if (this._lastFocusedCell) {
+        this._lastFocusedCell._cellContent.dispatchEvent(new CustomEvent('cell-focusout'));
+        this._lastFocusedCell = undefined;
+      }
+      if (focused) {
+        cell._cellContent.dispatchEvent(new CustomEvent('cell-focusin'));
+        this._lastFocusedCell = cell;
+      }
+    },
+
+    _focusedCellChanged: function(rowIndex, cellIndex) {
+      if (rowIndex === undefined || cellIndex === undefined) {
+        return;
+      }
+
+      Array.prototype.forEach.call(Polymer.dom(this).children, function(row, i) {
+        row.focused = i === rowIndex;
+
+        if (row.focused) {
+          this._focusedRow = row;
+          this._focusedCellIndex = Math.min(cellIndex, row.children.length - 1);
+          this._focusedCell = row.children[this._focusedCellIndex];
+        }
+
+        row.cells.forEach(function(cell, j) {
+          cell.focused = j === this._focusedCellIndex;
+        }.bind(this));
+      }.bind(this));
+    },
+
+    focusLeft: function() {
+      if (this._focusedCell.hasAttribute('detailscell')) {
+        return;
+      }
+
+      var visibleCells = this._visibleCellIndexes();
+      if (visibleCells.length > 0) {
+        var current = visibleCells.indexOf(this._focusedCellIndex);
+        this._focusedCellIndex = visibleCells[Math.max(0, current - 1)];
+      }
+    },
+
+    focusDown: function() {
+      this._focusedRowIndex = Math.min(this._focusedRowIndex + 1, this.children.length - 1);
+    },
+
+    _visibleCellIndexes: function() {
+      var indexes = [];
+      if (this._focusedRow && this._focusedRow.children) {
+        var children = this._focusedRow.children;
+        for(var i = 0; i < children.length; i++) {
+          if (!children[i].hidden && children[i] !== this._focusedRow._rowDetailsCell) {
+            indexes.push(i);
+          }
+        }
+
+        indexes.sort(function(i1, i2) {
+          return children[i1].column._order < children[i2].column._order ? -1 : 1;
+        });
+      }
+
+      return indexes;
+    },
+
+    focusPageDown: function() {
+      this._focusedRowIndex = Math.min(this._focusedRowIndex + 10, this.children.length - 1);
+    },
+
+    focusPageUp: function() {
+      this._focusedRowIndex = Math.max(0, this._focusedRowIndex - 10);
+    },
+
+    focusRight: function() {
+      if (this._focusedCell.hasAttribute('detailscell')) {
+        return;
+      }
+
+      var visibleCells = this._visibleCellIndexes();
+      if (visibleCells.length > 0) {
+        var current = visibleCells.indexOf(this._focusedCellIndex);
+        this._focusedCellIndex = visibleCells[Math.min(current + 1, visibleCells.length - 1)];
+      }
+    },
+
+    focusUp: function() {
+      this._focusedRowIndex = Math.max(0, this._focusedRowIndex - 1);
+    },
+
+    focusHome: function() {
+      if (this._focusedCell.hasAttribute('detailscell')) {
+        return;
+      }
+
+      var visibleCells = this._visibleCellIndexes();
+      if (visibleCells.length > 0) {
+        this._focusedCellIndex = visibleCells[0];
+      }
+    },
+
+    focusEnd: function() {
+      if (this._focusedCell.hasAttribute('detailscell')) {
+        return;
+      }
+
+      var visibleCells = this._visibleCellIndexes();
+      if (visibleCells.length > 0) {
+        this._focusedCellIndex = visibleCells[visibleCells.length - 1];
+      }
+    },
+
+    focusFirst: function(e) {
+      this._focusedRowIndex = 0;
+      this.focusHome();
+    },
+
+    focusLast: function(e) {
+      this._focusedRowIndex = this.children.length - 1;
+      this.focusEnd();
+    }
+  };
+</script>

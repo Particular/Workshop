@@ -1,0 +1,21 @@
+{
+  "entrypoint": "index.html",
+  "shell": "store-app.html",
+  "fragments": [
+    "view-main.html",
+    "view-orders.html",
+    "view-404.html"
+  ],
+  "sources": [
+    "./**/*",
+    "images/**/*",
+    "bower.json"
+  ],
+  "extraDependencies": [
+    "manifest.json",
+    "bower_components/webcomponentsjs/*.js"
+  ],
+  "lint": {
+    "rules": ["polymer-2"]
+  }
+}

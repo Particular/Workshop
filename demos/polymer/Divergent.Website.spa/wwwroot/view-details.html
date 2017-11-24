@@ -1,0 +1,53 @@
+<link rel="import" href="./lib/polymer/polymer.html">
+<link rel="import" href="./lib/iron-ajax/iron-ajax.html">
+<link rel="import" href="./lib/iron-icons/maps-icons.html">
+<link rel="import" href="./lib/vaadin-grid/all-imports.html">
+<link rel="import" href="./shared-styles.html">
+<link rel="import" href="./lib/divergent.sales/OrderItemCount.html" />
+<link rel="import" href="./lib/divergent.sales/OrderNumber.html" />
+<link rel="import" href="./lib/divergent.shipping/ShippingCourier.html" />
+<link rel="import" href="./lib/divergent.shipping/ShippingStatus.html" />
+
+<dom-module id="view-details">
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+                padding: 10px;
+            }
+        </style>
+        <iron-ajax auto url="/compose/orders/{{orderId}}" 
+                   on-error="_handleErrorResponse" 
+                   last-response="{{data}}"
+                   handle-as="json"></iron-ajax>
+        <div class="card">
+            <div class="circle">
+                <paper-icon-button icon="maps:local-shipping"></paper-icon-button>
+            </div>
+            <h1>Orders Details</h1>
+            
+            <span>Order Number: # <order-number order="{{data}}"></order-number></span><br/>
+            <span>Shipping Status: <shipping-status order="{{data}}"></shipping-status></span>
+        </div>
+    </template>
+
+    <script>
+        class ViewDetails extends Polymer.Element {
+            static get is() { return 'view-details'; }
+
+            static get properties() {
+                return {
+                    orderId: Number
+                }
+            }
+            
+            _handleErrorResponse(event) {
+                if (event) {
+                    console.log(event.detail.request.xhr.response);
+                }
+            }
+        }
+
+        window.customElements.define(ViewDetails.is, ViewDetails);
+    </script>
+</dom-module>

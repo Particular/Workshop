@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>ca6f517f-490a-4439-aaf5-0ce3c3de5695</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Divergent.Shipping.UI</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)bower.json" />
+    <Content Include="$(MSBuildThisFileDirectory)ShippingCourier.html" />
+    <Content Include="$(MSBuildThisFileDirectory)ShippingStatus.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory).bowerrc">
+      <DependentUpon>bower.json</DependentUpon>
+    </None>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,210 @@
+<!--
+@license
+Copyright (c) 2017 Vaadin Ltd.
+This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+-->
+
+<!--
+
+`vaadin-grid-selection-column` is a helper element for the `vaadin-grid` that provides default templates and functionality for the selection.
+With it the user can select rows using checkboxes displayed in a column.
+
+When the grid is configured with an array of items as the data provider, it provides the feature of selecting all the items by clicking on the checkbox in the header.
+
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="vaadin-grid-column.html">
+
+<dom-module id="vaadin-grid-selection-column">
+  <template>
+    <template class="header" id="defaultHeaderTemplate">
+      <input aria-label="Select All" hidden$="[[_selectAllHidden]]" type="checkbox" on-click="_onSelectAll" checked="[[_isChecked(selectAll, _indeterminate)]]"
+        indeterminate="[[_indeterminate]]" />
+    </template>
+    <template id="defaultBodyTemplate">
+      <input aria-label="Select Row" type="checkbox" checked="{{selected::change}}" />
+    </template>
+  </template>
+  <script>
+    Polymer({
+      is: 'vaadin-grid-selection-column',
+
+      behaviors: [vaadin.elements.grid.ColumnBehavior],
+
+      properties: {
+        /**
+         * Width of the cells for this column.
+         */
+        width: {
+          type: String,
+          value: '52px'
+        },
+
+        /**
+         * Flex grow ratio for the cell widths. When set to 0, cell width is fixed.
+         */
+        flexGrow: {
+          type: Number,
+          value: 0
+        },
+
+        /**
+         * When true it selects all the items.
+         */
+        selectAll: {
+          type: Boolean,
+          value: false,
+          notify: true
+        },
+
+        /**
+         * When true it adds the active item to selectedItems.
+         */
+        autoSelect: {
+          type: Boolean,
+          value: false,
+        },
+
+        /**
+        * @private
+        */
+        headerTemplate: Object,
+
+        /**
+        * @private
+        */
+        template: Object,
+
+        _grid: Object,
+
+        _indeterminate: Boolean,
+
+        /*
+         * The previous state of activeItem. When activeItem turns to `null`,
+         * previousActiveItem will have an Object with just unselected activeItem
+         */
+        _previousActiveItem: Object,
+
+        _selectAllHidden: Boolean
+      },
+
+      observers: [
+        '_onSelectAllChanged(selectAll, _grid)'
+      ],
+
+      ready: function() {
+        var headerTemplate = this._prepareTemplatizer(this._findTemplate('template.header') || this.$.defaultHeaderTemplate);
+        // needed to override the dataHost correctly in case internal template is used.
+        headerTemplate.templatizer.dataHost = headerTemplate === this.$.defaultHeaderTemplate ? this : this.dataHost;
+        this.headerTemplate = headerTemplate;
+
+        var template = this._prepareTemplatizer(this._findTemplate('template:not(.header):not(.footer)') || this.$.defaultBodyTemplate);
+        // needed to override the dataHost correctly in case internal template is used.
+        template.templatizer.dataHost = template === this.$.defaultBodyTemplate ? this : this.dataHost;
+        this.template = template;
+      },
+
+      detached: function() {
+        if (this._grid) {
+          this.unlisten(this._grid, 'active-item-changed', '_onActiveItemChanged');
+          this.unlisten(this._grid, 'data-provider-changed', '_onDataProviderChanged');
+          this.unlisten(this._grid, 'filter-changed', '_onSelectedItemsChanged');
+          this.unlisten(this._grid, 'selected-items-changed', '_onSelectedItemsChanged');
+
+          var isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+          if (isSafari && window.ShadyDOM && this.parentElement) {
+            // Detach might have beem caused by order change.
+            // Shady on safari doesn't restore isAttached so we'll need to do it manually.
+            var parent = this.parentElement;
+            var nextSibling = this.nextElementSibling;
+            parent.removeChild(this);
+            if (nextSibling) {
+              parent.insertBefore(this, nextSibling);
+            } else {
+              parent.appendChild(this);
+            }
+          }
+
+        }
+      },
+
+      attached: function() {
+        this._grid = this._findGrid(this);
+        if (this._grid) {
+          this.listen(this._grid, 'active-item-changed', '_onActiveItemChanged');
+          this.listen(this._grid, 'data-provider-changed', '_onDataProviderChanged');
+          this.listen(this._grid, 'filter-changed', '_onSelectedItemsChanged');
+          this.listen(this._grid, 'selected-items-changed', '_onSelectedItemsChanged');
+        }
+      },
+
+      _findGrid: function(elm) {
+        while (elm && elm.localName != 'vaadin-grid') {
+          elm = Polymer.dom(elm).parentNode;
+        }
+        return elm || undefined;
+      },
+
+      _onSelectAllChanged: function(selectAll, grid) {
+        if (selectAll === undefined || grid === undefined) {
+          return;
+        }
+
+        if (this._selectAllChangeLock) {
+          return;
+        }
+
+        grid.selectedItems = selectAll && grid.items ? grid._filter(grid.items) : [];
+      },
+
+      // Return true if array `a` contains all the items in `b`
+      // We need this when sorting or to preserve selection after filtering.
+      _arrayContains: function(a, b) {
+        for (var i = 0; a && b && b[i] && a.indexOf(b[i]) >= 0; i++);
+        return i == b.length;
+      },
+
+      _onSelectAll: function(e) {
+        this.selectAll = this._indeterminate || !this.selectAll;
+      },
+
+      // iOS needs indeterminated + checked at the same time
+      _isChecked: function(selectAll, indeterminate) {
+        return indeterminate || selectAll;
+      },
+
+      _onActiveItemChanged: function(e) {
+        var activeItem = e.detail.value;
+        if (this.autoSelect) {
+          var item = activeItem || this._previousActiveItem;
+          if (item) {
+            this._grid._toggleItem(item);
+          }
+        }
+        this._previousActiveItem = activeItem;
+      },
+
+      _onSelectedItemsChanged: function(e) {
+        this._selectAllChangeLock = true;
+        if (this._grid.items) {
+          if (!this._grid.selectedItems.length) {
+            this.selectAll = false;
+            this._indeterminate = false;
+          } else if (this._arrayContains(this._grid.selectedItems, this._grid._filter(this._grid.items))) {
+            this.selectAll = true;
+            this._indeterminate = false;
+          } else {
+            this.selectAll = false;
+            this._indeterminate = true;
+          }
+        }
+        this._selectAllChangeLock = false;
+      },
+
+      _onDataProviderChanged: function(e) {
+        this._selectAllHidden = !this._grid.items;
+      }
+    });
+  </script>
+</dom-module>

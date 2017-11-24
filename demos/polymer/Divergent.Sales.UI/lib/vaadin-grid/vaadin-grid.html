@@ -1,0 +1,353 @@
+<!--
+@license
+Copyright (c) 2017 Vaadin Ltd.
+This program is available under Apache License Version 2.0, available at https://vaadin.com/license/
+-->
+
+<!--
+
+`vaadin-grid` is a free, high quality data grid / data table Polymer element, part of the Vaadin Core Elements.
+
+### Quick Start
+
+ - Use the <a href="#vaadin-grid-column">`<vaadin-grid-column>`</a> element to configure the grid columns.
+
+ - Then assign an array to the <a href="#vaadin-grid:property-items">`items`</a> property to visualize your data.
+
+ - In addition, there's helper elements such as
+<a href="#vaadin-grid-column-group">`<vaadin-grid-column-group>`</a>,
+<a href="#vaadin-grid-filter">`<vaadin-grid-filter>`</a>,
+<a href="#vaadin-grid-sorter">`<vaadin-grid-sorter>`</a> and
+<a href="#vaadin-grid-selection-column">`<vaadin-grid-selection-column>`</a>
+that can be used to customize the grid.
+__Note that the helper elements must be explicitly imported.__
+If you want to import everything at once you can use the `all-imports.html` bundle.
+
+ - A column template can be decorated with one the following class names to specify its purpose
+  - "header": Marks a header template
+  - "footer": Marks a footer template
+  - "row-details": Marks a row details template
+
+ - The following built-in template variables can be bound to inside the column templates
+  - "index": Number representing the row index
+  - "item" and it's sub-properties: Data object (provided by a data provider / items array)
+  - "selected": True if the item is selected (can be two-way bound)
+  - "expanded": True if the item is expanded for row details (can be two-way bound)
+
+#### Example:
+
+    <vaadin-grid items='[{"name": "John", "surname": "Lennon", "role": "singer"}, {"name": "Ringo", "surname": "Starr", "role": "drums"}]'>
+      <vaadin-grid-column>
+        <template class="header">Name</template>
+        <template>[[item.name]]</template>
+      </vaadin-grid-column>
+      <vaadin-grid-column>
+        <template class="header">Surname</template>
+        <template>[[item.surname]]</template>
+      </vaadin-grid-column>
+      <vaadin-grid-column>
+        <template class="header">Role</template>
+        <template>[[item.role]]</template>
+      </vaadin-grid-column>
+    </vaadin-grid>
+
+### Lazy Loading with Function Data Provider
+
+In addition to assigning an array to the items property, you can alternatively
+provide the vaadin-grid data through the `dataProvider` function property.
+The vaadin-grid element calls this function lazily, only when it needs more data
+to be displayed.
+
+See the <a href="#vaadin-grid:property-dataProvider">`dataProvider`</a> in
+the API reference below for the detailed data provider arguments description,
+and the “Assigning Data” page in the demos</a>.
+
+__Note that when using function data providers, `size` always needs to be
+set manually.__
+
+    grid.size = 200; // The total number of items
+    grid.dataProvider = function(params, callback) {
+      var url = 'https://api.example/data' +
+          '?page=' + params.page +        // the requested page index
+          '&per_page=' + params.pageSize; // number of items on the page
+
+      var xhr = new XMLHttpRequest();
+      xhr.onload = function() {
+        var response = JSON.parse(xhr.responseText);
+        callback(response.employees);
+      };
+      xhr.open('GET', url, true);
+      xhr.send();
+    };
+
+### Styling
+
+The following custom properties and mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--vaadin-grid-cell` | Mixin applied to all cells | `{}`
+`--vaadin-grid-header-cell` | Mixin applied to header cells | `{}`
+`--vaadin-grid-footer-cell` | Mixin applied to footer cells | `{}`
+`--vaadin-grid-body-cell` | Mixin applied to body cells | `{}`
+`--vaadin-grid-body-row-odd-cell` | Mixin applied to body cells on odd rows | `{}`
+`--vaadin-grid-cell-last-frozen` | Mixin applied to the last frozen column cells | `{}`
+`--vaadin-grid-body-row-hover-cell` | Mixin applied to body cells on hovered row | `{}`
+`--vaadin-grid-body-row-selected-cell` | Mixin applied to body cells on selected rows | `{}`
+`--vaadin-grid-body-row-active-cell` | Mixin applied to body cells on active row | `{}`
+`--vaadin-grid-body-row-details-cell` | Mixin applied to cells on details rows | `{}`
+`--vaadin-grid-focused-cell` | Mixin applied to cells with keyboard focus | `{}`
+`--vaadin-grid-loading-spinner` | Mixin applied to the loading spinner | `{}`
+`--vaadin-grid-column-resize-handle` | Mixin applied to the column resize handle | `{}`
+
+__Note:__ you can also style cell template contents by targeting them with
+standard CSS. For example, using classes to apply custom background on a frozen
+column and aling numeric contents to the right:
+
+    <style is="custom-style">
+      vaadin-grid {
+        --vaadin-grid-cell: {
+          padding: 0;
+        };
+      }
+
+      .cell {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 8px;
+      }
+
+      .frozen {
+        background: lightgray;
+      }
+
+      .numeric {
+        text-align: right;
+      }
+    </style>
+
+    <vaadin-grid>
+
+      <vaadin-grid-column width="100px" frozen>
+        <template class="header">
+          <div class="cell frozen">User Name</div>
+        </template>
+        <template>
+          <div class="cell frozen">[[item.username]]</div>
+        </template>
+      </vaadin-grid-column>
+
+        ...
+
+      <vaadin-grid-column>
+        <template class="header">
+          <div class="cell numeric">Age</div>
+        </template>
+        <template>
+          <div class="cell numeric">[[item.age]]</div>
+        </template>
+      </vaadin-grid-column>
+
+    </vaadin-grid>
+
+See also the “Styling” demos.
+
+### Keyboard Navigation
+
+#### In navigation mode
+
+Key | Action
+----|--------
+<kbd>Tab</kbd> | Moves the keyboard focus from header -> body -> footer
+<kbd>Shift</kbd>+<kbd>Tab</kbd> | Moves the keyboard focus from header <- body <- footer
+<kbd>Down</kbd> | Moves the keyboard focus to the cell on the next row
+<kbd>Up</kbd> | Moves the keyboard focus to the cell on the previous row
+<kbd>Right</kbd> | Moves the keyboard focus to the next cell
+<kbd>Left</kbd> | Moves the keyboard focus to the previous cell
+<kbd>PgDn</kbd> | Moves the keyboard focus one page down
+<kbd>PgUp</kbd> | Moves the keyboard focus one page up
+<kbd>Home</kbd> | Moves the keyboard focus to the first cell of the focused row
+<kbd>End</kbd> | Moves the keyboard focus to the last cell of the focused row
+<kbd>Ctrl</kbd>+<kbd>Home</kbd> | Moves the keyboard focus to the first cell of the first row
+<kbd>Ctrl</kbd>+<kbd>End</kbd> | Moves the keyboard focus to the last cell of the last row
+<kbd>Space</kbd> | Activates the item on the focused body cell
+<kbd>Enter</kbd> or <kbd>F2</kbd> | Activates the interactive mode for the focused cell
+
+<b>Note</b>: If the focused cell has child elements, the <kbd>Space</kbd> key
+clicks the first child element of the focused cell. See an example on the
+“Selection” demo page for more information.
+
+#### In interactive mode
+
+Key | Action
+----|--------
+<kbd>F2</kbd> or <kbd>ESC</kbd> | Deactivates the interactive mode
+
+<b>Note</b>: When entering interactive mode with <kbd>Enter</kbd> or <kbd>F2</kbd>, the
+first element in the cell will be focused. You can override the behavior by applying a
+`focus-target` attribute on the child element your want to be focused first.
+
+@element vaadin-grid
+@demo demo/index.html
+-->
+
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-resizable-behavior/iron-resizable-behavior.html">
+<link rel="import" href="vaadin-grid-table.html">
+<link rel="import" href="vaadin-grid-column.html">
+<link rel="import" href="vaadin-grid-active-item-behavior.html">
+<link rel="import" href="vaadin-grid-row-details-behavior.html">
+<link rel="import" href="vaadin-grid-data-provider-behavior.html">
+<link rel="import" href="vaadin-grid-array-data-provider-behavior.html">
+<link rel="import" href="vaadin-grid-dynamic-columns-behavior.html">
+<link rel="import" href="vaadin-grid-selection-behavior.html">
+<link rel="import" href="vaadin-grid-sort-behavior.html">
+<link rel="import" href="vaadin-grid-filter-behavior.html">
+<link rel="import" href="vaadin-grid-column-reordering-behavior.html">
+
+<dom-module id="vaadin-grid">
+  <template>
+    <style>
+      :host {
+        display: block;
+        height: 400px;
+        background: var(--primary-background-color, #fff);
+        box-sizing: border-box;
+        border: 1px solid var(--divider-color, rgba(0, 0, 0, 0.08));
+      }
+
+      :host(:focus) {
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      :host(:focus) {
+        outline: none;
+      }
+
+      #scroller {
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+
+    <style include="vaadin-grid-table-scroll-styles"></style>
+    <style include="vaadin-grid-row-details-styles"></style>
+    <style include="vaadin-grid-table-styles"></style>
+
+    <style include="vaadin-grid-table-themability-styles"></style>
+    <style include="vaadin-grid-selection-themability-styles"></style>
+    <style include="vaadin-grid-navigation-themability-styles"></style>
+    <style include="vaadin-grid-active-item-themability-styles"></style>
+    <style include="vaadin-grid-row-details-themability-styles"></style>
+    <style include="vaadin-grid-column-reordering-themability-styles"></style>
+
+    <vaadin-grid-table id="scroller" loading$=[[_loading]] bind-data="[[_bindData]]" size="[[size]]" column-tree="[[_columnTree]]"
+      row-details-template="[[_rowDetailsTemplate]]" column-reordering-allowed="[[columnReorderingAllowed]]">
+      <vaadin-grid-table-header id="header" slot="header" target="[[_getContentTarget()]]" column-tree="[[_columnTree]]"></vaadin-grid-table-header>
+      <vaadin-grid-table-body id="items" slot="items"></vaadin-grid-table-body>
+      <vaadin-grid-table-footer id="footer" slot="footer" target="[[_getContentTarget()]]" column-tree="[[_columnTree]]"></vaadin-grid-table-footer>
+
+      <!--
+      in native Shadow, we move the footer focus trap to light DOM.
+      It needs to be injected/slotted back inside the shadow root in order to be focusable.
+     -->
+      <slot name="footerFocusTrap"></slot>
+
+      <!-- This is for column elements, to make sure we can listen for events coming from them in Safari 9? -->
+      <!-- WARNING: this is converted to <content> without selector in P1 which might cause performance issues together with large number of cell content injection points. -->
+      <slot></slot>
+
+      <vaadin-grid-table-focus-trap id="footerFocusTrap" slot="footerFocusTrap" on-focus-gained="_onFooterFocus" on-focus-lost="_onFocusout">
+      </vaadin-grid-table-focus-trap>
+    </vaadin-grid-table>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+    is: 'vaadin-grid',
+
+    properties: {
+
+      _columnTree: {
+        type: Array,
+        notify: true
+      },
+
+
+      /**
+       * Estimated size of the grid data (number of items).
+       * When using function data providers, it always needs to be set manually.
+       */
+      size: Number,
+
+      _rowDetailsTemplate: Object,
+
+      _bindData: {
+        type: Object,
+        value: function() {
+          return this._getItem.bind(this);
+        }
+      }
+    },
+
+    behaviors: [
+      Polymer.IronA11yKeysBehavior,
+      Polymer.IronResizableBehavior,
+      vaadin.elements.grid.ActiveItemBehavior,
+      vaadin.elements.grid.RowDetailsBehavior,
+      vaadin.elements.grid.DataProviderBehavior,
+      vaadin.elements.grid.DynamicColumnsBehavior,
+      vaadin.elements.grid.ArrayDataProviderBehavior,
+      vaadin.elements.grid.SelectionBehavior,
+      vaadin.elements.grid.SortBehavior,
+      vaadin.elements.grid.FilterBehavior,
+      vaadin.elements.grid.ColumnReorderingBehavior,
+      vaadin.elements.grid.TableKeyboardBehavior
+    ],
+
+    listeners: {
+      'property-changed': '_columnPropChanged',
+      'iron-resize': '_gridResizeHandler'
+    },
+
+    _updateItem: function(row, item) {
+      row.style.minHeight = item ? '' : this.$.scroller._physicalAverage + 'px';
+      row.item = item;
+      row.selected = this._isSelected(item);
+      row.expanded = this._isExpanded(item);
+      row.active = item !== null && item == this.activeItem;
+      row.focused = row.index === this.$.items._focusedRowIndex;
+    },
+
+    _getContentTarget: function() {
+      return this;
+    },
+
+    ready: function() {
+      this._updateColumnTree();
+      this._rowDetailsTemplate = Polymer.dom(this).querySelector('template.row-details') || undefined;
+      this.$.scroller.target = this;
+
+      if (document.doctype === null) {
+        console.warn(
+          '<vaadin-grid> requires the "standards mode" declaration. Please add <!DOCTYPE html> to the HTML document.'
+        );
+      }
+    },
+
+    _columnPropChanged: function(e) {
+      if (e.detail.path === '_childColumns') {
+        this._updateColumnTree();
+      }
+
+      e.stopPropagation();
+    },
+
+    _gridResizeHandler: function() {
+      this.$.scroller._gridResizeHandler();
+    }
+  });
+</script>

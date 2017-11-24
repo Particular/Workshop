@@ -1,0 +1,775 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-scroll-target-behavior/iron-scroll-target-behavior.html">
+
+<script>
+  window.vaadin = window.vaadin || {};
+  vaadin.elements = vaadin.elements || {};
+  vaadin.elements.grid = vaadin.elements.grid || {};
+
+  /**
+   * @polymerBehavior vaadin.elements.grid.IronListBehaviorImpl
+   */
+  vaadin.elements.grid.IronListBehaviorImpl = (function() {
+
+    var IOS = navigator.userAgent.match(/iP(?:hone|ad;(?: U;)? CPU) OS (\d+)/);
+    var IOS_TOUCH_SCROLLING = IOS && IOS[1] >= 8;
+    var DEFAULT_PHYSICAL_COUNT = 25;
+
+    return ({
+
+      is: 'iron-list',
+
+      properties: {
+        /**
+         * The max count of physical items the pool can extend to.
+         */
+        maxPhysicalCount: {
+          type: Number,
+          value: 500
+        },
+
+        /**
+         * The name of the variable to add to the binding scope for the array
+         * element associated with a given template instance.
+         */
+        as: {
+          type: String,
+          value: 'item'
+        },
+
+        /**
+         * The name of the variable to add to the binding scope with the index
+         * for the row.
+         */
+        indexAs: {
+          type: String,
+          value: 'index'
+        }
+      },
+
+      /**
+       * The ratio of hidden tiles that should remain in the scroll direction.
+       * Recommended value ~0.5, so it will distribute tiles evely in both directions.
+       */
+      _ratio: 0.5,
+
+      /**
+       * The padding-top value for the list.
+       */
+      _scrollerPaddingTop: 0,
+
+      /**
+       * This value is the same as `scrollTop`.
+       */
+      _scrollPosition: 0,
+
+      /**
+       * The sum of the heights of all the tiles in the DOM.
+       */
+      _physicalSize: 0,
+
+      /**
+       * The average `offsetHeight` of the tiles observed till now.
+       */
+      _physicalAverage: 0,
+
+      /**
+       * The number of tiles which `offsetHeight` > 0 observed until now.
+       */
+      _physicalAverageCount: 0,
+
+      /**
+       * The Y position of the item rendered in the `_physicalStart`
+       * tile relative to the scrolling list.
+       */
+      _physicalTop: 0,
+
+      /**
+       * The number of items in the list.
+       */
+      _virtualCount: 0,
+
+      /**
+       * A map between an item key and its physical item index
+       */
+      _physicalIndexForKey: null,
+
+      /**
+       * The estimated scroll height based on `_physicalAverage`
+       */
+      _estScrollHeight: 0,
+
+      /**
+       * The scroll height of the dom node
+       */
+      _scrollHeight: 0,
+
+      /**
+       * The height of the list. This is referred as the viewport in the context of list.
+       */
+      _viewportHeight: 0,
+
+      /**
+       * The width of the list. This is referred as the viewport in the context of list.
+       */
+      _viewportWidth: 0,
+
+      /**
+       * An array of DOM nodes that are currently in the tree
+       * @type {?Array<!TemplatizerNode>}
+       */
+      _physicalItems: null,
+
+      /**
+       * An array of heights for each item in `_physicalItems`
+       * @type {?Array<number>}
+       */
+      _physicalSizes: null,
+
+      /**
+       * A cached value for the first visible index.
+       * See `firstVisibleIndex`
+       * @type {?number}
+       */
+      _firstVisibleIndexVal: null,
+
+      /**
+       * A cached value for the last visible index.
+       * See `lastVisibleIndex`
+       * @type {?number}
+       */
+      _lastVisibleIndexVal: null,
+
+      /**
+       * A Polymer collection for the items.
+       * @type {?Polymer.Collection}
+       */
+      _collection: null,
+
+      /**
+       * True if the current item list was rendered for the first time
+       * after attached.
+       */
+      _itemsRendered: false,
+
+      /**
+       * The page that is currently rendered.
+       */
+      _lastPage: null,
+
+      /**
+       * The max number of pages to render. One page is equivalent to the height of the list.
+       */
+      _maxPages: 3,
+
+      /**
+       * The maximum items per row
+       */
+      _itemsPerRow: 1,
+
+      /**
+       * The width of each grid item
+       */
+      _itemWidth: 0,
+
+      /**
+       * The height of the row in grid layout.
+       */
+      _rowHeight: 0,
+
+      /**
+       * The bottom of the physical content.
+       */
+      get _physicalBottom() {
+        return this._physicalTop + this._physicalSize;
+      },
+
+      /**
+       * The bottom of the scroll.
+       */
+      get _scrollBottom() {
+        return this._scrollPosition + this._viewportHeight;
+      },
+
+      /**
+       * The n-th item rendered in the last physical item.
+       */
+      get _virtualEnd() {
+        return this._virtualStart + this._physicalCount - 1;
+      },
+
+      /**
+       * The height of the physical content that isn't on the screen.
+       */
+      get _hiddenContentSize() {
+        return this._physicalSize - this._viewportHeight;
+      },
+
+      /**
+       * The maximum scroll top value.
+       */
+      get _maxScrollTop() {
+        return this._estScrollHeight - this._viewportHeight + this._scrollerPaddingTop;
+      },
+
+      /**
+       * The lowest n-th value for an item such that it can be rendered in `_physicalStart`.
+       */
+      _minVirtualStart: 0,
+
+      /**
+       * The largest n-th value for an item such that it can be rendered in `_physicalStart`.
+       */
+      get _maxVirtualStart() {
+        return Math.max(0, this._virtualCount - this._physicalCount);
+      },
+
+      /**
+       * The n-th item rendered in the `_physicalStart` tile.
+       */
+      _virtualStartVal: 0,
+
+      set _virtualStart(val) {
+        this._virtualStartVal = Math.min(this._maxVirtualStart, Math.max(this._minVirtualStart, val));
+      },
+
+      get _virtualStart() {
+        return this._virtualStartVal || 0;
+      },
+
+      /**
+       * The k-th tile that is at the top of the scrolling list.
+       */
+      _physicalStartVal: 0,
+
+      set _physicalStart(val) {
+        this._physicalStartVal = val % this._physicalCount;
+        if (this._physicalStartVal < 0) {
+          this._physicalStartVal = this._physicalCount + this._physicalStartVal;
+        }
+        this._physicalEnd = (this._physicalStart + this._physicalCount - 1) % this._physicalCount;
+      },
+
+      get _physicalStart() {
+        return this._physicalStartVal || 0;
+      },
+
+      /**
+       * The number of tiles in the DOM.
+       */
+      _physicalCountVal: 0,
+
+      set _physicalCount(val) {
+        this._physicalCountVal = val;
+        this._physicalEnd = (this._physicalStart + this._physicalCount - 1) % this._physicalCount;
+      },
+
+      get _physicalCount() {
+        return this._physicalCountVal;
+      },
+
+      /**
+       * The k-th tile that is at the bottom of the scrolling list.
+       */
+      _physicalEnd: 0,
+
+      /**
+       * An optimal physical size such that we will have enough physical items
+       * to fill up the viewport and recycle when the user scrolls.
+       *
+       * This default value assumes that we will at least have the equivalent
+       * to a viewport of physical items above and below the user's viewport.
+       */
+      get _optPhysicalSize() {
+        return this._viewportHeight * this._maxPages;
+      },
+
+      get _optPhysicalCount() {
+        return this._estRowsInView * this._itemsPerRow * this._maxPages;
+      },
+
+     /**
+      * True if the current list is visible.
+      */
+      get _isVisible() {
+        return this.scrollTarget && Boolean(this.scrollTarget.offsetWidth || this.scrollTarget.offsetHeight);
+      },
+
+      /**
+       * Gets the index of the first visible item in the viewport.
+       *
+       * @type {number}
+       */
+      get firstVisibleIndex() {
+        if (this._firstVisibleIndexVal === null) {
+          var physicalOffset = Math.floor(this._physicalTop + this._scrollerPaddingTop);
+
+          this._firstVisibleIndexVal = this._iterateItems(
+            function(pidx, vidx) {
+              physicalOffset += this._getPhysicalSizeIncrement(pidx);
+
+              if (physicalOffset > this._scrollPosition) {
+                return vidx;
+              }
+            }) || 0;
+        }
+        return this._firstVisibleIndexVal;
+      },
+
+      /**
+       * Gets the index of the last visible item in the viewport.
+       *
+       * @type {number}
+       */
+      get lastVisibleIndex() {
+        if (this._lastVisibleIndexVal === null) {
+          var physicalOffset = this._physicalTop;
+          this._iterateItems(function(pidx, vidx) {
+            if (physicalOffset < this._scrollBottom) {
+              this._lastVisibleIndexVal = vidx;
+            } else {
+              // Break _iterateItems
+              return true;
+            }
+            physicalOffset += this._getPhysicalSizeIncrement(pidx);
+          });
+        }
+        return this._lastVisibleIndexVal;
+      },
+
+      get _defaultScrollTarget() {
+        return this;
+      },
+      get _virtualRowCount() {
+        return Math.ceil(this._virtualCount / this._itemsPerRow);
+      },
+
+      get _estRowsInView() {
+        return Math.ceil(this._viewportHeight / this._rowHeight);
+      },
+
+      get _physicalRows() {
+        return Math.ceil(this._physicalCount / this._itemsPerRow);
+      },
+
+      attached: function() {
+        this.updateViewportBoundaries();
+        this._render();
+        // `iron-resize` is fired when the list is attached if the event is added
+        // before attached causing unnecessary work.
+        this.listen(this, 'iron-resize', '_resizeHandler');
+      },
+
+      detached: function() {
+        this._itemsRendered = false;
+        this.unlisten(this, 'iron-resize', '_resizeHandler');
+      },
+
+      /**
+       * Invoke this method if you dynamically update the viewport's
+       * size or CSS padding.
+       *
+       * @method updateViewportBoundaries
+       */
+      updateViewportBoundaries: function() {
+        this._scrollerPaddingTop = this.scrollTarget === this ? 0 :
+            parseInt(window.getComputedStyle(this)['padding-top'] || 0, 10);
+
+        this._viewportHeight = this._scrollTargetHeight;
+      },
+
+      /**
+       * Update the list of items, starting from the `_virtualStart` item.
+       * @param {!Array<number>=} itemSet
+       * @param {!Array<number>=} movingUp
+       */
+      _update: function(itemSet, movingUp) {
+        // update models
+        this._assignModels(itemSet);
+        // measure heights
+        this._updateMetrics(itemSet);
+        // adjust offset after measuring
+        if (movingUp) {
+          while (movingUp.length) {
+            var idx = movingUp.pop();
+            this._physicalTop -= this._getPhysicalSizeIncrement(idx);
+          }
+        }
+        // update the position of the items
+        this._positionItems();
+        // set the scroller size
+        this._updateScrollerSize();
+        // increase the pool of physical items
+
+        // dropping this will reduce spinup time by 50%
+        this._increasePoolIfNeeded();
+      },
+
+      /**
+       * Increases the pool of physical items only if needed.
+       *
+       * @return {boolean} True if the pool was increased.
+       */
+      _increasePoolIfNeeded: function() {
+        // Base case 1: the list has no height.
+        if (this._viewportHeight === 0) {
+          return false;
+        }
+
+        var estPhysicalSize = this._physicalSizes.reduce(function(prev, curr) {
+          return prev + (curr || 100);
+        }, 0);
+        // Base case 2: If the physical size is optimal and the list's client height is full
+        // with physical items, don't increase the pool.
+        var isClientHeightFull = estPhysicalSize > this._viewportHeight;
+        if (estPhysicalSize >= this._optPhysicalSize && isClientHeightFull) {
+          return false;
+        }
+        // this value should range between [0 <= `currentPage` <= `_maxPages`]
+        var currentPage = Math.floor(this._physicalSize / this._viewportHeight);
+        if (currentPage === 0) {
+          // fill the first page
+          this._debounceTemplate(this._increasePool.bind(this, Math.round(this._physicalCount * 0.5)));
+        } else if (this._lastPage !== currentPage && isClientHeightFull) {
+          // paint the page and defer the next increase
+          // wait 16ms which is rough enough to get paint cycle.
+          Polymer.dom.addDebouncer(this.debounce('_debounceTemplate', this._increasePool.bind(this, this._itemsPerRow), 16));
+        } else {
+          // fill the rest of the pages
+
+          // Count average item height
+          var itemHeight = this._physicalSize / this._physicalCount;
+          // Number of items in one page (to fill one viewport)
+          var itemsPerPage = this._viewportHeight / itemHeight;
+          // Amount of items needed in total
+          var totalNeededItems = this._maxPages * itemsPerPage;
+          // Estimated count of missing items
+          var missingItems = Math.ceil(totalNeededItems - this._physicalCount);
+
+          this._debounceTemplate(this._increasePool.bind(this, missingItems || 1));
+        }
+        this._lastPage = currentPage;
+        return true;
+      },
+
+      _debounceTemplate: function(fn) {
+        Polymer.dom.addDebouncer(this.debounce('_debounceTemplate', fn));
+      },
+
+      /**
+       * Increases the pool size.
+       */
+      _increasePool: function(missingItems) {
+        var nextPhysicalCount = Math.min(
+            this._physicalCount + missingItems,
+            this._virtualCount - this._virtualStart,
+            Math.max(this.maxPhysicalCount, DEFAULT_PHYSICAL_COUNT)
+          );
+        var prevPhysicalCount = this._physicalCount;
+        var delta = nextPhysicalCount - prevPhysicalCount;
+
+        if (delta <= 0) {
+          return;
+        }
+
+        [].push.apply(this._physicalItems, this._createPool(delta));
+        [].push.apply(this._physicalSizes, new Array(delta));
+
+        this._physicalCount = prevPhysicalCount + delta;
+
+        this._update();
+      },
+
+      /**
+       * Render a new list of items. This method does exactly the same as `update`,
+       * but it also ensures that only one `update` cycle is created.
+       */
+      _render: function() {
+        var requiresUpdate = this._virtualCount > 0 || this._physicalCount > 0;
+
+        if (this.isAttached && !this._itemsRendered && this._isVisible && requiresUpdate) {
+          this._lastPage = 0;
+          this._update();
+          this._itemsRendered = true;
+        }
+      },
+
+      /**
+       * Executes a provided function per every physical index in `itemSet`
+       * `itemSet` default value is equivalent to the entire set of physical indexes.
+       *
+       * @param {!function(number, number)} fn
+       * @param {!Array<number>=} itemSet
+       */
+      _iterateItems: function(fn, itemSet) {
+        var pidx, vidx, rtn, i;
+
+        if (arguments.length === 2 && itemSet) {
+          for (i = 0; i < itemSet.length; i++) {
+            pidx = itemSet[i];
+            vidx = this._computeVidx(pidx);
+            if ((rtn = fn.call(this, pidx, vidx)) != null) {
+              return rtn;
+            }
+          }
+        } else {
+          pidx = this._physicalStart;
+          vidx = this._virtualStart;
+
+          for (; pidx < this._physicalCount; pidx++, vidx++) {
+            if ((rtn = fn.call(this, pidx, vidx)) != null) {
+              return rtn;
+            }
+          }
+          for (pidx = 0; pidx < this._physicalStart; pidx++, vidx++) {
+            if ((rtn = fn.call(this, pidx, vidx)) != null) {
+              return rtn;
+            }
+          }
+        }
+      },
+
+      /**
+       * Returns the virtual index for a given physical index
+       *
+       * @param {number} pidx Physical index
+       * @return {number}
+       */
+      _computeVidx: function(pidx) {
+        if (pidx >= this._physicalStart) {
+          return this._virtualStart + (pidx - this._physicalStart);
+        }
+        return this._virtualStart + (this._physicalCount - this._physicalStart) + pidx;
+      },
+
+      /**
+       * Updates the height for a given set of items.
+       *
+       * @param {!Array<number>=} itemSet
+       */
+      _updateMetrics: function(itemSet) {
+        // Make sure we distributed all the physical items
+        // so we can measure them
+
+        // Calling Polymer.dom.flush() in Shady has some perf issues
+        // with multiple <slot> elements. Trying to reduce unnecessary
+        // calls during startup by flushing only when scrolling.
+        if (this.scrolling) {
+          Polymer.dom.flush();
+        }
+
+        var newPhysicalSize = 0;
+        var oldPhysicalSize = 0;
+        var prevAvgCount = this._physicalAverageCount;
+        var prevPhysicalAvg = this._physicalAverage;
+
+        this._iterateItems(function(pidx, vidx) {
+
+          oldPhysicalSize += this._physicalSizes[pidx] || 0;
+          this._physicalSizes[pidx] = this._physicalItems[pidx].offsetHeight;
+          newPhysicalSize += this._physicalSizes[pidx];
+          this._physicalAverageCount += this._physicalSizes[pidx] ? 1 : 0;
+
+        }, itemSet);
+
+        this._viewportHeight = this._scrollTargetHeight;
+        this._physicalSize = this._physicalSize + newPhysicalSize - oldPhysicalSize;
+
+        // update the average if we measured something
+        if (this._physicalAverageCount !== prevAvgCount) {
+          this._physicalAverage = Math.round(
+              ((prevPhysicalAvg * prevAvgCount) + newPhysicalSize) /
+              this._physicalAverageCount);
+        }
+      },
+
+      /**
+       * Updates the position of the physical items.
+       */
+      _positionItems: function() {
+        this._adjustScrollPosition();
+
+        var y = this._physicalTop;
+
+        this._iterateItems(function(pidx, vidx) {
+          this._physicalItems[pidx].style.transform = this._getTranslate(0, y);
+          y += this._physicalSizes[pidx];
+        });
+
+      },
+
+      _getPhysicalSizeIncrement: function(pidx) {
+        return this._physicalSizes[pidx];
+      },
+
+      /**
+       * Returns, based on the current index,
+       * whether or not the next index will need
+       * to be rendered on a new row.
+       *
+       * @param {number} vidx Virtual index
+       * @return {boolean}
+       */
+      _shouldRenderNextRow: function(vidx) {
+        return vidx % this._itemsPerRow === this._itemsPerRow - 1;
+      },
+
+      /**
+       * Adjusts the scroll position when it was overestimated.
+       */
+      _adjustScrollPosition: function() {
+        var deltaHeight = this._virtualStart === 0 ? this._physicalTop :
+            Math.min(this._scrollPosition + this._physicalTop, 0);
+
+        if (deltaHeight) {
+          this._physicalTop = this._physicalTop - deltaHeight;
+          // juking scroll position during interial scrolling on iOS is no bueno
+          if (!IOS_TOUCH_SCROLLING && this._physicalTop !== 0) {
+            this._resetScrollPosition(this._scrollTop - deltaHeight);
+          }
+        }
+      },
+
+      /**
+       * Sets the position of the scroll.
+       */
+      _resetScrollPosition: function(pos) {
+        if (this.scrollTarget) {
+          this._scrollTop = pos;
+          this._scrollPosition = this._scrollTop;
+        }
+      },
+
+      /**
+       * Sets the scroll height, that's the height of the content,
+       *
+       * @param {boolean=} forceUpdate If true, updates the height no matter what.
+       */
+      _updateScrollerSize: function(forceUpdate) {
+        this._estScrollHeight = (this._physicalBottom +
+            Math.max(this._virtualCount - this._physicalCount - this._virtualStart, 0) * this._physicalAverage);
+
+        forceUpdate = forceUpdate || this._scrollHeight === 0;
+        forceUpdate = forceUpdate || this._scrollPosition >= this._estScrollHeight - this._physicalSize;
+
+        // amortize height adjustment, so it won't trigger repaints very often
+        if (forceUpdate || Math.abs(this._estScrollHeight - this._scrollHeight) >= this._optPhysicalSize) {
+          this.$.items.style.height = this._estScrollHeight + 'px';
+          this._scrollHeight = this._estScrollHeight;
+        }
+      },
+
+      /**
+       * Scroll to a specific index in the virtual list regardless
+       * of the physical items in the DOM tree.
+       *
+       * @method scrollToIndex
+       * @param {number} idx The index of the item
+       */
+      scrollToIndex: function(idx) {
+        Polymer.dom.flush();
+
+        idx = Math.min(Math.max(idx, 0), this._virtualCount - 1);
+        // update the virtual start only when needed
+        if (!this._isIndexRendered(idx) || idx >= this._maxVirtualStart) {
+          this._virtualStart = idx - 1;
+        }
+        // assign new models
+        this._assignModels();
+        // measure the new sizes
+        this._updateMetrics();
+
+        // estimate new physical offset
+        var estPhysicalTop = Math.floor(this._virtualStart / this._itemsPerRow) * this._physicalAverage;
+        this._physicalTop = estPhysicalTop;
+
+        var currentTopItem = this._physicalStart;
+        var currentVirtualItem = this._virtualStart;
+        var targetOffsetTop = 0;
+        var hiddenContentSize = this._hiddenContentSize;
+
+        // scroll to the item as much as we can
+        while (currentVirtualItem < idx && targetOffsetTop <= hiddenContentSize) {
+          targetOffsetTop = targetOffsetTop + this._getPhysicalSizeIncrement(currentTopItem);
+          currentTopItem = (currentTopItem + 1) % this._physicalCount;
+          currentVirtualItem++;
+        }
+        // update the scroller size
+        this._updateScrollerSize(true);
+        // update the position of the items
+        this._positionItems();
+        // set the new scroll position
+        this._resetScrollPosition(this._physicalTop + this._scrollerPaddingTop + targetOffsetTop);
+        // increase the pool of physical items if needed
+        this._increasePoolIfNeeded();
+        // clear cached visible index
+        this._firstVisibleIndexVal = null;
+        this._lastVisibleIndexVal = null;
+      },
+
+      /**
+       * Reset the physical average and the average count.
+       */
+      _resetAverage: function() {
+        this._physicalAverage = 0;
+        this._physicalAverageCount = 0;
+      },
+
+      /**
+       * A handler for the `iron-resize` event triggered by `IronResizableBehavior`
+       * when the element is resized.
+       */
+      _resizeHandler: function() {
+        // iOS fires the resize event when the address bar slides up
+        if (IOS && Math.abs(this._viewportHeight - this._scrollTargetHeight) < 100) {
+          // return;
+        }
+        // In Desktop Safari 9.0.3, if the scroll bars are always shown,
+        // changing the scroll position from a resize handler would result in
+        // the scroll position being reset. Waiting 1ms fixes the issue.
+        Polymer.dom.addDebouncer(this.debounce('_debounceTemplate', function() {
+          this.updateViewportBoundaries();
+          this._render();
+
+          if (this._itemsRendered && this._physicalItems && this._isVisible) {
+            this._resetAverage();
+            this.scrollToIndex(this.firstVisibleIndex);
+          }
+        }.bind(this), 1));
+      },
+
+      /**
+       * Updates the size of an item.
+       *
+       * @method updateSizeForItem
+       * @param {|number} index
+       */
+       // TODO: rename to updateSizeForIndex ?
+      updateSizeForItem: function(index) {
+        var pidx = this._physicalIndexForKey[index];
+
+        if (pidx != null) {
+          this._updateMetrics([pidx]);
+          this._positionItems();
+        }
+      },
+
+      _isIndexRendered: function(idx) {
+        return idx >= this._virtualStart && idx <= this._virtualEnd;
+      },
+
+      _isIndexVisible: function(idx) {
+        return idx >= this.firstVisibleIndex && idx <= this.lastVisibleIndex;
+      }
+    });
+  })();
+
+  /**
+   * @polymerBehavior vaadin.elements.grid.IronListBehavior
+   */
+  vaadin.elements.grid.IronListBehavior = [
+    Polymer.Templatizer,
+    Polymer.IronScrollTargetBehavior,
+    vaadin.elements.grid.IronListBehaviorImpl
+  ];
+</script>

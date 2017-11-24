@@ -1,0 +1,32 @@
+﻿<link rel="import" href="/lib/polymer/polymer.html">
+<link rel="import" href="/lib/iron-ajax/iron-ajax.html">
+<link rel="import" href="/lib/iron-icons/maps-icons.html">
+<link rel="import" href="/lib/vaadin-grid/all-imports.html">
+<link rel="import" href="/lib/paper-icon-button/paper-icon-button.html" />
+
+<dom-module id="shipping-courier">
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+                padding: 10px;
+            }
+        </style>
+        
+        <span>[[order.shippingCourier]]</span>
+
+    </template>
+    <script>
+        class ShippingCourier extends Polymer.Element {
+            static get is() { return 'shipping-courier'; }
+
+            static get properties() {
+                return {
+                    order: Object
+                }
+            }
+        }
+
+        window.customElements.define(ShippingCourier.is, ShippingCourier);
+    </script>
+</dom-module>

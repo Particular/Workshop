@@ -1,0 +1,301 @@
+<dom-module id="vaadin-grid-data-provider-themability-styles">
+  <template>
+    <style>
+
+      /* Anim */
+      @keyframes vaadin-grid-spin-360 {
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+      @-webkit-keyframes vaadin-grid-spin-360 {
+        100% {
+          -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+        }
+      }
+
+      #spinner {
+        border: 2px solid var(--primary-color, #03A9F4);
+        border-radius: 50%;
+        border-right-color: transparent;
+        border-top-color: transparent;
+        content: "";
+        height: 16px;
+        left: 50%;
+        margin-left: -8px;
+        margin-top: -8px;
+        position: absolute;
+        top: 50%;
+        width: 16px;
+        pointer-events: none;
+        opacity: 0;
+        @apply(--vaadin-grid-loading-spinner);
+      }
+
+      :host([loading]) #spinner {
+        opacity: 1;
+        -webkit-animation: vaadin-grid-spin-360 400ms linear infinite;
+        animation: vaadin-grid-spin-360 400ms linear infinite;
+      }
+
+      :host([loading]) #items {
+        opacity: 0.5;
+      }
+
+    </style>
+  </template>
+</dom-module>
+
+
+<script>
+  window.vaadin = window.vaadin || {};
+  vaadin.elements = vaadin.elements || {};
+  vaadin.elements.grid = vaadin.elements.grid || {};
+
+  /**
+   * @polymerBehavior vaadin.elements.grid.DataProviderBehavior
+   */
+  vaadin.elements.grid.DataProviderBehavior = {
+
+    listeners: {
+      'item-changed': '_templateItemChanged'
+    },
+
+    properties: {
+
+      /**
+       * Number of items fetched at a time from the dataprovider.
+       */
+      pageSize: {
+        type: Number,
+        value: 50,
+        observer: '_pageSizeChanged'
+      },
+
+      /**
+       * Function that provides items lazily. Receives arguments `params`, `callback`
+       *
+       * `params.page` Requested page index
+       *
+       * `params.pageSize` Current page size
+       *
+       * `params.filters` Currently applied filters
+       *
+       * `params.sortOrders` Currently applied sorting orders
+       *
+       */
+      dataProvider: {
+        type: Object,
+        notify: true,
+        observer: '_dataProviderChanged'
+      },
+
+      /**
+       * `true` while data is being requested from the data provider.
+       */
+      _loading: Boolean,
+
+      _cache: {
+        type: Object,
+        value: function() {
+          return {};
+        }
+      },
+
+      _pendingRequests: {
+        type: Object,
+        value: function() {
+          return {};
+        }
+      },
+    },
+
+    _templateItemChanged: function(e) {
+      var item = e.detail.item;
+
+      // TODO: We could avoid iterating rows by fixing _physicalIndexForKey mapping
+      // in iron-list-behavior so that vidx could be used to fetch the correct row element.
+      Array.prototype.forEach.call(Polymer.dom(this.$.items).children, function(row) {
+        if (row.item === item) {
+          row.iterateCells(function(cell) {
+            // prevent _forwardInstancePath from firing duplicate `item-changed`
+            // events on all the sibling cells.
+            cell._templatizer._suppressItemChangeEvent = true;
+            cell.instance.notifyPath('item.' + e.detail.path, e.detail.value);
+            cell._templatizer._suppressItemChangeEvent = false;
+          });
+        }
+      });
+    },
+
+    _getCachedItem: function(index) {
+      var page = this._getPageForIndex(index);
+
+      var p = this._cache && this._cache[page];
+
+      if (p) {
+        return p[index - page * this.pageSize];
+      } else {
+        return null;
+      }
+    },
+
+    _getItem: function(index, el) {
+      this._updateItem(el, this._getCachedItem(index));
+      this._eagerlyLoadPages();
+      //
+      var uncachedPages = this._uncachedPagesForPhysicalItems();
+      if (uncachedPages.length > 0) {
+        this._loading = true;
+        // avoid debounce during scroll to mitigate scrollbar flickering on iOS.
+        // debouncing only when data is needed to be fetched. eager loading
+        // should somewhat prevent from getting here when scrolling slowly.
+        this.debounce('load', function() {
+          uncachedPages.forEach(function(i) {
+            this._loadPage(i);
+          }.bind(this));
+        }, 100);
+      }
+    },
+
+    _cachedPagesForPhysicalItems: function() {
+      return this._pagesForPhysicalItems().filter(function(page) {
+        return this._cache !== undefined && this._cache[page] !== undefined;
+      }.bind(this));
+    },
+
+    _uncachedPagesForPhysicalItems: function() {
+      return this._pagesForPhysicalItems().filter(function(page) {
+        return this._cache !== undefined && this._cache[page] === undefined;
+      }.bind(this));
+    },
+
+    _eagerlyLoadPages: function() {
+      var pages = this._cachedPagesForPhysicalItems().slice(0);
+
+      if (pages.length > 0) {
+        pages.sort(function(a, b) {
+          return a > b;
+        });
+
+        var prev = Math.max(0, pages[0] - 1);
+        var next = Math.min(pages[pages.length - 1] + 1, Math.max(0, Math.floor(this.size / this.pageSize) - 1));
+
+        this._loadPage(prev);
+        this._loadPage(next);
+      }
+    },
+
+    _pagesForPhysicalItems: function() {
+      // TODO: potentially heavy operation to run first visible index,
+      // reconsider if performance issues occur on data binding / scrolling.
+      var firstVisiblePage = this._getPageForIndex(this.$.scroller.firstVisibleIndex + this.$.scroller._vidxOffset);
+
+      return [firstVisiblePage].concat(
+          this.$.scroller._physicalItems
+          .filter(function(row) {
+            return row.index;
+          })
+          .map(function(row) {
+            return this._getPageForIndex(row.index);
+          }.bind(this)))
+        .reduce(function(prev, curr) {
+          if (prev.indexOf(curr) === -1) {
+            prev.push(curr);
+          }
+
+          return prev;
+        }, []);
+    },
+
+    _updateItems: function(page, items) {
+      for (var i = 0; i < this.pageSize; i++) {
+        var index = page * this.pageSize + i;
+        var row = this.$.scroller._virtualIndexToItem[index];
+        if (row) {
+          this._updateItem(row, items[i]);
+
+          this.debounce('update-heights', function() {
+            this.$.scroller._updateMetrics();
+            this.$.scroller._positionItems();
+            this.$.scroller._updateScrollerSize();
+          }, 1);
+        }
+      }
+    },
+
+    _loadPage: function(page, cb) {
+      cb = cb || this._updateItems.bind(this);
+      if (!this._cache[page]) {
+        // make sure same page isn't requested multiple times.
+        if (!this._pendingRequests[page] && this.dataProvider) {
+          this._pendingRequests[page] = true;
+          var params = {
+            page: page,
+            pageSize: this.pageSize,
+            sortOrders: this._mapSorters(),
+            filters: this._mapFilters()
+          };
+          this.dataProvider(params, function(items) {
+            this._cache[page] = items;
+            delete this._pendingRequests[page];
+            cb(page, items);
+
+            this._loading = this._pendingRequests.length > 0;
+
+            this.debounce('check-size', this._checkSize, 2000);
+          }.bind(this));
+        }
+      }
+    },
+
+    _getPageForIndex: function(index) {
+      return Math.floor(index / this.pageSize);
+    },
+
+    /**
+     * Clears the cached pages and reloads data from dataprovider when needed.
+     */
+    clearCache: function() {
+      this._cache = {};
+      this._pendingRequests = {};
+      if (this.$.scroller.hasData) {
+        this.$.scroller._update();
+      }
+      this._flushItemsDebouncer();
+    },
+
+    _flushItemsDebouncer: function() {
+      this.flushDebouncer('load');
+    },
+
+    _pageSizeChanged: function(pageSize, oldPageSize) {
+      if (oldPageSize !== undefined && pageSize !== oldPageSize) {
+        this.clearCache();
+      }
+    },
+
+    _checkSize: function() {
+      if (this.size === undefined) {
+        console.warn('The <vaadin-grid> needs a value for "size" property in order to display rows.');
+      }
+    },
+
+    _dataProviderChanged: function(dataProvider, oldDataProvider) {
+      if (oldDataProvider !== undefined) {
+        this.clearCache();
+      }
+
+      if (!this.$.scroller.hasData) {
+        // load data before adding rows to make sure they have content when
+        // rendered for the first time.
+        this._loading = true;
+        this._loadPage(0, function() {
+          this.$.scroller.hasData = true;
+        }.bind(this));
+      }
+    }
+
+  };
+</script>

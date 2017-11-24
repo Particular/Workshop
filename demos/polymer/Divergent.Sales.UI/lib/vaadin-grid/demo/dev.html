@@ -1,0 +1,186 @@
+<!doctype html>
+
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+
+    <title>vaadin-grid</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../vaadin-grid.html">
+    <link rel="import" href="../../paper-checkbox/paper-checkbox.html">
+    <link rel="import" href="../../paper-input/paper-input.html">
+    <link rel="import" href="../vaadin-grid-filter.html">
+    <link rel="import" href="../vaadin-grid-sorter.html">
+    <link rel="import" href="../vaadin-grid-column-group.html">
+    <link rel="import" href="x-data-provider.html">
+
+
+    <style>
+      body,
+      html {
+        padding: 0;
+        margin: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <x-data-provider></x-data-provider>
+    <dom-module id="x-app">
+      <template>
+        <style>
+          :host {
+            display: block;
+            height: 100vh;
+            position: relative;
+            padding: 20px;
+            box-sizing: border-box;
+          }
+
+          vaadin-grid {
+            height: 100%;
+          }
+        </style>
+        <input value="{{foobar::input}}">
+        <label>[[foobar]]</label>
+        <vaadin-grid id="component" items="[[items]]" multi-selection column-reordering-allowed>
+
+          <template class="row-details">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
+              dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            <div>details-[[index]]-[[item.name]]</div>
+            <button>Howdy</button>
+            <paper-input value="{{item.name.last}}"></paper-input>
+          </template>
+
+          <vaadin-grid-column width="145px" flex-grow="0" frozen resizable>
+            <template>
+              [[index]] [[foobar]]
+            </template>
+            <template class="header">
+              Index [[foobar]]
+            </template>
+          </vaadin-grid-column>
+
+          <vaadin-grid-column-group resizable>
+
+            <template class="header">
+              TG1
+            </template>
+            <template class="footer">
+              TGF1
+            </template>
+
+            <vaadin-grid-column width="300px" flex-shrink="1" flex-grow="0">
+              <template>
+                <span class="elItem">[[item.name.first]]</span>
+              </template>
+              <template class="header">
+                <vaadin-grid-sorter path="name.first">TC1</vaadin-grid-sorter>
+              </template>
+              <template class="footer">
+                TCF1
+              </template>
+            </vaadin-grid-column>
+
+            <vaadin-grid-column-group>
+
+              <template class="header">
+                Waat
+              </template>
+
+            <vaadin-grid-column width="300px" flex-shrink="1" flex-grow="0">
+              <template>
+                <span class="elItem">[[item.name.first]]</span>
+              </template>
+              <template class="header">
+                <vaadin-grid-sorter path="name.first">TC1</vaadin-grid-sorter>
+              </template>
+              <template class="footer">
+                TCF1
+              </template>
+            </vaadin-grid-column>
+
+            <vaadin-grid-column width="20%">
+              <template>
+                <paper-input value="{{item.name.last}}"></paper-input>
+              </template>
+              <template class="header">
+                TC2
+              </template>
+              <template class="footer">
+                <vaadin-grid-filter path="name.last"></vaadin-grid-filter>
+              </template>
+            </vaadin-grid-column>
+
+            </vaadin-grid-column-group>
+
+          </vaadin-grid-column-group>
+
+          <vaadin-grid-column-group>
+            <vaadin-grid-column width="200px" resizable>
+              <template>
+                <div>[[item.name.first]].[[item.name.last]]@gmail.com</div>
+              </template>
+              <template class="header">
+                TC3
+              </template>
+            </vaadin-grid-column>
+
+            <vaadin-grid-column-group>
+              <vaadin-grid-column width="200px">
+                <template>
+                  [[item.username]]
+                </template>
+                <template class="header">
+                  <vaadin-grid-sorter path="username">TC1</vaadin-grid-sorter>
+                </template>
+              </vaadin-grid-column>
+              <vaadin-grid-column width="100px">
+                <template>
+                  <!-- <progress value="[[index]]" max="25"></progress> -->
+                </template>
+                <template class="header">
+                  TC5
+                </template>
+              </vaadin-grid-column>
+              <vaadin-grid-column width="100px">
+                <template>
+                  <paper-checkbox checked="{{expanded}}">Details</paper-checkbox>
+                </template>
+                <template class="header">
+                  TC6
+                </template>
+              </vaadin-grid-column>
+              <template class="header">
+                <vaadin-grid-filter path="username"></vaadin-grid-filter>
+              </template>
+            </vaadin-grid-column-group>
+            <template class="header">
+              TG2
+            </template>
+          </vaadin-grid-column-group>
+        </vaadin-grid>
+      </template>
+      <script>
+        document.addEventListener('WebComponentsReady', function() {
+          Polymer({
+            is: 'x-app',
+
+            properties: {
+              items: {
+                value: window.users.results
+              }
+            }
+          });
+        });
+      </script>
+    </dom-module>
+
+    <x-app></x-app>
+
+  </body>
+</html>

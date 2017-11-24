@@ -1,0 +1,186 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title>vaadin-grid – Styling: Material Design</title>
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+  <link rel="import" href="common.html">
+  <link rel="import" href="../vaadin-grid-selection-column.html">
+  <link rel="import" href="../../paper-checkbox/paper-checkbox.html">
+  <link rel="import" href="../../iron-icon/iron-icon.html">
+  <link rel="import" href="../../iron-icons/iron-icons.html">
+  <link rel="import" href="../../paper-styles/color.html">
+  <link rel="import" href="../vaadin-grid-sorter.html">
+  <link rel="import" href="../vaadin-grid-filter.html">
+  <link rel="import" href="../vaadin-grid-column-group.html">
+
+</head>
+
+<body unresolved>
+
+  <div class="vertical-section-container centered">
+    <demo-navigation></demo-navigation>
+
+    <h3>Material Design</h3>
+    <demo-snippet>
+      <template>
+        <dom-bind>
+          <template is="dom-bind">
+            <custom-style>
+              <style is="custom-style">
+                vaadin-grid#material {
+
+                  font-family: Roboto, sans-serif;
+                  --divider-color: rgba(0, 0, 0, var(--dark-divider-opacity));
+
+                  --vaadin-grid-cell: {
+                    padding: 0;
+                  };
+
+                  --vaadin-grid-header-cell: {
+                    height: 64px;
+                    color: rgba(0, 0, 0, var(--dark-secondary-opacity));
+                    font-size: 12px;
+                  };
+
+                  --vaadin-grid-body-cell: {
+                    height: 48px;
+                    color: rgba(0, 0, 0, var(--dark-primary-opacity));
+                    font-size: 13px;
+                  };
+
+                  --vaadin-grid-body-row-hover-cell: {
+                    background-color: var(--paper-grey-200);
+                  };
+
+                  --vaadin-grid-body-row-selected-cell: {
+                    background-color: var(--paper-grey-100);
+                  };
+
+                  --vaadin-grid-focused-cell: {
+                    box-shadow: none;
+                    font-weight: bold;
+                  };
+                }
+
+                vaadin-grid#material .cell {
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  padding-right: 56px;
+                }
+
+                vaadin-grid#material .cell.last {
+                  padding-right: 24px;
+                }
+
+                vaadin-grid#material .cell.numeric {
+                  text-align: right;
+                }
+
+                vaadin-grid#material paper-checkbox {
+                  --primary-color: var(--paper-indigo-500);
+                  margin: 0 24px;
+                }
+
+                vaadin-grid#material vaadin-grid-sorter {
+                  --vaadin-grid-sorter-arrow: {
+                    display: none !important;
+                  };
+                }
+
+                vaadin-grid#material vaadin-grid-sorter .cell {
+                  flex: 1;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                }
+
+                vaadin-grid#material vaadin-grid-sorter iron-icon {
+                  transform: scale(0.8);
+                }
+
+                vaadin-grid#material vaadin-grid-sorter:not([direction]) iron-icon {
+                  color: rgba(0, 0, 0, var(--dark-disabled-opacity));
+                }
+
+                vaadin-grid#material vaadin-grid-sorter[direction] {
+                  color: rgba(0, 0, 0, var(--dark-primary-opacity));
+                }
+
+                vaadin-grid#material vaadin-grid-sorter[direction=desc] iron-icon {
+                  transform: scale(0.8) rotate(180deg);
+                }
+
+              </style>
+            </custom-style>
+
+            <x-array-data-provider items="{{items}}"></x-array-data-provider>
+
+            <vaadin-grid id="material" items="[[items]]" size="200">
+
+              <vaadin-grid-selection-column width="66px" flex="0" select-all="{{selectAll}}">
+                <template class="header">
+                  <paper-checkbox checked="{{selectAll}}"></paper-checkbox>
+                </template>
+                <template>
+                  <paper-checkbox checked="{{selected}}"></paper-checkbox>
+                </template>
+              </vaadin-grid-selection-column>
+
+              <vaadin-grid-column width="100px" flex="0">
+                <template class="header">
+                  <div class="cell">Name</div>
+                </template>
+                <template>
+                  <div class="cell">[[item.name.first]]</div>
+                </template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column flex="2">
+                <template class="header">
+                  <div class="cell">Email</div>
+                </template>
+                <template>
+                  <div class="cell">[[item.email]]</div>
+                </template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column>
+                <template class="header">
+                  <vaadin-grid-sorter path="location.city">
+                    <div class="cell">
+                      <span>City</span><iron-icon icon="icons:arrow-upward"></iron-icon>
+                    </div>
+                  </vaadin-grid-sorter>
+                </template>
+                <template>
+                  <div class="cell">[[item.location.city]]</div>
+                </template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column width="100px" flex="0">
+                <template class="header">
+                  <div class="cell numeric last">Zip Code</div>
+                </template>
+                <template>
+                  <div class="cell numeric last">[[item.location.zip]]</div>
+                </template>
+              </vaadin-grid-column>
+
+            </vaadin-grid>
+          </template>
+        </dom-bind>
+
+      </template>
+    </demo-snippet>
+
+  </div>
+</body>
+
+</html>

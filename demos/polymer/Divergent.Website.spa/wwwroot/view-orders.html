@@ -1,0 +1,89 @@
+<link rel="import" href="./lib/polymer/polymer.html">
+<link rel="import" href="./lib/iron-ajax/iron-ajax.html">
+<link rel="import" href="./lib/iron-icons/maps-icons.html">
+<link rel="import" href="./lib/vaadin-grid/all-imports.html">
+<link rel="import" href="./lib/paper-icon-button/paper-icon-button.html" />
+<link rel="import" href="./shared-styles.html">
+<link rel="import" href="./lib/divergent.sales/OrderItemCount.html" />
+<link rel="import" href="./lib/divergent.sales/OrderNumber.html" />
+<link rel="import" href="./lib/divergent.shipping/ShippingCourier.html" />
+<link rel="import" href="./lib/divergent.shipping/ShippingStatus.html" />
+
+<dom-module id="view-orders">
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+                padding: 10px;
+            }
+        </style>
+        <iron-ajax auto url="/compose/orders"
+                   on-error="_handleErrorResponse"
+                   last-response="{{data}}"
+                   handle-as="json"></iron-ajax>
+        <div class="card">
+            <div class="circle">
+                <paper-icon-button icon="maps:local-grocery-store"></paper-icon-button>
+            </div>
+            <h1>Orders List</h1>
+            
+
+            <vaadin-grid items="[[data.orders]]">
+
+                <vaadin-grid-column width="70px" flex-grow="0">
+                    <template class="header">Number</template>
+                    <template>
+                        <order-number order="{{item}}"></order-number>
+                    </template>
+                </vaadin-grid-column>
+
+                <vaadin-grid-column>
+                    <template class="header">Item Count</template>
+                    <template>
+                        <order-item-count order="{{item}}"></order-item-count>
+                    </template>
+                </vaadin-grid-column>
+
+                <vaadin-grid-column>
+                    <template class="header">Courier</template>
+                    <template>
+                        <shipping-courier order="{{item}}"></shipping-courier>
+                    </template>
+                </vaadin-grid-column>
+
+                <vaadin-grid-column>
+                    <template class="header">Shipping Status</template>
+                    <template>
+                        <shipping-status order="{{item}}"></shipping-status>
+                    </template>
+                </vaadin-grid-column>
+
+                <vaadin-grid-column>
+                    <template class="header">Details</template>
+                    <template>
+                        <a href="/details/[[item.orderNumber]]">
+                            <paper-button>
+                                <paper-icon-button icon="exit-to-app"></paper-icon-button>
+                            </paper-button>
+                        </a>
+                    </template>
+                </vaadin-grid-column>
+
+            </vaadin-grid>
+        </div>
+    </template>
+
+    <script>
+        class ViewOrders extends Polymer.Element {
+            static get is() { return 'view-orders'; }
+
+            _handleErrorResponse(event) {
+                if (event) {
+                    console.log(event.detail.request.xhr.response);
+                }
+            }
+        }
+
+        window.customElements.define(ViewOrders.is, ViewOrders);
+    </script>
+</dom-module>

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>542547b0-dc51-41ba-b701-603814d5fb8a</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Divergent.Sales.UI</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)bower.json" />
+    <Content Include="$(MSBuildThisFileDirectory)OrderItemCount.html" />
+    <Content Include="$(MSBuildThisFileDirectory)OrderNumber.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory).bowerrc">
+      <DependentUpon>bower.json</DependentUpon>
+    </None>
+  </ItemGroup>
+</Project>

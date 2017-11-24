@@ -1,0 +1,42 @@
+<!-- Common imports for all examples -->
+<link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+<link rel="import" href="../../iron-flex-layout/iron-flex-layout-classes.html">
+<custom-style>
+  <style is="custom-style" include="iron-flex iron-flex-alignment"></style>
+</custom-style>
+<link rel="import" href="../../paper-styles/default-theme.html">
+<link rel="import" href="../../elements-demo-resources/common.html">
+
+<style>
+  vaadin-grid {
+    text-transform: capitalize;
+  }
+
+  h3 + p {
+    margin-top: 0;
+  }
+</style>
+
+<!-- Menu Items -->
+<script>
+  window.demos = [
+    {name: 'index', title: 'Basic Usage'},
+    {name: 'data', title: 'Assigning Data'},
+    {name: 'selection'},
+    {name: 'columns', title: 'Columns'},
+    {name: 'sorting-filtering', title: 'Sorting and Filtering'},
+    {name: 'row-details', title: 'Row Details'},
+    {name: 'crud'},
+    {name: 'pagination'},
+    {name: 'styling-material', title: 'Styling: Material Design'},
+    {name: 'styling-valo', title: 'Styling: Valo'},
+    {name: 'styling-transparent', title: 'Styling: Transparent Header'},
+    {name: 'styling-rounded', title: 'Styling: Rounded Rows'},
+
+  ];
+</script>
+<link rel="import" href="../../elements-demo-resources/demo-navigation.html">
+
+<!-- The component to demo -->
+<link rel="import" href="../vaadin-grid.html">
+<link rel="import" href="x-data-provider.html">

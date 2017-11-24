@@ -1,0 +1,266 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title>vaadin-grid – Assigning Data</title>
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+  <link rel="import" href="../../paper-button/paper-button.html">
+  <link rel="import" href="../vaadin-grid-selection-column.html">
+
+  <link rel="import" href="common.html">
+</head>
+
+<body unresolved>
+  <div class="vertical-section-container centered">
+    <demo-navigation></demo-navigation>
+
+    <h3>Assigning Array Data</h3>
+    <p>An array of objects can be assigned to the <code>items</code> property.</p>
+    <demo-snippet>
+      <template>
+        <x-array-data-example></x-array-data-example>
+        <dom-module id="x-array-data-example">
+          <template>
+            <vaadin-grid aria-label="Array Data Example" items="[[items]]">
+
+              <vaadin-grid-column width="50px" flex-grow="0">
+                <template class="header">#</template>
+                <template>[[index]]</template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column>
+                <template class="header">First Name</template>
+                <template>[[item.firstName]]</template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column>
+                <template class="header">Last Name</template>
+                <template>[[item.lastName]]</template>
+              </vaadin-grid-column>
+
+            </vaadin-grid>
+          </template>
+          <script>
+            addEventListener('WebComponentsReady', function() {
+              Polymer({
+                is: 'x-array-data-example',
+
+                ready: function() {
+                  var items = [];
+
+                  for (var i = 0; i < 100; i++) {
+                    items.push({firstName: 'First Name ' + i, lastName: 'Last Name ' + i});
+                  }
+
+                  this.items = items;
+                }
+              });
+            });
+          </script>
+        </dom-module>
+      </template>
+    </demo-snippet>
+
+    <h3>Dynamic Array Data</h3>
+    <p>
+      The <code>items</code> property can be modified using <a href="https://www.polymer-project.org/1.0/docs/devguide/model-data#array-mutation" target="_blank">Polymer's array mutation methods</a>.
+    </p>
+    <demo-snippet>
+      <template>
+        <x-dynamic-data-example></x-dynamic-data-example>
+        <dom-module id="x-dynamic-data-example">
+          <template>
+            <style>
+              paper-button {
+                margin-bottom: 20px;
+              }
+            </style>
+            <paper-button raised on-tap="_add">Add Item</paper-button>
+            <paper-button raised on-tap="_remove">Remove Item</paper-button>
+
+            <vaadin-grid aria-label="Dynamic Data Example" items="[[items]]">
+
+              <vaadin-grid-column width="50px" flex-grow="0">
+                <template class="header">#</template>
+                <template>[[index]]</template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column>
+                <template class="header">First Name</template>
+                <template>[[item.firstName]]</template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column>
+                <template class="header">Last Name</template>
+                <template>[[item.lastName]]</template>
+              </vaadin-grid-column>
+
+            </vaadin-grid>
+          </template>
+          <script>
+            addEventListener('WebComponentsReady', function() {
+              Polymer({
+                is: 'x-dynamic-data-example',
+
+                ready: function() {
+                  var items = [];
+
+                  for (var i = 0; i < 10; i++) {
+                    items.push({firstName: 'First Name ' + i, lastName: 'Last Name ' + i});
+                  }
+
+                  this.items = items;
+                },
+
+                _add: function() {
+                  this.push('items', {firstName: 'First Name ' + this.items.length, lastName: 'Last Name ' + this.items.length});
+                },
+
+                _remove: function() {
+                  this.pop('items');
+                }
+              });
+            });
+          </script>
+        </dom-module>
+      </template>
+    </demo-snippet>
+
+    <h3>Dynamic Height</h3>
+    <p>
+      Setting <code>height: auto</code> will make <code>&lt;vaadin-grid&gt;</code> grow
+      and shrink in height depending on the number of rows.
+    </p>
+    <demo-snippet>
+      <template>
+        <x-dynamic-height-example></x-dynamic-height-example>
+        <dom-module id="x-dynamic-height-example">
+          <template>
+            <style>
+              vaadin-grid {
+                height: auto;
+              }
+
+              paper-button {
+                margin-bottom: 20px;
+              }
+            </style>
+            <paper-button raised on-tap="_add">Add Item</paper-button>
+            <paper-button raised on-tap="_remove">Remove Item</paper-button>
+
+            <vaadin-grid aria-label="Dynamic Data Example" items="[[items]]">
+
+              <vaadin-grid-column width="50px" flex-grow="0">
+                <template class="header">#</template>
+                <template>[[index]]</template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column>
+                <template class="header">First Name</template>
+                <template>[[item.firstName]]</template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column>
+                <template class="header">Last Name</template>
+                <template>[[item.lastName]]</template>
+              </vaadin-grid-column>
+
+            </vaadin-grid>
+          </template>
+          <script>
+            addEventListener('WebComponentsReady', function() {
+              Polymer({
+                is: 'x-dynamic-height-example',
+
+                ready: function() {
+                  var items = [];
+
+                  for (var i = 0; i < 5; i++) {
+                    items.push({firstName: 'First Name ' + i, lastName: 'Last Name ' + i});
+                  }
+
+                  this.items = items;
+                },
+
+                _add: function() {
+                  this.push('items', {firstName: 'First Name ' + this.items.length, lastName: 'Last Name ' + this.items.length});
+                },
+
+                _remove: function() {
+                  this.pop('items');
+                }
+              });
+            });
+          </script>
+        </dom-module>
+      </template>
+    </demo-snippet>
+
+    <h3>Assigning Remote/Function Data</h3>
+    <p>
+      A function can be assigned to the <code>dataProvider</code> property to provide
+      data from a remote source.
+    </p>
+    <p>
+      <b>Note:</b> <code>size</code> must be also set to reflect
+      the number of items in the data set.
+    </p>
+    <demo-snippet>
+      <template>
+        <x-remote-data-example></x-remote-data-example>
+        <dom-module id="x-remote-data-example">
+          <template>
+            <vaadin-grid aria-label="Remote Data Example" data-provider="[[dataProvider]]" size="[[size]]">
+
+              <vaadin-grid-column width="50px" flex-grow="0">
+                <template class="header">#</template>
+                <template>[[index]]</template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column>
+                <template class="header">First Name</template>
+                <template>[[item.firstName]]</template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column>
+                <template class="header">Last Name</template>
+                <template>[[item.lastName]]</template>
+              </vaadin-grid-column>
+
+            </vaadin-grid>
+          </template>
+          <script>
+            addEventListener('WebComponentsReady', function() {
+              Polymer({
+                is: 'x-remote-data-example',
+
+                ready: function() {
+                  this.size = 200;
+                  this.dataProvider = function(params, callback) {
+                    var xhr = new XMLHttpRequest();
+                    xhr.onload = function() {
+                      callback(JSON.parse(xhr.responseText).result);
+                    };
+                    var index = params.page * params.pageSize;
+                    xhr.open('GET', 'https://demo.vaadin.com/demo-data/1.0/people?index=' + index + '&count=' + params.pageSize, true);
+                    xhr.send();
+                  };
+                }
+
+              });
+            });
+          </script>
+        </dom-module>
+      </template>
+    </demo-snippet>
+
+  </div>
+</body>
+
+</html>

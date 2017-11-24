@@ -1,0 +1,237 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title>vaadin-grid – Styling: Valo</title>
+
+  <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+  <link rel="import" href="common.html">
+  <link rel="import" href="../vaadin-grid-selection-column.html">
+  <link rel="import" href="../../paper-checkbox/paper-checkbox.html">
+  <link rel="import" href="../../iron-icon/iron-icon.html">
+  <link rel="import" href="../../iron-icons/iron-icons.html">
+  <link rel="import" href="../../paper-styles/color.html">
+  <link rel="import" href="../vaadin-grid-sorter.html">
+  <link rel="import" href="../vaadin-grid-filter.html">
+  <link rel="import" href="../vaadin-grid-column-group.html">
+
+</head>
+
+<body unresolved>
+
+  <div class="vertical-section-container centered">
+    <demo-navigation></demo-navigation>
+
+    <h3>Valo</h3>
+    <demo-snippet>
+      <template>
+        <dom-bind>
+          <template is="dom-bind">
+
+            <custom-style>
+              <style is="custom-style">
+                vaadin-grid#valo-grid {
+                  position: relative;
+                  font: 300 16px/1.55 "Open Sans", sans-serif;
+                  -webkit-font-smoothing: antialiased;
+                  --divider-color: #d4d4d4;
+
+                  --vaadin-grid-cell: {
+                    padding: 0 18px;
+                    height: 38px;
+                    border-right: 1px solid #d4d4d4;
+                    box-sizing: border-box;
+                  };
+
+                  --vaadin-grid-header-cell: {
+                    border-bottom: 1px solid #d4d4d4;
+                    background-image: linear-gradient(to bottom, #fafafa 2%, #efefef 98%);
+                  };
+
+                  --vaadin-grid-footer-cell: {
+                    background-image: linear-gradient(to bottom, #fafafa 2%, #efefef 98%);
+                  };
+
+                  --vaadin-grid-cell-last-frozen: {
+                    box-shadow: 1px 0 2px rgba(0, 0, 0, 0.1);
+                  };
+
+                  --vaadin-grid-body-row-active-cell: {
+                    background-image: linear-gradient(to bottom, #1b87e3 2%, #166ed5 98%);
+                    color: #c8dbed;
+                    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.05);
+                    border-right-color: #1d69b4;
+                  };
+
+                  --vaadin-grid-body-row-odd-cell: {
+                    background-color: #f5f5f5;
+                  };
+
+                  --vaadin-grid-loading-spinner: {
+                    display: none;
+                  };
+
+                  --vaadin-grid-body-cell: {
+                    transition: opacity 0.2s;
+                  };
+
+                  --vaadin-grid-loading-body-cell: {
+                    opacity: 0.2;
+                  };
+
+                  --vaadin-grid-focused-cell: {
+                    box-shadow: inset 0 0 0 2px rgba(27, 135, 227, 1);
+                  };
+                }
+
+                vaadin-grid#valo-grid vaadin-grid-filter {
+                  position: absolute;
+                  left: 0;
+                  right: 0;
+                  top: 0;
+                  bottom: 0;
+                  padding: 5px;
+                }
+
+                vaadin-grid#valo-grid .grouptitle {
+                  text-align: center;
+                  font-weight: bold;
+                }
+
+                vaadin-grid#valo-grid input {
+                  width: 100%;
+                  box-sizing: border-box;
+                }
+
+                @keyframes loading-expand {
+                  0% {
+                    transform: scaleX(0);
+                  }
+
+                  100% {
+                    transform: scaleX(1);
+                  }
+                }
+
+                vaadin-grid#valo-grid::before {
+                  content: "";
+                  width: 100%;
+                  position: absolute;
+                  height: 4px;
+                  background: var(--primary-color);
+                  z-index: 1;
+                  transform-origin: left;
+                  opacity: 0;
+                  transition: opacity 0.2s;
+                }
+
+                vaadin-grid#valo-grid[loading]::before {
+                  opacity: 1;
+                  animation: loading-expand 1s linear;
+                }
+
+              </style>
+            </custom-style>
+
+            <!--
+            This demo uses a dummy lazy data provider that doesn't support filtering/sorting so while visible,
+            accessing the filters/sorters in this demo don't have any actual effect on the data
+            -->
+            <x-data-provider data-provider="{{dataProvider}}" loading="{{_loading}}" delay="1000"></x-data-provider>
+
+            <vaadin-grid id="valo-grid" data-provider="[[dataProvider]]" size="2000" loading$="[[_loading]]" column-reordering-allowed>
+
+              <vaadin-grid-column-group frozen resizable>
+                <template class="header"></template>
+
+                <vaadin-grid-column-group frozen>
+                  <template class="header">Username</template>
+
+                  <vaadin-grid-column width="150px" flex="0" frozen>
+                    <template class="header">
+                      <vaadin-grid-filter path="username">
+                        <input placeholder="Filter" focus-target>
+                      </vaadin-grid-filter>
+                    </template>
+                    <template>[[item.username]]</template>
+                    <template class="footer">Footer</template>
+                  </vaadin-grid-column>
+                </vaadin-grid-column-group>
+
+              </vaadin-grid-column-group>
+
+              <vaadin-grid-column-group resizable>
+                <template class="header">
+                  <div class="grouptitle">Name</div>
+                </template>
+
+                <vaadin-grid-column-group>
+                  <template class="header">
+                    <vaadin-grid-sorter path="name.first">
+                      First Name
+                    </vaadin-grid-sorter>
+                  </template>
+
+                  <vaadin-grid-column width="200px" flex="0">
+                    <template class="header"></template>
+                    <template>[[item.name.first]]</template>
+                    <template class="footer"></template>
+                  </vaadin-grid-column>
+                </vaadin-grid-column-group>
+
+                <vaadin-grid-column-group>
+                  <template class="header">
+                    <vaadin-grid-sorter path="name.last">
+                      Last Name
+                    </vaadin-grid-sorter>
+                  </template>
+                  <vaadin-grid-column width="200px" flex="0">
+                    <template class="header"></template>
+                    <template>[[item.name.last]]</template>
+                    <template class="footer"></template>
+                  </vaadin-grid-column>
+                </vaadin-grid-column-group>
+
+              </vaadin-grid-column-group>
+
+              <vaadin-grid-column-group resizable>
+                <template class="header">
+                  <div class="grouptitle">Location</div>
+                </template>
+
+                <vaadin-grid-column-group>
+                  <template class="header">City</template>
+
+                  <vaadin-grid-column width="200px" flex="0">
+                    <template class="header"></template>
+                    <template>[[item.name.first]]</template>
+                    <template class="footer"></template>
+                  </vaadin-grid-column>
+                </vaadin-grid-column-group>
+
+                <vaadin-grid-column-group>
+                  <template class="header">State</template>
+                  <vaadin-grid-column width="200px" flex="0">
+                    <template class="header"></template>
+                    <template>[[item.name.last]]</template>
+                    <template class="footer"></template>
+                  </vaadin-grid-column>
+                </vaadin-grid-column-group>
+
+              </vaadin-grid-column-group>
+
+            </vaadin-grid>
+          </template>
+        </dom-bind>
+      </template>
+    </demo-snippet>
+
+  </div>
+</body>
+
+</html>

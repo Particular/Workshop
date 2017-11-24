@@ -1,0 +1,125 @@
+<script>
+  window.vaadin = window.vaadin || {};
+  vaadin.elements = vaadin.elements || {};
+  vaadin.elements.grid = vaadin.elements.grid || {};
+
+  /**
+   * @polymerBehavior vaadin.elements.grid.SelectionBehavior
+   */
+  vaadin.elements.grid.SelectionBehavior = {
+
+    properties: {
+
+      /**
+       * An array that contains the selected items.
+       */
+      selectedItems: {
+        type: Object,
+        notify: true,
+        value: function() {
+          return [];
+        }
+      }
+    },
+
+    observers: [
+      '_selectedItemsChanged(selectedItems.*)'
+    ],
+
+    listeners: {
+      'template-instance-changed': '_templateInstanceChangedSelection'
+    },
+
+    _templateInstanceChangedSelection: function(e) {
+      if (e.detail.prop === 'selected') {
+        var item = e.detail.inst.item;
+        (this._isSelected(item) ? this.deselectItem : this.selectItem).bind(this)(item);
+
+        this.fire('iron-announce', {
+          text: (this._isSelected(item) ? 'Selected' : 'Deselected') + ' Row ' + (e.detail.inst.index + 1) + ' of ' + this.size
+        });
+
+        // stop this internal event from propagating outside.
+        e.stopPropagation();
+      }
+    },
+
+    _isSelected: function(item) {
+      return this.selectedItems && this.selectedItems.indexOf(item) > -1;
+    },
+
+    /**
+     * Selects the given item.
+     *
+     * @method selectItem
+     * @param {number|Object} item The item index or the item object
+     */
+    selectItem: function(item) {
+      item = this._takeItem(item);
+      if (!this._isSelected(item)) {
+        this.push('selectedItems', item);
+      }
+    },
+
+    /**
+     * Deselects the given item if it is already selected.
+     *
+     * @method deselect
+     * @param {number|Object} item The item index or the item object
+     */
+    deselectItem: function(item) {
+      item = this._takeItem(item);
+      var index = this.selectedItems.indexOf(item);
+      if (index > -1) {
+        this.splice('selectedItems', index, 1);
+      }
+    },
+
+    /**
+     * Toggles the selected state of the given item.
+     *
+     * @method toggle
+     * @param {number|Object} item The item index or the item object
+     */
+    _toggleItem: function(item) {
+      item = this._takeItem(item);
+      var index = this.selectedItems.indexOf(item);
+      if (index === -1) {
+        this.selectItem(item);
+      } else {
+        this.deselectItem(item);
+      }
+    },
+
+    /**
+     * Returns item object itself or by the item index.
+     *
+     * @param {number|Object} item The item index or the item object
+     */
+    _takeItem: function(item) {
+      if (typeof item === 'number' && item >= 0 && this.items && this.items.length > item) {
+        return this.items[item];
+      }
+      return item;
+    },
+
+    _selectedItemsChanged: function(e) {
+      if (this.$.scroller._physicalItems && (e.path === 'selectedItems' || e.path === 'selectedItems.splices')) {
+        this.$.scroller._physicalItems.forEach(function(row) {
+          row.selected = this._isSelected(row.item);
+        }.bind(this));
+      }
+    }
+  };
+</script>
+
+<dom-module id="vaadin-grid-selection-themability-styles">
+  <template>
+    <style>
+      vaadin-grid-table .vaadin-grid-row[selected] .vaadin-grid-cell:not([detailscell]) ::slotted(vaadin-grid-cell-content) {
+        background-color: var(--paper-grey-100, rgb(243, 243, 243));
+        @apply(--vaadin-grid-body-row-selected-cell);
+      }
+    </style>
+  </template>
+</dom-module>
