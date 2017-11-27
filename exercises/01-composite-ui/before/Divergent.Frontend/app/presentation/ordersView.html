@@ -1,0 +1,22 @@
+﻿<section cg-busy="ctrl.isLoading">
+    Orders
+
+    <ul>
+        <li data-ng-repeat="order in ctrl.orders track by order.orderId">
+            <strong>Order:</strong>
+            <div>
+                Id #{{order.orderNumber}}
+                <br />
+                <strong>Customer:</strong> {{order.orderCustomerName}}
+            </div>
+        </li>
+    </ul>
+
+    <div ng-show="ctrl.loadError" class="panel panel-danger">
+        <div class="panel-heading">
+            <h3 class="panel-title">Ooops</h3>
+        </div>
+        <div class="panel-body">{{ctrl.loadError}}</div>
+    </div>
+
+</section>

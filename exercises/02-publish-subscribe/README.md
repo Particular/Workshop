@@ -18,11 +18,12 @@ For more info, please see [the instructions for running the exercise solutions](
 * Divergent.Customers.API
 * Divergent.Finance
 * Divergent.Finance.API
-* Divergent.Frontend
 * Divergent.Sales
 * Divergent.Sales.API
 * Divergent.Shipping
 * PaymentProviders
+* Divergent.CompositionGateway
+* Divergent.Frontend
 
 ## Business requirements
 

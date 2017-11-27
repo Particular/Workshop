@@ -22,6 +22,7 @@ For more info, please see [the instructions for running the exercise solutions](
 * Divergent.Customers.API
 * Divergent.Finance
 * Divergent.Finance.API
+* Divergent.CompositionGateway
 * Divergent.Frontend
 * Divergent.ITOps
 * Divergent.Sales

@@ -1,9 +1,7 @@
-﻿using System;
+﻿using Radical.Bootstrapper;
+using System;
 using System.IO;
 using System.Web.Http;
-using Castle.MicroKernel.Registration;
-using Divergent.Sales.Data.Repositories;
-using Radical.Bootstrapper;
 
 namespace Divergent.Sales.API
 {
@@ -15,12 +13,6 @@ namespace Divergent.Sales.API
 
             var bootstrapper = new WindsorBootstrapper(Path.Combine(basePath, "bin"));
             var container = bootstrapper.Boot();
-
-            var dataManagerComponent = Component.For<IOrderRepository>()
-                .Instance(new OrderRepository())
-                .LifestyleSingleton();
-
-            container.Register(dataManagerComponent);
 
             GlobalConfiguration.Configure(http => WebApiConfig.Register(http, container));
         }

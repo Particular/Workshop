@@ -1,33 +1,32 @@
+﻿using Divergent.Sales.Data.Context;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web.Http;
-using Divergent.Sales.Data.Repositories;
 
 namespace Divergent.Sales.API.Controllers
 {
     [RoutePrefix("api/orders")]
     public class OrdersController : ApiController
     {
-        private readonly IOrderRepository _repository;
-
-        public OrdersController(IOrderRepository repository)
-        {
-            _repository = repository;
-        }
-
         [HttpGet]
-        public async Task<IEnumerable<dynamic>> Get()
+        public IEnumerable<dynamic> Get()
         {
-            var orders = await _repository.Orders();
+            using (var _context = new SalesContext())
+            {
+                var orders = _context.Orders
+                    .Include(i => i.Items)
+                    .Include(i => i.Items.Select(x => x.Product))
+                    .ToArray();
 
-            return orders
-                .Select(o => new
-                {
-                    o.Id,
-                    o.CustomerId,
-                    ProductIds = o.Items.Select(i => i.Product.Id),
-                });
+                return orders
+                    .Select(o => new
+                    {
+                        o.Id,
+                        o.CustomerId,
+                        ProductIds = o.Items.Select(i => i.Product.Id),
+                    });
+            }
         }
     }
 }
