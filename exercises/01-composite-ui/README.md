@@ -116,8 +116,12 @@ Add the following code to the module
             }]);
 }())
 ```
-
-### Step 3
+### step 3
+Add to the following to index.html in the Divergent.Frontend project.
+```html
+ <script src="/app/modules/finance/ordersLoadedSubscriber.js" type="text/javascript"></script>
+```
+### Step 4
 
 Update the `orders` list template (`app\branding\orders\ordersView.html`) to display the new information:
 
