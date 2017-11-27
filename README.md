@@ -179,6 +179,10 @@ Using an elevated PowerShell prompt, run `Teardown-Databases.ps1` followed by `S
 
 Connect to the instance and run `Teardown-Databases.sql` followed by `Setup-Databases.sql`, both located in the [exercises/scripts](exercises/scripts) folder.
 
+### How can I use SQL Server LocalDb on Windows 7
+
+Windows 7 isn't a supported operating system for SQL Server 2016. Instead install SQL Server 2014 Express, which you can (download here)[https://www.microsoft.com/en-us/download/details.aspx?id=42299].
+
 ### How do I download the Particular Platform Installer with Microsoft Edge?
 
 When you attempt to download the installer, you will be presented with this message:
