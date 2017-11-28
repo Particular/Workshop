@@ -65,6 +65,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.Sales.ViewModelCo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.Sales.ViewModelComposition", "Divergent.Sales.ViewModelComposition\Divergent.Sales.ViewModelComposition.csproj", "{77C4D842-4D90-4591-869B-5C5B6211B90E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.Customers.ViewModelComposition", "Divergent.Customers.ViewModelComposition\Divergent.Customers.ViewModelComposition.csproj", "{05C108F8-8F3F-41B1-9496-8D5AAAE2EF98}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -167,6 +169,10 @@ Global
 		{77C4D842-4D90-4591-869B-5C5B6211B90E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77C4D842-4D90-4591-869B-5C5B6211B90E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77C4D842-4D90-4591-869B-5C5B6211B90E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05C108F8-8F3F-41B1-9496-8D5AAAE2EF98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05C108F8-8F3F-41B1-9496-8D5AAAE2EF98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05C108F8-8F3F-41B1-9496-8D5AAAE2EF98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05C108F8-8F3F-41B1-9496-8D5AAAE2EF98}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -196,6 +202,7 @@ Global
 		{649FF26E-3DE4-4C95-AFA4-16C29404E874} = {120B20F8-E388-4973-8F67-8340EADED83B}
 		{92D97CA3-4EEA-45A3-B3B8-3A8371768C7C} = {3F113598-B240-4E06-B41A-6C684C208F2A}
 		{77C4D842-4D90-4591-869B-5C5B6211B90E} = {3F113598-B240-4E06-B41A-6C684C208F2A}
+		{05C108F8-8F3F-41B1-9496-8D5AAAE2EF98} = {808B901F-6EF7-49F0-B668-F54EEDB1F3F1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B0C1E354-8541-40BF-A2DF-69CA30BF625C}
