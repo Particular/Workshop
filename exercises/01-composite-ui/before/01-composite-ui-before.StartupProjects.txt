@@ -1,4 +1,0 @@
-Divergent.Customers.API\Divergent.Customers.API.csproj
-Divergent.Finance.API\Divergent.Finance.API.csproj
-Divergent.Frontend\Divergent.Frontend.csproj
-Divergent.Sales.API\Divergent.Sales.API.csproj
