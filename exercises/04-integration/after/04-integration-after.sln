@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+VisualStudioVersion = 15.0.27004.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Customers", "Divergent.Customers\Divergent.Customers.csproj", "{02EE3114-734F-42DF-994C-98480E1489FE}"
 EndProject
@@ -60,6 +60,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITOps.ViewModelComposition.Gateway", "..\..\shared-api-gateway\ITOps.ViewModelComposition.Gateway\ITOps.ViewModelComposition.Gateway.csproj", "{A99F2A92-EE56-49FB-970C-5EA7935D1316}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.CompositionGateway", "Divergent.CompositionGateway\Divergent.CompositionGateway.csproj", "{4776CCE0-98E9-4E3A-9DDC-93278D63721E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.Sales.ViewModelComposition", "Divergent.Sales.ViewModelComposition\Divergent.Sales.ViewModelComposition.csproj", "{77CB7912-69CE-47BA-B4E6-92F57719C52F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.Sales.ViewModelComposition.Events", "Divergent.Sales.ViewModelComposition.Events\Divergent.Sales.ViewModelComposition.Events.csproj", "{1FF04648-967F-42C4-8B3C-4B08FDCE13C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -155,6 +159,14 @@ Global
 		{4776CCE0-98E9-4E3A-9DDC-93278D63721E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4776CCE0-98E9-4E3A-9DDC-93278D63721E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4776CCE0-98E9-4E3A-9DDC-93278D63721E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77CB7912-69CE-47BA-B4E6-92F57719C52F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77CB7912-69CE-47BA-B4E6-92F57719C52F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77CB7912-69CE-47BA-B4E6-92F57719C52F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77CB7912-69CE-47BA-B4E6-92F57719C52F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1FF04648-967F-42C4-8B3C-4B08FDCE13C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1FF04648-967F-42C4-8B3C-4B08FDCE13C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1FF04648-967F-42C4-8B3C-4B08FDCE13C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1FF04648-967F-42C4-8B3C-4B08FDCE13C7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -182,6 +194,8 @@ Global
 		{416C923B-61E5-4182-909C-21651394C05F} = {A9587680-24D6-475A-81E8-8699773B5ED9}
 		{A99F2A92-EE56-49FB-970C-5EA7935D1316} = {A9587680-24D6-475A-81E8-8699773B5ED9}
 		{4776CCE0-98E9-4E3A-9DDC-93278D63721E} = {120B20F8-E388-4973-8F67-8340EADED83B}
+		{77CB7912-69CE-47BA-B4E6-92F57719C52F} = {3F113598-B240-4E06-B41A-6C684C208F2A}
+		{1FF04648-967F-42C4-8B3C-4B08FDCE13C7} = {3F113598-B240-4E06-B41A-6C684C208F2A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {69211C07-3253-441B-8C32-03E68F40F819}
