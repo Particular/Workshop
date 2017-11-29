@@ -53,7 +53,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITOps.ViewModelComposition"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITOps.ViewModelComposition.Gateway", "..\..\shared-api-gateway\ITOps.ViewModelComposition.Gateway\ITOps.ViewModelComposition.Gateway.csproj", "{5B583266-5F95-4841-ACC2-59345BC7BA6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.CompositionGateway", "Divergent.CompositionGateway\Divergent.CompositionGateway.csproj", "{AB359EEF-D025-4787-8640-7397030D923D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.CompositionGateway", "Divergent.CompositionGateway\Divergent.CompositionGateway.csproj", "{AB359EEF-D025-4787-8640-7397030D923D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Sales.ViewModelComposition.Events", "Divergent.Sales.ViewModelComposition.Events\Divergent.Sales.ViewModelComposition.Events.csproj", "{AC77F9BC-0C5D-40E7-A4B1-7414AC7BE2B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Sales.ViewModelComposition", "Divergent.Sales.ViewModelComposition\Divergent.Sales.ViewModelComposition.csproj", "{01A250CC-6112-463A-AB76-4E0E878F89D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -137,6 +141,14 @@ Global
 		{AB359EEF-D025-4787-8640-7397030D923D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB359EEF-D025-4787-8640-7397030D923D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB359EEF-D025-4787-8640-7397030D923D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC77F9BC-0C5D-40E7-A4B1-7414AC7BE2B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC77F9BC-0C5D-40E7-A4B1-7414AC7BE2B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC77F9BC-0C5D-40E7-A4B1-7414AC7BE2B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC77F9BC-0C5D-40E7-A4B1-7414AC7BE2B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01A250CC-6112-463A-AB76-4E0E878F89D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01A250CC-6112-463A-AB76-4E0E878F89D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01A250CC-6112-463A-AB76-4E0E878F89D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01A250CC-6112-463A-AB76-4E0E878F89D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -161,6 +173,8 @@ Global
 		{94B49B55-BBCD-408B-B9F7-A2B8FC033A94} = {F1A15CFB-BD29-493C-B628-FB9647377160}
 		{5B583266-5F95-4841-ACC2-59345BC7BA6E} = {F1A15CFB-BD29-493C-B628-FB9647377160}
 		{AB359EEF-D025-4787-8640-7397030D923D} = {120B20F8-E388-4973-8F67-8340EADED83B}
+		{AC77F9BC-0C5D-40E7-A4B1-7414AC7BE2B3} = {3F113598-B240-4E06-B41A-6C684C208F2A}
+		{01A250CC-6112-463A-AB76-4E0E878F89D5} = {3F113598-B240-4E06-B41A-6C684C208F2A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {936DFAD0-50D9-4583-A889-1AE6512E95D3}
