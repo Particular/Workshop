@@ -1,8 +1,8 @@
 (function () {
     angular.module('app.controllers')
         .controller('ordersController',
-        ['$log', 'backendCompositionService', 'orders.config', '$http',
-            function ($log, backendCompositionService, config, $http) {
+        ['$log', 'endpoints.config', '$http',
+            function ($log, config, $http) {
 
                 var ctrl = this;
 
@@ -10,10 +10,9 @@
                 ctrl.orders = null;
 
                 ctrl.refreshOrders = function () {
-                    ctrl.isLoading = backendCompositionService
-                        .get('orders-list')
-                        .then(function (viewModel) {
-                            ctrl.orders = viewModel.orders;
+                    ctrl.isLoading = $http.get(config.gatewayBaseUrl + '/orders/')
+                        .then(function (response) {
+                            ctrl.orders = response.data.orders;
                         })
                         .catch(function (error) {
                             $log.error('Something went wrong: ', error);
@@ -30,14 +29,12 @@
                         }]
                     };
 
-                    return $http.post(config.apiUrl + '/orders/createOrder', payload)
-                         .then(function (createOrderResponse) {
-                             $log.debug('raw order created:', createOrderResponse.data);
+                    return $http.post(config.salesApiUrl + '/orders/createOrder', payload)
+                        .then(function (createOrderResponse) {
+                            $log.debug('raw order created:', createOrderResponse.data);
 
-                             //this should allow all services to chime in
-
-                             return createOrderResponse.data;
-                         });
+                            return createOrderResponse.data;
+                        });
                 };
 
                 ctrl.refreshOrders();
