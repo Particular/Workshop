@@ -9,7 +9,7 @@
 
                 var rootViews = {
                     '': {
-                        templateUrl: '/app/branding/dashboard/dashboardView.html',
+                        templateUrl: '/app/presentation/dashboardView.html',
                         controller: 'dashboardController',
                         controllerAs: 'ctrl'
                     }
@@ -28,7 +28,7 @@
                         url: '/orders',
                         views: {
                             '': {
-                                templateUrl: '/app/branding/orders/ordersView.html',
+                                templateUrl: '/app/presentation/ordersView.html',
                                 controller: 'ordersController',
                                 controllerAs: 'ctrl'
                             }

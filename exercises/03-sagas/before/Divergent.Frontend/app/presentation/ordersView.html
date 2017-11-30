@@ -7,7 +7,7 @@
     </div>
 
     <ul>
-        <li data-ng-repeat="order in ctrl.orders.values track by order.orderId" ng-class="{ 'pending-order': order.isPending }">
+        <li data-ng-repeat="order in ctrl.orders track by order.orderId" ng-class="{ 'pending-order': order.isPending }">
             <strong>Order:</strong>
             <div>
                 Id #{{order.orderNumber}}
