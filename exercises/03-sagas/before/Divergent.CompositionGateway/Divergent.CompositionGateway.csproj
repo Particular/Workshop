@@ -17,6 +17,7 @@
     <ProjectReference Include="..\..\..\shared-api-gateway\ITOps.ViewModelComposition.Gateway\ITOps.ViewModelComposition.Gateway.csproj" />
     <ProjectReference Include="..\Divergent.Sales.ViewModelComposition.Events\Divergent.Sales.ViewModelComposition.Events.csproj" />
     <ProjectReference Include="..\Divergent.Sales.ViewModelComposition\Divergent.Sales.ViewModelComposition.csproj" />
+    <ProjectReference Include="..\Divergent.Customers.ViewModelComposition\Divergent.Customers.ViewModelComposition.csproj" />
   </ItemGroup>
 
 </Project>
