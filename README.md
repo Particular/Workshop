@@ -14,45 +14,22 @@ If you have any difficulty preparing your machine, or following this document, p
 
 - [Install the pre-requisites](#install-the-pre-requisites)
 - [Get a copy of this repository](#get-a-copy-of-this-repository)
-- [Run the Particular Platform Installer](#run-the-particular-platform-installer)
 - [Set up the databases](#set-up-the-databases)
 - [Build the exercise solutions](#build-the-exercise-solutions)
 
 ### Install the pre-requisites
 
-To complete the exercises, you require a Windows machine and Visual Studio. You must be using a Windows client edition, such as Windows 10, rather than a server edition, such as Windows Server 2016. The Particular Platfom Installer does not support server editions of Windows.
+To complete the exercises, you require a Windows machine and Visual Studio. You must be using a Windows client edition, such as Windows 10, rather than a server edition, such as Windows Server 2016. The Particular Platform Installer does not support server editions of Windows.
 
-Please ensure you have followed these steps:
+#### Visual Studio
 
-* Install [Visual Studio 2017](https://www.visualstudio.com/downloads/) or Visual Studio 2015 Update 3 (the "Community" edition is enough).
+Install [Visual Studio 2017](https://www.visualstudio.com) (Community, Professional, or Enterprise) with the following workloads:
+  - .NET desktop development
+  - ASP.NET and web development
 
-* Ensure you are able to build .NET Framework 4.6.1 projects in Visual Studio. This requires the [.NET Framework 4.6.1 Developer Pack](https://www.microsoft.com/net/download/windows) or a later version.
+#### MSMQ and DTC
 
-* If you have a SQL Server instance installed (any edition, including SQL Server Express), you can choose to use that for the exercises. Otherwise, you will be using LocalDB. In the case of a clean machine with LocalDB only, please install:
-  * [Microsoft ODBC Driver 11 for SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=36434)
-  * [Microsoft ODBC Command Line Utilities 11 for SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=36433)
-
-  NOTE: Do not install versions 13.1 of these components as they contain a bug that prevents the LocalDB instance from being accessible at configuration time.
-
-* Set the PowerShell execution policy to allow script execution. From an elevated PowerShell prompt, run the following:
-  ```PowerShell
-  Set-ExecutionPolicy Unrestricted
-  ```
-
-### Get a copy of this repository
-
-Clone or download this repo to your local machine.
-
-If you're downloading a zip copy of the repo, please ensure the zip file is unblocked before decompressing it:
-
-* Right-click on the downloaded copy
-* Click "Properties"
-* On the "General" properties page, check the "Unblock" checkbox
-* Click "OK"
-
-### Run the Particular Platform Installer
-
-To ensure MSMQ and the DTC are correctly installed, please run the [Particular Platform Installer](https://particular.net/start-platform-download).
+To ensure MSMQ and DTC are correctly installed, run the [Particular Platform Installer](https://particular.net/start-platform-download).
 
 NOTE: If you are using Microsoft Edge, see [the FAQ](#how-do-i-download-the-particular-platform-installer-with-microsoft-edge).
 
@@ -63,37 +40,46 @@ In the installation screen, select a minimum of:
 
 All other components are optional.
 
+### Get a copy of this repository
+
+Clone or download this repo. If you're downloading a zip copy of the repo, ensure the zip file is unblocked before decompressing it:
+
+* Right-click on the downloaded copy
+* Click "Properties"
+* On the "General" properties page, check the "Unblock" checkbox
+* Click "OK"
+
 ### Set up the databases
+
+If you have a SQL Server instance installed (any edition, including SQL Server Express), you can choose to use that for the exercises. Otherwise, you will be using LocalDB.
 
 #### When using LocalDB
 
-The simplest way to manage the databases is to use the PowerShell scripts located in [exercises/scripts](exercises/scripts).
+Open an **elevated** command prompt, navigate to your copy of this repo, and run:
 
-**These scripts must be run from an elevated PowerShell prompt.**
+```Batchfile
+@powershell -NoProfile -ExecutionPolicy unrestricted -File exercises\scripts\Setup-LocalDBInstance.ps1
+```
 
-* Run `Setup-Databases.ps1` to create a LocalDB instance named `(localdb)\microservices-workshop`, containing all the required databases.
+When you no longer need to run the exercises, you may optionally run `Teardown-LocalDBInstance.ps1`.
 
-When you have finished the workshop, you may optionally run `Teardown-Databases.ps1` to drop all the databases and delete the LocalDB instance.
+#### Set up the databases
 
-NOTE: If you receive errors regarding "Microsoft ODBC Driver", you can work around these by connecting to the `(localdb)\microservices-workshop` database using, for example, Visual Studio or SQL Managerment Studio, and running the SQL contained in the `.sql` file (`Setup-Databases.sql` or `Teardown-Databases.sql`) corresponding to the `.ps1` file which raised the error.
+Connect to your LocalDB or SQL Server instance and run `exercises\scripts\Setup-Databases.sql`.
 
-NOTE: If the setup script fails with a "sqllocaldb command not found" error, your machine may be missing some files related to LocalDB. To fix this, try installing [the LocalDB standalone package](https://www.microsoft.com/en-us/download/details.aspx?id=29062) and then re-run the script.
+You do this either using SQL Management Studio (if you already have it installed) or in Visual Studio. If using Visual Studio:
 
-#### When using a SQL Server instance
+- Open `exercises\scripts\Setup-Databases.sql`
+- From the Visual Studio menus, select SQL -> Execute
+- Choose this instance (or your SQL Server instance): Local -> microservices-workshop
+- Click "Connect"
+- After the query has run, ensure that you see "Command(s) completed successfully."
 
-Connect to the instance and run `exercises\scripts\Setup-Databases.sql`.
-
-When you have finished the workshop, you may optionally run `Teardown-Databases.sql` to drop all the databases.
-
-NOTE: If you are using a SQL Server instance, you will need to change the connection strings in all the exercises. Change all instances of `Data Source=(localdb)\microservices-workshop` to point to the SQL Server intsance.
+NOTE: If you are using a SQL Server instance, you need to change the connection strings in all the exercises. Change all instances of `Data Source=(localdb)\microservices-workshop` to point to the SQL Server instance.
 
 ### Build the exercise solutions
 
-The exercises are contained in eight Visual Studio solutions under [exercises](exercises). All the solutions require NuGet package restore. This may be possible at the workshop venue (you can verify with the workshop organizers if internet access is available at the venue) but to ensure you can build the solutions during the workshop, we recommend you restore all NuGet packages and build all the solutions before the workshop starts. The simplest way to do this is to run `.\build.cmd exercises`. (For a full list of build targets, run `.\build.cmd -T`, or `.\build.cmd -h` for help.) You can safely ignore any compiler warnings.
-
-### Note
-
-`.\build.cmd` assumes that you have Visual Studio 2017 installed. If you only have Visual Studio 2015, you will have to manually open and build each exercise solution in Visual Studio.
+The exercises are contained in eight Visual Studio solutions under [exercises](exercises). All the solutions require NuGet package restore. This may be possible at the workshop venue (you can verify with the workshop organizers if internet access is available at the venue) but to ensure you can build the solutions during the workshop, we recommend you restore all NuGet packages and build all the solutions before the workshop starts. The simplest way to do this is to open a command prompt, navigate to your copy of this repo, and run `.\build.cmd exercises`. (For a full list of build targets, run `.\build.cmd -T`, or `.\build.cmd -h` for help.) You can safely ignore any compiler warnings.
 
 ## Running the exercise solutions
 
@@ -171,21 +157,15 @@ Alternatively, if you want to clear the orders list for a specific exercise, con
 
 To reset all the databases:
 
-#### When using LocalDB
-
-Using an elevated PowerShell prompt, run `Teardown-Databases.ps1` followed by `Setup-Databases.ps1`, both located in the [exercises/scripts](exercises/scripts) folder.
-
-#### When using a SQL Server instance (or LocalDB)
-
 Connect to the instance and run `Teardown-Databases.sql` followed by `Setup-Databases.sql`, both located in the [exercises/scripts](exercises/scripts) folder.
 
 ### How do I download the Particular Platform Installer with Microsoft Edge?
 
-When you attempt to download the installer, you will be presented with this message:
+When you attempt to download the installer, you may be presented with this message:
 
 ![download prompt](img/platform-installer-on-edge/download-prompt.png?raw=true)
 
-Click on "View Downloads" to show the "Downloads" window:
+If so, click on "View Downloads" to show the "Downloads" window:
 
 ![download list](img/platform-installer-on-edge/downloads-list.png?raw=true)
 
