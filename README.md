@@ -155,9 +155,9 @@ You're now ready to attempt the advanced exercises!
 
 The [demos](demos) folder contains demos used during the workshop by your trainer.
 
-### Services UI Composition demo
+### ASP.NET Core UI composition
 
-The [`asp-net-mvc` solution](demos/asp-net-mvc) demonstrates the use of ASP.NET MVC 5 to compose a UI with data from several services.
+The [`asp-net-core` solution](demos/asp-net-core) demonstrates the use of ASP.NET Core to compose a UI with data from several services.
 
 ## FAQ
 
