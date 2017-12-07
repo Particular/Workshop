@@ -1,4 +1,4 @@
-# Microservices workshop (with examples in NServiceBus)
+# Workshop (with examples in NServiceBus)
 
 **Please ensure you have prepared your machine well in advance of the workshop. Your time during the workshop is valuable, and we want to use it for learning, rather than setting up machines.**
 
@@ -157,7 +157,7 @@ The [demos](demos) folder contains demos used during the workshop by your traine
 
 ### Services UI Composition demo
 
-The [`asp-net-mvc` solution](demos/asp-net-mvc) demonstrates the use of ASP.NET MVC 5 to compose a UI with data from several microservices.
+The [`asp-net-mvc` solution](demos/asp-net-mvc) demonstrates the use of ASP.NET MVC 5 to compose a UI with data from several services.
 
 ## FAQ
 
