@@ -83,13 +83,17 @@ The exercises are contained in eight Visual Studio solutions under [exercises](e
 
 ## Running the exercise solutions
 
-- Before you run a given exercise solution, configure the startup projects listed in the instructions for that exercise:
+Before opening any exercise solutions, set the startup projects by navigating to your copy of this repo and running `set-startup-projects.cmd`. Note that if you `git clean` your clone, you will have to run this command again.
+
+The startup projects are also listed in the instructions for each exercise. If you need to, you can configure them manually:
+
   - In Visual Studio, right click the solution in the Solution Explorer
   - Click "Properties"
   - Ensure that, in the left hand pane, "Common Properties", "Start Project" is selected.
   - Select the "Multiple startup projects" radio button
   - Set the "Action" for each project listed in the instructions for the exercise to "Start".
-- Press <kbd>F5</kbd> in Visual Studio. The exercise solution will now be running and be fully functional.
+
+To run an exercise solution, simply press <kbd>F5</kbd> in Visual Studio. The exercise solution will now be running and fully functional.
 
 ### Note
 
