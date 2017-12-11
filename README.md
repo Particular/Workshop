@@ -51,10 +51,6 @@ Clone or download this repo. If you're downloading a zip copy of the repo, ensur
 
 ### Set up the databases
 
-If you have a SQL Server instance installed (any edition, including SQL Server Express), you can choose to use that for the exercises. Otherwise, you will be using LocalDB.
-
-#### When using LocalDB
-
 Open an **elevated** command prompt, navigate to your copy of this repo, and run:
 
 ```Batchfile
@@ -63,19 +59,15 @@ Open an **elevated** command prompt, navigate to your copy of this repo, and run
 
 When you no longer need to run the exercises, you may optionally run `Teardown-LocalDBInstance.ps1`.
 
-#### Set up the databases
+Now connect to your LocalDB instance and run `exercises\scripts\Setup-Databases.sql`.
 
-Connect to your LocalDB or SQL Server instance and run `exercises\scripts\Setup-Databases.sql`.
-
-You do this either using SQL Management Studio (if you already have it installed) or in Visual Studio. If using Visual Studio:
+You can do this using either SQL Server Management Studio (if you already have it installed) or Visual Studio. If using Visual Studio:
 
 - Open `exercises\scripts\Setup-Databases.sql`
 - From the Visual Studio menus, select SQL -> Execute
-- Choose this instance (or your SQL Server instance): Local -> microservices-workshop
+- Choose this instance: Local -> microservices-workshop
 - Click "Connect"
 - After the query has run, ensure that you see "Command(s) completed successfully."
-
-NOTE: If you are using a SQL Server instance, you need to change the connection strings in all the exercises. Change all instances of `Data Source=(localdb)\microservices-workshop` to point to the SQL Server instance.
 
 ### Build the exercise solutions
 
@@ -153,7 +145,7 @@ If the answer to your question is not listed here, consult your on-site trainer.
 
 The simplest method is to reset all the databases (see below). Bear in mind that this will reset _all the databases_ for _all the exercises_.
 
-Alternatively, if you want to clear the orders list for a specific exercise, connect to the SQL Server instance, and either pick out and run the `drop` and `create` statements for that exercise from the scripts, or manually delete, or truncate, the tables that need to be cleared.
+Alternatively, if you want to clear the orders list for a specific exercise, connect to the LocalDB instance, and either pick out and run the `drop` and `create` statements for that exercise from the scripts, or manually delete, or truncate, the tables that need to be cleared.
 
 To reset all the databases:
 
