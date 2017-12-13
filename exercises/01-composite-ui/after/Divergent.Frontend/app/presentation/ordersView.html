@@ -2,7 +2,7 @@
     Orders
 
     <ul>
-        <li data-ng-repeat="order in ctrl.orders.values track by order.orderId">
+        <li data-ng-repeat="order in ctrl.orders track by order.orderId">
             <strong>Order:</strong>
             <div>
                 Id #{{order.orderNumber}}
