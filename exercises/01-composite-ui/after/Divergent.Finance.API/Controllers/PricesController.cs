@@ -1,48 +1,35 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Http;
-using Divergent.Finance.Data.Repositories;
+﻿using Divergent.Finance.Data.Context;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Web.Http;
 
 namespace Divergent.Finance.API.Controllers
 {
     [RoutePrefix("api/prices")]
     public class PricingController : ApiController
     {
-        private readonly IFinanceRepository _financeRepository;
-
-        public PricingController(IFinanceRepository financeRepository)
-        {
-            _financeRepository = financeRepository;
-        }
-
-        [HttpGet, Route("total/{productIds}")]
-        public async Task<dynamic> GetTotal(string productIds)
-        {
-            var _ids = productIds.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
-                   .Select(id => Guid.Parse(id))
-                   .ToList();
-
-            var prices = await _financeRepository.Prices();
-
-            return _ids.Sum(productId
-                        => prices.Single(s => s.ProductId == productId).ItemPrice);
-        }
-
         [HttpGet, Route("orders/total")]
-        public async Task<IDictionary<Guid, double>> GetOrdersTotal(string orderIds)
+        public IDictionary<int, double> GetOrdersTotal(string orderIds)
         {
-            var _ids = orderIds.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
-                   .Select(id => Guid.Parse(id))
-                   .ToList();
+            var _orderIds = orderIds.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
+                .Select(id => int.Parse(id))
+                .ToList();
 
-            var repo = new OrdersTotalRepository();
-            var prices = (await repo.OrderTotalPrices())
-                .Where(otp=>_ids.Contains(otp.OrderId))
-                .ToDictionary(otp=>otp.OrderId, otp=>otp.TotalPrice);
-            
-            return prices;
+            using (var db = new FinanceContext())
+            {
+                var query = db.OrderItemPrices
+                    .Where(op => _orderIds.Contains(op.OrderId))
+                    .GroupBy(op => op.OrderId)
+                    .Select(g => new
+                    {
+                        OrderId = g.Key,
+                        Amount = g.Sum(op => op.ItemPrice)
+                    });
+
+                var result = query.ToDictionary(a => a.OrderId, a => a.Amount);
+                return result;
+            }
         }
     }
 }
