@@ -1,5 +1,4 @@
 ﻿using Divergent.Customers.Data.Context;
-using Divergent.Customers.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -11,26 +10,8 @@ namespace Divergent.Customers.API.Controllers
     [RoutePrefix("api/customers")]
     public class CustomersController : ApiController
     {
-        [HttpGet, Route("ByIds/{ids}")]
-        public IEnumerable<Customer> ByIds(string ids)
-        {
-            using (var db = new CustomersContext())
-            {
-                var _ids = ids.Split("|".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
-                    .Select(id => int.Parse(id))
-                    .ToList();
-
-                var query = db.Customers
-                    .Where(c => _ids.Contains(c.Id));
-
-                var customers = query.ToList();
-
-                return customers;
-            }
-        }
-
         [HttpGet, Route("byorders")]
-        public IDictionary<int, Customer> ByOrders(string orderIds)
+        public IEnumerable<dynamic> ByOrders(string orderIds)
         {
             var _orderIds = orderIds.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
                 .Select(id => int.Parse(id))
@@ -45,12 +26,16 @@ namespace Divergent.Customers.API.Controllers
                 var customers = query.ToList();
                 var orders = customers.SelectMany(c => c.Orders).Where(o => _orderIds.Contains(o.OrderId));
 
-                var result = new Dictionary<int, Customer>();
+                var results = new List<dynamic>();
                 foreach (var order in orders)
                 {
-                    result.Add(order.OrderId, customers.Single(c => c.Id == order.CustomerId));
+                    results.Add(new
+                    {
+                        OrderId = order.OrderId,
+                        CustomerName = customers.Single(c => c.Id == order.CustomerId).Name
+                    });
                 }
-                return result;
+                return results.ToArray();
             }
         }
     }
