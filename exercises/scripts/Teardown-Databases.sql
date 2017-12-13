@@ -13,6 +13,10 @@ IF EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-01-a
 DROP DATABASE [Exercise-01-after-sales]
 GO
 
+IF EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-01-after-customers')
+DROP DATABASE [Exercise-01-after-customers]
+GO
+
 
 -- Exercise-02-before
 
