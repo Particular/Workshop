@@ -86,7 +86,6 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <Content Include="app\app.js" />
-    <Content Include="app\modules\finance\_module.js" />
     <Content Include="app\modules\sales\orders\ordersController.js" />
     <Content Include="app\branding\orders\ordersView.html" />
     <Content Include="app\presentation\dashboardController.js" />
