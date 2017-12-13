@@ -31,15 +31,7 @@ First, you'll display an additional property in the existing view: the number of
 
 ## Exercise 1.1: display the count of items in an order
 
-In this exercise we'll display the count of items in an order by retrieving it from the Sales vertical. We'll do that by returning the item count from `OrdersController` and by modifying `orderListAppender` and `ordersView`.
-
-NOTE: You could follow a different naming convention but, for simplicity, the included files are hard-coded in the exercise. In a real-life project you'll probably use tools like `grunt` and `gulp` to automate the process. If you decide to use different names or locations for new files, you'll need to adjust the paths in `index.html`:
-
-```html
-<!-- Finance module -->
-<script src="/app/modules/finance/_module.js" type="text/javascript"></script>
-<script src="/app/modules/finance/ordersLoadedSubscriber.js" type="text/javascript"></script>
-```
+In this exercise we'll display the count of items in an order by retrieving it from the Sales vertical. We'll do that by returning the item count from `OrdersController` and by modifying `OrdersListViewModelAppender` class and `ordersView` HTML template.
 
 ### Step 1
 
@@ -51,21 +43,18 @@ ItemsCount = o.Items.Count
 
 ### Step 2
 
-Add an `orderItemsCount` property to the `mapToDictionary` function (in `Divergent.Frontend\app\modules\sales\orderListAppender.js`):
+Add an `OrderItemsCount` property to the `MapToViewModelDictionary` method in the `OrdersListViewModelAppender` in the `Divergent.Sales.ViewModelComposition` project:
 
-```js
-var vm = {
-    orderId: item.id,
-    orderNumber: item.id,
-    orderItemsCount: item.itemsCount
-};
+```csharp
+dynamic viewModel = new ExpandoObject();
+viewModel.OrderId = order.Id;
+viewModel.OrderNumber = order.Id;
+viewModel.OrderItemsCount = order.ItemsCount;
 ```
-
-Note that the client side property is camelCased: "itemsCount", whereas the server side property is PascalCased: "ItemsCount".
 
 ### Step 3
 
-Update the `orders` list template (`Divergent.Frontend\app\branding\orders\ordersView.html`) to display the new information
+Update the `ordersView` list template (`Divergent.Frontend\app\presentation\ordersView.html`) to display the new information
 
 ```html
 <br />
@@ -74,55 +63,69 @@ Update the `orders` list template (`Divergent.Frontend\app\branding\orders\order
 
 ## Exercise 1.2: display the total price of an order
 
-In this exercise you'll add a new vertical slice. In order to do so, you'll need to add a new module called `finance` in the `Divergent.Frontend` project.
+In this exercise you'll add a new vertical slice. In order to do so, you'll need to add a new `OrdersLoadedSubscriber` class in the `Divergent.Finance.ViewModelComposition` project.
+
+For simplicity the Finance API backend is already in place and the the exercise concentrates on Composition and UI related tasks.
 
 ### Step 1
 
-Create a new file named in `Divergent.Frontend\app\modules\finance` named  `ordersLoadedSubscriber.js`.
+Create a new class file named in `Divergent.Finance.ViewModelComposition` named  `OrdersLoadedSubscriber`.
 
 ### Step 2
 
-Add the following code to the module
+Add the following code to the class
 
-```js
-(function () {
+```csharp
+using Divergent.Sales.ViewModelComposition.Events;
+using ITOps.Json;
+using ITOps.ViewModelComposition;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
+using System;
+using System.Net.Http;
 
-    angular.module('app.services')
-        .config(['backendCompositionServiceProvider',
-            function (backendCompositionServiceProvider) {
+namespace Divergent.Finance.ViewModelComposition
+{
+    public class OrdersLoadedSubscriber : ISubscribeToCompositionEvents
+    {
+        // Matching is a bit weak in this demo.
+        // It's written this way to satisfy both the composite gateway and website demos.
+        public bool Matches(RouteData routeData, string httpMethod) =>
+            HttpMethods.IsGet(httpMethod)
+                && string.Equals((string)routeData.Values["controller"], "orders", StringComparison.OrdinalIgnoreCase)
+                && !routeData.Values.ContainsKey("id");
 
-                var requestId = 'orders-list';
-                backendCompositionServiceProvider.registerViewModelSubscriberFactory(requestId,
-                    ['$log', '$http', 'finance.config', function ($log, $http, config) {
+        public void Subscribe(IPublishCompositionEvents publisher)
+        {
+            publisher.Subscribe<OrdersLoaded>(async (pageViewModel, ordersLoaded, routeData, query) =>
+            {
+                var orderIds = string.Join(",", ordersLoaded.OrderViewModelDictionary.Keys);
 
-                        var subscriber = function (viewModel) {
-                            viewModel.subscribe('orders/loaded', function (evt, ctrlViewModel, args) {
+                // Hardcoded to simplify the demo. In a production app, a config object could be injected.
+                var url = $"http://localhost:20187/api/prices/orders/total?orderIds={orderIds}";
+                var response = await new HttpClient().GetAsync(url);
 
-                                var orderIds = args.ordersViewModelDictionary.keys;
+                dynamic[] prices = await response.Content.AsExpandoArrayAsync();
 
-                                var uri = config.apiUrl + '/prices/orders/total?orderIds=' + orderIds;
-                                return $http.get(uri)
-                                    .then(function (response) {
-
-                                        angular.forEach(response.data, function (value, key) {
-                                            args.ordersViewModelDictionary[key].orderTotalPrice = value;
-                                        });
-                                    });
-                            });
-                        };
-
-                        return subscriber;
-                    }]);
-
-            }]);
-}())
+                foreach (dynamic price in prices)
+                {
+                    ordersLoaded.OrderViewModelDictionary[price.OrderId].OrderTotalPrice = price.Amount;
+                }
+            });
+        }
+    }
+}
 ```
 
 ### Step 3
 
-Update the `orders` list template (`app\branding\orders\ordersView.html`) to display the new information:
+Update the `ordersView` list template (`app\branding\orders\ordersView.html`) to display the new information:
 
 ```html
 <br />
 <strong>Order total:</strong> {{order.orderTotalPrice}}
 ```
+
+#### Note:
+
+For simplicity ViewModel Composition components, such as `Divergent.Finance.ViewModelComposition`, `Divergent.Sales.ViewModelComposition`, `Divergent.Sales.ViewModelComposition.Events` and `Divergent.Customers.ViewModelComposition`, are directly referenced by the `Divergent.CompositionGateway`. This approach is used to simplify the build process by letting Visual Studio automatically to determine projects build order and to copy build outputs to the `Divergent.CompositionGateway` binaries folder. IN a production environment this is expected to be managed by the build and deployment pipeline.
