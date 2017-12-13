@@ -1,66 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web.Http;
-using Divergent.Customers.Data.Repositories;
 using Divergent.Customers.Data.Models;
+using Divergent.Customers.Data.Context;
+using System.Data.Entity;
 
 namespace Divergent.Customers.API.Controllers
 {
     [RoutePrefix("api/customers")]
     public class CustomersController : ApiController
     {
-        private readonly ICustomerRepository _repository;
-
-        public CustomersController(ICustomerRepository repository)
-        {
-            _repository = repository;
-        }
-
-        [HttpGet]
-        public Task<Customer> Get(Guid id)
-        {
-            return _repository.Customer(id);
-        }
-
         [HttpGet, Route("ByIds/{ids}")]
-        public async Task<IEnumerable<Customer>> ByIds(string ids)
+        public IEnumerable<Customer> ByIds(string ids)
         {
-            var _ids = ids.Split("|".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
-                .Select(id=> Guid.Parse(id))
-                .ToList();
+            using (var db = new CustomersContext())
+            {
+                var _ids = ids.Split("|".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
+                    .Select(id => int.Parse(id))
+                    .ToList();
 
-            var customers = await _repository.Customers();
+                var query = db.Customers
+                    .Where(c => _ids.Contains(c.Id));
 
-            return customers.Where(c => _ids.Contains(c.Id));
+                var customers = query.ToList();
+
+                return customers;
+            }
         }
 
         [HttpGet, Route("byorders")]
-        public async Task<IDictionary<Guid, Customer>> ByOrders(string orderIds)
+        public IDictionary<int, Customer> ByOrders(string orderIds)
         {
-            var manyToManyRepo = new CustomerOrderRepository();
-
             var _orderIds = orderIds.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
-                .Select(id => Guid.Parse(id))
+                .Select(id => int.Parse(id))
                 .ToList();
 
-            var allCustomers = await _repository.Customers();
-            var allManyToMany = await manyToManyRepo.CustomerOrderRelationships();
+            using (var db = new CustomersContext())
+            {
+                var query = db.Customers
+                    .Include(c => c.Orders)
+                    .Where(c => c.Orders.Any(o => _orderIds.Contains(o.OrderId)));
 
-            var data = allManyToMany
-                .Where( r=>_orderIds.Contains(r.OrderId))
-                .Join(allCustomers, r => r.CustomerId, c => c.Id, (r, c) => 
+                var customers = query.ToList();
+                var orders = customers.SelectMany(c => c.Orders).Where(o => _orderIds.Contains(o.OrderId));
+
+                var result = new Dictionary<int, Customer>();
+                foreach (var order in orders)
                 {
-                    return new
-                    {
-                        Customer = c,
-                        OrderId = r.OrderId
-                    };
-                })
-                .ToDictionary(a=>a.OrderId, a=>a.Customer);
-
-            return data;
+                    result.Add(order.OrderId, customers.Single(c => c.Id == order.CustomerId));
+                }
+                return result;
+            }
         }
     }
 }
