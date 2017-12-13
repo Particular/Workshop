@@ -11,6 +11,10 @@ IF  NOT EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise
 CREATE DATABASE [Exercise-01-before-customers]
 GO
 
+IF  NOT EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-01-before-finance')
+CREATE DATABASE [Exercise-01-before-finance]
+GO
+
 -- Exercise-01-after
 
 IF  NOT EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-01-after-sales')
