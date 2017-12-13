@@ -39,8 +39,7 @@
             </div>
         </div>
     </div>
-    <div class="container body-content" data-ui-view="">
-    </div>
+    <div class="container body-content" data-ui-view=""></div>
     <div class="navbar navbar-default navbar-fixed-bottom">
 
     </div>
@@ -54,28 +53,11 @@
     <script src="/lib/angular-busy/angular-busy.min.js" type="text/javascript"></script>
 
     <script src="/app/app.js" type="text/javascript"></script>
-
-    <!-- branding -->
-    <script src="/app/branding/routingConfig.js" type="text/javascript"></script>
-
-    <!-- App services -->
-    <script src="/app/itOps/services/backendCompositionService.js" type="text/javascript"></script>
+    <script src="/app/routingConfig.js" type="text/javascript"></script>
 
     <!-- App presentation -->
     <script src="/app/presentation/dashboardController.js" type="text/javascript"></script>
-
-    <!-- Customers module -->
-    <script src="/app/modules/customers/_module.js" type="text/javascript"></script>
-    <script src="/app/modules/customers/ordersLoadedSubscriber.js" type="text/javascript"></script>
-
-    <!-- Finance module -->
-    <script src="/app/modules/finance/_module.js" type="text/javascript"></script>
-    <script src="/app/modules/finance/ordersLoadedSubscriber.js" type="text/javascript"></script>
-
-    <!-- Sales module -->
-    <script src="/app/modules/sales/_module.js" type="text/javascript"></script>
-    <script src="/app/modules/sales/orderListAppender.js" type="text/javascript"></script>
-    <script src="/app/modules/sales/orders/ordersController.js" type="text/javascript"></script>
+    <script src="/app/presentation/ordersController.js" type="text/javascript"></script>
 
 </body>
 

@@ -14,6 +14,11 @@
         'app.services'
     ]);
 
+    angular.module('app.services')
+        .constant('endpoints.config', {
+            gatewayBaseUrl: 'http://localhost:4457'
+        });
+
     app.run(['$log', '$rootScope',
         function ($log, $rootScope) {
             $rootScope.$log = $log;
