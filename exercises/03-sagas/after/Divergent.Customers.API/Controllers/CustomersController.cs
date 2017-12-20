@@ -35,7 +35,7 @@ namespace Divergent.Customers.API.Controllers
                         CustomerName = customers.Single(c => c.Id == order.CustomerId).Name
                     });
                 }
-                return results.ToArray();
+                return results;
             }
         }
     }

@@ -16,8 +16,8 @@ namespace Divergent.Sales.ViewModelComposition
     {
         public bool Matches(RouteData routeData, string httpMethod) =>
             HttpMethods.IsGet(httpMethod)
-            && string.Equals((string)routeData.Values["controller"], "orders", StringComparison.OrdinalIgnoreCase)
-            && !routeData.Values.ContainsKey("id");
+                && string.Equals((string)routeData.Values["controller"], "orders", StringComparison.OrdinalIgnoreCase)
+                && !routeData.Values.ContainsKey("id");
 
         public async Task Append(dynamic viewModel, RouteData routeData, IQueryCollection query)
         {
