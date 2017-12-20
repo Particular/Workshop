@@ -141,6 +141,10 @@ The [demos](demos) folder contains demos used during the workshop by your traine
 
 The [`asp-net-core` solution](demos/asp-net-core) demonstrates the use of ASP.NET Core to compose a UI with data from several services.
 
+### ServicePulse Monitoring & Recovery
+
+The [self contained platform demo](https://docs.particular.net/tutorials/monitoring-demo/) includes ServicePulse, ServiceControl, ServiceControl Monitoring and a few endpoints to demonstrate Monitoring and Recovery.
+
 ## FAQ
 
 If the answer to your question is not listed here, consult your on-site trainer.
