@@ -54,7 +54,7 @@ Clone or download this repo. If you're downloading a zip copy of the repo, ensur
 Open an **elevated** command prompt, navigate to your copy of this repo, and run:
 
 ```Batchfile
-@powershell -NoProfile -ExecutionPolicy unrestricted -File exercises\scripts\Setup-LocalDBInstance.ps1
+powershell -NoProfile -ExecutionPolicy unrestricted -File exercises\scripts\Setup-LocalDBInstance.ps1
 ```
 
 When you no longer need to run the exercises, you may optionally run `Teardown-LocalDBInstance.ps1`.
