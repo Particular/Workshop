@@ -28,7 +28,6 @@ namespace Divergent.Sales.API.Controllers
                         ItemsCount = o.Items.Count
                     });
             }
-            { }
         }
     }
 }
