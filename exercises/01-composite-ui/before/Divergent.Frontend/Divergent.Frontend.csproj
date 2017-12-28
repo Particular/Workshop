@@ -67,10 +67,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="app\branding\routingConfig.js" />
-    <Content Include="app\modules\customers\ordersLoadedSubscriber.js" />
-    <Content Include="app\modules\customers\_module.js" />
-    <Content Include="app\modules\sales\orderListAppender.js" />
+    <Content Include="app\routingConfig.js" />
     <Content Include="lib\angular-busy\angular-busy.min.css" />
     <Content Include="lib\angular-busy\angular-busy.min.js" />
     <Content Include="lib\bootstrap\css\bootstrap-theme.css.map" />
@@ -90,13 +87,10 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <Content Include="app\app.js" />
-    <Content Include="app\modules\finance\_module.js" />
-    <Content Include="app\modules\sales\orders\ordersController.js" />
-    <Content Include="app\branding\orders\ordersView.html" />
-    <Content Include="app\modules\sales\_module.js" />
+    <Content Include="app\presentation\ordersController.js" />
+    <Content Include="app\presentation\ordersView.html" />
     <Content Include="app\presentation\dashboardController.js" />
-    <Content Include="app\branding\dashboard\dashboardView.html" />
-    <Content Include="app\itOps\services\backendCompositionService.js" />
+    <Content Include="app\presentation\dashboardView.html" />
     <Content Include="assets\site.css" />
     <Content Include="index.html" />
     <Content Include="lib\angular-route\angular-route.js" />

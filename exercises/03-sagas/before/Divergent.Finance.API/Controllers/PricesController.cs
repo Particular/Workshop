@@ -10,7 +10,7 @@ namespace Divergent.Finance.API.Controllers
     public class PricingController : ApiController
     {
         [HttpGet, Route("orders/total")]
-        public IDictionary<int, double> GetOrdersTotal(string orderIds)
+        public IEnumerable<dynamic> GetOrdersTotal(string orderIds)
         {
             var _orderIds = orderIds.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
                 .Select(id => int.Parse(id))
@@ -27,7 +27,7 @@ namespace Divergent.Finance.API.Controllers
                         Amount = g.Sum(op => op.ItemPrice)
                     });
 
-                var result = query.ToDictionary(a => a.OrderId, a => a.Amount);
+                var result = query.ToArray();
                 return result;
             }
         }
