@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using Divergent.Sales.Messages.Events;
 using NServiceBus;
 using NServiceBus.Logging;
+using Divergent.Sales.Messages.Events;
 
 namespace Divergent.Shipping.Handlers
 {

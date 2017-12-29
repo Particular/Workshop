@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
+using NServiceBus;
+using NServiceBus.Logging;
 using Divergent.Finance.Messages.Commands;
 using Divergent.Finance.Messages.Events;
 using Divergent.Finance.PaymentClient;
-using NServiceBus;
-using NServiceBus.Logging;
 
 namespace Divergent.Finance.Handlers
 {

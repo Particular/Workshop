@@ -11,22 +11,11 @@ using System.Configuration;
 
 namespace Divergent.Sales.Config
 {
-    [EndpointName("Divergent.Sales")]
-    public class EndpointConfig : IConfigureThisEndpoint, AsA_Server
+    public class EndpointConfig
     {
         private static readonly ILog Log = LogManager.GetLogger<EndpointConfig>();
 
-        public EndpointConfig()
-        {
-            NServiceBus.Logging.LogManager.Use<DefaultFactory>();
-
-            if (Environment.UserInteractive)
-                Console.Title = "Divergent.Sales";
-
-            InitializeDatbase();
-        }
-
-        private void InitializeDatbase()
+        private static void InitializeDatbase()
         {
             Log.Debug("Initializing database");
 
@@ -36,9 +25,13 @@ namespace Divergent.Sales.Config
             Log.DebugFormat("Database initialized, first product is {0}", products.First());
         }
 
-        public void Customize(EndpointConfiguration endpointConfiguration)
+        public static void Customize(EndpointConfiguration endpointConfiguration)
         {
             Log.Info("Customize...");
+
+            NServiceBus.Logging.LogManager.Use<DefaultFactory>();
+
+            InitializeDatbase();
 
             var container = ContainerSetup.Create();
 

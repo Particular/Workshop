@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
-using Divergent.Sales.Messages.Events;
-using NServiceBus.Logging;
-using Divergent.Customers.Data.Context;
-using Divergent.Customers.Data.Models;
 using System.Data.Entity;
 using System.Linq;
+using NServiceBus.Logging;
+using Divergent.Sales.Messages.Events;
+using Divergent.Customers.Data.Context;
+using Divergent.Customers.Data.Models;
 
 namespace Divergent.Customers.Handlers
 {

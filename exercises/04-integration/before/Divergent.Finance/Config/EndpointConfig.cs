@@ -10,22 +10,15 @@ using Divergent.Sales.Messages.Events;
 
 namespace Divergent.Finance.Config
 {
-    [EndpointName("Divergent.Finance")]
-    public class EndpointConfig : IConfigureThisEndpoint, AsA_Server
+    public class EndpointConfig
     {
         private static readonly ILog Log = LogManager.GetLogger<EndpointConfig>();
 
-        public EndpointConfig()
-        {
-            NServiceBus.Logging.LogManager.Use<DefaultFactory>();
-
-            if (Environment.UserInteractive)
-                Console.Title = "Divergent.Finance";
-        }
-
-        public void Customize(EndpointConfiguration endpointConfiguration)
+        public static void Customize(EndpointConfiguration endpointConfiguration)
         {
             Log.Info("Customize...");
+
+            NServiceBus.Logging.LogManager.Use<DefaultFactory>();
 
             var container = ContainerSetup.Create();
 

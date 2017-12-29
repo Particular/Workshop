@@ -1,9 +1,9 @@
 ﻿using System.Data.Entity;
 using System.Threading.Tasks;
-using Divergent.Customers.Data.Context;
-using Divergent.Sales.Messages.Events;
 using NServiceBus;
 using NServiceBus.Logging;
+using Divergent.Customers.Data.Context;
+using Divergent.Sales.Messages.Events;
 
 namespace Divergent.Customers.Handlers
 {

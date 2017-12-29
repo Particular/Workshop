@@ -1,30 +1,23 @@
 using System;
 using System.Configuration;
 using System.IO;
+using ILog = Common.Logging.ILog;
+using LogManager = Common.Logging.LogManager;
 using NServiceBus;
 using NServiceBus.Logging;
 using NServiceBus.Persistence;
-using ILog = Common.Logging.ILog;
-using LogManager = Common.Logging.LogManager;
 
 namespace Divergent.Finance.Config
 {
-    [EndpointName("Divergent.Finance")]
-    public class EndpointConfig : IConfigureThisEndpoint, AsA_Server
+    public class EndpointConfig
     {
         private static readonly ILog Log = LogManager.GetLogger<EndpointConfig>();
-
-        public EndpointConfig()
-        {
-            NServiceBus.Logging.LogManager.Use<DefaultFactory>();
-
-            if (Environment.UserInteractive)
-                Console.Title = "Divergent.Finance";
-        }
-
-        public void Customize(EndpointConfiguration endpointConfiguration)
+        
+        public static void Customize(EndpointConfiguration endpointConfiguration)
         {
             Log.Info("Customize...");
+
+            NServiceBus.Logging.LogManager.Use<DefaultFactory>();
 
             var container = ContainerSetup.Create();
 
