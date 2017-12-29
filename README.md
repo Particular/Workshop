@@ -135,11 +135,13 @@ You're now ready to attempt the advanced exercises!
 
 ## Demos
 
-The [demos](demos) folder contains demos used during the workshop by your trainer.
-
 ### ASP.NET Core UI composition
 
 The [`asp-net-core` solution](demos/asp-net-core) demonstrates the use of ASP.NET Core to compose a UI with data from several services.
+
+### ServicePulse monitoring & recovery
+
+The [self contained platform demo](https://docs.particular.net/tutorials/monitoring-demo/) includes ServicePulse, ServiceControl, ServiceControl Monitoring and a few endpoints to demonstrate monitoring and recovery.
 
 ## FAQ
 
