@@ -51,6 +51,8 @@ Clone or download this repo. If you're downloading a zip copy of the repo, ensur
 
 ### Set up the databases
 
+WARNING: SQL Server 2017 LocalDb has an issue that can sometimes create incorrect paths. Uninstall `SQL Server 2017 LocalDb` if you have issues running the SQL script. With Visual Studio 2017 comes SQL Server 2016 LocalDb which should work fine.
+
 Open an **elevated** command prompt, navigate to your copy of this repo, and run:
 
 ```Batchfile
