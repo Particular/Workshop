@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27004.2009
+VisualStudioVersion = 15.0.27130.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Customers", "Divergent.Customers\Divergent.Customers.csproj", "{02EE3114-734F-42DF-994C-98480E1489FE}"
 EndProject
@@ -68,6 +68,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.Customers.ViewModelComposition", "Divergent.Customers.ViewModelComposition\Divergent.Customers.ViewModelComposition.csproj", "{B90C72C7-C101-48DD-B3FF-5B69A2316506}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.Finance.ViewModelComposition", "Divergent.Finance.ViewModelComposition\Divergent.Finance.ViewModelComposition.csproj", "{2FFA57AA-D809-496F-AF59-ACF76AAFDCA4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITOps.EndpointConfig", "..\..\shared-api-gateway\ITOps.EndpointConfig\ITOps.EndpointConfig.csproj", "{D54CA28C-A9EE-46EC-A409-868EFBEEFFF0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -179,6 +181,10 @@ Global
 		{2FFA57AA-D809-496F-AF59-ACF76AAFDCA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FFA57AA-D809-496F-AF59-ACF76AAFDCA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FFA57AA-D809-496F-AF59-ACF76AAFDCA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D54CA28C-A9EE-46EC-A409-868EFBEEFFF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D54CA28C-A9EE-46EC-A409-868EFBEEFFF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D54CA28C-A9EE-46EC-A409-868EFBEEFFF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D54CA28C-A9EE-46EC-A409-868EFBEEFFF0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -210,6 +216,7 @@ Global
 		{D4B3216E-6072-4B7A-97C5-A6FC4C2ABB05} = {3F113598-B240-4E06-B41A-6C684C208F2A}
 		{B90C72C7-C101-48DD-B3FF-5B69A2316506} = {808B901F-6EF7-49F0-B668-F54EEDB1F3F1}
 		{2FFA57AA-D809-496F-AF59-ACF76AAFDCA4} = {65F37558-1C29-4247-BD01-4DFAFD452ECB}
+		{D54CA28C-A9EE-46EC-A409-868EFBEEFFF0} = {A9587680-24D6-475A-81E8-8699773B5ED9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {69211C07-3253-441B-8C32-03E68F40F819}

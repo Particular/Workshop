@@ -31,7 +31,7 @@ When a customer creates a new order, that information is stored in a database. I
 
 ## What's provided for you
 
-- Have a look at the `EndpointConfig` class in the `Divergent.Finance` project. Note that we use conventions to specify which messages are events:
+- Have a look at the `EndpointConfigurationExtensions` class in the `ITOps.EndpointConfig` project. Note that we use conventions to specify which messages are events:
 
   ```c#
   conventions.DefiningEventsAs(t =>
@@ -98,7 +98,7 @@ The `OrderSubmittedHandler` should process the `OrderSubmittedEvent` published b
 
 ### Step 3
 
-In the `Divergent.Shipping` project navigate to `EndpointConfig` class and specify the publisher for the `OrderSubmittedEvent`. To do this use the `routing` object obtained when configuring the transport and add the following statement
+In the `Divergent.Shipping` project navigate to `Host` class and specify the publisher for the `OrderSubmittedEvent`. To do this use the `routing` object obtained when configuring the transport and add the following statement
 
 ```
 routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
@@ -134,7 +134,7 @@ The `OrderSubmittedHandler` should also process the `OrderSubmittedEvent` publis
 
 ### Step 7
 
-In the `Divergent.Finance` project navigate to `EndpointConfig` class and specify the publisher for the `OrderSubmittedEvent`. To do this use the `routing` object obtained when configuring the transport and add the following statement
+In the `Divergent.Finance` project navigate to `Host` class and specify the publisher for the `OrderSubmittedEvent`. To do this use the `routing` object obtained when configuring the transport and add the following statement
 
 ```
 routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
@@ -254,7 +254,7 @@ namespace Divergent.Customers.Handlers
 
 ### Step 11
 
-In the `Divergent.Customers` project, configure the publisher for the `OrderSubmittedEvent`. To do this use the `routing` object obtained when configuring the transport and add the following statement
+In the `Divergent.Customers` project navigate to `Host` class and specify the publisher for the `OrderSubmittedEvent`. To do this use the `routing` object obtained when configuring the transport and add the following statement
 
 ```
 routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");

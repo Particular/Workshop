@@ -119,6 +119,10 @@ IF  NOT EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise
 CREATE DATABASE [Exercise-04-before-shipping]
 GO
 
+IF  NOT EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-04-before-itops')
+CREATE DATABASE [Exercise-04-before-itops]
+GO
+
 -- Exercise-04-after
 
 IF  NOT EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-04-after-customers')
@@ -135,4 +139,8 @@ GO
 
 IF  NOT EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-04-after-shipping')
 CREATE DATABASE [Exercise-04-after-shipping]
+GO
+
+IF  NOT EXISTS (SELECT name FROM master.dbo.sysdatabases WHERE name = N'Exercise-04-after-itops')
+CREATE DATABASE [Exercise-04-after-itops]
 GO
