@@ -339,7 +339,7 @@ routing.RegisterPublisher(typeof(PaymentSucceededEvent), "Divergent.Finance");
 
 ## Advanced exercise 2.5 : monitoring endpoints
 
-**Important: Before attempting the advanced exercises, please ensure you have followed [the instructions for preparing your machine for the advanced exercises](README.md#preparing-your-machine-for-the-advanced-exercises).**
+**Important: Before attempting the advanced exercises, please ensure you have followed [the instructions for preparing your machine for the advanced exercises](/README.md#preparing-your-machine-for-the-advanced-exercises).**
 
 ### Step 1
 
