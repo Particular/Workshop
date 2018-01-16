@@ -1,22 +1,25 @@
-﻿using System.Linq;
+using System.Linq;
 using System.Threading.Tasks;
 using Divergent.Finance.Messages.Events;
 using Divergent.Sales.Messages.Events;
 using NServiceBus;
 using NServiceBus.Logging;
+using NServiceBus.Persistence.Sql;
 
 namespace Divergent.Shipping.Sagas
 {
-    class ShippingSaga : Saga<ShippingSagaData>,
+    class ShippingSaga : SqlSaga<ShippingSagaData>,
         IAmStartedByMessages<OrderSubmittedEvent>,
         IAmStartedByMessages<PaymentSucceededEvent>
     {
         private static readonly ILog Log = LogManager.GetLogger<ShippingSaga>();
 
-        protected override void ConfigureHowToFindSaga(SagaPropertyMapper<ShippingSagaData> mapper)
+        protected override string CorrelationPropertyName => nameof(ShippingSagaData.OrderId);
+
+        protected override void ConfigureMapping(IMessagePropertyMapper mapper)
         {
-            mapper.ConfigureMapping<OrderSubmittedEvent>(p => p.OrderId).ToSaga(s => s.OrderId);
-            mapper.ConfigureMapping<PaymentSucceededEvent>(p => p.OrderId).ToSaga(s => s.OrderId);
+            mapper.ConfigureMapping<OrderSubmittedEvent>(m => m.OrderId);
+            mapper.ConfigureMapping<PaymentSucceededEvent>(m => m.OrderId);
         }
 
         public Task Handle(OrderSubmittedEvent message, IMessageHandlerContext context)
