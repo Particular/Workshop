@@ -2,7 +2,9 @@ using Autofac;
 using NServiceBus;
 using NServiceBus.Logging;
 using NServiceBus.Persistence;
+using NServiceBus.Persistence.Sql;
 using System;
+using System.Data.SqlClient;
 using System.IO;
 using ILog = Common.Logging.ILog;
 using LogManager = Common.Logging.LogManager;
@@ -31,7 +33,10 @@ namespace ITOps.EndpointConfig
                 .ConnectionString("deadLetter=false;journal=false")
                 .Routing();
 
-            endpointConfiguration.UsePersistence<NHibernatePersistence>().ConnectionString(connectionString);
+            var persistence = endpointConfiguration.UsePersistence<SqlPersistence>();
+            persistence.SqlDialect<SqlDialect.MsSqlServer>();
+            persistence.ConnectionBuilder(() => new SqlConnection(connectionString));
+            persistence.SubscriptionSettings().CacheFor(TimeSpan.FromMinutes(1));
 
             endpointConfiguration.SendFailedMessagesTo("error");
             endpointConfiguration.AuditProcessedMessagesTo("audit");
