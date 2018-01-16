@@ -1,6 +1,6 @@
 # Exercise 3: Sagas
 
-**Important: Before attempting the exercise, please ensure you have followed [the instructions for preparing your machine](README.md#preparing-your-machine-for-the-workshop) and that you have read [the instructions for running the exercise solutions](/README.md#running-the-exercise-solutions).**
+**Important: Before attempting the exercise, please ensure you have followed [the instructions for preparing your machine](/README.md#preparing-your-machine-for-the-workshop) and that you have read [the instructions for running the exercise solutions](/README.md#running-the-exercise-solutions).**
 
 In NServiceBus a saga is the coordinator of a long running (business) process. They are very powerful and once fully grasped, can greatly increase flexibility in projects.
 
@@ -240,7 +240,7 @@ In the saga add a new async method called `ProcessOrder` that you will call from
 
 ## Advanced Exercise 3.5
 
-**Important: Before attempting the advanced exercises, please ensure you have followed [the instructions for preparing your machine for the advanced exercises](README.md#preparing-your-machine-for-the-advanced-exercises).**
+**Important: Before attempting the advanced exercises, please ensure you have followed [the instructions for preparing your machine for the advanced exercises](/README.md#preparing-your-machine-for-the-advanced-exercises).**
 
 Sagas are excellent for coordinating a business process. In the current saga we're only able to execute the happy path of the business process, where everything works. Payment succeeds and acknowledgement of this arrives at our Shipping service within a short time. But what if the `PaymentSucceededEvent` never arrives? Our Finance service is the authority which should decide when a payment takes too long, but it has no knowledge of how to contact customers. The Customers service however, would probably have details of how every customer would like to be contacted. This is just an example, but you can probably get an idea of how important it is to properly define your boundaries with real projects.
 

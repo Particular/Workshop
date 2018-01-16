@@ -1,6 +1,6 @@
 # Exercise 4: Integration
 
-**Important: Before attempting the exercise, please ensure you have followed [the instructions for preparing your machine](README.md#preparing-your-machine-for-the-workshop) and that you have read [the instructions for running the exercise solutions](/README.md#running-the-exercise-solutions).**
+**Important: Before attempting the exercise, please ensure you have followed [the instructions for preparing your machine](/README.md#preparing-your-machine-for-the-workshop) and that you have read [the instructions for running the exercise solutions](/README.md#running-the-exercise-solutions).**
 
 You will quickly run into the need for integration with 3rd party systems. You will use Web Services, REST based APIs, you'll emails or export files. Most of the time data need to be retrieved from several different services before interacting with a 3rd party.
 
@@ -334,7 +334,7 @@ Do a full rebuild of the entire solution using `CTRL+SHIFT+B`
 
 ## Advanced exercise 4.4: visualizing the system
 
-**Important: Before attempting the advanced exercises, please ensure you have followed [the instructions for preparing your machine for the advanced exercises](README.md#preparing-your-machine-for-the-advanced-exercises).**
+**Important: Before attempting the advanced exercises, please ensure you have followed [the instructions for preparing your machine for the advanced exercises](/README.md#preparing-your-machine-for-the-advanced-exercises).**
 
 If you finished the advanced exercises in module 2, you've seen how ServicePulse can monitor and inform us about the status of our endpoints. In this module we'll have a look at how ServiceInsight visualizes the system.
 
