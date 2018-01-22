@@ -25,7 +25,6 @@ namespace Divergent.Shipping.Sagas
             Log.Info("Handle OrderSubmittedEvent");
 
             Data.IsOrderSubmitted = true;
-            Data.OrderId = message.OrderId;
             Data.CustomerId = message.CustomerId;
 
             var projection = message.Products.Select(p => new ShippingSagaData.Product { Identifier = p });
@@ -38,7 +37,6 @@ namespace Divergent.Shipping.Sagas
         {
             Log.Info("Handle PaymentSucceededEvent");
 
-            Data.OrderId = message.OrderId;
             Data.IsPaymentProcessed = true;
             await ProcessOrder(context);
         }
