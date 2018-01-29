@@ -4,8 +4,6 @@ using NServiceBus.Logging;
 using NServiceBus.Persistence;
 using System;
 using System.IO;
-using ILog = Common.Logging.ILog;
-using LogManager = Common.Logging.LogManager;
 
 namespace ITOps.EndpointConfig
 {
@@ -18,8 +16,6 @@ namespace ITOps.EndpointConfig
             string connectionString,
             Action<RoutingSettings<MsmqTransport>> configureRouting)
         {
-            NServiceBus.Logging.LogManager.Use<DefaultFactory>();
-
             Log.Info("Configuring endpoint...");
 
             var licensePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\..\\..\\License.xml");
