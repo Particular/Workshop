@@ -143,12 +143,11 @@ Make sure everything compiles.
 
 ### Step 5
 
-Store the `CustomerId`, `OrderId` and products in the state of the saga. We can do this by accessing the saga's `Data` property, as in `Data.CustomerId`. Set the appropriate properties in both `Handle` methods.
+Store the `CustomerId` and products in the state of the saga. We can do this by accessing the saga's `Data` property, as in `Data.CustomerId`. Set the appropriate properties in both `Handle` methods. Note that we _do not_ set `Data.OrderId` (see next exercise).
 
 ```c#
 public Task Handle(OrderSubmittedEvent message, IMessageHandlerContext context)
 {
-    Data.OrderId = message.OrderId;
     Data.CustomerId = message.CustomerId;
 
     var projection = message.Products.Select(p => new ShippingSagaData.Product { Identifier = p });
@@ -158,7 +157,6 @@ public Task Handle(OrderSubmittedEvent message, IMessageHandlerContext context)
 
 public Task Handle(PaymentSucceededEvent message, IMessageHandlerContext context)
 {
-    Data.OrderId = message.OrderId;
     return Task.CompletedTask;
 }
 ```
@@ -180,6 +178,8 @@ mapper.ConfigureMapping<OrderSubmittedEvent>(p => p.OrderId).ToSaga(s => s.Order
 mapper.ConfigureMapping<PaymentSucceededEvent>(p => p.OrderId).ToSaga(s => s.OrderId);
 ```
 
+Note that this mapping also tells NServiceBus how to set the value of `Data.OrderId`. This is why we did not have to set `Data.OrderId` ourselves in exercise 2.2.
+
 ## Exercise 3.4 - deal with out-of-order delivery
 
 In this exercise you will process the messages coming in and make sure the messages can arrive in any order, by verifying if all expected messages have been received.
@@ -195,7 +195,6 @@ To verify if `PaymentSucceededEvent` has been received, we can set a boolean pro
 ```c#
 public async Task Handle(PaymentSucceededEvent message, IMessageHandlerContext context)
 {
-    Data.OrderId = message.OrderId;
     Data.IsPaymentProcessed = true;
 }
 ```
