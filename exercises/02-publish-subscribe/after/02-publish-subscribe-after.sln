@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.0
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Customers", "Divergent.Customers\Divergent.Customers.csproj", "{02EE3114-734F-42DF-994C-98480E1489FE}"
 EndProject
@@ -55,15 +55,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITOps.ViewModelComposition.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.CompositionGateway", "Divergent.CompositionGateway\Divergent.CompositionGateway.csproj", "{AB359EEF-D025-4787-8640-7397030D923D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Sales.ViewModelComposition.Events", "Divergent.Sales.ViewModelComposition.Events\Divergent.Sales.ViewModelComposition.Events.csproj", "{AC77F9BC-0C5D-40E7-A4B1-7414AC7BE2B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.Sales.ViewModelComposition.Events", "Divergent.Sales.ViewModelComposition.Events\Divergent.Sales.ViewModelComposition.Events.csproj", "{AC77F9BC-0C5D-40E7-A4B1-7414AC7BE2B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Sales.ViewModelComposition", "Divergent.Sales.ViewModelComposition\Divergent.Sales.ViewModelComposition.csproj", "{01A250CC-6112-463A-AB76-4E0E878F89D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.Sales.ViewModelComposition", "Divergent.Sales.ViewModelComposition\Divergent.Sales.ViewModelComposition.csproj", "{01A250CC-6112-463A-AB76-4E0E878F89D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Customers.ViewModelComposition", "Divergent.Customers.ViewModelComposition\Divergent.Customers.ViewModelComposition.csproj", "{CFDEA230-200B-454B-8F70-9EF5455A6AF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.Customers.ViewModelComposition", "Divergent.Customers.ViewModelComposition\Divergent.Customers.ViewModelComposition.csproj", "{CFDEA230-200B-454B-8F70-9EF5455A6AF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Finance.ViewModelComposition", "Divergent.Finance.ViewModelComposition\Divergent.Finance.ViewModelComposition.csproj", "{2E6FF04A-8843-4D33-A09A-8B07F6A29BDD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.Finance.ViewModelComposition", "Divergent.Finance.ViewModelComposition\Divergent.Finance.ViewModelComposition.csproj", "{2E6FF04A-8843-4D33-A09A-8B07F6A29BDD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITOps.EndpointConfig", "..\..\shared-api-gateway\ITOps.EndpointConfig\ITOps.EndpointConfig.csproj", "{924F855A-5CDF-4876-86A0-F8E2D69E961C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITOps.EndpointConfig", "..\..\shared-api-gateway\ITOps.EndpointConfig\ITOps.EndpointConfig.csproj", "{924F855A-5CDF-4876-86A0-F8E2D69E961C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

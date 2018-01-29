@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2003
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Website", "Website", "{120B20F8-E388-4973-8F67-8340EADED83B}"
 EndProject
@@ -35,13 +35,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITOps.ViewModelComposition.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.CompositionGateway", "Divergent.CompositionGateway\Divergent.CompositionGateway.csproj", "{59EAD758-C434-4AD4-8B8F-4D097C4DE77F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Sales.ViewModelComposition.Events", "Divergent.Sales.ViewModelComposition.Events\Divergent.Sales.ViewModelComposition.Events.csproj", "{28C6251F-9D17-4339-A1AC-902742A09CF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.Sales.ViewModelComposition.Events", "Divergent.Sales.ViewModelComposition.Events\Divergent.Sales.ViewModelComposition.Events.csproj", "{28C6251F-9D17-4339-A1AC-902742A09CF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Sales.ViewModelComposition", "Divergent.Sales.ViewModelComposition\Divergent.Sales.ViewModelComposition.csproj", "{5BC1FA4F-BA4F-46F0-836F-D457F5CE2428}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.Sales.ViewModelComposition", "Divergent.Sales.ViewModelComposition\Divergent.Sales.ViewModelComposition.csproj", "{5BC1FA4F-BA4F-46F0-836F-D457F5CE2428}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Customers.ViewModelComposition", "Divergent.Customers.ViewModelComposition\Divergent.Customers.ViewModelComposition.csproj", "{63B7E9CB-C735-4FC3-B139-9280F9F102E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.Customers.ViewModelComposition", "Divergent.Customers.ViewModelComposition\Divergent.Customers.ViewModelComposition.csproj", "{63B7E9CB-C735-4FC3-B139-9280F9F102E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Finance.ViewModelComposition", "Divergent.Finance.ViewModelComposition\Divergent.Finance.ViewModelComposition.csproj", "{C0FEE1F1-7540-4340-A05D-B776032584C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.Finance.ViewModelComposition", "Divergent.Finance.ViewModelComposition\Divergent.Finance.ViewModelComposition.csproj", "{C0FEE1F1-7540-4340-A05D-B776032584C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

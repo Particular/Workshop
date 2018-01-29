@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.0
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Customers", "Divergent.Customers\Divergent.Customers.csproj", "{02EE3114-734F-42DF-994C-98480E1489FE}"
 EndProject
@@ -69,7 +69,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.Customers.ViewMod
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.Finance.ViewModelComposition", "Divergent.Finance.ViewModelComposition\Divergent.Finance.ViewModelComposition.csproj", "{DDA5509B-75FC-4551-8AE4-4C17D9EC1B75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ITOps.EndpointConfig", "..\..\shared-api-gateway\ITOps.EndpointConfig\ITOps.EndpointConfig.csproj", "{D42BF5E5-348B-4345-BEAA-683ECFB08B5E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITOps.EndpointConfig", "..\..\shared-api-gateway\ITOps.EndpointConfig\ITOps.EndpointConfig.csproj", "{D42BF5E5-348B-4345-BEAA-683ECFB08B5E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
