@@ -8,7 +8,7 @@ namespace Divergent.ITOps
 {
     public static class ReflectionHelper
     {
-        public static IEnumerable<Assembly> GetAssembliesPath(string path, string nameEndsWith)
+        public static IEnumerable<Assembly> GetAssemblies(string path, string nameEndsWith)
         {
             var executionPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var searchPath = Path.Combine(executionPath, path);
