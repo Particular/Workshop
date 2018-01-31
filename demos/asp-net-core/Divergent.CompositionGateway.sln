@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.CompositionGateway", "Divergent.CompositionGateway\Divergent.CompositionGateway.csproj", "{C0E4CD4F-657A-4872-969C-D97768636BDA}"
 EndProject
@@ -96,5 +96,8 @@ Global
 		{0EFF2E29-829B-4B1C-A7C6-47D63B05F52B} = {9D36D6A4-373C-4CB0-8B54-D15505E2AE91}
 		{0059E3AC-0AFA-43F6-B631-200CBB723F94} = {9D36D6A4-373C-4CB0-8B54-D15505E2AE91}
 		{4951C5A4-59D4-4AE1-B74C-B6F667544211} = {DB3EFAF6-6B45-48ED-BCB9-5F44FAB30CF9}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {165CC020-BD77-48FE-B305-073441440289}
 	EndGlobalSection
 EndGlobal
