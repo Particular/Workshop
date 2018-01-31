@@ -14,16 +14,16 @@ In the last exercise you extended the UI by showing additional information. For 
 
 For more info, please see [the instructions for running the exercise solutions](/README.md#running-the-exercise-solutions).
 
+* Divergent.CompositionGateway
 * Divergent.Customers
 * Divergent.Customers.API
 * Divergent.Finance
 * Divergent.Finance.API
+* Divergent.Frontend
 * Divergent.Sales
 * Divergent.Sales.API
 * Divergent.Shipping
 * PaymentProviders
-* Divergent.CompositionGateway
-* Divergent.Frontend
 
 ## Business requirements
 

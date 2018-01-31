@@ -18,11 +18,11 @@ NOTE: In order to view saga details in ServiceInsight, the [SagaAudit Plugin](ht
 
 For more info, please see [the instructions for running the exercise solutions](/README.md#running-the-exercise-solutions).
 
+* Divergent.CompositionGateway
 * Divergent.Customers
 * Divergent.Customers.API
 * Divergent.Finance
 * Divergent.Finance.API
-* Divergent.CompositionGateway
 * Divergent.Frontend
 * Divergent.Sales
 * Divergent.Sales.API
