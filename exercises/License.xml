@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<license id="7b84928e-7354-499c-b0e6-6373dea21533" expiration="2018-02-09T00:00:00.0000000" type="Trial" Applications="All" LicenseVersion="6.0" WorkerThreads="Max" AllowedNumberOfWorkerNodes="Max" LicenseType="Trial" MaxMessageThroughputPerSecond="Max">
-  <name>adam.ralph@particular.net</name>
+<license id="1e1cd314-e2c0-4e68-a7a4-deb755a88dd0" expiration="2018-04-14T00:00:00.0000000" type="Trial" Applications="All" LicenseVersion="6.0" WorkerThreads="Max" AllowedNumberOfWorkerNodes="Max" LicenseType="Trial" MaxMessageThroughputPerSecond="Max">
+  <name>tomasz.masternak@particular.net</name>
   <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
     <SignedInfo>
       <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
@@ -10,9 +10,9 @@
           <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
         </Transforms>
         <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <DigestValue>b3cffY0GnqNCzKvC/FRGwexYhNA=</DigestValue>
+        <DigestValue>AkcbfdyWHC2ZNDNK/ANo95uBa3Y=</DigestValue>
       </Reference>
     </SignedInfo>
-    <SignatureValue>ddSiBQd5QlrOQ8TARkhp8OoiucwM/03aZriNkiId9MIlCxwrcNsDKiX4et21vkujEeAurbVo/61kXmCLJ7FRw4X1Oy09i/yM2sdBDBv8LkgmkJWUG9+M1ooUFVoE0DxV6k01ZT02dy78Z0+ye4Ug8Ev1IjTYdruvA69t7OGcmOs=</SignatureValue>
+    <SignatureValue>gZb6EKOArYXz0shNxSOhiYrDhAaCwLE1cLoSkU6a6vswhs8r/CPAFYuZF1c9mSfdmSX9xZMozXFcw8/CJGPs8C/6if4fvRpN1n83ULKumXtEp8ExFBe0EY8cO/MhtfLLdIWFJFUHuJpQKIuyv5NpJ7XgBKYk1qR9XVnk8kiOO98=</SignatureValue>
   </Signature>
 </license>
