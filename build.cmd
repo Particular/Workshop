@@ -8,7 +8,7 @@ set NUGET_VERSION=4.3.0
 set CSI_VERSION=2.4.0
 
 :: determine nuget cache dir
-set NUGET_CACHE_DIR=%LocalAppData%\.nuget\v%NUGET_VERSION%
+set NUGET_CACHE_DIR="%LocalAppData%\.nuget\v%NUGET_VERSION%"
 set NUGET_LOCAL_DIR=.nuget\v%NUGET_VERSION%
 
 :: download nuget to cache dir
