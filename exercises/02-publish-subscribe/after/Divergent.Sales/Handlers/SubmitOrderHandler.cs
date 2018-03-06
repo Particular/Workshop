@@ -17,13 +17,13 @@ namespace Divergent.Sales.Handlers
 
         public async Task Handle(SubmitOrderCommand message, IMessageHandlerContext context)
         {
-            using (var _context = new SalesContext())
+            using (var db = new SalesContext())
             {
                 Log.Info("Handle SubmitOrderCommand");
 
                 var items = new List<Item>();
 
-                var products = _context.Products.ToList();
+                var products = db.Products.ToList();
 
                 message.Products.ForEach(p => items.Add(new Item
                 {
@@ -38,8 +38,8 @@ namespace Divergent.Sales.Handlers
                     State = "New"
                 };
 
-                _context.Orders.Add(order);
-                await _context.SaveChangesAsync();
+                db.Orders.Add(order);
+                await db.SaveChangesAsync();
 
                 await context.Publish<OrderSubmittedEvent>(e =>
                 {
