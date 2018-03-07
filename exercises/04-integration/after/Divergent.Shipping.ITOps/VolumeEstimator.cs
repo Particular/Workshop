@@ -1,4 +1,4 @@
-﻿namespace Divergent.Shipping.Data
+﻿namespace Divergent.Shipping.ITOps
 {
     public static class VolumeEstimator
     {

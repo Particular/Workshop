@@ -50,10 +50,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <ProjectReference Include="..\Divergent.ITOps.Interfaces\Divergent.ITOps.Interfaces.csproj">
-      <Project>{23dea9ff-fcb9-4c9f-94f7-0a77e23d8791}</Project>
-      <Name>Divergent.ITOps.Interfaces</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Context\CustomersContext.cs" />
@@ -63,10 +59,6 @@
     <Compile Include="Models\Order.cs" />
     <None Include="App.config" />
     <None Include="packages.config" />
-    <Folder Include="ITOps\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(TargetDir)$(ProjectName).dll" "$(SolutionDir)Divergent.ITOps\Providers\$(ProjectName).dll"</PostBuildEvent>
-  </PropertyGroup>
 </Project>

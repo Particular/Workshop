@@ -12,7 +12,7 @@ In the last exercise, we created a saga in Shipping to wait for `OrderSubmittedE
 
 IT/Ops needs to respond to that message by calling implementations of its `IProvideCustomerInfo` and `IProvideShippingInfo` interfaces. Customers service owns customer data, so it will provide an implementation of `IProvideCustomerInfo`. Shipping service holds information regarding weight and volume of packages, so it will provide an implementation of `IProvideShippingInfo`.
 
-A note about deployment: In a production environment one would package each provider into a deployable artifact (e.g. a NuGet package) and deploy them to the IT/Ops endpoint. In this exercise for simplicity we will use post-build events in `Divergent.Customers.Data` and `Divergent.Shipping.Data` to copy providers implementations into IT/Ops.
+A note about deployment: In a production environment one would package each provider into a deployable artifact (e.g. a NuGet package) and deploy them to the IT/Ops endpoint. In this exercise for simplicity we will use post-build events in `Divergent.Customers.ITOps` and `Divergent.Shipping.ITOps` to copy providers implementations into IT/Ops.
 
 ## Start-up projects
 
@@ -138,14 +138,14 @@ The `Divergent.ITOps.Interfaces` project, have a look at `IProvideCustomerInfo.c
 
 ### Step 2
 
-In the `Divergent.Customers.Data` project, add a new class called `CustomerInfoProvider` in the ITOps folder. It should implement the `IProvideCustomerInfo` interface from `Divergent.ITOps.Interfaces`. 
+In the `Divergent.Customers.ITOps` project, add a new class called `CustomerInfoProvider` in the ITOps folder. It should implement the `IProvideCustomerInfo` interface from `Divergent.ITOps.Interfaces`. 
 
 ```c#
 public class CustomerInfoProvider : IProvideCustomerInfo
 {
     public Task<CustomerInfo> GetCustomerInfo(int customerId)
     {
-        using (var db = new Context.CustomersContext())
+        using (var db = new CustomersContext())
         {
             var customer = db.Customers.Where(c => c.Id == customerId).Single();
 
@@ -164,7 +164,7 @@ public class CustomerInfoProvider : IProvideCustomerInfo
 
 ### Step 3
 
-Go to properties on the `Divergent.Customers.Data` project. Double check that it contains a post-build event:
+Go to properties on the `Divergent.Customers.ITOps` project. Double check that it contains a post-build event:
 
  ```bat
  copy /Y "$(TargetDir)$(ProjectName).dll" "$(SolutionDir)Divergent.ITOps\Providers\$(ProjectName).dll"
@@ -235,7 +235,7 @@ In this exercise, you'll implement the shipping provider in the Shipping service
 
 ### Step 1
 
-In the `Divergent.Shipping.Data` project, add a new class named `ShippingInfoProvider` in the ITOps folder. It should implement the `IProvideShippingInfo` interface from `Divergent.ITOps.Interfaces`.  The implementation should use `VolumeEstimator` and `WeightCalculator` to implement the `GetPackageInfo` method.
+In the `Divergent.Shipping.ITOps` project, add a new class named `ShippingInfoProvider` in the ITOps folder. It should implement the `IProvideShippingInfo` interface from `Divergent.ITOps.Interfaces`.  The implementation should use `VolumeEstimator` and `WeightCalculator` to implement the `GetPackageInfo` method.
 
 ```c#
 public class ShippingInfoProvider : IProvideShippingInfo
@@ -255,7 +255,7 @@ public class ShippingInfoProvider : IProvideShippingInfo
 
 ### Step 2
 
-Go to the `Divergent.Shipping.Data` project properties. Double check that it contains a post-build event:
+Go to the `Divergent.Shipping.ITOps` project properties. Double check that it contains a post-build event:
 
 ```batch
 copy /Y "$(TargetDir)$(ProjectName).dll" "$(SolutionDir)Divergent.ITOps\Providers\$(ProjectName).dll"

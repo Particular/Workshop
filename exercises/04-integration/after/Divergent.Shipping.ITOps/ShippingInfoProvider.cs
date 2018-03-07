@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Divergent.ITOps.Interfaces;
 
-namespace Divergent.Shipping.Data.ITOps
+namespace Divergent.Shipping.ITOps
 {
     public class ShippingInfoProvider : IProvideShippingInfo
     {

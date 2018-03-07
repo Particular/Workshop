@@ -2,13 +2,13 @@
 using System.Threading.Tasks;
 using Divergent.ITOps.Interfaces;
 
-namespace Divergent.Customers.Data.ITOps
+namespace Divergent.Customers.ITOps
 {
     public class CustomerInfoProvider : IProvideCustomerInfo
     {
         public Task<CustomerInfo> GetCustomerInfo(int customerId)
         {
-            using (var db = new Context.CustomersContext())
+            using (var db = new CustomersContext())
             {
                 var customer = db.Customers.Where(c => c.Id == customerId).Single();
 
