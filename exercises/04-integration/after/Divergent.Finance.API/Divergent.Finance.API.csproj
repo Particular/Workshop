@@ -210,7 +210,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>20185</DevelopmentServerPort>
+          <DevelopmentServerPort>20187</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:20187/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
