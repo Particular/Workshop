@@ -2,7 +2,9 @@
 using Divergent.Shipping.Data.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 namespace Divergent.Shipping.API.Host.Controllers
@@ -12,13 +14,13 @@ namespace Divergent.Shipping.API.Host.Controllers
     {
         [HttpGet]
         [Route("order/{orderNumber}")]
-        public dynamic Order(int orderNumber)
+        public async Task<dynamic> Order(int orderNumber)
         {
             using (var db = new ShippingContext())
             {
-                var shipment = db.Shipments
+                var shipment = await db.Shipments
                     .Where(s => s.OrderNumber == orderNumber)
-                    .SingleOrDefault();
+                    .SingleOrDefaultAsync();
 
                 return new
                 {
@@ -31,12 +33,12 @@ namespace Divergent.Shipping.API.Host.Controllers
 
         [HttpGet]
         [Route("orders")]
-        public IEnumerable<dynamic> Orders(string orderNumbers)
+        public async Task<IEnumerable<dynamic>> Orders(string orderNumbers)
         {
             using (var db = new ShippingContext())
             {
                 var orderNumbersArray = orderNumbers.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(s => int.Parse(s)).ToArray();
-                var shipments = db.Shipments
+                var shipments = await db.Shipments
                     .Where(s => orderNumbersArray.Any(id => id == s.OrderNumber))
                     .Select(s => new
                     {
@@ -44,7 +46,7 @@ namespace Divergent.Shipping.API.Host.Controllers
                         s.Courier,
                         s.Status
                     })
-                    .ToArray();
+                    .ToArrayAsync();
 
                 return shipments;
             }
