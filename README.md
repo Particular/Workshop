@@ -23,9 +23,10 @@ To complete the exercises, you require a Windows machine and Visual Studio. You 
 
 #### Visual Studio
 
-Install [Visual Studio 2017](https://www.visualstudio.com) (Community, Professional, or Enterprise) with the following workloads:
+Install [Visual Studio 2017](https://www.visualstudio.com) ver. 15.3 and higher (Community, Professional, or Enterprise) with the following workloads:
   - .NET desktop development
   - ASP.NET and web development
+  - .NET Core cross-platform development
 
 #### MSMQ and DTC
 
