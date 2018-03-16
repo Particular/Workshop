@@ -118,7 +118,7 @@ namespace Divergent.Finance.ViewModelComposition
 
 ### Step 3
 
-Update the `ordersView` list template (`app\branding\orders\ordersView.html`) to display the new information:
+Update the `ordersView` list template (`Divergent.Frontend\app\presentation\ordersView.html`) to display the new information:
 
 ```html
 <br />
