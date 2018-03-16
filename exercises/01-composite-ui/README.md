@@ -38,7 +38,7 @@ In this exercise we'll display the count of items in an order by retrieving it f
 Add an `ItemsCount` property to the anonymous object returned by `OrdersController.Get()` (`Divergent.Sales.API\Controllers\OrdersController.cs`):
 
 ```c#
-ItemsCount = o.Items.Count
+ItemsCount = order.Items.Count
 ```
 
 ### Step 2

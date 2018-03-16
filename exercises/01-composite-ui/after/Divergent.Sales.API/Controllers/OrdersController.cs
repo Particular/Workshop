@@ -12,21 +12,19 @@ namespace Divergent.Sales.API.Controllers
         [HttpGet]
         public IEnumerable<dynamic> Get()
         {
-            using (var _context = new SalesContext())
+            using (var db = new SalesContext())
             {
-                var orders = _context.Orders
-                    .Include(i => i.Items)
-                    .Include(i => i.Items.Select(x => x.Product))
-                    .ToArray();
-
-                return orders
-                    .Select(o => new
+                return db.Orders
+                    .Include(order => order.Items)
+                    .Include(order => order.Items.Select(item => item.Product))
+                    .Select(order => new
                     {
-                        o.Id,
-                        o.CustomerId,
-                        ProductIds = o.Items.Select(i => i.Product.Id),
-                        ItemsCount = o.Items.Count
-                    });
+                        order.Id,
+                        order.CustomerId,
+                        ProductIds = order.Items.Select(item => item.Product.Id).ToList(),
+                        ItemsCount = order.Items.Count,
+                    })
+                    .ToList();
             }
         }
     }

@@ -1,5 +1,4 @@
 ﻿using Divergent.Customers.Data.Context;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -13,30 +12,29 @@ namespace Divergent.Customers.API.Controllers
         [HttpGet, Route("byorders")]
         public IEnumerable<dynamic> ByOrders(string orderIds)
         {
-            var _orderIds = orderIds.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries)
+            var orderIdList = orderIds.Split(',')
                 .Select(id => int.Parse(id))
                 .ToList();
 
+            List<Data.Models.Customer> customers;
+
             using (var db = new CustomersContext())
             {
-                var query = db.Customers
-                    .Include(c => c.Orders)
-                    .Where(c => c.Orders.Any(o => _orderIds.Contains(o.OrderId)));
-
-                var customers = query.ToList();
-                var orders = customers.SelectMany(c => c.Orders).Where(o => _orderIds.Contains(o.OrderId));
-
-                var results = new List<dynamic>();
-                foreach (var order in orders)
-                {
-                    results.Add(new
-                    {
-                        OrderId = order.OrderId,
-                        CustomerName = customers.Single(c => c.Id == order.CustomerId).Name
-                    });
-                }
-                return results.ToArray();
+                customers = db.Customers
+                    .Include(customer => customer.Orders)
+                    .Where(customer => customer.Orders.Any(order => orderIdList.Contains(order.OrderId)))
+                    .ToList();
             }
+
+            return customers
+                .SelectMany(customer => customer.Orders)
+                .Where(order => orderIdList.Contains(order.OrderId))
+                .Select(order => new
+                {
+                    order.OrderId,
+                    CustomerName = customers.Single(customer => customer.Id == order.CustomerId).Name,
+                })
+                .ToList();
         }
     }
 }

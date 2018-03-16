@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using Divergent.Sales.Data.Context;
+using Divergent.Sales.Messages.Commands;
+using NServiceBus;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Divergent.Sales.Data.Context;
-using NServiceBus;
-using Divergent.Sales.Messages.Commands;
 
 namespace Divergent.Sales.API.Controllers
 {
@@ -14,17 +14,14 @@ namespace Divergent.Sales.API.Controllers
     {
         private readonly IEndpointInstance _endpoint;
 
-        public OrdersController(IEndpointInstance endpoint)
-        {
-            _endpoint = endpoint;
-        }
+        public OrdersController(IEndpointInstance endpoint) => _endpoint = endpoint;
 
         [HttpPost, Route("createOrder")]
         public async Task<dynamic> CreateOrder(dynamic payload)
         {
             var customerId = int.Parse((string)payload.customerId);
             var productIds = ((IEnumerable<dynamic>)payload.products)
-                .Select(p => int.Parse((string)p.productId))
+                .Select(product => int.Parse((string)product.productId))
                 .ToList();
 
             await _endpoint.Send(new SubmitOrderCommand
@@ -39,21 +36,19 @@ namespace Divergent.Sales.API.Controllers
         [HttpGet]
         public IEnumerable<dynamic> Get()
         {
-            using (var _context = new SalesContext())
+            using (var db = new SalesContext())
             {
-                var orders = _context.Orders
-                    .Include(i => i.Items)
-                    .Include(i => i.Items.Select(x => x.Product))
-                    .ToArray();
-
-                return orders
-                    .Select(o => new
+                return db.Orders
+                    .Include(order => order.Items)
+                    .Include(order => order.Items.Select(item => item.Product))
+                    .Select(order => new
                     {
-                        o.Id,
-                        o.CustomerId,
-                        ProductIds = o.Items.Select(i => i.Product.Id),
-                        ItemsCount = o.Items.Count
-                    });
+                        order.Id,
+                        order.CustomerId,
+                        ProductIds = order.Items.Select(item => item.Product.Id).ToList(),
+                        ItemsCount = order.Items.Count
+                    })
+                    .ToList();
             }
         }
     }
