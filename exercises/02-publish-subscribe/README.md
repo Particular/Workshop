@@ -73,14 +73,14 @@ namespace Divergent.Sales.Messages.Events
 
 ### Step 3
 
-Have a look at `SubmitOrderHandler` class in the `Divergent.Sales` project. At the end of the `Handle` method, publish the `OrderSubmittedEvent`, by calling the ```context.Publish<OrderSubmittedEvent>()``` method. Copy the properties from the incoming `SubmitOrderCommand` message, to the properties of the event.
+Have a look at `SubmitOrderHandler` class in the `Divergent.Sales` project. At the end of the `Handle` method, publish the `OrderSubmittedEvent`, by calling the ```context.Publish()``` method. Copy the properties from the incoming `SubmitOrderCommand` message, to the properties of the event.
 
 ```c#
-await context.Publish<OrderSubmittedEvent>(e =>
+await context.Publish(new OrderSubmittedEvent
 {
-    e.OrderId = order.Id;
-    e.CustomerId = message.CustomerId;
-    e.Products = message.Products;
+    OrderId = order.Id,
+    CustomerId = message.CustomerId,
+    Products = message.Products,
 });
 ```
 
@@ -280,7 +280,7 @@ namespace Divergent.Finance.Messages.Events
 
 ### Step 2
 
-At the end of `InitiatePaymentProcessCommandHandler`, publish the `PaymentSucceededEvent` by calling `context.Publish<PaymentSucceededEvent>()` method. Copy the order id from the incoming `InitiatePaymentProcessCommand` message, to the property of the event.
+At the end of `InitiatePaymentProcessCommandHandler`, publish the `PaymentSucceededEvent` by calling `context.Publish()` method. Copy the order id from the incoming `InitiatePaymentProcessCommand` message, to the property of the event.
 
 ```c#
 public async Task Handle(InitiatePaymentProcessCommand message, IMessageHandlerContext context)
@@ -289,9 +289,9 @@ public async Task Handle(InitiatePaymentProcessCommand message, IMessageHandlerC
 
     await _reliablePaymentClient.ProcessPayment(message.CustomerId, message.Amount);
 
-    await context.Publish<PaymentSucceededEvent>(e =>
+    await context.Publish(new PaymentSucceededEvent
     {
-        e.OrderId = message.OrderId;
+        OrderId = message.OrderId,
     });
 }
 ```

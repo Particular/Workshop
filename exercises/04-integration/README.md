@@ -60,11 +60,11 @@ private async Task ProcessOrder(IMessageHandlerContext context)
 {
     if (Data.IsOrderSubmitted && Data.IsPaymentProcessed)
     {
-        await context.Send<ShipWithFedexCommand>(cmd =>
+        await context.Send(new ShipWithFedexCommand
         {
-            cmd.OrderId = Data.OrderId;
-            cmd.CustomerId = Data.CustomerId;
-            cmd.Products = Data.Products.Select(s => s.Identifier).ToList();
+            OrderId = Data.OrderId,
+            CustomerId = Data.CustomerId,
+            Products = Data.Products.Select(s => s.Identifier).ToList(),
         });
 
         MarkAsComplete();

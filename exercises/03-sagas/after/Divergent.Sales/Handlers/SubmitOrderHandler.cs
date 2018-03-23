@@ -42,11 +42,11 @@ namespace Divergent.Sales.Handlers
                 await db.SaveChangesAsync();
 
                 // Publish event
-                await context.Publish<OrderSubmittedEvent>(e =>
+                await context.Publish(new OrderSubmittedEvent
                 {
-                    e.OrderId = order.Id;
-                    e.CustomerId = message.CustomerId;
-                    e.Products = message.Products;
+                    OrderId = order.Id,
+                    CustomerId = message.CustomerId,
+                    Products = message.Products,
                 });
             }
         }

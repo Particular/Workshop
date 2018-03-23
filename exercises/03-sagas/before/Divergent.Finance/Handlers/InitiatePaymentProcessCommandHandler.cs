@@ -23,9 +23,9 @@ namespace Divergent.Finance.Handlers
 
             await _reliablePaymentClient.ProcessPayment(message.CustomerId, message.Amount);
 
-            await context.Publish<PaymentSucceededEvent>(e =>
+            await context.Publish(new PaymentSucceededEvent
             {
-                e.OrderId = message.OrderId;
+                OrderId = message.OrderId,
             });
         }
     }
