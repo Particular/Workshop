@@ -23,9 +23,10 @@ To complete the exercises, you require a Windows machine and Visual Studio. You 
 
 #### Visual Studio
 
-Install [Visual Studio 2017](https://www.visualstudio.com) (Community, Professional, or Enterprise) with the following workloads:
+Install [Visual Studio 2017](https://www.visualstudio.com) ver. 15.3 and higher (Community, Professional, or Enterprise) with the following workloads:
   - .NET desktop development
   - ASP.NET and web development
+  - .NET Core cross-platform development
 
 If you are not running the latest version of Visual Studio 2017, you may need to install the .NET Core SDK seperately. Install [version 2.0.3 or newer](https://www.microsoft.com/net/download/all).
 
