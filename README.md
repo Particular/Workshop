@@ -27,6 +27,8 @@ Install [Visual Studio 2017](https://www.visualstudio.com) (Community, Professio
   - .NET desktop development
   - ASP.NET and web development
 
+If you are not running the latest version of Visual Studio 2017, you may need to install the .NET Core SDK seperately. Install [version 2.0.3 or newer](https://www.microsoft.com/net/download/all).
+
 #### MSMQ and DTC
 
 To ensure MSMQ and DTC are correctly installed, run the [Particular Platform Installer](https://particular.net/start-platform-download).
