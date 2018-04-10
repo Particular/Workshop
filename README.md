@@ -42,6 +42,33 @@ In the installation screen, select a minimum of:
 
 All other components are optional.
 
+#### Local DB
+
+Find out if Local DB is already installed
+
+```Batchfile
+sqllocaldb -?
+```
+
+If the command fails or doesn't exist then Local DB is not installed or needs to be reconfigured. Follow the steps below:
+
+* Download SQL Express [installer](https://www.microsoft.com/en-us/sql-server/sql-server-editions-express)
+* In the installer select the Download Media option
+* Select LocalDB from the option `WHICH PACKAGE WOULD YOU LIKE TO DOWNLOAD`
+* Install `SqlLocalDB.msi` from the download location
+
+#### SQLCMD
+
+Find out if SQLCMD is already installed
+
+```Batchfile
+sqlcmd -?
+```
+
+If the command fails or doesn't exist then SQLCMD is not installed or needs to be reconfigured. Follow the steps below:
+
+* Install [Command Line Utilities for SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=53591).
+
 ### Get a copy of this repository
 
 Clone or download this repo. If you're downloading a zip copy of the repo, ensure the zip file is unblocked before decompressing it:
@@ -53,8 +80,6 @@ Clone or download this repo. If you're downloading a zip copy of the repo, ensur
 
 ### Set up the databases
 
-WARNING: There is a bug in SQL Server 2017 LocalDB which results in incorrect paths being used for database files. If you have issues running the SQL script, uninstall SQL Server 2017 LocalDB. You should then be able to use SQL Server 2016 LocalDB, which is installed with Visual Studio 2017.
-
 Open an **elevated** command prompt, navigate to your copy of this repo, and run:
 
 ```Batchfile
@@ -62,16 +87,6 @@ powershell -NoProfile -ExecutionPolicy unrestricted -File exercises\scripts\Setu
 ```
 
 When you no longer need to run the exercises, you may optionally run `Teardown-LocalDBInstance.ps1`.
-
-Now connect to your LocalDB instance and run `exercises\scripts\Setup-Databases.sql`.
-
-You can do this using either SQL Server Management Studio (if you already have it installed) or Visual Studio. If using Visual Studio:
-
-- Open `exercises\scripts\Setup-Databases.sql`
-- From the Visual Studio menus, select SQL -> Execute
-- Choose this instance: Local -> microservices-workshop
-- Click "Connect"
-- After the query has run, ensure that you see "Command(s) completed successfully."
 
 ### Build the exercise solutions
 
