@@ -42,24 +42,24 @@ In the installation screen, select a minimum of:
 
 All other components are optional.
 
-#### Local DB
+#### LocalDB
 
-Find out if Local DB is already installed
+Find out if LocalDB is already installed:
 
 ```Batchfile
 sqllocaldb -?
 ```
 
-If the command fails or doesn't exist then Local DB is not installed or needs to be reconfigured. Follow the steps below:
+If the command fails or doesn't exist then LocalDB is not installed or needs to be reconfigured. Follow the steps below:
 
-* Download SQL Express [installer](https://www.microsoft.com/en-us/sql-server/sql-server-editions-express)
-* In the installer select the Download Media option
-* Select LocalDB from the option `WHICH PACKAGE WOULD YOU LIKE TO DOWNLOAD`
-* Install `SqlLocalDB.msi` from the download location
+* Download and run the [SQL Server Express installer](https://www.microsoft.com/en-us/sql-server/sql-server-editions-express)
+* In the installer, select the "Download Media" option
+* Under "WHICH PACKAGE WOULD YOU LIKE TO DOWNLOAD?", select LocalDB
+* Download and run `SqlLocalDB.msi` from the download location
 
 #### SQLCMD
 
-Find out if SQLCMD is already installed
+Find out if SQLCMD is already installed:
 
 ```Batchfile
 sqlcmd -?
