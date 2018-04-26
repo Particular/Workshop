@@ -15,11 +15,6 @@ namespace Divergent.Sales.API
             var config = new HttpConfiguration();
 
             config.MapHttpAttributeRoutes();
-            config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
             config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
 
             config.DependencyResolver = new WindsorDependencyResolver(container);

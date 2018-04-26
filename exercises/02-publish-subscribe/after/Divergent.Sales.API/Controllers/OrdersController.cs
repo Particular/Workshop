@@ -33,7 +33,7 @@ namespace Divergent.Sales.API.Controllers
             return payload;
         }
 
-        [HttpGet]
+        [HttpGet, Route]
         public IEnumerable<dynamic> Get()
         {
             using (var db = new SalesContext())
