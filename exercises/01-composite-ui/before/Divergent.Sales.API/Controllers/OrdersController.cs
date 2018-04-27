@@ -9,7 +9,7 @@ namespace Divergent.Sales.API.Controllers
     [RoutePrefix("api/orders")]
     public class OrdersController : ApiController
     {
-        [HttpGet]
+        [HttpGet, Route]
         public IEnumerable<dynamic> Get()
         {
             using (var db = new SalesContext())
