@@ -67,6 +67,7 @@ sqlcmd -?
 
 If the command fails or doesn't exist then SQLCMD is not installed or needs to be reconfigured. Follow the steps below:
 
+* Install [ODBC Driver for SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=53339) (this is a pre-requisite of SQLCMD).
 * Install [Command Line Utilities for SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=53591).
 
 ### Get a copy of this repository
