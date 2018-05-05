@@ -21,6 +21,8 @@ If you have any difficulty preparing your machine, or following this document, p
 
 To complete the exercises, you require a Windows machine and Visual Studio. You must be using a Windows client edition, such as Windows 10, rather than a server edition, such as Windows Server 2016. The Particular Platform Installer does not support server editions of Windows.
 
+Although specific versions of the pre-requisites are mentioned here, later versions may also work. When we confirm that the exercises work with later versions of the pre-requisites, we will update these instructions to refer to those later versions.
+
 #### Visual Studio
 
 Install [Visual Studio 2017](https://www.visualstudio.com) (Community, Professional, or Enterprise) with the following workloads:
@@ -44,31 +46,15 @@ All other components are optional.
 
 #### LocalDB
 
-Find out if LocalDB is already installed:
-
-```Batchfile
-sqllocaldb -?
-```
-
-If the command fails or doesn't exist then LocalDB is not installed or needs to be reconfigured. Follow the steps below:
-
-* Download and run the [SQL Server Express installer](https://www.microsoft.com/en-us/sql-server/sql-server-editions-express)
+* Download and run the [SQL Server 2017 Express installer](https://www.microsoft.com/en-us/sql-server/sql-server-editions-express)
 * In the installer, select the "Download Media" option
 * Under "WHICH PACKAGE WOULD YOU LIKE TO DOWNLOAD?", select LocalDB
 * Download and run `SqlLocalDB.msi` from the download location
 
 #### SQLCMD
 
-Find out if SQLCMD is already installed:
-
-```Batchfile
-sqlcmd -?
-```
-
-If the command fails or doesn't exist then SQLCMD is not installed or needs to be reconfigured. Follow the steps below:
-
-* Install [ODBC Driver for SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=53339) (this is a pre-requisite of SQLCMD).
-* Install [Command Line Utilities for SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=53591).
+* Install [ODBC Driver 13.1 for SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=53339) (this is a pre-requisite of SQLCMD).
+* Install [Command Line Utilities 14.0 for SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=53591) (often referred to as "SQLCMD").
 
 ### Get a copy of this repository
 
