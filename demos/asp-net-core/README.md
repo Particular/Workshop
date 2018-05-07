@@ -1,6 +1,8 @@
 ## ASP.NET Core demo
 
-This demo is composed of two solutions which demonstrate UI Composition techniques using ASP.NET Core (v1.1.2).
+This demo is composed of two solutions which demonstrate UI Composition techniques using ASP.NET Core.
+
+In order to run the demos, you require the latest .NET Core Runtime in the [1.1.x version range](https://www.microsoft.com/net/download/all).
 
 ### Divergent.CompositionGateway
 
