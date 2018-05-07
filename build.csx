@@ -2,6 +2,7 @@
 
 #load "packages/simple-targets-csx.6.0.0/contentFiles/csx/any/simple-targets.csx"
 #load "scripts/cmd.csx"
+#load "scripts/start.csx"
 
 using System;
 using static SimpleTargets;
@@ -97,33 +98,9 @@ targets.Add(
     DependsOn("demos"),
     () =>
     {
-        var salesAPIHost = new Process();
-        salesAPIHost.StartInfo = new ProcessStartInfo
-        {
-            FileName = @".\demos\asp-net-core\Divergent.Sales.API.Host\bin\debug\Divergent.Sales.API.Host.exe",
-            UseShellExecute = true
-        };
-        
-        salesAPIHost.Start();
-
-        var shippingAPIHost = new Process();
-        shippingAPIHost.StartInfo = new ProcessStartInfo
-        {
-            FileName = @".\demos\asp-net-core\Divergent.Shipping.API.Host\bin\debug\Divergent.Shipping.API.Host.exe",
-            UseShellExecute = true
-        };
-        
-        shippingAPIHost.Start();
-
-        var gatewayHost = new Process();
-        gatewayHost.StartInfo = new ProcessStartInfo
-        {
-            FileName = @"dotnet",
-            Arguments = @"run --project demos/asp-net-core/Divergent.CompositionGateway/Divergent.CompositionGateway.csproj",
-            UseShellExecute = true
-        };
-        
-        gatewayHost.Start();
+        Start(@".\demos\asp-net-core\Divergent.Sales.API.Host\bin\debug\Divergent.Sales.API.Host.exe", "");
+        Start(@".\demos\asp-net-core\Divergent.Shipping.API.Host\bin\debug\Divergent.Shipping.API.Host.exe", "");
+        Start(@"dotnet", @"run --project demos/asp-net-core/Divergent.CompositionGateway/Divergent.CompositionGateway.csproj");
     });
 
 Run(Args, targets);
