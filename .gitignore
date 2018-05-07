@@ -13,6 +13,7 @@ bower_cmps/
 applicationhost.config
 v15/
 .nuget/
+.vs/
 
 # NServiceBus Logs
 nsb_log_*.txt
