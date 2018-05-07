@@ -103,4 +103,15 @@ targets.Add(
         Start(@"dotnet", @"run --project demos/asp-net-core/Divergent.CompositionGateway/Divergent.CompositionGateway.csproj");
     });
 
+targets.Add(
+    "run-website-demo",
+    DependsOn("demos"),
+    () =>
+    {
+        Start(@".\demos\asp-net-core\Divergent.Sales.API.Host\bin\debug\Divergent.Sales.API.Host.exe", "");
+        Start(@".\demos\asp-net-core\Divergent.Shipping.API.Host\bin\debug\Divergent.Shipping.API.Host.exe", "");
+        Start(@"dotnet", @"run --project demos/asp-net-core/Divergent.Website/Divergent.Website.csproj");
+        Start("http://localhost:11493", "");
+    });
+
 Run(Args, targets);
