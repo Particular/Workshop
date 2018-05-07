@@ -94,7 +94,7 @@ targets.Add(
 
 targets.Add(
     "run-gateway-demo",
-    DependsOn("find-msbuild", "restore-demos"),
+    DependsOn("demos"),
     () =>
     {
         var salesAPIHost = new Process();
