@@ -92,4 +92,38 @@ targets.Add(
     }
 );
 
+targets.Add(
+    "run-gateway-demo",
+    DependsOn("find-msbuild", "restore-demos"),
+    () =>
+    {
+        var salesAPIHost = new Process();
+        salesAPIHost.StartInfo = new ProcessStartInfo
+        {
+            FileName = @".\demos\asp-net-core\Divergent.Sales.API.Host\bin\debug\Divergent.Sales.API.Host.exe",
+            UseShellExecute = true
+        };
+        
+        salesAPIHost.Start();
+
+        var shippingAPIHost = new Process();
+        shippingAPIHost.StartInfo = new ProcessStartInfo
+        {
+            FileName = @".\demos\asp-net-core\Divergent.Shipping.API.Host\bin\debug\Divergent.Shipping.API.Host.exe",
+            UseShellExecute = true
+        };
+        
+        shippingAPIHost.Start();
+
+        var gatewayHost = new Process();
+        gatewayHost.StartInfo = new ProcessStartInfo
+        {
+            FileName = @"dotnet",
+            Arguments = @"run --project demos/asp-net-core/Divergent.CompositionGateway/Divergent.CompositionGateway.csproj",
+            UseShellExecute = true
+        };
+        
+        gatewayHost.Start();
+    });
+
 Run(Args, targets);
