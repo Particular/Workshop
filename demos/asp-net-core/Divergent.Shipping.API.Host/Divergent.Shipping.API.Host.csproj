@@ -7,8 +7,8 @@
     <ProjectGuid>{0059E3AC-0AFA-43F6-B631-200CBB723F94}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Divergent.Sales.API.Host</RootNamespace>
-    <AssemblyName>Divergent.Sales.API.Host</AssemblyName>
+    <RootNamespace>Divergent.Shipping.API.Host</RootNamespace>
+    <AssemblyName>Divergent.Shipping.API.Host</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
