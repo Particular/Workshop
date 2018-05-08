@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Primitives;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 
 namespace ITOps.ViewModelComposition
@@ -39,9 +41,20 @@ namespace ITOps.ViewModelComposition
                 }
                 else
                 {
-                    await Task.WhenAll(pendingTasks);
+                    var statusCode = StatusCodes.Status200OK;
 
-                    return (viewModel, StatusCodes.Status200OK);
+                    await Task.WhenAll(pendingTasks.ToArray())
+                        .ContinueWith(t=> 
+                        {
+                            if (t.IsFaulted)
+                            {
+                                statusCode = StatusCodes.Status500InternalServerError;
+                                var flattenedException = t.Exception.Flatten();
+                                context.Response.Headers.Add("composition-errors", new StringValues(flattenedException.InnerExceptions.Select(exception => HtmlEncoder.Default.Encode(exception.ToString())).ToArray()));
+                            }
+                        });
+
+                    return (viewModel, statusCode);
                 }
             }
             finally

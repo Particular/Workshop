@@ -11,12 +11,20 @@
 
                 ctrl.refreshOrders = function () {
                     ctrl.isLoading = $http.get(config.gatewayBaseUrl + '/orders/')
-                        .then(function (response) {
+                        .then(function successCallback(response) {
                             ctrl.orders = response.data.orders;
-                        })
-                        .catch(function (error) {
-                            $log.error('Something went wrong: ', error);
-                            ctrl.loadError = 'Something went wrong. Look at the console log in your browser';
+                        }, function errorCallback(response) {
+                            $log.error('Something went wrong: ', response);
+                            var compositionErrors = response.headers('composition-errors');
+                            if (compositionErrors)
+                            {
+                                $log.error('Composition errors: ', $('<textarea/>').html(compositionErrors).text());
+                                ctrl.loadError = 'Something went wrong during the composition process. Look at the console log in your browser.';
+                            }
+                            else
+                            {
+                                ctrl.loadError = 'Something went wrong. Look at the console log in your browser';
+                            }
                         });
                 };
 
