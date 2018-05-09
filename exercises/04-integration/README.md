@@ -214,7 +214,7 @@ public class ShipWithFedexCommandHandler : IHandleMessages<ShipWithFedexCommand>
 
     private Task CallFedexWebService(XDocument fedExRequest)
     {
-        //do web service call etc.   
+        //do web service call etc.
         return Task.FromResult(0);
     }
 }
