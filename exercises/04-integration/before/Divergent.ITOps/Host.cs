@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
-using Divergent.ITOps;
 using ITOps.EndpointConfig;
 using NServiceBus;
 using NServiceBus.Logging;
