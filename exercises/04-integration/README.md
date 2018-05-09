@@ -143,24 +143,26 @@ In the `Divergent.Customers.Data` project, add a new class called `CustomerInfoP
 ```c#
 public class CustomerInfoProvider : IProvideCustomerInfo
 {
-    public Task<CustomerInfo> GetCustomerInfo(int customerId)
+    public async Task<CustomerInfo> GetCustomerInfo(int customerId)
     {
         using (var db = new Context.CustomersContext())
         {
-            var customer = db.Customers.Where(c => c.Id == customerId).Single();
+            var customer = await db.Customers.Where(c => c.Id == customerId).SingleAsync();
 
-            return Task.FromResult(new CustomerInfo
+            return new CustomerInfo
             {
-                 Name = customer.Name,
-                 Street = customer.Street,
-                 City = customer.City,
-                 PostalCode = customer.PostalCode,
-                 Country = customer.Country,
-            });
+                Name = customer.Name,
+                Street = customer.Street,
+                City = customer.City,
+                PostalCode = customer.PostalCode,
+                Country = customer.Country,
+            };
         }
     }
 }
 ```
+
+NOTE: `SingleAsync()` is an asynchronous Entity Framework LINQ extension in the `System.Data.Entity` namespace. Ensure you add an appropriate `using` statement.
 
 ### Step 3
 
