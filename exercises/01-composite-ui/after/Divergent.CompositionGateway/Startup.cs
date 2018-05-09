@@ -22,6 +22,7 @@ namespace Divergent.CompositionGateway
                 policyBuilder.AllowAnyOrigin();
                 policyBuilder.AllowAnyMethod();
                 policyBuilder.AllowAnyHeader();
+                policyBuilder.WithExposedHeaders("composition-errors");
             });
 
             app.RunCompositionGatewayWithDefaultRoutes();

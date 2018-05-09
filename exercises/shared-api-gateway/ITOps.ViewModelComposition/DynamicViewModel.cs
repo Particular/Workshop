@@ -75,7 +75,14 @@ namespace ITOps.ViewModelComposition
                     tasks.Add(handler.Invoke(this, @event, routeData, query));
                 }
 
-                return Task.WhenAll(tasks);
+                return Task.WhenAll(tasks)
+                    .ContinueWith(t=>
+                    {
+                        if (t.IsFaulted)
+                        {
+                            throw t.Exception.Flatten();
+                        }
+                    });
             }
 
             return Task.CompletedTask;
