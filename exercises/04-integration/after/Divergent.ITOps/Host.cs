@@ -32,7 +32,8 @@ namespace Divergent.ITOps
                     .Where(t => t.Name.EndsWith("Provider"))
                     .AsImplementedInterfaces();
 
-                endpointConfiguration.UseContainer<AutofacBuilder>(c => c.ExistingLifetimeScope(builder.Build()));
+                var container = builder.Build();
+                endpointConfiguration.UseContainer<AutofacBuilder>(c => c.ExistingLifetimeScope(container));
 
                 endpoint = await Endpoint.Start(endpointConfiguration);
             }

@@ -226,7 +226,7 @@ Run the solution and verify that the ITOps message handler fetches the customer 
 
 NOTE: For your convenience IT/Ops is already configured with the required connection strings to allow providers to function properly.
 
-Check out `ReflectionHelper` and `ContainerSetup` in `Divergent.ITOps` to learn more about how IT/Ops loads and co-hosts the providers.
+Check out `ReflectionHelper` and look at how the container is created in the `Host` in `Divergent.ITOps` to learn more about how IT/Ops loads and co-hosts the providers.
 
 
 ## Exercise 4.3: implement shipping provider
