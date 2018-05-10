@@ -32,17 +32,20 @@ namespace ITOps.ViewModelComposition
 
                 foreach (var appender in interceptors.OfType<IViewModelAppender>())
                 {
-                    pendingTasks.Add(appender.Append(viewModel, routeData, context.Request.Query)
-                        .ContinueWith(t =>
+                    var appendTask = appender.Append(viewModel, routeData, context.Request.Query);
+#pragma warning disable 4014
+                    // intentionally ignored
+                    appendTask.ContinueWith(t =>
+#pragma warning restore 4014
+                    {
+                        t.Exception.Handle(ex =>
                         {
-                            t.Exception.Handle(ex =>
-                            {
-                                var logger = loggerFactory.CreateLogger(appender.GetType());
-                                //adjust to emit the correct information
-                                logger.LogError(ex.ToString());
-                                return false;
-                            });
-                        }, TaskContinuationOptions.OnlyOnFaulted));
+                            var logger = loggerFactory.CreateLogger(appender.GetType());
+                            logger.LogError(ex.ToString());
+                            return true;
+                        });
+                    }, TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously);
+                    pendingTasks.Add(appendTask);
                 }
 
                 if (!pendingTasks.Any())
