@@ -75,17 +75,19 @@ namespace ITOps.ViewModelComposition
                 var tasks = new List<Task>();
                 foreach (var handler in handlers)
                 {
-                    tasks.Add(handler.Invoke(this, @event, routeData, query)
+                    var invokeTask = handler.Invoke(this, @event, routeData, query);
+                    // intentionally ignored
+                    invokeTask
                         .ContinueWith(t =>
                         {
                             t.Exception.Handle(ex =>
                             {
                                 var logger = loggerFactory.CreateLogger(handler.GetType());
-                                //adjust to emit the correct information
                                 logger.LogError(ex.ToString());
-                                return false;
+                                return true;
                             });
-                        }, TaskContinuationOptions.OnlyOnFaulted));
+                        }, TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously);
+                    tasks.Add(invokeTask);
                 }
 
                 return Task.WhenAll(tasks);
