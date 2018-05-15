@@ -369,7 +369,7 @@ Note: If ServicePulse doesn't seem to be running, or it cannot connect to Servic
 
 ### Step 5
 
-Let's install the ServiceControl [heartbeat plugin]((https://docs.particular.net/servicecontrol/plugins/heartbeat)) into the NServiceBus endpoints. Install this plugin into every project that hosts an endpoint via the Visual Studio NuGet user interface or via the Package Manager Console.
+Let's install the ServiceControl [heartbeat plugin](https://docs.particular.net/servicecontrol/plugins/heartbeat) into the NServiceBus endpoints. Install this plugin into every project that hosts an endpoint via the Visual Studio NuGet user interface or via the Package Manager Console.
 
 ### Step 6
 
@@ -381,7 +381,7 @@ Make sure you configure every project that hosts an endpoint. You can easily cop
 
 ### Step 7
 
-Run the solution and naviate to ServicePulse while the projects are starting.
+Run the solution and navigate to ServicePulse while the projects are starting.
 
 After a while the 'Last 10 events' should show that some of the `Divergent` endpoints have started. Soon afer it will show that those endpoints are running the heartbeats plugin.
 
@@ -403,11 +403,11 @@ See how the messages can be group and retried individually or per group.
 
 Next, stop the solution, remove the throwing of the exception and restart it. Try retrying the failed message in ServicePulse and see that it should now be processed successfully.
 
-This is a powerful feature which could be of huge value to operations activities. Imagine a system with high throughput. To perform maintenance, the database containing your business data was brought offline for a couple of minutes. Tthousands of messages ended up in the error queue and you can see those in ServicePulse. Once the system is up and running again, we can retry them and they should be processed successfully.
+This is a powerful feature which could be of huge value to operations activities. Imagine a system with high throughput. To perform maintenance, the database containing your business data was brought offline for a couple of minutes. Thousands of messages ended up in the error queue and you can see those in ServicePulse. Once the system is up and running again, we can retry them and they should be processed successfully.
 
 ### Step 10
 
-We now have a dashboard that can inform us when an endpoint is  or messages failed to be processed. A few things to consider:
+We now have a dashboard that can inform us when an endpoint is or messages failed to be processed. A few things to consider:
 
 - No-one wants to watch the dashboard all day. Fortunately, ServiceControl also uses pub/sub to notify subscribers of events. You can build an endpoint that subscribes to ServiceControl events and informs you of downtime or failed email, SMS or other means. Read more about [using ServiceControl events](https://docs.particular.net/servicecontrol/contracts).
 - You might notice several endpoints with the same name. Endpoints send heartbeats with a unique host identifier, made up of their endpoint name and a hash of the folder the endpoint is installed in. Our exercises all have the same endpoint name, but different folders. Another example is when you deploy endpoints using [Octopus](https://octopus.com/). This will deploy every version in its own folder, with the result that every version will spawn a new monitored endpoint in ServicePulse. You can solve this by [overriding the host identifier](https://docs.particular.net/nservicebus/hosting/override-hostid).
