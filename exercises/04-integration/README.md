@@ -105,15 +105,16 @@ public class ShipWithFedexCommandHandler : IHandleMessages<ShipWithFedexCommand>
 
     private XDocument CreateFedexRequest(string name, string street, string city, string postalCode, string country)
     {
-        var shipment =
-            new XElement("FedExShipment",
-                new XElement("ShipTo",
-                    new XElement("Name", name),
-                    new XElement("Street", street),
-                    new XElement("City", city),
-                    new XElement("PostalCode", postalCode),
-                    new XElement("Country", country)));
-        return shipment.Document;
+        var shipment = 
+            new XDocument(
+                new XElement("FedExShipment",
+                    new XElement("ShipTo",
+                        new XElement("Name", name),
+                        new XElement("Street", street),
+                        new XElement("City", city),
+                        new XElement("PostalCode", postalCode),
+                        new XElement("Country", country))));
+        return shipment;
     }
 
     private Task CallFedexWebService(XDocument fedExRequest)
@@ -203,15 +204,16 @@ public class ShipWithFedexCommandHandler : IHandleMessages<ShipWithFedexCommand>
     private XDocument CreateFedexRequest(CustomerInfo customerInfo)
     {
         var shipment =
-            new XElement("FedExShipment",
-                new XElement("ShipTo",
-                    new XElement("Name", customerInfo.Name),
-                    new XElement("Street", customerInfo.Street),
-                    new XElement("City", customerInfo.City),
-                    new XElement("PostalCode", customerInfo.PostalCode),
-                    new XElement("Country", customerInfo.Country)));
+            new XDocument(
+                new XElement("FedExShipment",
+                    new XElement("ShipTo",
+                        new XElement("Name", customerInfo.Name),
+                        new XElement("Street", customerInfo.Street),
+                        new XElement("City", customerInfo.City),
+                        new XElement("PostalCode", customerInfo.PostalCode),
+                        new XElement("Country", customerInfo.Country))));
 
-        return shipment.Document;
+        return shipment;
     }
 
     private Task CallFedexWebService(XDocument fedExRequest)
