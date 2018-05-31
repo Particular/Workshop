@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -11,14 +12,16 @@ namespace ITOps.ViewModelComposition
     {
         private readonly RouteData routeData;
         private readonly IQueryCollection query;
+        private readonly ILoggerFactory loggerFactory;
 
         private IDictionary<Type, List<EventHandler<object>>> subscriptions = new Dictionary<Type, List<EventHandler<object>>>();
         private IDictionary<string, object> properties = new Dictionary<string, object>();
 
-        public DynamicViewModel(RouteData routeData, IQueryCollection query)
+        public DynamicViewModel(RouteData routeData, IQueryCollection query, ILoggerFactory loggerFactory)
         {
             this.routeData = routeData;
             this.query = query;
+            this.loggerFactory = loggerFactory;
         }
 
         public void Subscribe<TEvent>(EventHandler<TEvent> handler)
@@ -72,7 +75,17 @@ namespace ITOps.ViewModelComposition
                 var tasks = new List<Task>();
                 foreach (var handler in handlers)
                 {
-                    tasks.Add(handler.Invoke(this, @event, routeData, query));
+                    tasks.Add(handler.Invoke(this, @event, routeData, query)
+                        .ContinueWith(t =>
+                        {
+                            t.Exception.Handle(ex =>
+                            {
+                                var logger = loggerFactory.CreateLogger(handler.GetType());
+                                //adjust to emit the correct information
+                                logger.LogError(ex.ToString());
+                                return false;
+                            });
+                        }, TaskContinuationOptions.OnlyOnFaulted));
                 }
 
                 return Task.WhenAll(tasks);
