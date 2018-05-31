@@ -17,6 +17,8 @@ namespace Divergent.CompositionGateway
 
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddConsole(LogLevel.Warning);
+
             app.UseCors(policyBuilder =>
             {
                 policyBuilder.AllowAnyOrigin();
