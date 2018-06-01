@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +12,8 @@ namespace ITOps.ViewModelComposition
     {
         public static async Task<(dynamic ViewModel, int StatusCode)> HandleGetRequest(HttpContext context)
         {
-            var viewModel = new DynamicViewModel(context.GetRouteData(), context.Request.Query);
+            var loggerFactory = context.RequestServices.GetService<ILoggerFactory>();
+            var viewModel = new DynamicViewModel(context.GetRouteData(), context.Request.Query, loggerFactory);
             var routeData = context.GetRouteData();
 
             // matching interceptors could be cached by URL
@@ -30,7 +32,7 @@ namespace ITOps.ViewModelComposition
 
                 foreach (var appender in interceptors.OfType<IViewModelAppender>())
                 {
-                    pendingTasks.Add(appender.Append(viewModel, routeData, context.Request.Query));
+                    pendingTasks.Add(appender.Append(viewModel, routeData, context.Request.Query).WithLogging(() => loggerFactory.CreateLogger(appender.GetType())));
                 }
 
                 if (!pendingTasks.Any())
