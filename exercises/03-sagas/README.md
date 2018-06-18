@@ -14,6 +14,10 @@ The following events are currently published in the system:
 
 NOTE: In order to view saga details in ServiceInsight, the [SagaAudit Plugin](https://docs.particular.net/nservicebus/sagas/saga-audit) must be installed in the endpoints which contain the sagas. Currently, the solution does not have this plugin installed so you will have to install it yourself before running the endpoints, if you wish to view the details of your sagas in ServiceInsight.
 
+To install the plugin type: `Install-Package NServiceBus.SagaAudit -Version 2.0.0`, in Package Manager Console.
+
+If you use `Manage Nuget Packages` option, make sure you select **version 2.0.0**
+
 ## Start-up projects
 
 For more info, please see [the instructions for running the exercise solutions](/README.md#running-the-exercise-solutions).
