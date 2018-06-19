@@ -380,7 +380,7 @@ In this exercise, we'll set up every endpoint to send saga audit messages to Ser
 
 ### Step 1
 
-If you are not familiar with the saga audit plugin, you will need to read the [documentation](https://docs.particular.net/nservicebus/sagas/saga-audit) for how to install it first.
+If you are not familiar with the saga audit plugin, you will need to read the [documentation](https://docs.particular.net/nservicebus/sagas/saga-audit?version=sagaaudit_2) for how to install it first.
 
 To install the plugin type: `Install-Package NServiceBus.SagaAudit -Version 2.0.0`, in Package Manager Console.
 
