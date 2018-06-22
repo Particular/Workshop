@@ -1,0 +1,20 @@
+{
+    "Version": 3,
+    "ListAllProjects": true,
+    "MultiProjectConfigurations": {
+        "Exercise": {
+            "Projects": {
+                "Divergent.CompositionGateway": {},
+                "Divergent.Customers": {},
+                "Divergent.Customers.API": {},
+                "Divergent.Finance": {},
+                "Divergent.Finance.API": {},
+                "Divergent.Frontend": {},
+                "Divergent.Sales": {},
+                "Divergent.Sales.API": {},
+                "Divergent.Shipping": {},
+                "PaymentProviders": {}
+            }
+        }
+    }
+}

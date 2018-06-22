@@ -1,11 +1,8 @@
-#r "packages/SetStartupProjects.1.4.0/lib/net452/SetStartupProjects.dll"
-
 #load "packages/simple-targets-csx.6.0.0/contentFiles/csx/any/simple-targets.csx"
 #load "scripts/cmd.csx"
 
 using System;
 using static SimpleTargets;
-using SetStartupProjects;
 
 var vswhere = "packages/vswhere.2.1.4/tools/vswhere.exe";
 var nuget = ".nuget/v4.3.0/NuGet.exe";
@@ -64,32 +61,5 @@ targets.Add(
         }
     });
 
-targets.Add(
-    "delete-vs-folders",
-    () =>
-    {
-        foreach (var suo in Directory.EnumerateDirectories(".", ".vs", SearchOption.AllDirectories))
-        {
-            Directory.Delete(suo, true);
-        }
-    }
-);
-
-targets.Add(
-    "set-startup-projects",
-    DependsOn("delete-vs-folders"),
-    () =>
-    {
-        var suoCreator = new StartProjectSuoCreator();
-        foreach (var sln in Directory.EnumerateFiles(".", "*.sln", SearchOption.AllDirectories))
-        {
-            var startProjects = new StartProjectFinder().GetStartProjects(sln).ToList();
-            if (startProjects.Any())
-            {
-                suoCreator.CreateForSolutionFile(sln, startProjects, VisualStudioVersions.Vs2017);
-            }
-        }
-    }
-);
 
 Run(Args, targets);
