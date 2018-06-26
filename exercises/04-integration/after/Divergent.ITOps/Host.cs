@@ -26,7 +26,7 @@ namespace Divergent.ITOps
                     .Configure(connectionString, null);
 
                 var builder = new ContainerBuilder();
-                var assemblies = ReflectionHelper.GetAssemblies("..\\..\\Providers", ".Data.dll");
+                var assemblies = ReflectionHelper.GetAssemblies("..\\..\\..\\Providers", ".Data.dll");
                 builder.RegisterAssemblyTypes(assemblies.ToArray())
                     .Where(t => t.Name.EndsWith("Provider"))
                     .AsImplementedInterfaces();
