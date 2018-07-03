@@ -20,6 +20,7 @@ namespace Divergent.Shipping.API.Host.Controllers
             {
                 var shipment = await db.Shipments
                     .Where(s => s.OrderNumber == orderNumber)
+                    .Select(s => new { s.OrderNumber, s.Courier, s.Status })
                     .SingleOrDefaultAsync();
 
                 return new
