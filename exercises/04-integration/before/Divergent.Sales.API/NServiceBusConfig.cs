@@ -18,13 +18,13 @@ namespace Divergent.Sales.API
             var licensePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\License.xml");
             config.LicensePath(licensePath);
 
-            var routing = config.UseTransport<MsmqTransport>()
-                .ConnectionString("deadLetter=false;journal=false")
-                .Routing();
+            var transport = config.UseTransport<MsmqTransport>();
+
+            var routing = transport.Routing();
 
             routing.RouteToEndpoint(typeof(SubmitOrderCommand), "Divergent.Sales");
 
-            config.UseSerialization<JsonSerializer>();
+            config.UseSerialization<NewtonsoftSerializer>();
             config.UsePersistence<InMemoryPersistence>();
 
             config.SendFailedMessagesTo("error");
