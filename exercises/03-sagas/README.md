@@ -200,6 +200,7 @@ To verify if `PaymentSucceededEvent` has been received, we can set a boolean pro
 public async Task Handle(PaymentSucceededEvent message, IMessageHandlerContext context)
 {
     Data.IsPaymentProcessed = true;
+    return Task.CompletedTask;
 }
 ```
 
