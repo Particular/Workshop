@@ -369,13 +369,13 @@ Note: If ServicePulse doesn't seem to be running, or it cannot connect to Servic
 
 ### Step 5
 
-Let's install the ServiceControl [heartbeat plugin](https://docs.particular.net/monitoring/heartbeats/install-plugin?version=heartbeats_2) into the NServiceBus endpoints. 
+Let's install the ServiceControl [heartbeat plugin](https://docs.particular.net/monitoring/heartbeats/install-plugin?version=heartbeats_3) into the NServiceBus endpoints.
 
 Install this plugin into every project that hosts an endpoint via the Visual Studio NuGet user interface or via the Package Manager Console.
 
-To install the plugin type: `Install-Package NServiceBus.Heartbeat -Version 2.0.0` in Package Manager Console.
+To install the plugin type: `Install-Package NServiceBus.Heartbeat -Version 3.0.0` in Package Manager Console.
 
-If you use `Manage Nuget Packages` option, make sure you select **version 2.0.0**
+If you use `Manage Nuget Packages` option, make sure you select **version 3.0.0**
 
 ### Step 6
 
