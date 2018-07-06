@@ -12,11 +12,11 @@ The following events are currently published in the system:
 - `OrderSubmittedEvent` - The ordered products are attached to this event, through which we're able to ship them.
 - `PaymentSucceededEvent` - The order was successfully paid and we can ship it.
 
-NOTE: In order to view saga details in ServiceInsight, the [SagaAudit Plugin](https://docs.particular.net/nservicebus/sagas/saga-audit?version=sagaaudit_2) must be installed in the endpoints which contain the sagas. Currently, the solution does not have this plugin installed so you will have to install it yourself before running the endpoints, if you wish to view the details of your sagas in ServiceInsight.
+NOTE: In order to view saga details in ServiceInsight, the [SagaAudit Plugin](https://docs.particular.net/nservicebus/sagas/saga-audit?version=sagaaudit_3) must be installed in the endpoints which contain the sagas. Currently, the solution does not have this plugin installed so you will have to install it yourself before running the endpoints, if you wish to view the details of your sagas in ServiceInsight.
 
-To install the plugin type: `Install-Package NServiceBus.SagaAudit -Version 2.0.0`, in Package Manager Console.
+To install the plugin type: `Install-Package NServiceBus.SagaAudit -Version 3.0.0`, in Package Manager Console.
 
-If you use `Manage Nuget Packages` option, make sure you select **version 2.0.0**
+If you use `Manage Nuget Packages` option, make sure you select **version 3.0.0**
 
 ## Start-up projects
 
