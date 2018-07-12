@@ -120,7 +120,7 @@ public class ShipWithFedexCommandHandler : IHandleMessages<ShipWithFedexCommand>
     private Task CallFedexWebService(XDocument fedExRequest)
     {
         //do web service call etc.
-        return Task.FromResult(0);
+        return Task.CompletedTask;
     }
 }
 ```
@@ -219,7 +219,7 @@ public class ShipWithFedexCommandHandler : IHandleMessages<ShipWithFedexCommand>
     private Task CallFedexWebService(XDocument fedExRequest)
     {
         //do web service call etc.
-        return Task.FromResult(0);
+        return Task.CompletedTask;
     }
 }
 ```
@@ -314,7 +314,7 @@ public class ShipWithFedexCommandHandler : IHandleMessages<ShipWithFedexCommand>
     private Task CallFedexWebService(XDocument fedExRequest)
     {
         //do web service call etc.
-        return Task.FromResult(0);
+        return Task.CompletedTask;
     }
 }
 ```
@@ -380,11 +380,11 @@ In this exercise, we'll set up every endpoint to send saga audit messages to Ser
 
 ### Step 1
 
-If you are not familiar with the saga audit plugin, you will need to read the [documentation](https://docs.particular.net/nservicebus/sagas/saga-audit?version=sagaaudit_2) for how to install it first.
+If you are not familiar with the saga audit plugin, you will need to read the [documentation](https://docs.particular.net/nservicebus/sagas/saga-audit?version=sagaaudit_3) for how to install it first.
 
-To install the plugin type: `Install-Package NServiceBus.SagaAudit -Version 2.0.0`, in Package Manager Console.
+To install the plugin type: `Install-Package NServiceBus.SagaAudit -Version 3.0.0`, in Package Manager Console.
 
-If you use `Manage Nuget Packages` option, make sure you select **version 2.0.0**
+If you use `Manage Nuget Packages` option, make sure you select **version 3.0.0**
 
 You only need to install the plugin in the `Divergent.Shipping` project, since it is the only project containing a saga at the moment. If you've added sagas to other endpoints, don't forget to install the plugin there as well.
 

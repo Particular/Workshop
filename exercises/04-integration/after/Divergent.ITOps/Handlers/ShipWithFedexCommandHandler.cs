@@ -51,7 +51,7 @@ namespace Divergent.ITOps.Handlers
         private Task CallFedexWebService(XDocument fedExRequest)
         {
             //do web service call etc.
-            return Task.FromResult(0);
+            return Task.CompletedTask;
         }
     }
 }

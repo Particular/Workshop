@@ -9,8 +9,8 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.6.1" />
     <PackageReference Include="EntityFramework" Version="6.1.3" />
-    <PackageReference Include="NServiceBus" Version="6.4.1" />
-    <PackageReference Include="NServiceBus.Autofac" Version="6.0.1" />
+    <PackageReference Include="NServiceBus" Version="7.0.1" />
+    <PackageReference Include="NServiceBus.Autofac" Version="7.0.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
   </ItemGroup>
 

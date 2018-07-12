@@ -1,4 +1,3 @@
-using Autofac;
 using NServiceBus;
 using NServiceBus.Logging;
 using NServiceBus.Persistence;
@@ -20,12 +19,13 @@ namespace ITOps.EndpointConfig
 
             var licensePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\..\\..\\License.xml");
             endpointConfiguration.LicensePath(licensePath);
-            endpointConfiguration.UseSerialization<JsonSerializer>();
+            endpointConfiguration.UseSerialization<NewtonsoftSerializer>();
             endpointConfiguration.Recoverability().Delayed(c => c.NumberOfRetries(0));
 
-            var routing = endpointConfiguration.UseTransport<MsmqTransport>()
-                .ConnectionString("deadLetter=false;journal=false")
-                .Routing();
+            var transport = endpointConfiguration.UseTransport<MsmqTransport>();
+            transport.DisableDeadLetterQueueing();
+
+            var routing = transport.Routing();
 
             endpointConfiguration.UsePersistence<NHibernatePersistence>().ConnectionString(connectionString);
 
