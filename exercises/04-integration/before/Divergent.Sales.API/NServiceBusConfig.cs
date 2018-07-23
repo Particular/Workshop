@@ -19,6 +19,7 @@ namespace Divergent.Sales.API
             config.LicensePath(licensePath);
 
             var transport = config.UseTransport<MsmqTransport>();
+            transport.DisableDeadLetterQueueing();
 
             var routing = transport.Routing();
 
