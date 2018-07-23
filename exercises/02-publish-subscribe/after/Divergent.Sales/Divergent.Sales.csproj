@@ -1,16 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
     <OutputType>Exe</OutputType>
     <TargetFramework>net461</TargetFramework>
   </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="NServiceBus" Version="7.0.1" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
   </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\..\shared-api-gateway\ITOps.EndpointConfig\ITOps.EndpointConfig.csproj" />
     <ProjectReference Include="..\Divergent.Sales.Data\Divergent.Sales.Data.csproj" />
     <ProjectReference Include="..\Divergent.Sales.Messages\Divergent.Sales.Messages.csproj" />
   </ItemGroup>
+
 </Project>
