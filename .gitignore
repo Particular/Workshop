@@ -1,6 +1,7 @@
 # User-specific files
 .nuget/
 .vs/
+*.csproj.user
 
 # Build artifacts
 [Bb]in/
