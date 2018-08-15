@@ -1,4 +1,4 @@
-#r "packages/Bullseye.1.0.0-rc.5/lib/netstandard2.0/Bullseye.dll"
+#r "packages/Bullseye.1.1.0-rc.2/lib/netstandard2.0/Bullseye.dll"
 #load "scripts/cmd.csx"
 
 using System;
@@ -11,53 +11,33 @@ string msBuild = null;
 var demoSolutions = Directory.EnumerateFiles("demos", "*.sln", SearchOption.AllDirectories);
 var exerciseSolutions = Directory.EnumerateFiles("exercises", "*.sln", SearchOption.AllDirectories);
 
-Add("default", DependsOn("demos", "exercises"));
+Target("default", DependsOn("demos", "exercises"));
 
-Add(
+Target(
     "restore-demos",
-    () =>
-    {
-        foreach (var solution in demoSolutions)
-        {
-            Cmd(nuget, $"restore {solution}");
-        }
-    });
+    demoSolutions,
+    solution => Cmd(nuget, $"restore {solution}"));
 
-Add(
+Target(
     "restore-exercises",
-    () =>
-    {
-        foreach (var solution in exerciseSolutions)
-        {
-            Cmd(nuget, $"restore {solution}");
-        }
-    });
+    exerciseSolutions,
+    solution => Cmd(nuget, $"restore {solution}"));
 
-Add(
+Target(
     "find-msbuild",
     () => msBuild = $"{ReadCmd(vswhere, "-latest -requires Microsoft.Component.MSBuild -property installationPath").Trim()}/MSBuild/15.0/Bin/MSBuild.exe");
 
-Add(
+Target(
     "demos",
     DependsOn("find-msbuild", "restore-demos"),
-    () =>
-    {
-        foreach (var solution in demoSolutions)
-        {
-            Cmd(msBuild, $"{solution} /p:Configuration=Debug /nologo /m /v:m /nr:false");
-        }
-    });
+    demoSolutions,
+    solution => Cmd(msBuild, $"{solution} /p:Configuration=Debug /nologo /m /v:m /nr:false"));
 
-Add(
+Target(
     "exercises",
     DependsOn("find-msbuild", "restore-exercises"),
-    () =>
-    {
-        foreach (var solution in exerciseSolutions)
-        {
-            Cmd(msBuild, $"{solution} /p:Configuration=Debug /nologo /m /v:m /nr:false");
-        }
-    });
+    exerciseSolutions,
+    solution => Cmd(msBuild, $"{solution} /p:Configuration=Debug /nologo /m /v:m /nr:false"));
 
 
-Run(Args);
+RunTargets(Args);
