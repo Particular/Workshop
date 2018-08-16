@@ -1,14 +1,10 @@
 # User-specific files
-.nuget/
 .vs/
 *.csproj.user
 
 # Build artifacts
 [Bb]in/
 [Oo]bj/
-
-# Nuget packages
-packages/
 
 # ReSharper is a .NET coding add-in
 _ReSharper*/
