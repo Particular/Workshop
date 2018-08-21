@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "Divergent.Sales.API.Host": {
+      "commandName": "Project"
+    }
+  }
+}
