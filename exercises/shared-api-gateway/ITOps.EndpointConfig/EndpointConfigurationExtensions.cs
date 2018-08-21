@@ -1,8 +1,9 @@
+using System;
+using System.Data.SqlClient;
+using System.IO;
 using NServiceBus;
 using NServiceBus.Logging;
-using NServiceBus.Persistence;
-using System;
-using System.IO;
+using NServiceBus.Persistence.Sql;
 
 namespace ITOps.EndpointConfig
 {
@@ -27,7 +28,14 @@ namespace ITOps.EndpointConfig
 
             var routing = transport.Routing();
 
-            endpointConfiguration.UsePersistence<NHibernatePersistence>().ConnectionString(connectionString);
+            var persistence = endpointConfiguration.UsePersistence<SqlPersistence>();
+
+            persistence.SqlDialect<SqlDialect.MsSqlServer>();
+            persistence.ConnectionBuilder(
+                connectionBuilder: () => new SqlConnection(connectionString));
+
+            var subscriptions = persistence.SubscriptionSettings();
+            subscriptions.CacheFor(TimeSpan.FromMinutes(1));
 
             endpointConfiguration.SendFailedMessagesTo("error");
             endpointConfiguration.AuditProcessedMessagesTo("audit");

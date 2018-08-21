@@ -104,8 +104,8 @@ Define a new class called `ShippingSagaData` and have it inherit from `ContainSa
 ```c#
 class ShippingSagaData : ContainSagaData
 {
-    public virtual int OrderId { get; set; }
-    public virtual int CustomerId { get; set; }
+    public int OrderId { get; set; }
+    public int CustomerId { get; set; }
 }
 ```
 
@@ -116,18 +116,16 @@ Now we'll add products. A minor problem is that we can't add `IList<int>` for th
 ```c#
 class ShippingSagaData : ContainSagaData
 {
-    public virtual int OrderId { get; set; }
-    public virtual int CustomerId { get; set; }
-    public virtual ICollection<Product> Products { get; set; }
+    public int OrderId { get; set; }
+    public int CustomerId { get; set; }
+    public ICollection<Product> Products { get; set; }
 
     public class Product
     {
-        public virtual int Identifier { get; set; }
+        public int Identifier { get; set; }
     }
 }
 ```
-
-NOTE: The saga data properties require the `virtual` modifier to allow NHibernate to store and retreive them correctly using SQL Server. The `virtual` modifier is not required when using other persistence providers.
 
 ### Step 3
 
@@ -194,7 +192,7 @@ There are various ways to check in what state the saga is. We can add flags to t
 
 ### Step 2
 
-To verify if `PaymentSucceededEvent` has been received, we can set a boolean property on the saga state. Add a boolean property to `ShippingSagaData` called `IsPaymentProcessed` and in the handler for the `PaymentSuccedeedEvent` we set this property to true. Remember to make the new property `virtual` since we are using NHibernate for persistence.
+To verify if `PaymentSucceededEvent` has been received, we can set a boolean property on the saga state. Add a boolean property to `ShippingSagaData` called `IsPaymentProcessed` and in the handler for the `PaymentSuccedeedEvent` we set this property to true.
 
 ```c#
 public async Task Handle(PaymentSucceededEvent message, IMessageHandlerContext context)
@@ -207,19 +205,19 @@ public async Task Handle(PaymentSucceededEvent message, IMessageHandlerContext c
 NOTE: If the `IsPaymentProcessed` property is generated using refactoring tools, it may have a internal setter:
 
 ```c#
-public virtual bool IsPaymentProcessed { get; internal set; }
+public bool IsPaymentProcessed { get; internal set; }
 ```
 
 Make sure you remove the `internal` keyword to make the setter public. Otherwise, when `ShippingSagaData` is hydrated from storage, the property may not be set correctly.
 
 ### Step 3
 
-To verify if `OrderSubmittedEvent` has been received, we can set a boolean property on the saga state. Add a boolean property to `ShippingSagaData` called `IsOrderSubmitted`, and in the handler for the `OrderSubmittedEvent` set this property to true. Remember to make the new property `virtual` since we are using NHibernate for persistence.
+To verify if `OrderSubmittedEvent` has been received, we can set a boolean property on the saga state. Add a boolean property to `ShippingSagaData` called `IsOrderSubmitted`, and in the handler for the `OrderSubmittedEvent` set this property to true.
 
 NOTE: If the `IsOrderSubmitted` property is generated using refactoring tools, it may have a internal setter:
 
 ```c#
-public virtual bool IsOrderSubmitted { get; internal set; }
+public bool IsOrderSubmitted { get; internal set; }
 ```
 
 Make sure you remove the `internal` keyword to make the setter public. Otherwise, when `ShippingSagaData` is hydrated from storage, the property may not be set correctly.
