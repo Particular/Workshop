@@ -1,0 +1,13 @@
+{
+    "Version": 3,
+    "ListAllProjects": false,
+    "MultiProjectConfigurations": {
+        "Demo": {
+            "Projects": {
+                "Divergent.Sales.API.Host": {},
+                "Divergent.Shipping.API.Host": {},
+                "Divergent.Website": {}
+            }
+        }
+    }
+}
