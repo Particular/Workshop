@@ -11,4 +11,4 @@ $serverName = "(localdb)\" + $instanceName
 $databasesPath = "$ENV:UserProfile\particular-workshop-databases"
 mkdir -Force $databasesPath
 $pathParameter = '"{0}"' -f $databasesPath
-sqlcmd -S $serverName -v UserPath=$pathParameter -i ".\exercises\scripts\Setup-Databases.sql" 
+sqlcmd -S $serverName -v UserPath=$pathParameter -i ".\Setup-Databases.sql" 
