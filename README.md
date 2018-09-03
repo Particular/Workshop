@@ -42,8 +42,17 @@ In the installation screen, select a minimum of:
 * "Configure MSDTC for NServiceBus"
 * "Configure Microsoft Message Queuing"
 
-All other components are optional.
+Installing other components such as ServiceControl, ServiceInsight and ServicePulse is entirely optional at this time. They will be required for the advanced exercises but not necessary to setup upfront. 
 
+NOTE: When installing ServicePulse via the Platform installer for the very first time, you will encounter two warnings about URI connection issues. Select `Yes` to safely disregard those connection warnings and proceed with the installation. 
+
+The error messages state:
+"Could not connect to ServiceControl using the URI specified. Do you wish to proceed with the installation anyway?"
+
+"Could not connect to ServiceControl Monitoring using the URI specified. Do you wish to proceed with the installation anyway?"
+
+These connection warnings appear because ServiceControl has just been installed but the ServiceControl and the monitoring instances have not been configured.
+   
 #### LocalDB
 
 * Download and run the [SQL Server 2017 Express installer](https://www.microsoft.com/en-us/sql-server/sql-server-editions-express)
@@ -77,7 +86,9 @@ When you no longer need to run the exercises, you may optionally run `Teardown-L
 
 ### Build the exercise solutions
 
-The exercises are contained in eight Visual Studio solutions under [exercises](exercises). All the solutions require NuGet package restore. This may be possible at the workshop venue (you can verify with the workshop organizers if internet access is available at the venue) but to ensure you can build the solutions during the workshop, we recommend you restore all NuGet packages and build all the solutions before the workshop starts. The simplest way to do this is to open a command prompt, navigate to your copy of this repo, and run `.\build.cmd exercises`. (For a full list of build targets, run `.\build.cmd -T`, or `.\build.cmd -h` for help.) You can safely ignore any compiler warnings.
+The exercises are contained in eight Visual Studio solutions under [exercises](exercises). All the solutions require NuGet package restore. This may be possible at the workshop venue (you can verify with the workshop organizers if internet access is available at the venue) but to ensure you can build the solutions during the workshop, we recommend you restore all NuGet packages and build all the solutions before the workshop starts. The simplest way to do this is to open a command prompt, navigate to your copy of this repo, and run `.\build.cmd exercises`. (For a full list of build targets, run `.\build.cmd -T`, or `.\build.cmd -h` for help.) 
+
+**You can safely ignore any compiler warnings**.
 
 ## Running the exercise solutions
 
