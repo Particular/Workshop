@@ -10,6 +10,7 @@ namespace Divergent.Customers.API
         public static async Task Main(string[] args)
         {
             Console.Title = MethodBase.GetCurrentMethod().DeclaringType.Namespace;
+            ConsoleEx.TryMinimize();
 
             var tcs = new TaskCompletionSource<object>();
             Console.CancelKeyPress += (sender, e) => { tcs.SetResult(null); };
