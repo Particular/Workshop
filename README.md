@@ -42,16 +42,9 @@ In the installation screen, select a minimum of:
 * "Configure MSDTC for NServiceBus"
 * "Configure Microsoft Message Queuing"
 
-Installing other components such as ServiceControl, ServiceInsight and ServicePulse is entirely optional at this time. They will be required for the advanced exercises but not necessary to setup upfront. 
+Installing other components such as ServiceControl, ServiceInsight and ServicePulse is optional at this time. They are required for the advanced exercises but you can install them later, if/when you get on to the advanced exercises. 
 
-NOTE: When installing ServicePulse via the Platform installer for the very first time, you will encounter two warnings about URI connection issues. Select `Yes` to safely disregard those connection warnings and proceed with the installation. 
-
-The error messages state:
-"Could not connect to ServiceControl using the URI specified. Do you wish to proceed with the installation anyway?"
-
-"Could not connect to ServiceControl Monitoring using the URI specified. Do you wish to proceed with the installation anyway?"
-
-These connection warnings appear because ServiceControl has just been installed but the ServiceControl and the monitoring instances have not been configured.
+NOTE: When you install ServicePulse, you may see two warnings about not being able to connect to ServiceControl. In both cases, click `Yes` to proceed with the installation. These warnings appear because, although ServiceControl has installed, no instances have yet been created.
    
 #### LocalDB
 
