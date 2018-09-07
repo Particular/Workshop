@@ -1,12 +1,12 @@
-﻿{
-    "profiles": {
-        "Divergent.Website": {
-            "commandName": "Project",
-            "launchBrowser": true,
-            "environmentVariables": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
-            },
-            "applicationUrl": "http://localhost:11493"
-        }
+{
+  "profiles": {
+    "Divergent.Website": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "http://localhost:11493"
     }
+  }
 }
