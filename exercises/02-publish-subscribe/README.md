@@ -4,7 +4,7 @@
 
 NServiceBus endpoints communicate by sending each other messages. In this exercise, we'll focus on a specific type of messages: events. We will also explore a very powerful and popular messaging pattern: Publish-Subscribe (Pub-Sub).
 
-Events are used to communicate that some action has taken place. They're informing us of a fact that something occurred in the past. In Pub-Sub, the sender (called Publisher) and the receiver (called Subscriber) are loosely coupled. There might be zero, one or multiple Subscribers interested in a specific event. In order to receive that event, they need to explicitly subscribe to it. In NServiceBus a subscription request is handled by the framework, together with message mappings and implementions of handlers which will process the event. The Publisher sends a copy of the event message to each subscriber.
+Events are used to communicate that some action has taken place. They're informing us of a fact that something occurred in the past. In Pub-Sub, the sender (called Publisher) and the receiver (called Subscriber) are loosely coupled. There might be zero, one or multiple Subscribers interested in a specific event. In order to receive that event, they need to explicitly subscribe to it. In NServiceBus a subscription request is handled by the framework, together with message mappings and implementations of handlers which will process the event. The Publisher sends a copy of the event message to each subscriber.
 
 ## Overview
 
@@ -56,7 +56,7 @@ Have a look at the following classes: `Customer` in `Divergent.Customers.Data.Mo
 
 ### Step 2
 
-In the `Divergent.Sales.Messages` project, in the directory `Events`, add a new class called `OrderSubmittedEvent.cs`. The class should have three properties with public setters and getters: Id of the order, Id of the customer, and the list of product Ids.
+In the `Divergent.Sales.Messages` project, create a new folder for `Events` and then add a new class called `OrderSubmittedEvent.cs`. The class should have three properties with public setters and getters: Id of the order, Id of the customer, and the list of product Ids.
 
 ```c#
 namespace Divergent.Sales.Messages.Events
@@ -73,7 +73,7 @@ namespace Divergent.Sales.Messages.Events
 
 ### Step 3
 
-Have a look at `SubmitOrderHandler` class in the `Divergent.Sales` project. At the end of the `Handle` method, publish the `OrderSubmittedEvent`, by calling the ```context.Publish()``` method. Copy the properties from the incoming `SubmitOrderCommand` message, to the properties of the event.
+In the `Divergent.Sales` project, have a look at `Handlers\SubmitOrderHandler.cs` class. At the end of the `Handle` method, publish the `OrderSubmittedEvent`, by calling the ```context.Publish()``` method. Copy the properties from the incoming `SubmitOrderCommand` message, to the properties of the event.
 
 ```c#
 await context.Publish(new OrderSubmittedEvent
@@ -86,11 +86,11 @@ await context.Publish(new OrderSubmittedEvent
 
 ## Exercise 2.2: handle `OrderSubmittedEvent` in Shipping, Finance and Customers
 
-In this exercise, you'll handle the `OrderSubmittedEvent` by logging the information in the `OrderSubmittedHandler` class in `Divergent.Shipping` project and in the `OrderSubmittedHandler` class in `Divergent.Sales` project. Then you'll extend the handler implementation in the `Divergent.Finance` project, in order to process the payment using the provided `GetAmount()` method and the `ReliablePaymentClient` class.
+In this exercise, you'll subscribe to the `OrderSubmittedEvent` published by `Divergent.Sales` by creating new handlers named, `OrderSubmittedHandler` in both `Divergent.Shipping` and in the `Divergent.Sales` projects. Then you'll extend the handler implementation in the `Divergent.Finance` project, in order to process the payment using the provided `GetAmount()` method and the `ReliablePaymentClient` class.
 
 ### Step 1
 
-Create the `OrderSubmittedHandler` class in the `Divergent.Shipping` project, inside the `Handlers` namespace.
+In `Divergent.Shipping` project, add a new folder for `Handlers` and then create a new `OrderSubmittedHandler` class inside the `Handlers` namespace.
 
 ### Step 2
 
@@ -98,7 +98,7 @@ The `OrderSubmittedHandler` should process the `OrderSubmittedEvent` published b
 
 ### Step 3
 
-In the `Divergent.Shipping` project navigate to `Host` class and specify the publisher for the `OrderSubmittedEvent`. To do this use the `routing` object obtained when configuring the transport and add the following statement
+In the `Divergent.Shipping` project navigate to `Host` class and specify the publisher for the `OrderSubmittedEvent`. To do this in the `Start` method, use the `routing` object obtained when configuring the transport and add the following statement:
 
 ```
 routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
@@ -126,7 +126,7 @@ namespace Divergent.Shipping.Handlers
 
 ### Step 5
 
-Create an `OrderSubmittedHandler` class in the `Divergent.Finance` project, inside the `Handlers` namespace.
+In the `Divergent.Finance` project, add a new folder for `Handlers` and then create a new `OrderSubmittedHandler` class inside the `Handlers` namespace.
 
 ### Step 6
 
@@ -134,7 +134,7 @@ The `OrderSubmittedHandler` should also process the `OrderSubmittedEvent` publis
 
 ### Step 7
 
-In the `Divergent.Finance` project navigate to `Host` class and specify the publisher for the `OrderSubmittedEvent`. To do this use the `routing` object obtained when configuring the transport and add the following statement
+In the `Divergent.Finance` project navigate to `Host` class and specify the publisher for the `OrderSubmittedEvent`. To do this in the `Start` method, use the `routing` object obtained when configuring the transport and add the following statement:
 
 ```
 routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
@@ -220,7 +220,7 @@ namespace Divergent.Finance.Handlers
 
 ### Step 10
 
-In the `Divergent.Customers` project create the `OrderSubmittedHandler` class inside the `Handlers` namespace in order to keep track of which orders have been submitted by which customer.
+In the `Divergent.Customers` project, add a new folder for `Handlers` and then create a new `OrderSubmittedHandler` class inside the `Handlers` namespace in order to keep track of which orders have been submitted by which customer.
 
 ```c#
 namespace Divergent.Customers.Handlers
@@ -254,11 +254,15 @@ namespace Divergent.Customers.Handlers
 
 ### Step 11
 
-In the `Divergent.Customers` project navigate to `Host` class and specify the publisher for the `OrderSubmittedEvent`. To do this use the `routing` object obtained when configuring the transport and add the following statement
+In the `Divergent.Customers` project navigate to `Host` class and specify the publisher for the `OrderSubmittedEvent`. To do this, in the `Start` method, use the `routing` object obtained when configuring the transport and add the following statement
 
 ```
 routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
 ```
+
+### Step 12
+
+Run the solution. In the website, navigate to the `Orders` page and click the `Create new order` button. This should trigger the `Divergent.Sales` endpoint to publish the `OrderSubmittedEvent`. This event will now be received by  `Divergent.Customers`, `Divergent.Finance` and `Divergent.Shipping`. Verify this by navigating to the console and verifying the log statements added in the handler class.
 
 ## Exercise 2.3: create and publish the `PaymentSucceededEvent`
 
@@ -266,7 +270,7 @@ In this exercise we'll create a new event called `PaymentSucceededEvent`. This e
 
 ### Step 1
 
-In the `Divergent.Finance.Messages` project, in the directory `Events`, add a new class called `PaymentSucceededEvent.cs`. The class should have only a single property with a public setter and a getter: id of the order.
+In the `Divergent.Finance.Messages` project, add a new folder called `Events`, and then create a new class called `PaymentSucceededEvent.cs` in the `Events` namespace. The class should have only a single property with a public setter and a getter: id of the order.
 
 ```c#
 namespace Divergent.Finance.Messages.Events
@@ -280,7 +284,7 @@ namespace Divergent.Finance.Messages.Events
 
 ### Step 2
 
-At the end of `InitiatePaymentProcessCommandHandler`, publish the `PaymentSucceededEvent` by calling `context.Publish()` method. Copy the order id from the incoming `InitiatePaymentProcessCommand` message, to the property of the event.
+In the `Divergent.Finance` project, locate the `InitiatePaymentProcessCommandHandler` class. In the `Handle` method, as the last step, publish the `PaymentSucceededEvent` by calling `context.Publish()` method. Copy the order id from the incoming `InitiatePaymentProcessCommand` message, to the property of the event.
 
 ```c#
 public async Task Handle(InitiatePaymentProcessCommand message, IMessageHandlerContext context)
@@ -330,12 +334,15 @@ namespace Divergent.Shipping.Handlers
 
 ### Step 4
 
-In the `Divergent.Shipping` project, configure the publisher for the `PaymentSucceededEvent`. To do this use the `routing` object obtained when configuring the transport and add the following statement
+In the `Divergent.Shipping` project, configure the publisher for the `PaymentSucceededEvent`. To do this locate `Host.cs` and in the `Start` method, use the `routing` object obtained when configuring the transport and add the following statement
 
 ```
 routing.RegisterPublisher(typeof(PaymentSucceededEvent), "Divergent.Finance");
 ```
 
+### Step 5
+
+Run the solution. In the website, `Orders` page, click the `Create new order` button and verify that the `Divergent.Shipping` endpoint is now also receiving the `PaymentSucceededEvent`.
 
 ## Advanced exercise 2.5 : monitoring endpoints
 
