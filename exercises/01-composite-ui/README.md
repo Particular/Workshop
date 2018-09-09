@@ -25,51 +25,61 @@ For more info, please see [the instructions for running the exercise solutions](
 
 ## Business requirements
 
-The application UI consists of two pages: Dashboard and Orders. In this exercise you'll display additional information in the Orders page by modifying the API, view model and view templates.
+The application UI consists of two pages: Dashboard and Orders. 
 
-First, you'll display an additional property in the existing view: the number of items contained in the order. Then you'll create a whole new vertical slice responsible for calculating and displaying the total price of the items in the order.
+**In this exercise, your goal is to display the the total items in the order and the total price of all the items included in the order. You'll be  modifying the API, view model composition and view templates creating a whole new vertical slice responsible for calculating and displaying the total items and the total price of the items in each order.**
 
 ## Exercise 1.1: display the count of items in an order
 
-In this exercise we'll display the count of items in an order by retrieving it from the Sales vertical. We'll do that by returning the item count from `OrdersController` and by modifying the `OrdersListViewModelAppender` class and the `ordersView` HTML template.
+The definition of `Order.cs` in `Divergent.Sales.Data\Models` already contains the Items collection.  Our goal is to display the count of the items in the UI. 
 
-### Step 1
+### Step 1 
 
-Add an `ItemsCount` property to the anonymous object returned by `OrdersController.Get()` (`Divergent.Sales.API\Controllers\OrdersController.cs`):
+In the `Divergent.Sales.API` project, add an `ItemsCount` property to the anonymous object returned by `OrdersController.Get()` in `Divergent.Sales.API\Controllers\OrdersController.cs`:
 
 ```c#
-ItemsCount = order.Items.Count
+.Select(order => new
+{
+...
+ItemsCount = order.Items.Count,
+})
 ```
 
 ### Step 2
 
-Add an `OrderItemsCount` property to the `MapToViewModelDictionary` method in the `OrdersListViewModelAppender` in the `Divergent.Sales.ViewModelComposition` project:
+In the `Divergent.Sales.ViewModelComposition` project, in the `OrdersListViewModelAppender.cs` file, add an `OrderItemsCount` property to the `MapToViewModelDictionary` method: 
 
 ```csharp
 dynamic viewModel = new ExpandoObject();
-viewModel.OrderId = order.Id;
-viewModel.OrderNumber = order.Id;
+...
 viewModel.OrderItemsCount = order.ItemsCount;
 ```
 
 ### Step 3
 
-Update the `ordersView` list template (`Divergent.Frontend\app\presentation\ordersView.html`) to display the new information
+In the `Divergent.FrontEnd` project, update the `ordersView` list template located in `Divergent.Frontend\wwwroot\app\presentation\ordersView.html` to display the new information right after the `Customer` information.
 
 ```html
 <br />
 <i>Items count:</i> {{order.orderItemsCount}}
 ```
 
+### Step 4
+
+Run your solution and see that the item count for each order is being displayed. If the new information is not being displayed, try clearing the browser cache first and try again.
+ 
+
 ## Exercise 1.2: display the total price of an order
 
-In this exercise you'll add a new vertical slice. In order to do so, you'll need to add a new `OrdersLoadedSubscriber` class in the `Divergent.Finance.ViewModelComposition` project.
+The `Finance` service is responsible for the order item prices. The finance service is going to have to provide the prices of the items based on the order, once the orders are first loaded by `Sales`.  
 
 For simplicity, the Finance API backend is already in place and the exercise concentrates on composition and UI related tasks.
 
-### Step 1
 
-Create a new class file in `Divergent.Finance.ViewModelComposition` named `OrdersLoadedSubscriber.cs`.
+### Step 1 
+
+In the `Divergent.Finance.ViewModelComposition` project, add a new class called `OrdersLoadedSubscriber.cs`.
+
 
 ### Step 2
 
@@ -118,7 +128,7 @@ namespace Divergent.Finance.ViewModelComposition
 
 ### Step 3
 
-Update the `ordersView` list template (`Divergent.Frontend\app\presentation\ordersView.html`) to display the new information:
+In the Divergent.FrontEnd project, update the `ordersView` list template located at `Divergent.Frontend\app\presentation\ordersView.html` to display the new information:
 
 ```html
 <br />
@@ -129,6 +139,10 @@ Update the `ordersView` list template (`Divergent.Frontend\app\presentation\orde
 
 For simplicity, ViewModel composition components, such as `Divergent.Finance.ViewModelComposition`, `Divergent.Sales.ViewModelComposition`, `Divergent.Sales.ViewModelComposition.Events` and `Divergent.Customers.ViewModelComposition`, are directly referenced by the `Divergent.CompositionGateway`. This approach is used to simplify the build process by letting Visual Studio automatically determine the project build order and to copy build outputs to the `Divergent.CompositionGateway` binaries folder. In a production environment this is expected to be managed by the build and deployment pipeline.
 
+### Step 4
+
+Run your solution and see that the information is being displayed. If the new information is not being displayed, try clearing the browser cache first and try again.
+ 
 ## Conclusion
 
 In this exercise we've seen how to combine data from various autonomous services into a single user interface.
