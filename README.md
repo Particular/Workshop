@@ -44,7 +44,7 @@ In the installation screen, select a minimum of:
 
 Installing other components such as ServiceControl, ServiceInsight and ServicePulse is optional at this time. They are required for the advanced exercises but you can install them later, if/when you get on to the advanced exercises. 
 
-NOTE: When you install ServicePulse, you may see two warnings about not being able to connect to ServiceControl. In both cases, click `Yes` to proceed with the installation. These warnings appear because, although ServiceControl has installed, no instances have yet been created.
+NOTE: When you install ServicePulse, you may see two warnings about not being able to connect to ServiceControl. In both cases, click `Yes` to proceed with the installation. These warnings appear because, although ServiceControl has been installed, no instances have yet been created.
    
 #### LocalDB
 
@@ -124,7 +124,7 @@ To complete the advanced exercises, you first need to install the rest of the Pa
 
 Run the [Particular Platform Installer](https://particular.net/start-platform-download) again, selecting ServiceControl, ServiceInsight, and ServicePulse.
 
-NOTE: When you install ServicePulse, you may see two warnings about not being able to connect to ServiceControl. In both cases, click `Yes` to proceed with the installation. These warnings appear because, although ServiceControl has installed, no instances have yet been created.
+NOTE: When you install ServicePulse, you may see two warnings about not being able to connect to ServiceControl. In both cases, click `Yes` to proceed with the installation. These warnings appear because, although ServiceControl has been installed, no instances have yet been created.
 
 When installation has completed, click "Start ServiceControl Management".
 
