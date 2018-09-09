@@ -124,11 +124,15 @@ To complete the advanced exercises, you first need to install the rest of the Pa
 
 Run the [Particular Platform Installer](https://particular.net/start-platform-download) again, selecting ServiceControl, ServiceInsight, and ServicePulse.
 
+NOTE: When you install ServicePulse, you may see two warnings about not being able to connect to ServiceControl. In both cases, click `Yes` to proceed with the installation. These warnings appear because, although ServiceControl has installed, no instances have yet been created.
+
 When installation has completed, click "Start ServiceControl Management".
 
 You may now close the Particular Service Platform Installation window.
 
-In the ServiceControl Management window, click "Add new instance".
+### Configure ServiceControl Instance
+
+In the ServiceControl Management window, click "New" and then "Add ServiceControl instance".
 
 In the settings for the new instance, there are two choices you must make:
 
@@ -140,6 +144,20 @@ All other settings should be left with their default values.
 Click "Add".
 
 After the instance has been added, make a note of the name of the instance. This will usually be "Particular.ServiceControl".
+
+### Configure Monitoring Instance
+
+In the ServiceControl Management window, click "New" and then "Add Monitoring instance".
+
+In the settings for the new instance, there is one choice you have to make, select the transport configuration. 
+
+- "Transport": choose "MSMQ".
+
+All other settings should be left with their default values.
+
+Click "Add".
+
+After the instance has been added, make a note of the name of the instance. This will usually be "Particular.Monitoring".
 
 You may now close the ServiceControl Management window.
 
