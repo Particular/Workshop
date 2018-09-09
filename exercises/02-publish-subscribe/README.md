@@ -362,7 +362,7 @@ NOTE: The MSMQ MMC snap-in is very limited in functionality. [QueueExplorer](htt
 
 ### Step 3
 
-After following the instructions for preparing your machine for the advanced exercises, an instance of ServiceControl should already be running as a Windows service. Run the exercise solution again and perform some actions to ensure that it has processed some messages.
+After following the instructions for preparing your machine for the advanced exercises, an instance of ServiceControl should already be running as a Windows service. Run the exercise solution again and `create a new order` from the `Orders` page just to ensure that it has processed some messages.
 
 ### Step 4
 
@@ -370,7 +370,7 @@ Now, Let's have a look at ServicePulse.
 
 Navigate to http://localhost:9090/
 
-The list of 'Last 10 events' shows that messages have been received from at least one endpoint, but those endpoints are not yet being monitored. To do that, we need to install the monitoring plugin into those endpoints.
+You'll see an empty dashboard. From the menu, click the `Configuration`. The `Endpoint Heartbeats` section will show the list of endpoints that we have been using. However these endpoints are not yet being monitored. To do that, we need to install the monitoring plugin into those endpoints.
 
 Note: If ServicePulse doesn't seem to be running, or it cannot connect to ServiceControl, verify that both instances are running as Windows services. By default, the names of both services begin with "Particular".
 
@@ -378,11 +378,12 @@ Note: If ServicePulse doesn't seem to be running, or it cannot connect to Servic
 
 Let's install the ServiceControl [heartbeat plugin](https://docs.particular.net/monitoring/heartbeats/install-plugin?version=heartbeats_3) into the NServiceBus endpoints.
 
-Install this plugin into every project that hosts an endpoint via the Visual Studio NuGet user interface or via the Package Manager Console.
+Install this plugin in the ITOps.EndpointConfig project which will be referenced by endpoints. You can do this via the Visual Studio NuGet user interface or via the Package Manager Console.
 
-To install the plugin type: `Install-Package NServiceBus.Heartbeat -Version 3.0.0` in Package Manager Console.
+To install the plugin type: `Install-Package NServiceBus.Heartbeat -Version 3.0.0 -Project ITOps.EndpointConfig` in Package Manager Console.
 
 If you use `Manage Nuget Packages` option, make sure you select **version 3.0.0**
+
 
 ### Step 6
 
@@ -390,27 +391,56 @@ The heartbeat plugin sends messages directly to the ServiceControl queue rather 
 
 You can find out the name of the queue by accessing the 'ServiceControl Management' app in the Windows Start menu. The name of the instance is also the name of the queue.
 
-Make sure you configure every project that hosts an endpoint. You can easily copy & paste this since every project should be sending heartbeats to the same queue.
+In the `ITOps.EndpointConfig` project, in `EndpointCongigurationExtensions.cs`, in the `Configure` method add the following configuration to enable heartbeats:
+
+```
+endpointConfiguration.SendHeartbeatTo(
+  serviceControlQueue: "Particular.ServiceControl",
+  frequency: TimeSpan.FromSeconds(15),
+  timeToLive: TimeSpan.FromSeconds(30));
+```
 
 ### Step 7
 
-Run the solution and navigate to ServicePulse while the projects are starting.
+Add the ServiceControl metrics component so that important metrics like message throughput, etc can be monitored and viewed in the ServicePulse dashboard.
 
-After a while the 'Last 10 events' should show that some of the `Divergent` endpoints have started. Soon afer it will show that those endpoints are running the heartbeats plugin.
+Let's install the ServiceControl [Metrics component](https://docs.particular.net/monitoring/metrics/install-plugin) into the NServiceBus endpoints.
+
+Install this plugin in the ITOps.EndpointConfig project which will be referenced by endpoints. You can do this via the Visual Studio NuGet user interface or via the Package Manager Console.
+
+To install the plugin type: `Install-Package NServiceBus.Metrics.ServiceControl -Project ITOps.EndpointConfig` in Package Manager Console.
+
+In the `ITOps.EndpointConfig` project, in `EndpointCongigurationExtensions.cs`, in the `Configure` method add the following configuration to enable reporting metrics to ServicePulse:
+
+```
+var metrics = endpointConfiguration.EnableMetrics();
+metrics.SendMetricDataToServiceControl(
+  serviceControlMetricsAddress: "particular.monitoring",
+  interval: TimeSpan.FromSeconds(10));
+```
+
 
 ### Step 8
 
-Turn off the endpoints by stopping debugging in Visual Studio or shutting down the console windows.
+Run the solution and navigate to ServicePulse while the projects are starting.
 
-ServiceControl is expecting heartbeat messages from every endpoint. If it doesn't continue to receive them, it will wait a little while (the default is 40 seconds) and then report that those endpoints are down.
+Make sure to create a few orders in the Orders page in the front end application.
 
-When you restart the projects, ServicePulse should report that the endpoints are up again.
+In the ServicePulse menu, navigate to the `Monitoring` option and review the various metrics.
 
 ### Step 9
 
+Turn off the endpoints by stopping debugging in Visual Studio or shutting down the console windows.
+
+ServiceControl is expecting heartbeat messages from every endpoint. If it doesn't continue to receive them, it will wait a little while (30 seconds) and then report that those endpoints are down.
+
+When you restart the projects, ServicePulse should report that the endpoints are up again.
+
+### Step 10
+
 At the top of the page in ServicePulse, you will see a menu with various options. Check 'Failed Messages' to see if there are any messages that failed to be processed.
 
-If you see nothing there, try and simluate a failure by adding the throwing of an exception to a message handler and running the solution with that in place. Due to immediate and delayed retries it might take a while for the message to end up in the error queue. You can read up on how to configure [immediate](https://docs.particular.net/nservicebus/recoverability/configure-immediate-retries) and [delayed](https://docs.particular.net/nservicebus/recoverability/configure-delayed-retries) retries so that they will be either sped-up or disabled.
+If you see nothing there, try and simulate a failure by adding the throwing of an exception to a message handler and running the solution with that in place. Due to immediate and delayed retries it might take a while for the message to end up in the error queue. You can read up on how to configure [immediate](https://docs.particular.net/nservicebus/recoverability/configure-immediate-retries) and [delayed](https://docs.particular.net/nservicebus/recoverability/configure-delayed-retries) retries so that they will be either sped-up or disabled.
 
 See how the messages can be group and retried individually or per group.
 
@@ -418,7 +448,7 @@ Next, stop the solution, remove the throwing of the exception and restart it. Tr
 
 This is a powerful feature which could be of huge value to operations activities. Imagine a system with high throughput. To perform maintenance, the database containing your business data was brought offline for a couple of minutes. Thousands of messages ended up in the error queue and you can see those in ServicePulse. Once the system is up and running again, we can retry them and they should be processed successfully.
 
-### Step 10
+### Step 11
 
 We now have a dashboard that can inform us when an endpoint is or messages failed to be processed. A few things to consider:
 
