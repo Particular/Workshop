@@ -86,7 +86,7 @@ await context.Publish(new OrderSubmittedEvent
 
 ## Exercise 2.2: handle `OrderSubmittedEvent` in Shipping, Finance and Customers
 
-In this exercise, you'll subscribe to the `OrderSubmittedEvent` published by `Divergent.Sales` by creating new handlers named, `OrderSubmittedHandler` in both `Divergent.Shipping` and in the `Divergent.Sales` projects. Then you'll extend the handler implementation in the `Divergent.Finance` project, in order to process the payment using the provided `GetAmount()` method and the `ReliablePaymentClient` class.
+In this exercise, you'll subscribe to the `OrderSubmittedEvent` published by `Divergent.Sales` by creating new handlers, named `OrderSubmittedHandler`, in both the `Divergent.Shipping` and the `Divergent.Sales` projects. Then you'll extend the handler implementation in the `Divergent.Finance` project, in order to process the payment using the provided `GetAmount()` method and the `ReliablePaymentClient` class.
 
 ### Step 1
 
