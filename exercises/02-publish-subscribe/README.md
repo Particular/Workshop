@@ -346,7 +346,10 @@ Run the solution. In the website, `Orders` page, click the `Create new order` bu
 
 ## Advanced exercise 2.5 : monitoring endpoints
 
-**Important: Before attempting the advanced exercises, please ensure you have followed [the instructions for preparing your machine for the advanced exercises](/README.md#preparing-your-machine-for-the-advanced-exercises).**
+**Important: Before attempting the advanced exercises, please ensure you have followed [the instructions for preparing your machine for the advanced exercises](/README.md#preparing-your-machine-for-the-advanced-exercises).** Specifically:
+
+- [Configure ServiceControl Instance](/README.md#configure-servicecontrol-instance)
+- [Configure Monitoring Instance](/README.md#configure-monitoring-instance)
 
 ### Step 1
 
