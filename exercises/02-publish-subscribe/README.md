@@ -58,6 +58,10 @@ Have a look at the following classes: `Customer` in `Divergent.Customers.Data.Mo
 
 In the `Divergent.Sales.Messages` project, create a new folder for `Events` and then add a new class called `OrderSubmittedEvent.cs`. The class should have three properties with public setters and getters: Id of the order, Id of the customer, and the list of product Ids.
 
+<details>
+<summary>Show me how to do this</summary>
+<p>
+
 ```c#
 namespace Divergent.Sales.Messages.Events
 {
@@ -71,9 +75,16 @@ namespace Divergent.Sales.Messages.Events
 }
 ```
 
+</p>
+</details><br>
+
 ### Step 3
 
 In the `Divergent.Sales` project, have a look at `Handlers\SubmitOrderHandler.cs` class. At the end of the `Handle` method, publish the `OrderSubmittedEvent`, by calling the ```context.Publish()``` method. Copy the properties from the incoming `SubmitOrderCommand` message, to the properties of the event.
+
+<details>
+<summary>Show me how to do this</summary>
+<p>
 
 ```c#
 await context.Publish(new OrderSubmittedEvent
@@ -83,6 +94,9 @@ await context.Publish(new OrderSubmittedEvent
     Products = message.Products,
 });
 ```
+
+</p>
+</details><br>
 
 ## Exercise 2.2: handle `OrderSubmittedEvent` in Shipping, Finance and Customers
 
@@ -100,13 +114,24 @@ The `OrderSubmittedHandler` should process the `OrderSubmittedEvent` published b
 
 In the `Divergent.Shipping` project navigate to `Host` class and specify the publisher for the `OrderSubmittedEvent`. To do this in the `Start` method, use the `routing` object obtained when configuring the transport and add the following statement:
 
+<details>
+<summary>Show me how to do this</summary>
+<p>
+
 ```
 routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
 ```
 
+</p>
+</details><br>
+
 ### Step 4
 
 Use the provided logger to log information that the event was received and handled.
+
+<details>
+<summary>Show me how to do this</summary>
+<p>
 
 ```c#
 namespace Divergent.Shipping.Handlers
@@ -124,6 +149,9 @@ namespace Divergent.Shipping.Handlers
 }
 ```
 
+</p>
+</details><br>
+
 ### Step 5
 
 In the `Divergent.Finance` project, add a new folder for `Handlers` and then create a new `OrderSubmittedHandler` class inside the `Handlers` namespace.
@@ -136,14 +164,57 @@ The `OrderSubmittedHandler` should also process the `OrderSubmittedEvent` publis
 
 In the `Divergent.Finance` project navigate to `Host` class and specify the publisher for the `OrderSubmittedEvent`. To do this in the `Start` method, use the `routing` object obtained when configuring the transport and add the following statement:
 
+<details>
+<summary>Show me how to do this</summary>
+<p>
+
 ```
 routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
 ```
 
+</p>
+</details><br>
 
 ### Step 8
 
 When Finance receives the `OrderSubmittedEvent` message it records the prices for the items that belong to the submitted order. This ensures that if product prices change, the customer will still be charged the amount which was shown to them in the UI (the value returned by `Divergent.Finance.API` at that time). Finally, Finance initiates the payment process by sending the `InitiatePaymentProcessCommand` message.
+
+<details>
+<summary>Show me the database code only</summary>
+<p>
+
+```
+double amount = 0;
+using (var db = new FinanceContext())
+{
+    var query = from price in db.Prices
+            where message.Products.Contains(price.ProductId)
+            select price;
+
+    foreach (var price in query)
+    {
+            var op = new OrderItemPrice()
+            {
+                OrderId = message.OrderId,
+                ItemPrice = price.ItemPrice,
+                ProductId = price.ProductId
+            };
+
+            amount += price.ItemPrice;
+
+            db.OrderItemPrices.Add(op);
+    }
+
+    await db.SaveChangesAsync();
+}
+```
+
+</p>
+</details><br>
+
+<details>
+<summary>Show me how to do this completely</summary>
+<p>
 
 ```c#
 namespace Divergent.Finance.Handlers
@@ -191,9 +262,16 @@ namespace Divergent.Finance.Handlers
 }
 ```
 
+</p>
+</details><br>
+
 ### Step 9
 
 In the `Divergent.Finance` project create the `InitiatePaymentProcessCommandHandler` class inside the `Handlers` namespace in order to handle the payment process.
+
+<details>
+<summary>Show me how to do this</summary>
+<p>
 
 ```c#
 namespace Divergent.Finance.Handlers
@@ -218,9 +296,16 @@ namespace Divergent.Finance.Handlers
 }
 ```
 
+</p>
+</details><br>
+
 ### Step 10
 
 In the `Divergent.Customers` project, add a new folder for `Handlers` and then create a new `OrderSubmittedHandler` class inside the `Handlers` namespace in order to keep track of which orders have been submitted by which customer.
+
+<details>
+<summary>Show me how to do this</summary>
+<p>
 
 ```c#
 namespace Divergent.Customers.Handlers
@@ -252,13 +337,23 @@ namespace Divergent.Customers.Handlers
 }
 ```
 
+</p>
+</details><br>
+
 ### Step 11
 
 In the `Divergent.Customers` project navigate to `Host` class and specify the publisher for the `OrderSubmittedEvent`. To do this, in the `Start` method, use the `routing` object obtained when configuring the transport and add the following statement
 
+<details>
+<summary>Show me how to do this</summary>
+<p>
+
 ```
 routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
 ```
+
+</p>
+</details><br>
 
 ### Step 12
 
@@ -272,6 +367,10 @@ In this exercise we'll create a new event called `PaymentSucceededEvent`. This e
 
 In the `Divergent.Finance.Messages` project, add a new folder called `Events`, and then create a new class called `PaymentSucceededEvent.cs` in the `Events` namespace. The class should have only a single property with a public setter and a getter: id of the order.
 
+<details>
+<summary>Show me how to do this</summary>
+<p>
+
 ```c#
 namespace Divergent.Finance.Messages.Events
 {
@@ -282,9 +381,16 @@ namespace Divergent.Finance.Messages.Events
 }
 ```
 
+</p>
+</details><br>
+
 ### Step 2
 
 In the `Divergent.Finance` project, locate the `InitiatePaymentProcessCommandHandler` class. In the `Handle` method, as the last step, publish the `PaymentSucceededEvent` by calling `context.Publish()` method. Copy the order id from the incoming `InitiatePaymentProcessCommand` message, to the property of the event.
+
+<details>
+<summary>Show me how to do this</summary>
+<p>
 
 ```c#
 public async Task Handle(InitiatePaymentProcessCommand message, IMessageHandlerContext context)
@@ -299,6 +405,9 @@ public async Task Handle(InitiatePaymentProcessCommand message, IMessageHandlerC
     });
 }
 ```
+
+</p>
+</details><br>
 
 ## Exercise 2.4: handle `PaymentSucceededEvent`
 
@@ -316,6 +425,10 @@ The `PaymentSucceededHandler` should process the `PaymentSucceededEvent` publish
 
 Use the provided logger to log information that the event was received and handled.
 
+<details>
+<summary>Show me how to do this</summary>
+<p>
+
 ```c#
 namespace Divergent.Shipping.Handlers
 {
@@ -332,13 +445,23 @@ namespace Divergent.Shipping.Handlers
 }
 ```
 
+</p>
+</details><br>
+
 ### Step 4
 
 In the `Divergent.Shipping` project, configure the publisher for the `PaymentSucceededEvent`. To do this locate `Host.cs` and in the `Start` method, use the `routing` object obtained when configuring the transport and add the following statement
 
+<details>
+<summary>Show me how to do this</summary>
+<p>
+
 ```
 routing.RegisterPublisher(typeof(PaymentSucceededEvent), "Divergent.Finance");
 ```
+
+</p>
+</details><br>
 
 ### Step 5
 
