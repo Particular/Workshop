@@ -76,7 +76,7 @@ namespace Divergent.Sales.Messages.Events
 ```
 
 </p>
-</details><br>
+</details>
 
 ### Step 3
 
@@ -96,7 +96,7 @@ await context.Publish(new OrderSubmittedEvent
 ```
 
 </p>
-</details><br>
+</details>
 
 ## Exercise 2.2: handle `OrderSubmittedEvent` in Shipping, Finance and Customers
 
@@ -123,7 +123,7 @@ routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
 ```
 
 </p>
-</details><br>
+</details>
 
 ### Step 4
 
@@ -150,7 +150,7 @@ namespace Divergent.Shipping.Handlers
 ```
 
 </p>
-</details><br>
+</details>
 
 ### Step 5
 
@@ -173,7 +173,7 @@ routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
 ```
 
 </p>
-</details><br>
+</details>
 
 ### Step 8
 
@@ -263,7 +263,7 @@ namespace Divergent.Finance.Handlers
 ```
 
 </p>
-</details><br>
+</details>
 
 ### Step 9
 
@@ -297,7 +297,7 @@ namespace Divergent.Finance.Handlers
 ```
 
 </p>
-</details><br>
+</details>
 
 ### Step 10
 
@@ -338,7 +338,7 @@ namespace Divergent.Customers.Handlers
 ```
 
 </p>
-</details><br>
+</details>
 
 ### Step 11
 
@@ -353,7 +353,7 @@ routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
 ```
 
 </p>
-</details><br>
+</details>
 
 ### Step 12
 
@@ -382,7 +382,7 @@ namespace Divergent.Finance.Messages.Events
 ```
 
 </p>
-</details><br>
+</details>
 
 ### Step 2
 
@@ -407,7 +407,7 @@ public async Task Handle(InitiatePaymentProcessCommand message, IMessageHandlerC
 ```
 
 </p>
-</details><br>
+</details>
 
 ## Exercise 2.4: handle `PaymentSucceededEvent`
 
@@ -446,7 +446,7 @@ namespace Divergent.Shipping.Handlers
 ```
 
 </p>
-</details><br>
+</details>
 
 ### Step 4
 
@@ -461,7 +461,7 @@ routing.RegisterPublisher(typeof(PaymentSucceededEvent), "Divergent.Finance");
 ```
 
 </p>
-</details><br>
+</details>
 
 ### Step 5
 
