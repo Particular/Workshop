@@ -56,7 +56,7 @@ Have a look at the following classes: `Customer` in `Divergent.Customers.Data.Mo
 
 ### Step 2
 
-In the `Divergent.Sales.Messages` project, create a new folder for `Events` and then add a new class called `OrderSubmittedEvent.cs`. The class should have three properties with public setters and getters: Id of the order, Id of the customer, and the list of product Ids.
+In the `Divergent.Sales.Messages` project, add a folder named `Events` and create an `OrderSubmittedEvent` class in the `Events` namespace. The class should have three properties with public setters and getters: the ID of the order, the ID of the customer, and the list of product IDs.
 
 ```c#
 namespace Divergent.Sales.Messages.Events
@@ -73,7 +73,7 @@ namespace Divergent.Sales.Messages.Events
 
 ### Step 3
 
-In the `Divergent.Sales` project, have a look at `Handlers\SubmitOrderHandler.cs` class. At the end of the `Handle` method, publish the `OrderSubmittedEvent`, by calling the ```context.Publish()``` method. Copy the properties from the incoming `SubmitOrderCommand` message, to the properties of the event.
+In `Divergent.Sales\Handlers\SubmitOrderHandler.cs`, at the end of the `Handle()` method, publish the `OrderSubmittedEvent` by calling `context.Publish()`. Copy the properties from the incoming `SubmitOrderCommand` message to the properties of the event.
 
 ```c#
 await context.Publish(new OrderSubmittedEvent
@@ -86,19 +86,19 @@ await context.Publish(new OrderSubmittedEvent
 
 ## Exercise 2.2: handle `OrderSubmittedEvent` in Shipping, Finance and Customers
 
-In this exercise, you'll subscribe to the `OrderSubmittedEvent` published by `Divergent.Sales` by creating new handlers, named `OrderSubmittedHandler`, in both the `Divergent.Shipping` and the `Divergent.Sales` projects. Then you'll extend the handler implementation in the `Divergent.Finance` project, in order to process the payment using the provided `GetAmount()` method and the `ReliablePaymentClient` class.
+In this exercise, you'll subscribe to `OrderSubmittedEvent`, published by `Divergent.Sales`, by creating handlers named `OrderSubmittedHandler`, in the `Divergent.Shipping`, `Divergent.Finance`, and `Divergent.Customers` projects. You'll then extend the handler implementation in the `Divergent.Finance`, to process the payment using the provided `GetAmount()` method and the `ReliablePaymentClient` class.
 
 ### Step 1
 
-In `Divergent.Shipping` project, add a new folder for `Handlers` and then create a new `OrderSubmittedHandler` class inside the `Handlers` namespace.
+In `Divergent.Shipping` project, add a folder named `Handlers` and create an `OrderSubmittedHandler` class inside the `Handlers` namespace.
 
 ### Step 2
 
-The `OrderSubmittedHandler` should process the `OrderSubmittedEvent` published by `Divergent.Sales`. In order to handle this event implement the `IHandleMessages<OrderSubmittedEvent>` interface in the `OrderSubmittedHandler` class.
+The `OrderSubmittedHandler` should handle the `OrderSubmittedEvent` published by `Divergent.Sales`. To handle this event, implement the `IHandleMessages<OrderSubmittedEvent>` interface.
 
 ### Step 3
 
-In the `Divergent.Shipping` project navigate to `Host` class and specify the publisher for the `OrderSubmittedEvent`. To do this in the `Start` method, use the `routing` object obtained when configuring the transport and add the following statement:
+In `Divergent.Shipping\Host.cs`, specify the publisher for the `OrderSubmittedEvent`. In the `Start` method, use the `routing` object obtained when configuring the endpoint and add the following statement:
 
 ```
 routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
@@ -126,20 +126,19 @@ namespace Divergent.Shipping.Handlers
 
 ### Step 5
 
-In the `Divergent.Finance` project, add a new folder for `Handlers` and then create a new `OrderSubmittedHandler` class inside the `Handlers` namespace.
+In the `Divergent.Finance` project, add a folder named `Handlers` and create an `OrderSubmittedHandler` class inside the `Handlers` namespace.
 
 ### Step 6
 
-The `OrderSubmittedHandler` should also process the `OrderSubmittedEvent` published by `Divergent.Sales`. In order to handle this implement the `IHandleMessages<OrderSubmittedEvent>` interface in the `OrderSubmittedHandler` class.
+The `OrderSubmittedHandler` should also process the `OrderSubmittedEvent` published by `Divergent.Sales`. To handle this event, implement the `IHandleMessages<OrderSubmittedEvent>` interface.
 
 ### Step 7
 
-In the `Divergent.Finance` project navigate to `Host` class and specify the publisher for the `OrderSubmittedEvent`. To do this in the `Start` method, use the `routing` object obtained when configuring the transport and add the following statement:
+In `Divergent.Finance\Host.cs`, specify the publisher for the `OrderSubmittedEvent`. In the `Start` method, use the `routing` object obtained when configuring the endpoint and add the following statement:
 
 ```
 routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
 ```
-
 
 ### Step 8
 
@@ -220,7 +219,7 @@ namespace Divergent.Finance.Handlers
 
 ### Step 10
 
-In the `Divergent.Customers` project, add a new folder for `Handlers` and then create a new `OrderSubmittedHandler` class inside the `Handlers` namespace in order to keep track of which orders have been submitted by which customer.
+In the `Divergent.Customers` project, add a folder named `Handlers` and create an  `OrderSubmittedHandler` class inside the `Handlers` namespace. This handler will keep track of the orders submitted by each customer.
 
 ```c#
 namespace Divergent.Customers.Handlers
@@ -254,7 +253,7 @@ namespace Divergent.Customers.Handlers
 
 ### Step 11
 
-In the `Divergent.Customers` project navigate to `Host` class and specify the publisher for the `OrderSubmittedEvent`. To do this, in the `Start` method, use the `routing` object obtained when configuring the transport and add the following statement
+In `Divergent.Customers\Host.cs`, specify the publisher for the `OrderSubmittedEvent`. In the `Start` method, use the `routing` object obtained when configuring the endpoint and add the following statement:
 
 ```
 routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
@@ -262,7 +261,7 @@ routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
 
 ### Step 12
 
-Run the solution. In the website, navigate to the `Orders` page and click the `Create new order` button. This should trigger the `Divergent.Sales` endpoint to publish the `OrderSubmittedEvent`. This event will now be received by  `Divergent.Customers`, `Divergent.Finance` and `Divergent.Shipping`. Verify this by navigating to the console and verifying the log statements added in the handler class.
+Run the solution. In the website, navigate to the "Orders" page and click the "Create new order" button. This should result in the `Divergent.Sales` endpoint publishing  `OrderSubmittedEvent`. The event will be received by `Divergent.Shipping`, `Divergent.Finance`, and `Divergent.Customers`. Verify this by navigating to the consoles and observing the log statements added in the handler classes.
 
 ## Exercise 2.3: create and publish the `PaymentSucceededEvent`
 
@@ -270,7 +269,7 @@ In this exercise we'll create a new event called `PaymentSucceededEvent`. This e
 
 ### Step 1
 
-In the `Divergent.Finance.Messages` project, add a new folder called `Events`, and then create a new class called `PaymentSucceededEvent.cs` in the `Events` namespace. The class should have only a single property with a public setter and a getter: id of the order.
+In the `Divergent.Finance.Messages` project, add a folder named `Events`, and create a class named `PaymentSucceededEvent.cs` in the `Events` namespace. The class should have a single property with a public setter and a getter: the ID of the order.
 
 ```c#
 namespace Divergent.Finance.Messages.Events
@@ -284,7 +283,7 @@ namespace Divergent.Finance.Messages.Events
 
 ### Step 2
 
-In the `Divergent.Finance` project, locate the `InitiatePaymentProcessCommandHandler` class. In the `Handle` method, as the last step, publish the `PaymentSucceededEvent` by calling `context.Publish()` method. Copy the order id from the incoming `InitiatePaymentProcessCommand` message, to the property of the event.
+In `Divergent.Finance\Handlers\InitiatePaymentProcessCommandHandler.cs`, at the end of the `Handle()` method, publish the `PaymentSucceededEvent` by calling `context.Publish()`. Copy the order ID from the incoming `InitiatePaymentProcessCommand` message to the property of the event.
 
 ```c#
 public async Task Handle(InitiatePaymentProcessCommand message, IMessageHandlerContext context)
@@ -334,7 +333,7 @@ namespace Divergent.Shipping.Handlers
 
 ### Step 4
 
-In the `Divergent.Shipping` project, configure the publisher for the `PaymentSucceededEvent`. To do this locate `Host.cs` and in the `Start` method, use the `routing` object obtained when configuring the transport and add the following statement
+In `Divergent.Shipping\Host.cs`, specify the publisher for the `PaymentSucceededEvent`. In the `Start` method, use the `routing` object obtained when configuring the endpoint and add the following statement:
 
 ```
 routing.RegisterPublisher(typeof(PaymentSucceededEvent), "Divergent.Finance");
@@ -342,11 +341,13 @@ routing.RegisterPublisher(typeof(PaymentSucceededEvent), "Divergent.Finance");
 
 ### Step 5
 
-Run the solution. In the website, `Orders` page, click the `Create new order` button and verify that the `Divergent.Shipping` endpoint is now also receiving the `PaymentSucceededEvent`.
+Run the solution. In the website `Orders` page, click the "Create new order" button and verify that the `Divergent.Shipping` endpoint receives the `PaymentSucceededEvent`.
 
 ## Advanced exercise 2.5 : monitoring endpoints
 
-**Important: Before attempting the advanced exercises, please ensure you have followed [the instructions for preparing your machine for the advanced exercises](/README.md#preparing-your-machine-for-the-advanced-exercises).** Specifically:
+**Important: Before attempting the advanced exercises, please ensure you have followed [the instructions for preparing your machine for the advanced exercises](/README.md#preparing-your-machine-for-the-advanced-exercises).**
+
+Specifically:
 
 - [Configure ServiceControl Instance](/README.md#configure-servicecontrol-instance)
 - [Configure Monitoring Instance](/README.md#configure-monitoring-instance)
@@ -365,7 +366,7 @@ NOTE: The MSMQ MMC snap-in is very limited in functionality. [QueueExplorer](htt
 
 ### Step 3
 
-After following the instructions for preparing your machine for the advanced exercises, an instance of ServiceControl should already be running as a Windows service. Run the exercise solution again and `create a new order` from the `Orders` page just to ensure that it has processed some messages.
+After following the instructions for preparing your machine for the advanced exercises, an instance of ServiceControl should already be running as a Windows service. Run the exercise solution again and click "Create a new order" from the "Orders" page to ensure the ServiceControl instance has processed some messages.
 
 ### Step 4
 
@@ -373,7 +374,7 @@ Now, Let's have a look at ServicePulse.
 
 Navigate to http://localhost:9090/
 
-You'll see an empty dashboard. From the menu, click the `Configuration`. The `Endpoint Heartbeats` section will show the list of endpoints that we have been using. However these endpoints are not yet being monitored. To do that, we need to install the monitoring plugin into those endpoints.
+You'll see an empty dashboard. From the menu, click "Configuration". The "Endpoint Heartbeats" section will show the list of endpoints that we have been running Note that these endpoints are not yet being _monitored_. We will enable monitoring later in the exercise.
 
 Note: If ServicePulse doesn't seem to be running, or it cannot connect to ServiceControl, verify that both instances are running as Windows services. By default, the names of both services begin with "Particular".
 
@@ -381,12 +382,11 @@ Note: If ServicePulse doesn't seem to be running, or it cannot connect to Servic
 
 Let's install the ServiceControl [heartbeat plugin](https://docs.particular.net/monitoring/heartbeats/install-plugin?version=heartbeats_3) into the NServiceBus endpoints.
 
-Install this plugin in the ITOps.EndpointConfig project which will be referenced by endpoints. You can do this via the Visual Studio NuGet user interface or via the Package Manager Console.
+Install this plugin in the `ITOps.EndpointConfig` project, which is referenced by all the service endpoint projects. You can do this in Visual Studio via either the Package Manager Console or the `Manage Nuget Packages...` UI.
 
-To install the plugin type: `Install-Package NServiceBus.Heartbeat -Version 3.0.0 -Project ITOps.EndpointConfig` in Package Manager Console.
+If you use the Package Manager Console, type: `Install-Package NServiceBus.Heartbeat -Version 3.0.0 -Project ITOps.EndpointConfig`.
 
-If you use `Manage Nuget Packages` option, make sure you select **version 3.0.0**
-
+If you use `Manage Nuget Packages...` UI, make sure you select **version 3.0.0**.
 
 ### Step 6
 
@@ -394,48 +394,45 @@ The heartbeat plugin sends messages directly to the ServiceControl queue rather 
 
 You can find out the name of the queue by accessing the 'ServiceControl Management' app in the Windows Start menu. The name of the instance is also the name of the queue.
 
-In the `ITOps.EndpointConfig` project, in `EndpointCongigurationExtensions.cs`, in the `Configure` method add the following configuration to enable heartbeats:
+In `ITOps.EndpointConfig\EndpointCongigurationExtensions.cs`, in the `Configure` method, add the following to enable heartbeats:
 
 ```
 endpointConfiguration.SendHeartbeatTo(
-  serviceControlQueue: "Particular.ServiceControl",
-  frequency: TimeSpan.FromSeconds(15),
-  timeToLive: TimeSpan.FromSeconds(30));
+    serviceControlQueue: "Particular.ServiceControl",
+    frequency: TimeSpan.FromSeconds(15),
+    timeToLive: TimeSpan.FromSeconds(30));
 ```
 
 ### Step 7
 
-Add the ServiceControl metrics component so that important metrics like message throughput, etc can be monitored and viewed in the ServicePulse dashboard.
+Important metrics like message throughput can be monitored and viewed in the ServicePulse dashboard. To enable this, we need to install the [ServiceControl metrics component](https://docs.particular.net/monitoring/metrics/install-plugin) into the NServiceBus endpoints.
 
-Let's install the ServiceControl [Metrics component](https://docs.particular.net/monitoring/metrics/install-plugin) into the NServiceBus endpoints.
+Install this plugin in the ITOps.EndpointConfig project, which is referenced by all the service endpoint projects. You can do this in Visual Studio via either the Package Manager Console or the `Manage Nuget Packages...` UI.
 
-Install this plugin in the ITOps.EndpointConfig project which will be referenced by endpoints. You can do this via the Visual Studio NuGet user interface or via the Package Manager Console.
+If you use the Package Manager Console, type: `Install-Package NServiceBus.Metrics.ServiceControl -Project ITOps.EndpointConfig`.
 
-To install the plugin type: `Install-Package NServiceBus.Metrics.ServiceControl -Project ITOps.EndpointConfig` in Package Manager Console.
-
-In the `ITOps.EndpointConfig` project, in `EndpointCongigurationExtensions.cs`, in the `Configure` method add the following configuration to enable reporting metrics to ServicePulse:
+In `ITOps.EndpointConfig\EndpointConfigurationExtensions.cs`, in the `Configure` method, add the following to enable reporting metrics to ServicePulse:
 
 ```
 var metrics = endpointConfiguration.EnableMetrics();
 metrics.SendMetricDataToServiceControl(
-  serviceControlMetricsAddress: "particular.monitoring",
-  interval: TimeSpan.FromSeconds(10));
+    serviceControlMetricsAddress: "particular.monitoring",
+    interval: TimeSpan.FromSeconds(10));
 ```
-
 
 ### Step 8
 
 Run the solution and navigate to ServicePulse while the projects are starting.
 
-Make sure to create a few orders in the Orders page in the front end application.
+Create a few orders by clicking "Create a new order" from the "Orders" page in the website.
 
-In the ServicePulse menu, navigate to the `Monitoring` option and review the various metrics.
+In the ServicePulse menu, navigate to "Monitoring" and review the various metrics.
 
 ### Step 9
 
 Turn off the endpoints by stopping debugging in Visual Studio or shutting down the console windows.
 
-ServiceControl is expecting heartbeat messages from every endpoint. If it doesn't continue to receive them, it will wait a little while (30 seconds) and then report that those endpoints are down.
+ServiceControl expects heartbeat messages from every endpoint. If it doesn't receive them, it will wait a little while (30 seconds) and then report that the endpoints are down.
 
 When you restart the projects, ServicePulse should report that the endpoints are up again.
 

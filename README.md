@@ -149,7 +149,7 @@ After the instance has been added, make a note of the name of the instance. This
 
 In the ServiceControl Management window, click "New" and then "Add Monitoring instance".
 
-In the settings for the new instance, there is one choice you have to make, select the transport configuration. 
+In the settings for the new instance, there is one choice you must make:
 
 - "Transport": choose "MSMQ".
 
