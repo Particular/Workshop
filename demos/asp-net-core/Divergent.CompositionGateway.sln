@@ -21,13 +21,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shipping", "Shipping", "{9D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.Shipping.ViewModelComposition", "Divergent.Shipping.ViewModelComposition\Divergent.Shipping.ViewModelComposition.csproj", "{657A5136-DDDE-493F-9247-B2789B3294F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Sales.Data", "Divergent.Sales.Data\Divergent.Sales.Data.csproj", "{80F82F7D-3F0A-4316-87CD-49F19DBD5B85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.Sales.Data", "Divergent.Sales.Data\Divergent.Sales.Data.csproj", "{80F82F7D-3F0A-4316-87CD-49F19DBD5B85}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Sales.API.Host", "Divergent.Sales.API.Host\Divergent.Sales.API.Host.csproj", "{DC8ADA37-837C-490F-BDFC-FC8D1001417E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.Sales.API.Host", "Divergent.Sales.API.Host\Divergent.Sales.API.Host.csproj", "{DC8ADA37-837C-490F-BDFC-FC8D1001417E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Shipping.Data", "Divergent.Shipping.Data\Divergent.Shipping.Data.csproj", "{0EFF2E29-829B-4B1C-A7C6-47D63B05F52B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.Shipping.Data", "Divergent.Shipping.Data\Divergent.Shipping.Data.csproj", "{0EFF2E29-829B-4B1C-A7C6-47D63B05F52B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Divergent.Shipping.API.Host", "Divergent.Shipping.API.Host\Divergent.Shipping.API.Host.csproj", "{0059E3AC-0AFA-43F6-B631-200CBB723F94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.Shipping.API.Host", "Divergent.Shipping.API.Host\Divergent.Shipping.API.Host.csproj", "{0059E3AC-0AFA-43F6-B631-200CBB723F94}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITOps.Json", "ITOps.Json\ITOps.Json.csproj", "{4951C5A4-59D4-4AE1-B74C-B6F667544211}"
 EndProject

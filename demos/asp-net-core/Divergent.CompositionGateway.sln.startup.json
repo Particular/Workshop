@@ -1,6 +1,6 @@
 {
     "Version": 3,
-    "ListAllProjects": false,
+    "ListAllProjects": true,
     "MultiProjectConfigurations": {
         "Demo": {
             "Projects": {

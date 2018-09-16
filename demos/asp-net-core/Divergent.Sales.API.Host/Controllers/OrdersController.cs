@@ -20,7 +20,7 @@ namespace Divergent.Sales.API.Host.Controllers
                     .Where(order => order.OrderNumber == orderNumber)
                     .Select(order => new
                     {
-                        OrderNumber = order.OrderNumber,
+                        order.OrderNumber,
                         ItemsCount = order.Items.Count,
                     })
                     .SingleOrDefaultAsync();
