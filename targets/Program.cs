@@ -1,5 +1,3 @@
-// Copyright (c) 2013 Adam Ralph.
-
 using System;
 using System.Diagnostics;
 using System.IO;
