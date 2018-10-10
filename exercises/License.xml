@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<license type="Trial" Applications="All" expiration="2018-10-17" id="211cc0a4-6cd3-4a41-a952-5e3827428bb4">
-  <name>adam.ralph@particular.net</name>
+<license type="Trial" Applications="All" expiration="2018-11-10" id="221fb126-e8aa-4aae-b0e0-e19cb8031163">
+  <name>mike.minutillo@particular.net</name>
   <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
     <SignedInfo>
       <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
@@ -10,9 +10,9 @@
           <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
         </Transforms>
         <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
-        <DigestValue>al+wxcuMucqMWP/l4IOGoN9OZQc=</DigestValue>
+        <DigestValue>h+i7Fhg7dmZYDLld6RKPi2ZzXlQ=</DigestValue>
       </Reference>
     </SignedInfo>
-    <SignatureValue>D+Rwzr45J09x+N93miEE1Qqk/JLol+vUIaZx6UWaxd0zimNQvKMi+AsQVNED3q4vZf+bJFTT8Huze9hzP8EZfS00EC6Jn6lMu0mL/QE9Ugsp+BcvrM/O9eOGauHCkauffjhavJY+P8OjBEgrMTBMgvUNamc8lJTSxTZkELvHnno=</SignatureValue>
+    <SignatureValue>jwqkaD54vTGGDI0clg5M+OpOond31rN3X5n/tR73ZxppyqAGv8lBAye2eN2rvpqk28BrevhpDr+bepw/B+p1MVnbVs/BVNVeUBKeSW8aAe9WqwUK+PoHArPEjC0Ye6v6TfOfTUPBDPk+SP3GtX37fpDJhk13QhUsziUIX3tA0ag=</SignatureValue>
   </Signature>
 </license>
