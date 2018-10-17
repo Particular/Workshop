@@ -195,7 +195,7 @@ There are various ways to check in what state the saga is. We can add flags to t
 To verify if `PaymentSucceededEvent` has been received, we can set a boolean property on the saga state. Add a boolean property to `ShippingSagaData` called `IsPaymentProcessed` and in the handler for the `PaymentSuccedeedEvent` we set this property to true.
 
 ```c#
-public async Task Handle(PaymentSucceededEvent message, IMessageHandlerContext context)
+public Task Handle(PaymentSucceededEvent message, IMessageHandlerContext context)
 {
     Data.IsPaymentProcessed = true;
     return Task.CompletedTask;
