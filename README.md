@@ -83,6 +83,8 @@ The exercises are contained in eight Visual Studio solutions under [exercises](e
 
 **You can safely ignore any compiler warnings**.
 
+TIP: For a faster build, specify the `--parallel` (or `-p`) option to build all the exercise solutions in parallel. This can result in a 50% reduction in build time! Bear in mind that the console output from all the solutions will be mixed together, which could make it more difficult to diagnose failures. If the build does fail, it may be best to re-run it without the `--parallel` option before diagnosing the problem.
+
 ## Running the exercise solutions
 
 Before running an exercise solution, you need to set the startup projects.
