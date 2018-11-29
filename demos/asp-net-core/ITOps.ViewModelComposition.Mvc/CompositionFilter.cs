@@ -5,23 +5,26 @@ using System.Threading.Tasks;
 
 namespace ITOps.ViewModelComposition.Mvc
 {
+    using System.Dynamic;
+
     class CompositionFilter : IAsyncResultFilter
     {
         public async Task OnResultExecutionAsync(ResultExecutingContext context, ResultExecutionDelegate next)
         {
-            if (context.Result is ViewResult viewResult && viewResult.ViewData.Model == null)
+            
+            if (context.Result is ViewResult viewResult /* && viewResult.ViewData.Model == null */)
             {
                 // view
-                var compositionResult = await CompositionHandler.HandleGetRequest(context.HttpContext);
+                var compositionResult = await CompositionHandler.HandleGetRequest(context.HttpContext, viewResult.Model);
                 if (compositionResult.StatusCode == StatusCodes.Status200OK)
                 {
                     viewResult.ViewData.Model = compositionResult.ViewModel;
                 }
             }
-            else if (context.Result is ObjectResult objectResult && objectResult.Value == null)
+            else if (context.Result is ObjectResult objectResult /* && objectResult.Value == null */)
             {
                 // no view
-                var compositionResult = await CompositionHandler.HandleGetRequest(context.HttpContext);
+                var compositionResult = await CompositionHandler.HandleGetRequest(context.HttpContext, objectResult.Value);
                 if (compositionResult.StatusCode == StatusCodes.Status200OK)
                 {
                     objectResult.Value = compositionResult.ViewModel;
