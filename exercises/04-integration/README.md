@@ -43,11 +43,16 @@ In this exercise, we'll have the saga in `Divergent.Shipping` service tell IT/Op
 In the `Divergent.ItOps.Messages` project, create a new class `ShipWithFedexCommand` in the Commands folder. It should contain the order Id, customer Id, and a list of product Ids.
 
 ```c#
-public class ShipWithFedexCommand
+﻿using System.Collections.Generic;
+
+namespace Divergent.ITOps.Messages.Commands
 {
-    public int OrderId { get; set; }
-    public int CustomerId { get; set; }
-    public List<int> Products { get; set; }
+    public class ShipWithFedexCommand
+    {
+        public int OrderId { get; set; }
+        public int CustomerId { get; set; }
+        public List<int> Products { get; set; }
+    }
 }
 ```
 
