@@ -309,7 +309,7 @@ Create the `PaymentSucceededHandler` class in the `Divergent.Shipping` project, 
 
 ### Step 2
 
-The `PaymentSucceededHandler` should process the `PaymentSucceededEvent` published by `Divergent.Finance`. In order to handle this event implement the `IHandleMessages<PaymentSucceededEvent>` interface in the `PaymentSucceededEvent` class.
+The `PaymentSucceededHandler` should process the `PaymentSucceededEvent` published by `Divergent.Finance`. In order to handle this event implement the `IHandleMessages<PaymentSucceededEvent>` interface in the `PaymentSucceededHandler` class.
 
 ### Step 3
 
