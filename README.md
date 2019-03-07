@@ -12,21 +12,23 @@ If you have any difficulty preparing your machine, or following this document, p
 
 ## Preparing for the workshop
 
-- Setup (virtual) machine
+Note: The estimated total preparation time for a fresh environment is ~2 hours.
+
+- Setup (virtual) machine (20 min)
   - Windows 10 (Windows 7 can work too but with limitations, see [Can I use Windows 7?](#can-i-use-windows-7))
     - [MSMQ](#msmq-and-dtc)
     - [MSDTC](#msmq-and-dtc)
-- [Install the pre-requisites](#install-the-pre-requisites)
+- [Install the pre-requisites](#install-the-pre-requisites) (45 min)
   - [Visual Studio 2017 v15.9.8+](#visual-studio)
     - .NET desktop development
     - ASP.NET and web development
     - .NET Core SDK 2.0.3+
-  - [SQL Server 2017 LocalDB](#localdb)
-  - [SQLCMD](#sqlcmd)
-- [Get a copy of this repository](#get-a-copy-of-this-repository)
-- [Set up the databases](#set-up-the-databases)
-- Verify correct installation of pre-requisites
-  - [Build the exercise solutions](#build-the-exercise-solutions)
+  - Setup [SQL Server 2017 LocalDB](#localdb) (15 min)
+  - Setup [SQLCMD](#sqlcmd) (15 min)
+- [Get a copy of this repository](#get-a-copy-of-this-repository) (10 min)
+- [Set up the databases](#set-up-the-databases) (5 min)
+- Verify correct installation of pre-requisites (5 min)
+  - [Build the exercise solutions](#build-the-exercise-solutions) 
   
 
 You can also [prepare your machine in advance for the advanced exercises](#preparing-your-machine-for-the-advanced-exercises) but it is not a requirement for the workshop.
