@@ -33,7 +33,7 @@ You can also [prepare your machine in advance for the advanced exercises](#prepa
 
 - Setup Particular Platform Installer()
   - [Run the Particular Platform Installer](#run-the-particular-platform-installer)
-  - [Add ServiceControl Instance](add-servicecontrol-instance)
+  - [Add ServiceControl Instance](#add-servicecontrol-instance)
   - [Add Monitoring Instance](#add-monitoring-instance)
 
 
