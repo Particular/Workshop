@@ -17,6 +17,8 @@ If you have any difficulty preparing your machine, or following this document, p
 - [Set up the databases](#set-up-the-databases)
 - [Build the exercise solutions](#build-the-exercise-solutions)
 
+NOTE: you can optionally also [prepare your machine in advance for the advanced exercises](#preparing-your-machine-for-the-advanced-exercises).
+
 ### Install the pre-requisites
 
 To complete the exercises, you require a Windows machine and Visual Studio. You must be using a Windows client edition, such as Windows 10, rather than a server edition, such as Windows Server 2016. The Particular Platform Installer does not support server editions of Windows.
@@ -124,15 +126,19 @@ To complete the advanced exercises, you first need to install the rest of the Pa
 - ServiceInsight: a desktop app which visualises the flow of messages within and between endpoints in detail.
 - ServiceControl: a Windows service which collects the data that drives ServicePulse and ServiceInsight.
 
+### Run the Particular Platform Installer
+
 Run the [Particular Platform Installer](https://particular.net/start-platform-download) again, selecting ServiceControl, ServiceInsight, and ServicePulse.
 
 NOTE: When you install ServicePulse, you may see two warnings about not being able to connect to ServiceControl. In both cases, click `Yes` to proceed with the installation. These warnings appear because, although ServiceControl has been installed, no instances have yet been created.
+
+NOTE: If you are using Microsoft Edge, see [the FAQ](#how-do-i-download-the-particular-platform-installer-with-microsoft-edge).
 
 When installation has completed, click "Start ServiceControl Management".
 
 You may now close the Particular Service Platform Installation window.
 
-### Configure ServiceControl Instance
+### Add a ServiceControl Instance
 
 In the ServiceControl Management window, click "New" and then "Add ServiceControl instance".
 
@@ -147,7 +153,7 @@ Click "Add".
 
 After the instance has been added, make a note of the name of the instance. This will usually be "Particular.ServiceControl".
 
-### Configure Monitoring Instance
+### Add a ServiceControl monitoring Instance
 
 In the ServiceControl Management window, click "New" and then "Add Monitoring instance".
 
