@@ -33,7 +33,7 @@ Note: The estimated total preparation time for a fresh environment is ~2 hours.
 
 You can also [prepare your machine in advance for the advanced exercises](#preparing-your-machine-for-the-advanced-exercises) but it is not a requirement for the workshop.
 
-- Setup Particular Platform Installer()
+- Setup Particular Platform Installer
   - [Run the Particular Platform Installer](#run-the-particular-platform-installer)
   - [Add ServiceControl Instance](#add-servicecontrol-instance)
   - [Add Monitoring Instance](#add-monitoring-instance)
