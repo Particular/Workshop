@@ -10,12 +10,33 @@ If you have any difficulty preparing your machine, or following this document, p
 - [Demos](#demos)
 - [FAQ](#faq)
 
-## Preparing your machine for the workshop
+## Preparing for the workshop
 
+- Setup (virtual) machine
+  - Windows 10 (Windows 7 can work too but with limitations, see [Can I use Windows 7?](#can-i-use-windows-7))
+    - [MSMQ](#msmq-and-dtc)
+    - [MSDTC](#msmq-and-dtc)
 - [Install the pre-requisites](#install-the-pre-requisites)
+  - [Visual Studio 2017 v15.9.8+](#visual-studio)
+    - .NET desktop development
+    - ASP.NET and web development
+    - .NET Core SDK 2.0.3+
+  - [SQL Server 2017 LocalDB[(#localdb)
+  - [SQLCMD](#sqlcmd)
 - [Get a copy of this repository](#get-a-copy-of-this-repository)
 - [Set up the databases](#set-up-the-databases)
-- [Build the exercise solutions](#build-the-exercise-solutions)
+- Build and test exercise solutions to verify correct installation of pre-requisites
+  - [Build the exercise solutions](#build-the-exercise-solutions)
+  - [Running the exercise solutions](#running-the-exercise-solutions)
+
+
+You can also [prepare your machine in advance for the advanced exercises](#preparing-your-machine-for-the-advanced-exercises) but it is not a requirement for the workshop.
+
+- Setup Particular Platform Installer()
+  - [Run the Particular Platform Installer](#run-the-particular-platform-installer)
+  - [Add ServiceControl Instance](add-servicecontrol-instance)
+  - [Add Monitoring Instance](#add-monitoring-instance)
+
 
 ### Install the pre-requisites
 
@@ -118,11 +139,15 @@ You can now attempt the advanced exercises. Don't worry if you don't manage to s
 
 It is likely that you will have to read documentation for the Particular Service Platform to finish the advanced exercises. Links to documentation will be provided.
 
+Note: When using Microsoft Edge please read [How do I download the Particular Platform Installer with Microsoft Edge?](#how-do-i-download-the-particular-platform-installer-with-microsoft-edge)
+
 To complete the advanced exercises, you first need to install the rest of the Particular Service Platform:
 
 - ServicePulse: a web app which monitors your endpoints.
 - ServiceInsight: a desktop app which visualises the flow of messages within and between endpoints in detail.
 - ServiceControl: a Windows service which collects the data that drives ServicePulse and ServiceInsight.
+
+### Run the Particular Platform Installer
 
 Run the [Particular Platform Installer](https://particular.net/start-platform-download) again, selecting ServiceControl, ServiceInsight, and ServicePulse.
 
@@ -132,7 +157,7 @@ When installation has completed, click "Start ServiceControl Management".
 
 You may now close the Particular Service Platform Installation window.
 
-### Configure ServiceControl Instance
+### Add ServiceControl Instance
 
 In the ServiceControl Management window, click "New" and then "Add ServiceControl instance".
 
@@ -147,7 +172,7 @@ Click "Add".
 
 After the instance has been added, make a note of the name of the instance. This will usually be "Particular.ServiceControl".
 
-### Configure Monitoring Instance
+### Add Monitoring Instance
 
 In the ServiceControl Management window, click "New" and then "Add Monitoring instance".
 
