@@ -21,7 +21,7 @@ If you have any difficulty preparing your machine, or following this document, p
     - .NET desktop development
     - ASP.NET and web development
     - .NET Core SDK 2.0.3+
-  - [SQL Server 2017 LocalDB[(#localdb)
+  - [SQL Server 2017 LocalDB](#localdb)
   - [SQLCMD](#sqlcmd)
 - [Get a copy of this repository](#get-a-copy-of-this-repository)
 - [Set up the databases](#set-up-the-databases)
