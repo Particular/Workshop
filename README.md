@@ -25,10 +25,9 @@ If you have any difficulty preparing your machine, or following this document, p
   - [SQLCMD](#sqlcmd)
 - [Get a copy of this repository](#get-a-copy-of-this-repository)
 - [Set up the databases](#set-up-the-databases)
-- Build and test exercise solutions to verify correct installation of pre-requisites
+- Verify correct installation of pre-requisites
   - [Build the exercise solutions](#build-the-exercise-solutions)
-  - [Running the exercise solutions](#running-the-exercise-solutions)
-
+  
 
 You can also [prepare your machine in advance for the advanced exercises](#preparing-your-machine-for-the-advanced-exercises) but it is not a requirement for the workshop.
 
