@@ -140,7 +140,7 @@ You can now attempt the advanced exercises. Don't worry if you don't manage to s
 
 It is likely that you will have to read documentation for the Particular Service Platform to finish the advanced exercises. Links to documentation will be provided.
 
-Note: When using Microsoft Edge please read [How do I download the Particular Platform Installer with Microsoft Edge?](#how-do-i-download-the-particular-platform-installer-with-microsoft-edge)
+NOTE: If you are using Microsoft Edge, see [the FAQ](#how-do-i-download-the-particular-platform-installer-with-microsoft-edge).
 
 To complete the advanced exercises, you first need to install the rest of the Particular Service Platform:
 
