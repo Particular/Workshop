@@ -158,7 +158,7 @@ When installation has completed, click "Start ServiceControl Management".
 
 You may now close the Particular Service Platform Installation window.
 
-### Add ServiceControl Instance
+### Add a ServiceControl Instance
 
 In the ServiceControl Management window, click "New" and then "Add ServiceControl instance".
 
