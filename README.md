@@ -173,7 +173,7 @@ Click "Add".
 
 After the instance has been added, make a note of the name of the instance. This will usually be "Particular.ServiceControl".
 
-### Add Monitoring Instance
+### Add a ServiceControl monitoring Instance
 
 In the ServiceControl Management window, click "New" and then "Add Monitoring instance".
 
