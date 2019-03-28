@@ -127,15 +127,31 @@ class ShippingSagaData : ContainSagaData
 }
 ```
 
+NOTE: One could also use a property of type `int[]` for holding product identifiers as it's supported by the SqlPersister used in this exercise. 
+
 ### Step 3
 
 Now we'll add this class as saga state to our saga. We'll end up with a class like this:
 
 ```c#
-class ShippingSaga : Saga<ShippingSagaData>,
-    IAmStartedByMessages<OrderSubmittedEvent>,
-    IAmStartedByMessages<PaymentSucceededEvent>
+public class ShippingSaga : Saga<ShippingSagaData>,
+        IAmStartedByMessages<OrderSubmittedEvent>,
+        IAmStartedByMessages<PaymentSucceededEvent>
 {
+    protected override void ConfigureHowToFindSaga(SagaPropertyMapper<ShippingSagaData> mapper)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public Task Handle(OrderSubmittedEvent message, IMessageHandlerContext context)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public Task Handle(PaymentSucceededEvent message, IMessageHandlerContext context)
+    {
+        throw new System.NotImplementedException();
+    }
 }
 ```
 
@@ -180,7 +196,7 @@ mapper.ConfigureMapping<OrderSubmittedEvent>(p => p.OrderId).ToSaga(s => s.Order
 mapper.ConfigureMapping<PaymentSucceededEvent>(p => p.OrderId).ToSaga(s => s.OrderId);
 ```
 
-Note that this mapping also tells NServiceBus how to set the value of `Data.OrderId`. This is why we did not have to set `Data.OrderId` ourselves in exercise 2.2.
+Note that this mapping also tells NServiceBus how to set the value of `Data.OrderId`. This is why we did not have to set `Data.OrderId` ourselves in exercise 3.2.
 
 ## Exercise 3.4 - deal with out-of-order delivery
 
