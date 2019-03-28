@@ -394,7 +394,7 @@ The heartbeat plugin sends messages directly to the ServiceControl queue rather 
 
 You can find out the name of the queue by accessing the 'ServiceControl Management' app in the Windows Start menu. The name of the instance is also the name of the queue.
 
-In `ITOps.EndpointConfig\EndpointCongigurationExtensions.cs`, in the `Configure` method, add the following to enable heartbeats:
+In `ITOps.EndpointConfig\EndpointConfigurationExtensions.cs`, in the `Configure` method, add the following to enable heartbeats:
 
 ```
 endpointConfiguration.SendHeartbeatTo(
