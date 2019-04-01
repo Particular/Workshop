@@ -135,8 +135,8 @@ Now we'll add this class as saga state to our saga. We'll end up with a class li
 
 ```c#
 public class ShippingSaga : Saga<ShippingSagaData>,
-        IAmStartedByMessages<OrderSubmittedEvent>,
-        IAmStartedByMessages<PaymentSucceededEvent>
+    IAmStartedByMessages<OrderSubmittedEvent>,
+    IAmStartedByMessages<PaymentSucceededEvent>
 {
     protected override void ConfigureHowToFindSaga(SagaPropertyMapper<ShippingSagaData> mapper)
     {
