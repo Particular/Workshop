@@ -9,23 +9,16 @@ namespace Divergent.Sales
     class Host
     {
         static readonly ILog Log = LogManager.GetLogger<Host>();
-        readonly string connectionString;
         IEndpointInstance endpoint;
 
         public static string EndpointName => "Divergent.Sales";
-
-        public Host(string connectionString) => this.connectionString = connectionString;
 
         public async Task Start()
         {
             try
             {
                 var endpointConfiguration = new EndpointConfiguration(EndpointName)
-                    .Configure(
-                        connectionString,
-                        routing =>
-                        {
-                        });
+                    .Configure();
 
                 endpoint = await Endpoint.Start(endpointConfiguration);
             }

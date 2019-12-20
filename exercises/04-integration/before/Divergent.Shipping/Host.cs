@@ -11,12 +11,9 @@ namespace Divergent.Shipping
     class Host
     {
         static readonly ILog Log = LogManager.GetLogger<Host>();
-        readonly string connectionString;
         IEndpointInstance endpoint;
 
         public static string EndpointName => "Divergent.Shipping";
-
-        public Host(string connectionString) => this.connectionString = connectionString;
 
         public async Task Start()
         {
@@ -24,11 +21,8 @@ namespace Divergent.Shipping
             {
                 var endpointConfiguration = new EndpointConfiguration(EndpointName)
                     .Configure(
-                        connectionString,
                         routing =>
                         {
-                            routing.RegisterPublisher(typeof(PaymentSucceededEvent), "Divergent.Finance");
-                            routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
                         });
 
                 endpoint = await Endpoint.Start(endpointConfiguration);

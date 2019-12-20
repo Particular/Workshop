@@ -22,11 +22,7 @@ namespace Divergent.Finance
             try
             {
                 var endpointConfiguration = new EndpointConfiguration(EndpointName)
-                    .Configure(
-                        connectionString,
-                        routing =>
-                        {
-                        });
+                    .Configure();
 
                 endpointConfiguration.RegisterComponents(registration =>
                     registration.ConfigureComponent<ReliablePaymentClient>(DependencyLifecycle.SingleInstance));

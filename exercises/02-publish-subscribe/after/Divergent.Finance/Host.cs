@@ -23,12 +23,7 @@ namespace Divergent.Finance
             try
             {
                 var endpointConfiguration = new EndpointConfiguration(EndpointName)
-                    .Configure(
-                        connectionString,
-                        routing =>
-                        {
-                            routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
-                        });
+                    .Configure();
 
                 endpointConfiguration.RegisterComponents(registration =>
                     registration.ConfigureComponent<ReliablePaymentClient>(DependencyLifecycle.SingleInstance));

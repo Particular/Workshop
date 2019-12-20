@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using System.Linq;
 using System.ServiceProcess;
 using System.Threading.Tasks;
@@ -10,7 +9,7 @@ namespace Divergent.Customers
     {
         public static async Task Main(string[] args)
         {
-            var host = new Host(ConfigurationManager.ConnectionStrings[Host.EndpointName].ToString());
+            var host = new Host();
 
             // pass this command line option to run as a windows service
             if (args.Contains("--run-as-service"))

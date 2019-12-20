@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Divergent.Sales.Messages.Events;
 using ITOps.EndpointConfig;
 using NServiceBus;
 using NServiceBus.Logging;
@@ -10,24 +9,16 @@ namespace Divergent.Customers
     class Host
     {
         static readonly ILog Log = LogManager.GetLogger<Host>();
-        readonly string connectionString;
         IEndpointInstance endpoint;
 
         public static string EndpointName => "Divergent.Customers";
-
-        public Host(string connectionString) => this.connectionString = connectionString;
 
         public async Task Start()
         {
             try
             {
                 var endpointConfiguration = new EndpointConfiguration(EndpointName)
-                    .Configure(
-                        connectionString,
-                        routing =>
-                        {
-                            routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
-                        });
+                    .Configure();
 
                 endpoint = await Endpoint.Start(endpointConfiguration);
             }

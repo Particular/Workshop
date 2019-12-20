@@ -22,12 +22,7 @@ namespace Divergent.Customers
             try
             {
                 var endpointConfiguration = new EndpointConfiguration(EndpointName)
-                    .Configure(
-                        connectionString,
-                        routing =>
-                        {
-                            routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
-                        });
+                    .Configure();
 
                 endpoint = await Endpoint.Start(endpointConfiguration);
             }
