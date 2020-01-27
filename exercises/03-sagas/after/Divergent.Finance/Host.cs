@@ -11,24 +11,16 @@ namespace Divergent.Finance
     class Host
     {
         static readonly ILog Log = LogManager.GetLogger<Host>();
-        readonly string connectionString;
         IEndpointInstance endpoint;
 
         public static string EndpointName => "Divergent.Finance";
-
-        public Host(string connectionString) => this.connectionString = connectionString;
 
         public async Task Start()
         {
             try
             {
                 var endpointConfiguration = new EndpointConfiguration(EndpointName)
-                    .Configure(
-                        connectionString,
-                        routing =>
-                        {
-                            routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
-                        });
+                    .Configure();
 
                 endpointConfiguration.RegisterComponents(registration =>
                     registration.ConfigureComponent<ReliablePaymentClient>(DependencyLifecycle.SingleInstance));

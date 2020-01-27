@@ -11,19 +11,16 @@ namespace Divergent.ITOps
     class Host
     {
         static readonly ILog Log = LogManager.GetLogger<Host>();
-        readonly string connectionString;
         IEndpointInstance endpoint;
 
         public static string EndpointName => "Divergent.ITOps";
-
-        public Host(string connectionString) => this.connectionString = connectionString;
 
         public async Task Start()
         {
             try
             {
                 var endpointConfiguration = new EndpointConfiguration(EndpointName)
-                    .Configure(connectionString, null);
+                    .Configure();
 
                 var builder = new ContainerBuilder();
                 var assemblies = ReflectionHelper.GetAssemblies("..\\..\\..\\Providers", ".Data.dll");

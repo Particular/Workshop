@@ -23,13 +23,7 @@ namespace Divergent.Shipping
             try
             {
                 var endpointConfiguration = new EndpointConfiguration(EndpointName)
-                    .Configure(
-                        connectionString,
-                        routing =>
-                        {
-                            routing.RegisterPublisher(typeof(PaymentSucceededEvent), "Divergent.Finance");
-                            routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
-                        });
+                    .Configure();
 
                 endpoint = await Endpoint.Start(endpointConfiguration);
             }

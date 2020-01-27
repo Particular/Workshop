@@ -1,9 +1,7 @@
 using System;
-using System.Data.SqlClient;
 using System.IO;
 using NServiceBus;
 using NServiceBus.Logging;
-using NServiceBus.Persistence.Sql;
 
 namespace ITOps.EndpointConfig
 {
@@ -13,8 +11,7 @@ namespace ITOps.EndpointConfig
 
         public static EndpointConfiguration Configure(
             this EndpointConfiguration endpointConfiguration,
-            string connectionString,
-            Action<RoutingSettings<MsmqTransport>> configureRouting)
+            Action<RoutingSettings<LearningTransport>> configureRouting = null)
         {
             Log.Info("Configuring endpoint...");
 
@@ -23,19 +20,11 @@ namespace ITOps.EndpointConfig
             endpointConfiguration.UseSerialization<NewtonsoftSerializer>();
             endpointConfiguration.Recoverability().Delayed(c => c.NumberOfRetries(0));
 
-            var transport = endpointConfiguration.UseTransport<MsmqTransport>();
-            transport.DisableDeadLetterQueueing();
+            var transport = endpointConfiguration.UseTransport<LearningTransport>();
 
             var routing = transport.Routing();
 
-            var persistence = endpointConfiguration.UsePersistence<SqlPersistence>();
-
-            persistence.SqlDialect<SqlDialect.MsSqlServer>();
-            persistence.ConnectionBuilder(
-                connectionBuilder: () => new SqlConnection(connectionString));
-
-            var subscriptions = persistence.SubscriptionSettings();
-            subscriptions.CacheFor(TimeSpan.FromMinutes(1));
+            var persistence = endpointConfiguration.UsePersistence<LearningPersistence>();
 
             endpointConfiguration.SendFailedMessagesTo("error");
             endpointConfiguration.AuditProcessedMessagesTo("audit");

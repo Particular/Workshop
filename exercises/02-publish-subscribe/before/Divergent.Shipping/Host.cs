@@ -21,11 +21,7 @@ namespace Divergent.Shipping
             try
             {
                 var endpointConfiguration = new EndpointConfiguration(EndpointName)
-                    .Configure(
-                        connectionString,
-                        routing =>
-                        {
-                        });
+                    .Configure();
 
                 endpoint = await Endpoint.Start(endpointConfiguration);
             }

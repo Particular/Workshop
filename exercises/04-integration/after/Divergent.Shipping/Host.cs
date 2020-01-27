@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Divergent.Finance.Messages.Events;
 using Divergent.ITOps.Messages.Commands;
-using Divergent.Sales.Messages.Events;
 using ITOps.EndpointConfig;
 using NServiceBus;
 using NServiceBus.Logging;
@@ -25,11 +23,8 @@ namespace Divergent.Shipping
             {
                 var endpointConfiguration = new EndpointConfiguration(EndpointName)
                     .Configure(
-                        connectionString,
                         routing =>
                         {
-                            routing.RegisterPublisher(typeof(PaymentSucceededEvent), "Divergent.Finance");
-                            routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
                             routing.RouteToEndpoint(typeof(ShipWithFedexCommand), "Divergent.ITOps");
                         });
 

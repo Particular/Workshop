@@ -98,14 +98,6 @@ The `OrderSubmittedHandler` should handle the `OrderSubmittedEvent` published by
 
 ### Step 3
 
-In `Divergent.Shipping\Host.cs`, specify the publisher for the `OrderSubmittedEvent`. In the `Start` method, use the `routing` object obtained when configuring the endpoint and add the following statement:
-
-```
-routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
-```
-
-### Step 4
-
 Use the provided logger to log information that the event was received and handled.
 
 ```c#
@@ -124,23 +116,15 @@ namespace Divergent.Shipping.Handlers
 }
 ```
 
-### Step 5
+### Step 4
 
 In the `Divergent.Finance` project, add a folder named `Handlers` and create an `OrderSubmittedHandler` class inside the `Handlers` namespace.
 
-### Step 6
+### Step 5
 
 The `OrderSubmittedHandler` should also process the `OrderSubmittedEvent` published by `Divergent.Sales`. To handle this event, implement the `IHandleMessages<OrderSubmittedEvent>` interface.
 
-### Step 7
-
-In `Divergent.Finance\Host.cs`, specify the publisher for the `OrderSubmittedEvent`. In the `Start` method, use the `routing` object obtained when configuring the endpoint and add the following statement:
-
-```
-routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
-```
-
-### Step 8
+### Step 6
 
 When Finance receives the `OrderSubmittedEvent` message it records the prices for the items that belong to the submitted order. This ensures that if product prices change, the customer will still be charged the amount which was shown to them in the UI (the value returned by `Divergent.Finance.API` at that time). Finally, Finance initiates the payment process by sending the `InitiatePaymentProcessCommand` message.
 
@@ -190,7 +174,7 @@ namespace Divergent.Finance.Handlers
 }
 ```
 
-### Step 9
+### Step 7
 
 In the `Divergent.Finance` project create the `InitiatePaymentProcessCommandHandler` class inside the `Handlers` namespace in order to handle the payment process.
 
@@ -217,7 +201,7 @@ namespace Divergent.Finance.Handlers
 }
 ```
 
-### Step 10
+### Step 8
 
 In the `Divergent.Customers` project, add a folder named `Handlers` and create an  `OrderSubmittedHandler` class inside the `Handlers` namespace. This handler will keep track of the orders submitted by each customer.
 
@@ -251,15 +235,7 @@ namespace Divergent.Customers.Handlers
 }
 ```
 
-### Step 11
-
-In `Divergent.Customers\Host.cs`, specify the publisher for the `OrderSubmittedEvent`. In the `Start` method, use the `routing` object obtained when configuring the endpoint and add the following statement:
-
-```
-routing.RegisterPublisher(typeof(OrderSubmittedEvent), "Divergent.Sales");
-```
-
-### Step 12
+### Step 9
 
 Run the solution. In the website, navigate to the "Orders" page and click the "Create new order" button. This should result in the `Divergent.Sales` endpoint publishing  `OrderSubmittedEvent`. The event will be received by `Divergent.Shipping`, `Divergent.Finance`, and `Divergent.Customers`. Verify this by navigating to the consoles and observing the log statements added in the handler classes.
 
@@ -333,14 +309,6 @@ namespace Divergent.Shipping.Handlers
 
 ### Step 4
 
-In `Divergent.Shipping\Host.cs`, specify the publisher for the `PaymentSucceededEvent`. In the `Start` method, use the `routing` object obtained when configuring the endpoint and add the following statement:
-
-```
-routing.RegisterPublisher(typeof(PaymentSucceededEvent), "Divergent.Finance");
-```
-
-### Step 5
-
 Run the solution. In the website `Orders` page, click the "Create new order" button and verify that the `Divergent.Shipping` endpoint receives the `PaymentSucceededEvent`.
 
 ## Advanced exercise 2.5 : monitoring endpoints
@@ -349,8 +317,8 @@ Run the solution. In the website `Orders` page, click the "Create new order" but
 
 Specifically:
 
-- [Add a ServiceControl Instance](/README.md#add-a-servicecontrol-instance)
-- [Add a ServiceControl monitoring Instance](/README.md#add-a-servicecontrol-monitoring-instance)
+- [Configure ServiceControl Instance](/README.md#configure-servicecontrol-instance)
+- [Configure Monitoring Instance](/README.md#configure-monitoring-instance)
 
 ### Step 1
 
