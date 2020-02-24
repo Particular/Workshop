@@ -33,11 +33,12 @@ Although specific versions of the pre-requisites are mentioned here, later versi
 #### Visual Studio
 
 Install [Visual Studio](https://www.visualstudio.com) (Preferably 2019, but 2017 is also possible. Either Community, Professional, or Enterprise) with the following workloads:
-  - .NET desktop development
-  - ASP.NET and web development
+
+- .NET desktop development
+- ASP.NET and web development
 
 If you are not running the latest version of Visual Studio 2017, you may need to install the .NET Core SDK seperately. Install [version 2.0.3 or newer](https://www.microsoft.com/net/download/all).
- 
+
 #### LocalDB
 
 * Visit the [SQL Server 2017 Express Edition](https://www.microsoft.com/en-us/download/details.aspx?id=55994) website.
@@ -50,17 +51,17 @@ If you are not running the latest version of Visual Studio 2017, you may need to
 
 #### SQLCMD
 
-* Install [ODBC Driver 13.1 for SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=53339) (this is a pre-requisite of SQLCMD).
-* Install [Command Line Utilities 14.0 for SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=53591) (often referred to as "SQLCMD").
+- Install [ODBC Driver 13.1 for SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=53339) (this is a pre-requisite of SQLCMD).
+- Install [Command Line Utilities 14.0 for SQL Server](https://www.microsoft.com/en-us/download/details.aspx?id=53591) (often referred to as "SQLCMD").
 
 ### Get a copy of this repository
 
 Clone or download this repo. If you're downloading a zip copy of the repo, ensure the zip file is unblocked before decompressing it:
 
-* Right-click on the downloaded copy
-* Click "Properties"
-* On the "General" properties page, check the "Unblock" checkbox
-* Click "OK"
+- Right-click on the downloaded copy
+- Click "Properties"
+- On the "General" properties page, check the "Unblock" checkbox
+- Click "OK"
 
 ### Set up the databases
 
@@ -74,7 +75,7 @@ When you no longer need to run the exercises, you may optionally run `Teardown-L
 
 ### Build the exercise solutions
 
-The exercises are contained in eight Visual Studio solutions under [exercises](exercises). All the solutions require NuGet package restore. This may be possible at the workshop venue (you can verify with the workshop organizers if internet access is available at the venue) but to ensure you can build the solutions during the workshop, we recommend you restore all NuGet packages and build all the solutions before the workshop starts. The simplest way to do this is to open a command prompt, navigate to your copy of this repo, and run `.\build.cmd exercises`. (For a full list of build targets, run `.\build.cmd -T`, or `.\build.cmd -h` for help.) 
+The exercises are contained in eight Visual Studio solutions under [exercises](exercises). All the solutions require NuGet package restore. This may be possible at the workshop venue (you can verify with the workshop organizers if internet access is available at the venue) but to ensure you can build the solutions during the workshop, we recommend you restore all NuGet packages and build all the solutions before the workshop starts. The simplest way to do this is to open a command prompt, navigate to your copy of this repo, and run `.\build.cmd exercises`. (For a full list of build targets, run `.\build.cmd -T`, or `.\build.cmd -h` for help.)
 
 **You can safely ignore any compiler warnings**.
 
@@ -91,19 +92,20 @@ One way to do this is to use the *SwitchStartupProject* Visual Studio extension.
 
 The startup projects are also listed in the instructions for each exercise. If you need to, you can configure them manually:
 
-  - In Visual Studio, right click the solution in the Solution Explorer
-  - Click "Properties"
-  - Ensure that, in the left hand pane, "Common Properties", "Start Project" is selected.
-  - Select the "Multiple startup projects" radio button
-  - Set the "Action" for each project listed in the instructions for the exercise to "Start".
+- In Visual Studio, right click the solution in the Solution Explorer
+- Click "Properties"
+- Ensure that, in the left hand pane, "Common Properties", "Start Project" is selected.
+- Select the "Multiple startup projects" radio button
+- Set the "Action" for each project listed in the instructions for the exercise to "Start".
 
 To run an exercise solution, simply press <kbd>F5</kbd> in Visual Studio. The exercise solution will now be running and fully functional.
 
 ### Note
 
 The solutions contain single page applications (SPAs) and use `IIS Express`. To prevent caching issues, before switching to another exercise:
-  - Ensure that `IIS Express` is shut down
-  - Clear the browser cache (or disable it entirely). Alternatively, the cache can cleared by refreshing the page using <kbd>Shift</kbd>+<kbd>F5</kbd> or <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> in some browsers.
+
+- Ensure that `IIS Express` is shut down
+- Clear the browser cache (or disable it entirely). Alternatively, the cache can cleared by refreshing the page using <kbd>Shift</kbd>+<kbd>F5</kbd> or <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> in some browsers.
 - When running a solution, the wrong page is sometimes displayed in the browser. Either:
   - Ensure all HTML template files are closed when the application is run, or:
   - Manually change the browser address to the root URL.
