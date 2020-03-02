@@ -138,7 +138,7 @@ You may now close the Particular Service Platform Installation window.
 
 ### Add a ServiceControl Instance
 
-In the ServiceControl Management window, click "New" and then "Add ServiceControl instance".
+In the ServiceControl Management window, click "New" and then "Add ServiceControl and Audit Instances".
 
 In the settings for the new instance, there are two choices you must make:
 
