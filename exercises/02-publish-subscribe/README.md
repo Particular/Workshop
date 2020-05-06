@@ -317,8 +317,8 @@ Run the solution. In the website `Orders` page, click the "Create new order" but
 
 Specifically:
 
-- [Configure ServiceControl Instance](/README.md#configure-servicecontrol-instance)
-- [Configure Monitoring Instance](/README.md#configure-monitoring-instance)
+- [Add a ServiceControl Instance](/README.md#add-a-servicecontrol-instance)
+- [Add a ServiceControl monitoring Instance](/README.md#add-a-servicecontrol-monitoring-instance)
 
 ### Step 1
 
