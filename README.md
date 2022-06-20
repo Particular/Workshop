@@ -4,6 +4,7 @@
 
 - Windows 8.1 or Windows 10
 - Visual Studio 2017 or Visual Studio 2019
+- .NET Core 2.x
 
 **Please ensure you have prepared your machine well in advance of the workshop. Your time during the workshop is valuable, and we want to use it for learning, rather than setting up machines.**
 
