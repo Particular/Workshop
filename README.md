@@ -41,10 +41,10 @@ If you are not running the latest version of Visual Studio 2017, you may need to
 
 #### LocalDB
 
-- Visit the [SQL Server 2017 Express Edition](https://www.microsoft.com/en-us/download/details.aspx?id=55994) website.
-- Scroll down to the title "Choose which SQL Server 2017 Express to download"
+- Visit the [SQL Server Express LocalDb](https://docs.microsoft.com/en-us/sql/database-engine/configure-windows/sql-server-express-localdb?view=sql-server-ver15#installation-media) website.
+- Select to download SQL Server Express 2019
 - Select "SQL Server 2017 Express LocalDB"
-- Download and run `SQLServer2017-SSEI-Expr.exe` from the download location
+- After downloading, run `SQLServer2019-SSEI-Expr.exe` from the download location
 - In the installer, select the "Download Media" option
 - Select "LocalDB", let the installer download it and the press the "Open folder" button
 - Run `SqlLocalDB.msi`
