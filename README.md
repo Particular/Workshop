@@ -3,7 +3,8 @@
 ## Prerequisites
 
 - Windows 8.1 or Windows 10
-- Visual Studio 2017 or Visual Studio 2019
+- Visual Studio 2017 or later / JetBrains Rider
+- .NET Core 2.0.3 or newer
 
 **Please ensure you have prepared your machine well in advance of the workshop. Your time during the workshop is valuable, and we want to use it for learning, rather than setting up machines.**
 
@@ -39,12 +40,16 @@ Install [Visual Studio](https://www.visualstudio.com) (Preferably 2019, but 2017
 
 If you are not running the latest version of Visual Studio 2017, you may need to install the .NET Core SDK seperately. Install [version 2.0.3 or newer](https://www.microsoft.com/net/download/all).
 
+#### JetBrains Rider
+
+JetBrains Rider is also supported.
+
 #### LocalDB
 
-- Visit the [SQL Server 2017 Express Edition](https://www.microsoft.com/en-us/download/details.aspx?id=55994) website.
-- Scroll down to the title "Choose which SQL Server 2017 Express to download"
+- Visit the [SQL Server Express LocalDb](https://docs.microsoft.com/en-us/sql/database-engine/configure-windows/sql-server-express-localdb?view=sql-server-ver15#installation-media) website.
+- Select to download SQL Server Express 2019
 - Select "SQL Server 2017 Express LocalDB"
-- Download and run `SQLServer2017-SSEI-Expr.exe` from the download location
+- After downloading, run `SQLServer2019-SSEI-Expr.exe` from the download location
 - In the installer, select the "Download Media" option
 - Select "LocalDB", let the installer download it and the press the "Open folder" button
 - Run `SqlLocalDB.msi`
@@ -85,10 +90,14 @@ TIP: For a faster build, specify the `--parallel` (or `-p`) option to build all 
 
 Before running an exercise solution, you need to set the startup projects.
 
+### Visual Studio plugin
+
 One way to do this is to use the *SwitchStartupProject* Visual Studio extension. After installing the extension, open the exercise solution and choose the "Exercise" startup configuration.
 
 - [SwitchStartupProject](https://marketplace.visualstudio.com/items?itemName=vs-publisher-141975.SwitchStartupProjectforVS2017) for Visual Studio 2017
 - [SwitchStartupProject](https://marketplace.visualstudio.com/items?itemName=vs-publisher-141975.SwitchStartupProjectForVS2019) for Visual Studio 2019
+
+### Visual Studio without plugin
 
 The startup projects are also listed in the instructions for each exercise. If you need to, you can configure them manually:
 
@@ -97,6 +106,18 @@ The startup projects are also listed in the instructions for each exercise. If y
 - Ensure that, in the left hand pane, "Common Properties", "Start Project" is selected.
 - Select the "Multiple startup projects" radio button
 - Set the "Action" for each project listed in the instructions for the exercise to "Start".
+
+To run an exercise solution, simply press <kbd>F5</kbd> in Visual Studio. The exercise solution will now be running and fully functional.
+
+### JetBrains Rider
+
+The startup projects are also listed in the instructions for each exercise. If you need to, you can configure them manually:
+
+- In JetBrains Rider, top-right next to `Run` there's a dropdown that allows you to select the startup project. Click `Edit configuration` in that dropdown.
+- In the new dialog window that pops up, click the `+` sign at the top-left.
+- Select `Compound` as new configuration.
+  - Give it a name
+  - Add each project listed in the instructions for the exercise to "Start" to the compound.
 
 To run an exercise solution, simply press <kbd>F5</kbd> in Visual Studio. The exercise solution will now be running and fully functional.
 
