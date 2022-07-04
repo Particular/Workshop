@@ -30,4 +30,4 @@ jobs:
         with:
           dotnet-version: 6.0.x
       - name: Build
-        run: dotnet build exercises --configuration Release
+        run: dotnet build exercises/01-composite-ui/before --configuration Release
