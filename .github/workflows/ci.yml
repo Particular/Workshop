@@ -33,3 +33,17 @@ jobs:
         run: dotnet build exercises/01-composite-ui/before --configuration Release
       - name: Build exercise 01 - after
         run: dotnet build exercises/01-composite-ui/after --configuration Release
+      - name: Build exercise 02 - before
+        run: dotnet build exercises/02-publish-subscribe/before --configuration Release
+      - name: Build exercise 02 - after
+        run: dotnet build exercises/02-publish-subscribe/after --configuration Release
+      - name: Build exercise 03 - before
+        run: dotnet build exercises/03-sagas/before --configuration Release
+      - name: Build exercise 03 - after
+        run: dotnet build exercises/03-sagas/after --configuration Release
+      - name: Build exercise 04 - before
+        run: dotnet build exercises/04-integration/before --configuration Release
+      - name: Build exercise 04 - after
+        run: dotnet build exercises/04-integration/after --configuration Release
+      - name: CompositeUI demo
+        run: dotnet build demos/asp-net-core --configuration Release
