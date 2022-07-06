@@ -45,5 +45,5 @@ jobs:
         run: dotnet build exercises/04-integration/before --configuration Release
       - name: Build exercise 04 - after
         run: dotnet build exercises/04-integration/after --configuration Release
-      - name: CompositeUI demo
-        run: dotnet build demos/asp-net-core/Divergent.Website.sln --configuration Release
+#      - name: CompositeUI demo
+#        run: dotnet build demos/asp-net-core/Divergent.Website.sln --configuration Release
