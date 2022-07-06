@@ -17,8 +17,8 @@ jobs:
         include:
           - os: windows-2019
             name: Windows
-          - os: ubuntu-20.04
-            name: Linux
+#          - os: ubuntu-20.04
+#            name: Linux
       fail-fast: false
     steps:
       - name: Checkout
