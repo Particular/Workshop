@@ -33,7 +33,7 @@ Although specific versions of the pre-requisites are mentioned here, later versi
 
 #### Visual Studio
 
-Install [Visual Studio](https://www.visualstudio.com) (Preferably 2019, but 2017 is also possible. Either Community, Professional, or Enterprise) with the following workloads:
+Install [Visual Studio](https://www.visualstudio.com) (Preferably 2019 and up, but 2017 is also possible. Either Community, Professional, or Enterprise) with the following workloads:
 
 - .NET desktop development
 - ASP.NET and web development
