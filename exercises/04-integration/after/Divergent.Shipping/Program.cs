@@ -1,37 +1,24 @@
-﻿using System;
-using System.Configuration;
-using System.Linq;
-using System.ServiceProcess;
-using System.Threading.Tasks;
+﻿using Divergent.ITOps.Messages.Commands;
+using ITOps.EndpointConfig;
+using NServiceBus;
 
-namespace Divergent.Shipping
-{
-    static class Program
+const string EndpointName = "Divergent.Shipping";
+
+var host = Host.CreateDefaultBuilder(args)
+    .UseNServiceBus(context =>
     {
-        public async static Task Main(string[] args)
+        var endpoint = new EndpointConfiguration(EndpointName);
+
+        endpoint.Configure(routing =>
         {
-            var host = new Host(ConfigurationManager.ConnectionStrings[Host.EndpointName].ToString());
+            routing.RouteToEndpoint(typeof(ShipWithFedexCommand), "Divergent.ITOps");
+        });
 
-            // pass this command line option to run as a windows service
-            if (args.Contains("--run-as-service"))
-            {
-                using (var windowsService = new WindowsService(host))
-                {
-                    ServiceBase.Run(windowsService);
-                    return;
-                }
-            }
+        return endpoint;
+    }).Build();
 
-            Console.Title = Host.EndpointName;
+var hostEnvironment = host.Services.GetRequiredService<IHostEnvironment>();
 
-            var tcs = new TaskCompletionSource<object>();
-            Console.CancelKeyPress += (sender, e) => { tcs.SetResult(null); };
+Console.Title = hostEnvironment.ApplicationName;
 
-            await host.Start();
-            await Console.Out.WriteLineAsync("Press Ctrl+C to exit...");
-
-            await tcs.Task;
-            await host.Stop();
-        }
-    }
-}
+host.Run();

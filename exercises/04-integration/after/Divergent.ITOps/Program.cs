@@ -1,36 +1,61 @@
-﻿using System;
-using System.Linq;
-using System.ServiceProcess;
-using System.Threading.Tasks;
+﻿using Divergent.ITOps;
+using Divergent.ITOps.Interfaces;
+using ITOps.EndpointConfig;
+using NServiceBus;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 
-namespace Divergent.ITOps
-{
-    static class Program
+const string EndpointName = "Divergent.ITOps";
+
+var host = Host.CreateDefaultBuilder((string[]) args)
+    .ConfigureServices((builder, services) =>
     {
-        public async static Task Main(string[] args)
+        var assemblies = ReflectionHelper.GetAssemblies("..\\..\\..\\Providers", ".Data.dll");
+        services.Scan(s =>
         {
-            var host = new Host();
+            s.FromAssemblies(assemblies)
+                .AddClasses(classes => classes.Where(t => t.Name.EndsWith("Provider")))
+                .AsImplementedInterfaces()
+                .WithTransientLifetime();
+        });
 
-            // pass this command line option to run as a windows service
-            if (args.Contains("--run-as-service"))
-            {
-                using (var windowsService = new WindowsService(host))
-                {
-                    ServiceBase.Run(windowsService);
-                    return;
-                }
-            }
+        var serviceRegistrars = assemblies
+            .SelectMany(a => a.GetTypes())
+            .Where(t => typeof(IRegisterServices).IsAssignableFrom(t))
+            .Select(Activator.CreateInstance)
+            .Cast<IRegisterServices>()
+            .ToList();
 
-            Console.Title = Host.EndpointName;
-
-            var tcs = new TaskCompletionSource<object>();
-            Console.CancelKeyPress += (sender, e) => { tcs.SetResult(null); };
-
-            await host.Start();
-            await Console.Out.WriteLineAsync("Press Ctrl+C to exit...");
-
-            await tcs.Task;
-            await host.Stop();
+        foreach (var serviceRegistrar in serviceRegistrars)
+        {
+            serviceRegistrar.Register(builder, services);
         }
-    }
-}
+
+        services.AddOpenTelemetryTracing(config => config
+            .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(EndpointName))
+            .AddZipkinExporter(o =>
+            {
+                o.Endpoint = new Uri("http://localhost:9411/api/v2/spans");
+            })
+            .AddJaegerExporter(c =>
+            {
+                c.AgentHost = "localhost";
+                c.AgentPort = 6831;
+            })
+            .AddSource("NServiceBus.Core")
+            .AddSqlClientInstrumentation(opt => opt.SetDbStatementForText = true)
+        );
+    })
+    .UseNServiceBus(context =>
+    {
+        var endpoint = new EndpointConfiguration(EndpointName);
+        endpoint.Configure();
+
+        return endpoint;
+    }).Build();
+
+var hostEnvironment = host.Services.GetRequiredService<IHostEnvironment>();
+
+Console.Title = hostEnvironment.ApplicationName;
+
+host.Run();

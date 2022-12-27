@@ -1,36 +1,47 @@
-﻿using System;
-using System.Linq;
-using System.ServiceProcess;
-using System.Threading.Tasks;
+﻿using Divergent.Sales.Data.Context;
+using Divergent.Sales.Data.Migrations;
+using ITOps.EndpointConfig;
+using Microsoft.EntityFrameworkCore;
+using NServiceBus;
 
-namespace Divergent.Sales
-{
-    static class Program
+const string EndpointName = "Divergent.Sales";
+
+var host = Host.CreateDefaultBuilder((string[])args)
+    .ConfigureServices((builder, services) =>
     {
-        public async static Task Main(string[] args)
-        {
-            var host = new Host();
+        services.AddDbContext<SalesContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            // pass this command line option to run as a windows service
-            if (args.Contains("--run-as-service"))
-            {
-                using (var windowsService = new WindowsService(host))
-                {
-                    ServiceBase.Run(windowsService);
-                    return;
-                }
-            }
+    })
+    .UseNServiceBus(context =>
+    {
+        var endpoint = new EndpointConfiguration(EndpointName);
+        endpoint.Configure();
 
-            Console.Title = Host.EndpointName;
+        return endpoint;
+    }).Build();
 
-            var tcs = new TaskCompletionSource<object>();
-            Console.CancelKeyPress += (sender, e) => { tcs.SetResult(null); };
+CreateDbIfNotExists(host);
 
-            await host.Start();
-            await Console.Out.WriteLineAsync("Press Ctrl+C to exit...");
+var hostEnvironment = host.Services.GetRequiredService<IHostEnvironment>();
 
-            await tcs.Task;
-            await host.Stop();
-        }
+Console.Title = hostEnvironment.ApplicationName;
+
+host.Run();
+
+static void CreateDbIfNotExists(IHost host)
+{
+    using var scope = host.Services.CreateScope();
+    var services = scope.ServiceProvider;
+
+    try
+    {
+        var context = services.GetRequiredService<SalesContext>();
+        DatabaseInitializer.Initialize(context);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred creating the DB.");
     }
 }

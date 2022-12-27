@@ -1,30 +1,23 @@
 using System;
-using System.IO;
 using NServiceBus;
-using NServiceBus.Logging;
+using NServiceBus.Configuration.AdvancedExtensibility;
 
 namespace ITOps.EndpointConfig
 {
     public static class EndpointConfigurationExtensions
     {
-        static readonly ILog Log = LogManager.GetLogger(typeof(EndpointConfigurationExtensions));
-
         public static EndpointConfiguration Configure(
             this EndpointConfiguration endpointConfiguration,
             Action<RoutingSettings<LearningTransport>> configureRouting = null)
         {
-            Log.Info("Configuring endpoint...");
-
-            var licensePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\..\\..\\..\\License.xml");
-            endpointConfiguration.LicensePath(licensePath);
-            endpointConfiguration.UseSerialization<NewtonsoftSerializer>();
+            endpointConfiguration.UseSerialization<NewtonsoftJsonSerializer>();
             endpointConfiguration.Recoverability().Delayed(c => c.NumberOfRetries(0));
 
             var transport = endpointConfiguration.UseTransport<LearningTransport>();
 
             var routing = transport.Routing();
 
-            var persistence = endpointConfiguration.UsePersistence<LearningPersistence>();
+            endpointConfiguration.UsePersistence<LearningPersistence>();
 
             endpointConfiguration.SendFailedMessagesTo("error");
             endpointConfiguration.AuditProcessedMessagesTo("audit");

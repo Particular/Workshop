@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Routing;
 
-namespace ITOps.ViewModelComposition
+namespace ITOps.ViewModelComposition;
+
+public interface IRouteInterceptor
 {
-    public interface IRouteInterceptor
-    {
-        bool Matches(RouteData routeData, string httpMethod);
-    }    
+    bool Matches(RouteData routeData, string httpMethod);
 }

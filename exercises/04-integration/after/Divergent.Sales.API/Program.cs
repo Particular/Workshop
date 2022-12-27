@@ -1,34 +1,38 @@
-﻿using System;
-using System.Reflection;
-using System.Threading.Tasks;
-using Microsoft.Owin.Hosting;
-using Radical.Bootstrapper;
+﻿using Divergent.Sales.API;
+using Divergent.Sales.Messages.Commands;
+using NServiceBus;
 
-namespace Divergent.Sales.API
-{
-    class Program
+var host = Host.CreateDefaultBuilder(args)
+    .UseNServiceBus(_ =>
     {
-        public static async Task Main(string[] args)
-        {
-            Console.Title = MethodBase.GetCurrentMethod().DeclaringType.Namespace;
+        var config = new EndpointConfiguration("Sales.API");
 
-            var tcs = new TaskCompletionSource<object>();
-            Console.CancelKeyPress += (sender, e) => { tcs.SetResult(null); };
+        config.SendOnly();
 
-            var basePath = AppDomain.CurrentDomain.BaseDirectory;
+        var transport = config.UseTransport<LearningTransport>();
 
-            var bootstrapper = new WindsorBootstrapper(basePath, filter: "Divergent*.*");
-            var container = bootstrapper.Boot();
+        var routing = transport.Routing();
 
-            NServiceBusConfig.Configure(container);
+        routing.RouteToEndpoint(typeof(SubmitOrderCommand), "Divergent.Sales");
 
-            using (WebApp.Start(new StartOptions("http://localhost:20185"), builder => WebApiConfig.Configure(builder, container)))
-            {
-                await Console.Out.WriteLineAsync("Web server is running.");
-                await Console.Out.WriteLineAsync("Press Ctrl+C to exit...");
+        config.UseSerialization<NewtonsoftJsonSerializer>();
+        config.UsePersistence<LearningPersistence>();
 
-                await tcs.Task;
-            }
-        }
-    }
-}
+        config.SendFailedMessagesTo("error");
+
+        config.Conventions()
+            .DefiningCommandsAs(t => t.Namespace != null && t.Namespace == "Divergent.Messages" || t.Name.EndsWith("Command"))
+            .DefiningEventsAs(t => t.Namespace != null && t.Namespace == "Divergent.Messages" || t.Name.EndsWith("Event"));
+
+        return config;
+    })
+    .ConfigureWebHostDefaults(webBuilder =>
+    {
+        webBuilder.UseStartup<Startup>();
+    }).Build();
+
+var hostEnvironment = host.Services.GetRequiredService<IHostEnvironment>();
+
+Console.Title = hostEnvironment.ApplicationName;
+
+host.Run();

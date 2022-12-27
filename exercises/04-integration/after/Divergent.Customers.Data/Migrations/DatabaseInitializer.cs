@@ -1,14 +1,32 @@
-﻿using System.Data.Entity;
-using System.Data.Entity.Migrations;
+﻿using System.Linq;
 using Divergent.Customers.Data.Context;
+using Microsoft.EntityFrameworkCore;
 
-namespace Divergent.Customers.Data.Migrations
+namespace Divergent.Customers.Data.Migrations;
+
+public static class DatabaseInitializer
 {
-    public class DatabaseInitializer : CreateDatabaseIfNotExists<CustomersContext>
+    public static void Initialize(CustomersContext context)
     {
-        protected override void Seed(CustomersContext context)
+        context.Database.EnsureCreated();
+
+        if (context.Customers.Any())
         {
-            context.Customers.AddOrUpdate(k => k.Id, SeedData.Customers().ToArray());
+            return;
+        }
+
+        context.Customers.AddRange(SeedData.Customers().ToArray());
+        
+        context.Database.OpenConnection();
+        try
+        {
+            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Customers ON");
+            context.SaveChanges();
+            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Customers OFF");
+        }
+        finally
+        {
+            context.Database.CloseConnection();
         }
     }
 }
