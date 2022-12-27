@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - "master"
-      - release-*
   pull_request:
   workflow_dispatch:
 env:
@@ -17,33 +16,35 @@ jobs:
         include:
           - os: windows-2019
             name: Windows
-#          - os: ubuntu-20.04
-#            name: Linux
+          - os: ubuntu-20.04
+            name: Linux
       fail-fast: false
     steps:
       - name: Checkout
-        uses: actions/checkout@v3.0.2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v2.1.0
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 7.0.x
+      - name: Restore dependencies
+        run: dotnet restore     
       - name: Build exercise 01 - before
-        run: dotnet build exercises/01-composite-ui/before --configuration Release
+        run: dotnet build exercises/01-composite-ui/before --configuration Release --no-restore
       - name: Build exercise 01 - after
-        run: dotnet build exercises/01-composite-ui/after --configuration Release
+        run: dotnet build exercises/01-composite-ui/after --configuration Release --no-restore
       - name: Build exercise 02 - before
-        run: dotnet build exercises/02-publish-subscribe/before --configuration Release
+        run: dotnet build exercises/02-publish-subscribe/before --configuration Release --no-restore
       - name: Build exercise 02 - after
-        run: dotnet build exercises/02-publish-subscribe/after --configuration Release
+        run: dotnet build exercises/02-publish-subscribe/after --configuration Release --no-restore
       - name: Build exercise 03 - before
-        run: dotnet build exercises/03-sagas/before --configuration Release
+        run: dotnet build exercises/03-sagas/before --configuration Release --no-restore
       - name: Build exercise 03 - after
-        run: dotnet build exercises/03-sagas/after --configuration Release
+        run: dotnet build exercises/03-sagas/after --configuration Release --no-restore
       - name: Build exercise 04 - before
-        run: dotnet build exercises/04-integration/before --configuration Release
+        run: dotnet build exercises/04-integration/before --configuration Release --no-restore
       - name: Build exercise 04 - after
-        run: dotnet build exercises/04-integration/after --configuration Release
+        run: dotnet build exercises/04-integration/after --configuration Release --no-restore
 #      - name: CompositeUI demo
-#        run: dotnet build demos/asp-net-core/Divergent.Website.sln --configuration Release
+#        run: dotnet build demos/asp-net-core/Divergent.Website.sln --configuration Release --no-restore
