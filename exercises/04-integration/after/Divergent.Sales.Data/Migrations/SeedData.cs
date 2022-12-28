@@ -40,32 +40,10 @@ internal static class SeedData
         var nserviceBusId = 2;
         var nserivceBusOrderId = 2;
 
-        // 'orderlines' for particular order
-        var particularItems = new[]
-        {
-            new Item
-            {
-                Product = theForceAwakensProduct
-            },
-            new Item
-            {
-                Product = aNewHopeProduct
-            }
-        };
-
-        // 'orderline' for nservicebus order
-        var nservicebusItems = new[]
-        {
-            new Item
-            {
-                Product = theForceAwakensProduct
-            }
-        };
-
         return new List<Order>
         {
-            new Order { CustomerId = particularId, DateTimeUtc = new DateTime(2016, 01, 01), State = "Payment Succeeded", Id = particularOrderId, Items = particularItems},
-            new Order { CustomerId = nserviceBusId, DateTimeUtc = new DateTime(2016, 01, 02), State = "Payment awaiting", Id = nserivceBusOrderId, Items = nservicebusItems }
+            new Order { CustomerId = particularId, DateTimeUtc = new DateTime(2016, 01, 01), State = "Payment Succeeded", Id = particularOrderId, Items = new[] {1, 2 }},
+            new Order { CustomerId = nserviceBusId, DateTimeUtc = new DateTime(2016, 01, 02), State = "Payment awaiting", Id = nserivceBusOrderId, Items = new[] { 4, 5, 6} }
         };
     }
 

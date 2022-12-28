@@ -15,9 +15,3 @@ public class Order
 
     public ICollection<int> Items { get; set; }
 }
-
-public class Item
-{
-    public int Id { get; set; }
-    public Product Product { get; set; }
-}

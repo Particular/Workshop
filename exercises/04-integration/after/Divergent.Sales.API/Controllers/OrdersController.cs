@@ -46,7 +46,7 @@ public class OrdersController : ControllerBase
             {
                 order.Id,
                 order.CustomerId,
-                ProductIds = order.Items.Select(item => item.Product.Id).ToList(),
+                ProductIds = order.Items,
                 ItemsCount = order.Items.Count
             })
             .ToList();
