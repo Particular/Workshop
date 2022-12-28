@@ -1,45 +1,40 @@
-﻿using Divergent.Sales.Data.Context;
+﻿using System.Net.Http.Headers;
+using System.Net.NetworkInformation;
 using Divergent.Sales.Data.Models;
 using Divergent.Sales.Messages.Commands;
 using Divergent.Sales.Messages.Events;
+using ITOps.EndpointConfig;
+using LiteDB;
 using NServiceBus;
 
 namespace Divergent.Sales.Handlers;
 
 public class SubmitOrderHandler : IHandleMessages<SubmitOrderCommand>
 {
-    private readonly SalesContext _db;
-    private readonly ILogger<SubmitOrderHandler> _log;
+    private readonly ILiteDbContext db;
+    private readonly ILogger<SubmitOrderHandler> log;
 
-    public SubmitOrderHandler(SalesContext db, ILogger<SubmitOrderHandler> log)
+    public SubmitOrderHandler(ILiteDbContext db, ILogger<SubmitOrderHandler> log)
     {
-        _db = db;
-        _log = log;
+        this.db = db;
+        this.log = log;
     }
 
     public async Task Handle(SubmitOrderCommand message, IMessageHandlerContext context)
     {
-        _log.LogInformation("Handle SubmitOrderCommand");
+        log.LogInformation("Handle SubmitOrderCommand");
 
-        var items = new List<Item>();
-
-        var products = _db.Products.ToList();
-
-        message.Products.ForEach(p => items.Add(new Item
-        {
-            Product = products.Single(s => s.Id == p)
-        }));
+        var orders = db.Database.GetCollection<Order>();
 
         var order = new Order
         {
             CustomerId = message.CustomerId,
             DateTimeUtc = DateTime.UtcNow,
-            Items = items,
+            Items = message.Products,
             State = "New"
         };
 
-        await _db.Orders.AddAsync(order, context.CancellationToken);
-        await _db.SaveChangesAsync(context.CancellationToken);
+        orders.Insert(order);
 
         // Publish event
         await context.Publish(new OrderSubmittedEvent

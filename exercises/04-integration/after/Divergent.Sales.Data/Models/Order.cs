@@ -13,13 +13,11 @@ public class Order
 
     public string State { get; set; }
 
-    public ICollection<Item> Items { get; set; }
+    public ICollection<int> Items { get; set; }
 }
 
 public class Item
 {
     public int Id { get; set; }
-    public int OrderId { get; set; }
-    public Order Order { get; set; }
     public Product Product { get; set; }
 }

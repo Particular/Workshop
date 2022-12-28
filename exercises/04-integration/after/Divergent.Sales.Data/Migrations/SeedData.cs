@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Divergent.Sales.Data.Models;
+using ITOps.EndpointConfig;
 
 namespace Divergent.Sales.Data.Migrations;
 
