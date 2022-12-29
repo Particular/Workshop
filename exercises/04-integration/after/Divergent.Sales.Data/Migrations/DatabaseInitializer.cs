@@ -6,7 +6,7 @@ namespace Divergent.Sales.Data.Migrations;
 
 public static class DatabaseInitializer 
 {
-    public static void Initialize(this LiteDatabase context)
+    public static void Initialize(LiteDatabase context)
     {
         if (context == null) throw new ArgumentNullException(nameof(context));
         

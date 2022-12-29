@@ -1,32 +1,22 @@
-﻿using System.Linq;
-using Divergent.Customers.Data.Context;
-using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Divergent.Customers.Data.Models;
+using LiteDB;
 
 namespace Divergent.Customers.Data.Migrations;
 
 public static class DatabaseInitializer
 {
-    public static void Initialize(CustomersContext context)
+    public static void Initialize(LiteDatabase context)
     {
-        context.Database.EnsureCreated();
-
-        if (context.Customers.Any())
-        {
-            return;
-        }
-
-        context.Customers.AddRange(SeedData.Customers().ToArray());
+        if (context == null) throw new ArgumentNullException(nameof(context));
         
-        context.Database.OpenConnection();
-        try
-        {
-            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Customers ON");
-            context.SaveChanges();
-            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Customers OFF");
-        }
-        finally
-        {
-            context.Database.CloseConnection();
-        }
+        var customers = context.GetCollection<Customer>();
+        if (customers.Count() > 0)
+            return;
+
+        customers.InsertBulk(SeedData.Customers());
+        
+        var orders = context.GetCollection<Order>();
+        orders.InsertBulk(SeedData.Orders());
     }
 }

@@ -1,6 +1,6 @@
-﻿using Divergent.Customers.Data.Context;
+﻿using Divergent.Customers.Data.Models;
+using ITOps.EndpointConfig;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Divergent.Customers.API.Controllers;
 
@@ -8,9 +8,9 @@ namespace Divergent.Customers.API.Controllers;
 [ApiController]
 public class CustomersController : ControllerBase
 {
-    private readonly CustomersContext _db;
+    private readonly ILiteDbContext _db;
 
-    public CustomersController(CustomersContext db) => _db = db;
+    public CustomersController(ILiteDbContext db) => _db = db;
 
     [HttpGet("byorders")]
     public IEnumerable<dynamic> ByOrders(string orderIds)
@@ -19,19 +19,20 @@ public class CustomersController : ControllerBase
             .Select(id => int.Parse(id))
             .ToList() ?? new List<int>();
 
-        var customers = _db.Customers
-            .Include(customer => customer.Orders)
-            .Where(customer => customer.Orders.Any(order => orderIdList.Contains(order.OrderId)))
+        var customerCollection = _db.Database.GetCollection<Customer>();
+        var orderCollection = _db.Database.GetCollection<Order>();
+
+        var orders = orderCollection.Query()
+            .Where(s => orderIdList.Contains(s.OrderId))
             .ToList();
 
-        return customers
-            .SelectMany(customer => customer.Orders)
-            .Where(order => orderIdList.Contains(order.OrderId))
-            .Select(order => new
-            {
-                order.OrderId,
-                CustomerName = customers.Single(customer => customer.Id == order.CustomerId).Name,
-            })
+        var customerIds = orders.GroupBy(s => s.CustomerId).Select(s => s.Key);
+
+        var customers = customerCollection.Query()
+            .Where(s => customerIds.Contains(s.Id))
             .ToList();
+
+        return orders.Join(customers, o => o.CustomerId, c => c.Id,
+            (order, customer) => new { order.OrderId, CustomerId = customer.Id, CustomerName = customer.Name });
     }
 }

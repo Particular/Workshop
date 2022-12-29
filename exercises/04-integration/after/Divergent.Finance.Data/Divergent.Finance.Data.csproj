@@ -8,4 +8,10 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="LiteDB">
+      <HintPath>..\..\..\..\..\..\Users\dvdst\.nuget\packages\litedb\5.0.15\lib\netstandard2.0\LiteDB.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

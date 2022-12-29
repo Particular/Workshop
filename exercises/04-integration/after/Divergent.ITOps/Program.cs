@@ -2,8 +2,6 @@
 using Divergent.ITOps.Interfaces;
 using ITOps.EndpointConfig;
 using NServiceBus;
-using OpenTelemetry.Resources;
-using OpenTelemetry.Trace;
 
 const string EndpointName = "Divergent.ITOps";
 
@@ -30,21 +28,6 @@ var host = Host.CreateDefaultBuilder((string[]) args)
         {
             serviceRegistrar.Register(builder, services);
         }
-
-        services.AddOpenTelemetryTracing(config => config
-            .SetResourceBuilder(ResourceBuilder.CreateDefault().AddService(EndpointName))
-            .AddZipkinExporter(o =>
-            {
-                o.Endpoint = new Uri("http://localhost:9411/api/v2/spans");
-            })
-            .AddJaegerExporter(c =>
-            {
-                c.AgentHost = "localhost";
-                c.AgentPort = 6831;
-            })
-            .AddSource("NServiceBus.Core")
-            .AddSqlClientInstrumentation(opt => opt.SetDbStatementForText = true)
-        );
     })
     .UseNServiceBus(context =>
     {
