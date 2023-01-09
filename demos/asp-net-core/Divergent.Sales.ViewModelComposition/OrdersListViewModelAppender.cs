@@ -22,7 +22,7 @@ namespace Divergent.Sales.ViewModelComposition
             {
                 dynamic viewModel = new ExpandoObject();
                 viewModel.OrderNumber = order.OrderNumber;
-                viewModel.OrderItemsCount = order.ItemsCount;
+                viewModel.OrderItemsCount = order.Items.Count;
 
                 dictionary[order.OrderNumber] = viewModel;
             }
