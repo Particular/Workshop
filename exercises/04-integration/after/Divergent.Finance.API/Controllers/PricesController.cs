@@ -27,7 +27,5 @@ public class PricingController : ControllerBase
                 OrderId = orderGroup.Key,
                 Amount = orderGroup.Sum(orderItemPrice => orderItemPrice.ItemPrice),
             });
-
-        return null;
     }
 }
