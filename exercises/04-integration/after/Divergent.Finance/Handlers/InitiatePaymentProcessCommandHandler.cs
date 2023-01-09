@@ -7,20 +7,20 @@ namespace Divergent.Finance.Handlers;
 
 class InitiatePaymentProcessCommandHandler : IHandleMessages<InitiatePaymentProcessCommand>
 {
-    private readonly ReliablePaymentClient _reliablePaymentClient;
-    private readonly ILogger<InitiatePaymentProcessCommandHandler> _logger;
+    private readonly ReliablePaymentClient reliablePaymentClient;
+    private readonly ILogger<InitiatePaymentProcessCommandHandler> logger;
 
     public InitiatePaymentProcessCommandHandler(ReliablePaymentClient reliablePaymentClient, ILogger<InitiatePaymentProcessCommandHandler> logger)
     {
-        _reliablePaymentClient = reliablePaymentClient;
-        _logger = logger;
+        this.reliablePaymentClient = reliablePaymentClient;
+        this.logger = logger;
     }
 
     public async Task Handle(InitiatePaymentProcessCommand message, IMessageHandlerContext context)
     {
-        _logger.LogInformation("Handle InitiatePaymentProcessCommand");
+        logger.LogInformation("Handle InitiatePaymentProcessCommand");
 
-        await _reliablePaymentClient.ProcessPayment(message.CustomerId, message.Amount);
+        await reliablePaymentClient.ProcessPayment(message.CustomerId, message.Amount);
 
         await context.Publish(new PaymentSucceededEvent
         {
