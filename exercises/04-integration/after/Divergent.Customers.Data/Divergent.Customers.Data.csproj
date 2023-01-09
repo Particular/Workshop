@@ -13,8 +13,4 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
   </ItemGroup>
 
-  <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(TargetDir)Divergent.Customers.Data.dll" "$(SolutionDir)Divergent.ITOps\Providers\Divergent.Customers.Data.dll"</PostBuildEvent>
-  </PropertyGroup>
-
 </Project>

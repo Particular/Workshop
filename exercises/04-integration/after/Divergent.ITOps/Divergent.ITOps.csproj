@@ -14,8 +14,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\shared-api-gateway\ITOps.SharedConfiguration\ITOps.SharedConfiguration.csproj" />
+    <ProjectReference Include="..\Divergent.Customers.Data\Divergent.Customers.Data.csproj" />
     <ProjectReference Include="..\Divergent.ITOps.Interfaces\Divergent.ITOps.Interfaces.csproj" />
     <ProjectReference Include="..\Divergent.ITOps.Messages\Divergent.ITOps.Messages.csproj" />
+    <ProjectReference Include="..\Divergent.Shipping.Data\Divergent.Shipping.Data.csproj" />
   </ItemGroup>
 
 </Project>

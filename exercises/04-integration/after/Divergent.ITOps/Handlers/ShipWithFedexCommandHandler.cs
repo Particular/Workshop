@@ -27,7 +27,7 @@ public class ShipWithFedexCommandHandler : IHandleMessages<ShipWithFedexCommand>
 
         var fedExRequest = CreateFedexRequest(shippingInfo, customerInfo);
         await CallFedexWebService(fedExRequest);
-        _logger.LogInformation($"Order {message.OrderId} shipped with Fedex");
+        _logger.LogInformation("Order {MessageOrderId} shipped with Fedex", message.OrderId);
     }
 
     private XDocument CreateFedexRequest(PackageInfo packageInfo, CustomerInfo customerInfo)

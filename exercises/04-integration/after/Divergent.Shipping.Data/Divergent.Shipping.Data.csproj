@@ -8,8 +8,4 @@
     <ProjectReference Include="..\Divergent.ITOps.Interfaces\Divergent.ITOps.Interfaces.csproj" />
   </ItemGroup>
 
-  <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(TargetDir)Divergent.Shipping.Data.dll" "$(SolutionDir)Divergent.ITOps\Providers\Divergent.Shipping.Data.dll"</PostBuildEvent>
-  </PropertyGroup>
-
 </Project>
