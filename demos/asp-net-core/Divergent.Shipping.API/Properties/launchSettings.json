@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Divergent.Shipping.API": {
+      "commandName": "Project",
+      "applicationUrl": "http://localhost:20296"
+    }
+  }
+}
