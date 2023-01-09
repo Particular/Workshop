@@ -1,16 +1,25 @@
-﻿using Divergent.Sales.Data.Context;
-using Divergent.Sales.Data.Migrations;
+﻿using Divergent.Sales.Data.Migrations;
 using ITOps.EndpointConfig;
-using Microsoft.EntityFrameworkCore;
 using NServiceBus;
 
 const string EndpointName = "Divergent.Sales";
 
+var configuration = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+    .AddEnvironmentVariables()
+    .AddCommandLine(args)
+    .Build();
+
 var host = Host.CreateDefaultBuilder((string[])args)
     .ConfigureServices((builder, services) =>
     {
-        services.AddDbContext<SalesContext>(options =>
-            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+        services.Configure<LiteDbOptions>(configuration.GetSection("LiteDbOptions"))
+            .Configure<LiteDbOptions>(s =>
+            {
+                s.DatabaseName = "sales";
+                s.DatabaseInitializer = DatabaseInitializer.Initialize;
+            });
+        services.AddSingleton<ILiteDbContext, LiteDbContext>();
 
     })
     .UseNServiceBus(context =>
@@ -21,27 +30,8 @@ var host = Host.CreateDefaultBuilder((string[])args)
         return endpoint;
     }).Build();
 
-CreateDbIfNotExists(host);
-
 var hostEnvironment = host.Services.GetRequiredService<IHostEnvironment>();
 
 Console.Title = hostEnvironment.ApplicationName;
 
 host.Run();
-
-static void CreateDbIfNotExists(IHost host)
-{
-    using var scope = host.Services.CreateScope();
-    var services = scope.ServiceProvider;
-
-    try
-    {
-        var context = services.GetRequiredService<SalesContext>();
-        DatabaseInitializer.Initialize(context);
-    }
-    catch (Exception ex)
-    {
-        var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "An error occurred creating the DB.");
-    }
-}

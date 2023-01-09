@@ -1,46 +1,22 @@
-﻿using System.Linq;
-using Divergent.Sales.Data.Context;
-using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Divergent.Sales.Data.Models;
+using LiteDB;
 
 namespace Divergent.Sales.Data.Migrations;
 
 public static class DatabaseInitializer 
 {
-    public static void Initialize(SalesContext context)
+    public static void Initialize(LiteDatabase context)
     {
-        context.Database.EnsureCreated();
-
-        if (context.Products.Any())
-        {
+        if (context == null) throw new ArgumentNullException(nameof(context));
+        
+        var products = context.GetCollection<Product>();
+        if (products.Count() > 0)
             return;
-        }
 
-        context.Products.AddRange(SeedData.Products().ToArray());
+        products.InsertBulk(SeedData.Products());
 
-        context.Database.OpenConnection();
-        try
-        {
-            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Products ON");
-            context.SaveChanges();
-            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Products OFF");
-        }
-        finally
-        {
-            context.Database.CloseConnection();
-        }
-
-        context.Orders.AddRange(SeedData.Orders().ToArray());
-
-        context.Database.OpenConnection();
-        try
-        {
-            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Orders ON");
-            context.SaveChanges();
-            context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Orders OFF");
-        }
-        finally
-        {
-            context.Database.CloseConnection();
-        }
+        var orders = context.GetCollection<Order>();
+        orders.InsertBulk(SeedData.Orders());
     }
 }

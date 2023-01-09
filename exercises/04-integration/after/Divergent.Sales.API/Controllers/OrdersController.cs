@@ -1,5 +1,6 @@
-﻿using Divergent.Sales.Data.Context;
+﻿using Divergent.Sales.Data.Models;
 using Divergent.Sales.Messages.Commands;
+using ITOps.EndpointConfig;
 using NServiceBus;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,13 +10,13 @@ namespace Divergent.Sales.API.Controllers;
 [ApiController]
 public class OrdersController : ControllerBase
 {
-    private readonly IMessageSession _endpoint;
-    private readonly SalesContext _db;
+    private readonly IMessageSession endpoint;
+    private readonly ILiteDbContext db;
 
-    public OrdersController(IMessageSession endpoint, SalesContext db)
+    public OrdersController(IMessageSession endpoint, ILiteDbContext db)
     {
-        _endpoint = endpoint;
-        _db = db;
+        this.endpoint = endpoint;
+        this.db = db;
     }
 
     [HttpPost("createOrder")]
@@ -26,7 +27,7 @@ public class OrdersController : ControllerBase
             .Select(product => int.Parse((string)product.productId))
             .ToList();
 
-        await _endpoint.Send(new SubmitOrderCommand
+        await endpoint.Send(new SubmitOrderCommand
         {
             CustomerId = customerId,
             Products = productIds
@@ -38,12 +39,14 @@ public class OrdersController : ControllerBase
     [HttpGet("")]
     public IEnumerable<dynamic> Get()
     {
-        return _db.Orders
+        var col = db.Database.GetCollection<Order>();
+        
+        return col.Query()
             .Select(order => new
             {
                 order.Id,
                 order.CustomerId,
-                ProductIds = order.Items.Select(item => item.Product.Id).ToList(),
+                ProductIds = order.Items,
                 ItemsCount = order.Items.Count
             })
             .ToList();

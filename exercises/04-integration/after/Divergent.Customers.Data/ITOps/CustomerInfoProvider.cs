@@ -1,20 +1,19 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Divergent.Customers.Data.Context;
+﻿using System.Threading.Tasks;
+using Divergent.Customers.Data.Models;
 using Divergent.ITOps.Interfaces;
-using Microsoft.EntityFrameworkCore;
+using ITOps.EndpointConfig;
 
 namespace Divergent.Customers.Data.ITOps;
 
 public class CustomerInfoProvider : IProvideCustomerInfo
 {
-    private readonly CustomersContext _db;
+    private readonly ILiteDbContext db;
 
-    public CustomerInfoProvider(CustomersContext db) => _db = db;
+    public CustomerInfoProvider(ILiteDbContext db) => this.db = db;
 
-    public async Task<CustomerInfo> GetCustomerInfo(int customerId)
+    public CustomerInfo GetCustomerInfo(int customerId)
     {
-        var customer = await _db.Customers.Where(c => c.Id == customerId).SingleAsync();
+        var customer = db.Database.GetCollection<Customer>().Query().Where(c => c.Id == customerId).First();
 
         return new CustomerInfo
         {

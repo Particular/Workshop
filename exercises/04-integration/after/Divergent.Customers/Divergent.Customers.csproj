@@ -9,11 +9,10 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
     <PackageReference Include="NServiceBus.Extensions.Hosting" Version="2.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\shared-api-gateway\ITOps.EndpointConfig\ITOps.EndpointConfig.csproj" />
+    <ProjectReference Include="..\..\..\shared-api-gateway\ITOps.SharedConfiguration\ITOps.SharedConfiguration.csproj" />
     <ProjectReference Include="..\Divergent.Customers.Data\Divergent.Customers.Data.csproj" />
     <ProjectReference Include="..\Divergent.Sales.Messages\Divergent.Sales.Messages.csproj" />
   </ItemGroup>

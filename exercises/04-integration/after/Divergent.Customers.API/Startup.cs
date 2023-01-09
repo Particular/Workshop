@@ -1,5 +1,5 @@
-﻿using Divergent.Customers.Data.Context;
-using Microsoft.EntityFrameworkCore;
+﻿using Divergent.Customers.Data.Migrations;
+using ITOps.EndpointConfig;
 
 namespace Divergent.Customers.API;
 
@@ -17,9 +17,14 @@ public class Startup
     {
         services.AddControllers().AddNewtonsoftJson();
 
-        services.AddDbContext<CustomersContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            
+        services.Configure<LiteDbOptions>(Configuration.GetSection("LiteDbOptions"))
+            .Configure<LiteDbOptions>(s =>
+            {
+                s.DatabaseName = "customers";
+                s.DatabaseInitializer = DatabaseInitializer.Initialize;
+            });
+        services.AddSingleton<ILiteDbContext, LiteDbContext>();
+
         services.AddCors();
     }
 

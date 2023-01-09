@@ -1,5 +1,5 @@
-﻿using Divergent.Sales.Data.Context;
-using Microsoft.EntityFrameworkCore;
+﻿using Divergent.Sales.Data.Migrations;
+using ITOps.EndpointConfig;
 
 namespace Divergent.Sales.API;
 
@@ -10,15 +10,20 @@ public class Startup
         Configuration = configuration;
     }
 
-    public IConfiguration Configuration { get; }
+    IConfiguration Configuration { get; }
 
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddControllers().AddNewtonsoftJson();
 
-        services.AddDbContext<SalesContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+        services.Configure<LiteDbOptions>(Configuration.GetSection("LiteDbOptions"))
+            .Configure<LiteDbOptions>(s =>
+            {
+                s.DatabaseName = "sales";
+                s.DatabaseInitializer = DatabaseInitializer.Initialize;
+            });
+        services.AddSingleton<ILiteDbContext, LiteDbContext>();
 
         services.AddCors();
     }

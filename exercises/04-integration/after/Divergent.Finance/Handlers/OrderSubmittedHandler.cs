@@ -1,33 +1,36 @@
 ﻿using Divergent.Sales.Messages.Events;
 using NServiceBus;
-using Divergent.Finance.Data.Context;
 using Divergent.Finance.Data.Models;
 using Divergent.Finance.Messages.Commands;
+using ITOps.EndpointConfig;
 
 namespace Divergent.Finance.Handlers;
 
 public class OrderSubmittedHandler : IHandleMessages<OrderSubmittedEvent>
 {
-    private readonly FinanceContext _db;
-    private readonly ILogger<OrderSubmittedHandler> _logger;
+    private readonly ILiteDbContext db;
+    private readonly ILogger<OrderSubmittedHandler> logger;
 
-    public OrderSubmittedHandler(FinanceContext db, ILogger<OrderSubmittedHandler> logger)
+    public OrderSubmittedHandler(ILiteDbContext db, ILogger<OrderSubmittedHandler> logger)
     {
-        _db = db;
-        _logger = logger;
+        this.db = db;
+        this.logger = logger;
     }
 
     public async Task Handle(OrderSubmittedEvent message, IMessageHandlerContext context)
     {
-        _logger.LogInformation("Handle OrderSubmittedEvent");
+        logger.LogInformation("Handle OrderSubmittedEvent");
 
         double amount = 0;
 
-        var query = from price in _db.Prices
+        var prices = db.Database.GetCollection<Price>();
+        var orderItemPrices = db.Database.GetCollection<OrderItemPrice>();
+        
+        var query = from price in prices.Query()
             where message.Products.Contains(price.ProductId)
             select price;
 
-        foreach (var price in query)
+        foreach (var price in query.ToList())
         {
             var op = new OrderItemPrice
             {
@@ -38,10 +41,8 @@ public class OrderSubmittedHandler : IHandleMessages<OrderSubmittedEvent>
 
             amount += price.ItemPrice;
 
-            await _db.OrderItemPrices.AddAsync(op);
+            orderItemPrices.Insert(op);
         }
-
-        await _db.SaveChangesAsync();
 
         await context.SendLocal(new InitiatePaymentProcessCommand
         {

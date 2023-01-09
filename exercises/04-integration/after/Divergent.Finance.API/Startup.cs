@@ -1,5 +1,5 @@
-﻿using Divergent.Finance.Data.Context;
-using Microsoft.EntityFrameworkCore;
+﻿using Divergent.Finance.Data.Migrations;
+using ITOps.EndpointConfig;
 
 namespace Divergent.Finance.API;
 
@@ -17,8 +17,13 @@ public class Startup
     {
         services.AddControllers().AddNewtonsoftJson();
 
-        services.AddDbContext<FinanceContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+        services.Configure<LiteDbOptions>(Configuration.GetSection("LiteDbOptions"))
+            .Configure<LiteDbOptions>(s =>
+            {
+                s.DatabaseName = "finance";
+                s.DatabaseInitializer = DatabaseInitializer.Initialize;
+            });
+        services.AddSingleton<ILiteDbContext, LiteDbContext>();
             
         services.AddCors();
     }

@@ -1,4 +1,5 @@
-﻿using Divergent.Finance.Data.Context;
+﻿using Divergent.Finance.Data.Models;
+using ITOps.EndpointConfig;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Divergent.Finance.API.Controllers;
@@ -7,25 +8,26 @@ namespace Divergent.Finance.API.Controllers;
 [ApiController]
 public class PricingController : ControllerBase
 {
-    private readonly FinanceContext _db;
+    private readonly ILiteDbContext db;
 
-    public PricingController(FinanceContext db) => _db = db;
+    public PricingController(ILiteDbContext db) => this.db = db;
 
     [HttpGet("orders/total")]
     public IEnumerable<dynamic> GetOrdersTotal(string orderIds)
     {
         var orderIdList = orderIds?.Split(',')
-            .Select(id => int.Parse(id))
+            .Select(int.Parse)
             .ToList() ?? new List<int>();
 
-        return _db.OrderItemPrices
-            .Where(orderItemPrice => orderIdList.Contains(orderItemPrice.OrderId))
+        return db.Database.GetCollection<OrderItemPrice>().Query()
+            .Where(orderItemPrice => orderIdList.Contains(orderItemPrice.OrderId)).ToList()
             .GroupBy(orderItemPrice => orderItemPrice.OrderId)
             .Select(orderGroup => new
             {
                 OrderId = orderGroup.Key,
                 Amount = orderGroup.Sum(orderItemPrice => orderItemPrice.ItemPrice),
-            })
-            .ToList();
+            });
+
+        return null;
     }
 }
