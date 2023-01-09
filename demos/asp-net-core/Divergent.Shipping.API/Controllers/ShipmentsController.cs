@@ -36,8 +36,7 @@ namespace Divergent.Shipping.API.Controllers
             };
         }
 
-        [HttpGet]
-        [Route("orders")]
+        [HttpGet("orders")]
         public IEnumerable<dynamic> Orders(string orderNumbers)
         {
             var orderNumbersArray = orderNumbers.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Select(s => int.Parse(s)).ToArray();
