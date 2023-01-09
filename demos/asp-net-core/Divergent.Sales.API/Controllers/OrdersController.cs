@@ -1,21 +1,28 @@
-﻿using Divergent.Sales.Data.Context;
+﻿using Divergent.Sales.Data.Models;
+using ITOps.Data;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web.Http;
 
 namespace Divergent.Sales.API.Controllers
 {
-    [RoutePrefix("api/orders")]
-    public class OrdersController : ApiController
+    [Route("api/orders")]
+    [ApiController]
+    public class OrdersController : ControllerBase
     {
-        [HttpGet, Route("{orderNumber}")]
-        public async Task<dynamic> Get(int orderNumber)
+        private readonly ILiteDbContext dbContext;
+
+        public OrdersController(ILiteDbContext dbContext)
         {
-            using (var sales = new SalesContext())
-            {
-                return await sales.Orders
+            this.dbContext = dbContext;
+        }
+
+        [HttpGet("{orderNumber}")]
+        public dynamic Get(int orderNumber)
+        {
+            var collection = dbContext.Database.GetCollection<Order>();
+            return collection.Query()
                     .Include(order => order.Items)
                     .Where(order => order.OrderNumber == orderNumber)
                     .Select(order => new
@@ -23,27 +30,16 @@ namespace Divergent.Sales.API.Controllers
                         OrderNumber = order.OrderNumber,
                         ItemsCount = order.Items.Count,
                     })
-                    .SingleOrDefaultAsync();
-            }
+                    .SingleOrDefault();
         }
 
         [HttpGet]
-        public async Task<IEnumerable<dynamic>> Get(int pageIndex, int pageSize)
+        public IEnumerable<dynamic> Get(int pageIndex, int pageSize)
         {
-            using (var sales = new SalesContext())
-            {
-                return await sales.Orders
-                    .Include(order => order.Items)
-                    .OrderBy(order => order.OrderNumber) //required by SQLite EF
-                    .Skip(pageSize * pageIndex)
-                    .Take(pageSize)
-                    .Select(order => new
-                    {
-                        OrderNumber = order.OrderNumber,
-                        ItemsCount = order.Items.Count,
-                    })
-                    .ToListAsync();
-            }
+            var collection = dbContext.Database.GetCollection<Order>();
+            return collection.Query()
+                .Include(order => order.Items)
+                .ToList();
         }
     }
 }

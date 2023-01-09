@@ -1,35 +1,32 @@
-﻿using Microsoft.Owin.Cors;
-using Newtonsoft.Json.Serialization;
-using Owin;
-using System.Net.Http.Formatting;
-using System.Web.Http;
+﻿using ITOps.Data;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Divergent.Sales.API
 {
     public class Startup
     {
-        public void Configuration(IAppBuilder appBuilder)
+        public void ConfigureServices(IServiceCollection services)
         {
-            var config = new HttpConfiguration();
+            services.AddRouting();
+            services.AddCors(options => { options.AddPolicy("AllowAllOrigins", builder => { builder.AllowAnyOrigin(); }); });
+            services.AddControllers();
 
-            config.Formatters.Clear();
-            config.Formatters.Add(new JsonMediaTypeFormatter());
+            var db = new LiteDbContext(new LiteDbOptions()
+            {
+                DatabaseName = "Sales",
+                DatabaseInitializer = Data.Migrations.DatabaseInitializer.Initialize
+            });
 
-            config.Formatters
-                .JsonFormatter
-                .SerializerSettings
-                .ContractResolver = new CamelCasePropertyNamesContractResolver();
+            services.AddSingleton<ILiteDbContext>(db);
+        }
 
-            config.MapHttpAttributeRoutes();
-
-            config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
-
-            appBuilder.UseCors(CorsOptions.AllowAll);
-            appBuilder.UseWebApi(config);
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
+        {
+            app.UseRouting();
+            app.UseCors("AllowAllOrigins");
+            app.UseEndpoints(builder => builder.MapControllers());
         }
     }
 }

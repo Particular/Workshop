@@ -1,5 +1,5 @@
-﻿using System.Configuration;
-using Topshelf;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
 
 namespace Divergent.Sales.API
 {
@@ -7,21 +7,11 @@ namespace Divergent.Sales.API
     {
         public static void Main(string[] args)
         {
-            HostFactory.Run(host =>
-            {
-                host.Service<SalesAPI>(service =>
-                {
-                    service.ConstructUsing(name => new SalesAPI());
-                    service.WhenStarted(api => api.Start(ConfigurationManager.AppSettings["baseAddress"]));
-                    service.WhenStopped(api => api.Stop());
-                });
-
-                host.RunAsLocalService();
-                host.StartAutomatically();
-                host.SetDescription("Services UI Composition demo: Sales API Host");
-                host.SetDisplayName("Sales API Host");
-                host.SetServiceName("SalesAPIHost");
-            });
+            CreateHostBuilder(args).Build().Run();
         }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
     }
 }
