@@ -12,7 +12,7 @@ namespace Divergent.Shipping.ViewModelComposition
 {
     public class OrderDetailsViewModelAppender : ICompositionRequestsHandler
     {
-        [HttpGet("/orders/{id}")]
+        [HttpGet("/orders/details/{id}")]
         public async Task Handle(HttpRequest request)
         {
             var id = (string)request.HttpContext.GetRouteData().Values["id"];
