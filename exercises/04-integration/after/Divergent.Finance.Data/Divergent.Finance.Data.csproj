@@ -5,9 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="LiteDB">
-      <HintPath>..\..\..\..\..\..\Users\dvdst\.nuget\packages\litedb\5.0.15\lib\netstandard2.0\LiteDB.dll</HintPath>
-    </Reference>
+    <PackageReference Include="LiteDB" Version="5.0.15" />
   </ItemGroup>
 
 </Project>
