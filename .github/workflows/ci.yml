@@ -28,7 +28,13 @@ jobs:
       - name: Setup .NET SDK
         uses: actions/setup-dotnet@v2.1.0
         with:
-          dotnet-version: 6.0.x
+          dotnet-version: |
+            6.0.x
+            7.0.x
+      - name: Build composition gateway demo
+        run: dotnet build demos/asp-net-core/Divergent.CompositionGateway.sln --configuration Release
+      - name: Build composition wedsite demo
+        run: dotnet build demos/asp-net-core/Divergent.Website.sln --configuration Release
       - name: Build exercise 01 - before
         run: dotnet build exercises/01-composite-ui/before --configuration Release
       - name: Build exercise 01 - after
