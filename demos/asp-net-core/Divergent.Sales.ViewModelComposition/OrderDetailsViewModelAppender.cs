@@ -1,25 +1,24 @@
 ﻿using ITOps.Json;
-using ITOps.ViewModelComposition;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using ServiceComposer.AspNetCore;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Divergent.Sales.ViewModelComposition
 {
-    public class OrderDetailsViewModelAppender : IViewModelAppender
+    public class OrderDetailsViewModelAppender : ICompositionRequestsHandler
     {
-        // Matching is a bit weak in this demo.
-        // It's written this way to satisfy both the composite gateway and website demos.
-        public bool Matches(RouteData routeData, string httpMethod) =>
-            HttpMethods.IsGet(httpMethod)
-                && string.Equals((string)routeData.Values["controller"], "orders", StringComparison.OrdinalIgnoreCase)
-                && routeData.Values.ContainsKey("id");
-
-        public async Task Append(dynamic viewModel, RouteData routeData, IQueryCollection query)
+        [HttpGet("/orders/{id}")]
+        public async Task Handle(HttpRequest request)
         {
-            var id = (string)routeData.Values["id"];
+            var id = (string)request.HttpContext.GetRouteData().Values["id"];
+
+            // Using dynamic to simplify the demo. The ViewModel can be strongly typed.
+            var vm = request.GetComposedResponseModel();
 
             // Hardcoded to simplify the demo. In a production app, a config object could be injected.
             var url = $"http://localhost:20295/api/orders/{id}";
@@ -27,8 +26,8 @@ namespace Divergent.Sales.ViewModelComposition
 
             dynamic order = await response.Content.AsExpandoAsync();
 
-            viewModel.OrderNumber = order.OrderNumber;
-            viewModel.OrderItemsCount = order.ItemsCount;
+            vm.OrderNumber = order.OrderNumber;
+            vm.OrderItemsCount = order.ItemsCount;
         }
     }
 }
