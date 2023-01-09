@@ -4,11 +4,13 @@ namespace Divergent.Website.Controllers
 {
     public class OrdersController : Controller
     {
+        [HttpGet("/orders")]
         public IActionResult Index(int? pageIndex, int? pageSize)
         {
             return View();
         }
 
+        [HttpGet("/details/{id}")]
         public IActionResult Details(int id)
         {
             return View();
