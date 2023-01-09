@@ -20,6 +20,8 @@ jobs:
             name: Linux
       fail-fast: false
     steps:
+      - name: Which version is this
+        run: echo "Hello world from Dennis"
       - name: Checkout
         uses: actions/checkout@v3
         with:
