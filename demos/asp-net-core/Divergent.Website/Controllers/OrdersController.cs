@@ -10,7 +10,7 @@ namespace Divergent.Website.Controllers
             return View();
         }
 
-        [HttpGet("/details/{id}")]
+        [HttpGet("/orders/details/{id}")]
         public IActionResult Details(int id)
         {
             return View();
