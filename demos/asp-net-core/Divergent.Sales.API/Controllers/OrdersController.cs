@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace Divergent.Sales.API.Host.Controllers
+namespace Divergent.Sales.API.Controllers
 {
     [RoutePrefix("api/orders")]
     public class OrdersController : ApiController

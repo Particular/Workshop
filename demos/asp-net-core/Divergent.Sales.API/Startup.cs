@@ -4,7 +4,7 @@ using Owin;
 using System.Net.Http.Formatting;
 using System.Web.Http;
 
-namespace Divergent.Sales.API.Host
+namespace Divergent.Sales.API
 {
     public class Startup
     {

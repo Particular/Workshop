@@ -1,7 +1,7 @@
 ﻿using System.Configuration;
 using Topshelf;
 
-namespace Divergent.Sales.API.Host
+namespace Divergent.Sales.API
 {
     internal class Program
     {
