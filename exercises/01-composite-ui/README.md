@@ -9,6 +9,7 @@ Vertical slices are autonomous and span across all layers starting from the UI, 
 In this exercise you'll see that, when adding new elements, we operate within a single slice. This approach reduces the risk of unintentionally breaking unrelated elements.
 
 The application consists of three vertical slices:
+
 - Customers
 - Sales
 - Finance
