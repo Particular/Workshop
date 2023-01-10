@@ -1,37 +1,53 @@
-﻿using System;
-using System.Configuration;
-using System.Linq;
-using System.ServiceProcess;
-using System.Threading.Tasks;
+﻿using System.Reflection;
+using Divergent.ITOps;
+using Divergent.ITOps.Interfaces;
+using ITOps.EndpointConfig;
+using NServiceBus;
 
-namespace Divergent.ITOps
-{
-    static class Program
+const string EndpointName = "Divergent.ITOps";
+
+var host = Host.CreateDefaultBuilder((string[]) args)
+    .ConfigureServices((builder, services) =>
     {
-        public async static Task Main(string[] args)
+        var assemblies = ReflectionHelper.GetAssemblies(".Data.dll");
+        
+        // Find and register all types that end with 'Provider' so we can inject them into ShipWithFedexCommandHandler
+        // Those types are included by adding a reference to
+        //   - Divergent.Customers.Data
+        //   - Divergent.Shipping.Data
+        // Normally we deploy them together with Divergent.ITOps using our CI pipeline, but that's impossible
+        //   for this workshop, where we need [F5] to work.
+        services.Scan(s =>
         {
-            var host = new Host();
+            s.FromAssemblies(assemblies)
+                .AddClasses(classes => classes.Where(t => t.Name.EndsWith("Provider")))
+                .AsImplementedInterfaces()
+                .WithTransientLifetime();
+        });
 
-            // pass this command line option to run as a windows service
-            if (args.Contains("--run-as-service"))
-            {
-                using (var windowsService = new WindowsService(host))
-                {
-                    ServiceBase.Run(windowsService);
-                    return;
-                }
-            }
+        // This loads all IRegisterServices to make sure we can access the database for each provider
+        var serviceRegistrars = assemblies
+            .SelectMany(a => a.GetTypes())
+            .Where(t => typeof(IRegisterServices).IsAssignableFrom(t))
+            .Select(Activator.CreateInstance)
+            .Cast<IRegisterServices>()
+            .ToList();
 
-            Console.Title = Host.EndpointName;
-
-            var tcs = new TaskCompletionSource<object>();
-            Console.CancelKeyPress += (sender, e) => { tcs.SetResult(null); };
-
-            await host.Start();
-            await Console.Out.WriteLineAsync("Press Ctrl+C to exit...");
-
-            await tcs.Task;
-            await host.Stop();
+        foreach (var serviceRegistrar in serviceRegistrars)
+        {
+            serviceRegistrar.Register(builder, services);
         }
-    }
-}
+    })
+    .UseNServiceBus(context =>
+    {
+        var endpoint = new EndpointConfiguration(EndpointName);
+        endpoint.Configure();
+
+        return endpoint;
+    }).Build();
+
+var hostEnvironment = host.Services.GetRequiredService<IHostEnvironment>();
+
+Console.Title = hostEnvironment.ApplicationName;
+
+host.Run();

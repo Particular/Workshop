@@ -1,23 +1,27 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
 
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.6.1" />
-    <PackageReference Include="EntityFramework" Version="6.1.3" />
-    <PackageReference Include="NServiceBus" Version="7.0.1" />
-    <PackageReference Include="NServiceBus.Autofac" Version="7.0.0" />
-    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
+    <PackageReference Include="NServiceBus.Extensions.Hosting" Version="2.0.0" />
+    <PackageReference Include="Scrutor" Version="4.2.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\shared-api-gateway\ITOps.EndpointConfig\ITOps.EndpointConfig.csproj" />
+    <ProjectReference Include="..\..\..\shared-api-gateway\ITOps.SharedConfiguration\ITOps.SharedConfiguration.csproj" />
+    <ProjectReference Include="..\Divergent.Customers.Data\Divergent.Customers.Data.csproj" />
     <ProjectReference Include="..\Divergent.ITOps.Interfaces\Divergent.ITOps.Interfaces.csproj" />
     <ProjectReference Include="..\Divergent.ITOps.Messages\Divergent.ITOps.Messages.csproj" />
+    <ProjectReference Include="..\Divergent.Shipping.Data\Divergent.Shipping.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Handlers" />
   </ItemGroup>
 
 </Project>

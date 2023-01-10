@@ -1,37 +1,39 @@
-﻿using System;
-using System.Configuration;
-using System.Linq;
-using System.ServiceProcess;
-using System.Threading.Tasks;
+﻿using Divergent.Finance.Data.Migrations;
+using Divergent.Finance.PaymentClient;
+using ITOps.EndpointConfig;
+using NServiceBus;
 
-namespace Divergent.Finance
-{
-    static class Program
+const string EndpointName = "Divergent.Finance";
+
+var configuration = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+    .AddEnvironmentVariables()
+    .AddCommandLine(args)
+    .Build();
+
+var host = Host.CreateDefaultBuilder(args)
+    .ConfigureServices((builder, services) =>
     {
-        public async static Task Main(string[] args)
-        {
-            var host = new Host();
+        services.AddSingleton<ReliablePaymentClient>();
 
-            // pass this command line option to run as a windows service
-            if (args.Contains("--run-as-service"))
+        services.Configure<LiteDbOptions>(configuration.GetSection("LiteDbOptions"))
+            .Configure<LiteDbOptions>(s =>
             {
-                using (var windowsService = new WindowsService(host))
-                {
-                    ServiceBase.Run(windowsService);
-                    return;
-                }
-            }
+                s.DatabaseName = "finance";
+                s.DatabaseInitializer = DatabaseInitializer.Initialize;
+            });
+        services.AddSingleton<ILiteDbContext, LiteDbContext>();
+    })
+    .UseNServiceBus(context =>
+    {
+        var endpoint = new EndpointConfiguration(EndpointName);
+        endpoint.Configure();
 
-            Console.Title = Host.EndpointName;
+        return endpoint;
+    }).Build();
 
-            var tcs = new TaskCompletionSource<object>();
-            Console.CancelKeyPress += (sender, e) => { tcs.SetResult(null); };
+var hostEnvironment = host.Services.GetRequiredService<IHostEnvironment>();
 
-            await host.Start();
-            await Console.Out.WriteLineAsync("Press Ctrl+C to exit...");
+Console.Title = hostEnvironment.ApplicationName;
 
-            await tcs.Task;
-            await host.Stop();
-        }
-    }
-}
+host.Run();
