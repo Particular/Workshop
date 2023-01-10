@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.9" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
+    <PackageReference Include="NServiceBus.Extensions.Hosting" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\shared-api-gateway\ITOps.SharedConfiguration\ITOps.SharedConfiguration.csproj" />
+    <ProjectReference Include="..\Divergent.Finance.Data\Divergent.Finance.Data.csproj" />
+    <ProjectReference Include="..\Divergent.Finance.Messages\Divergent.Finance.Messages.csproj" />
+    <ProjectReference Include="..\Divergent.Sales.Messages\Divergent.Sales.Messages.csproj" />
+  </ItemGroup>
+
+</Project>

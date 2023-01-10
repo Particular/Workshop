@@ -39,8 +39,12 @@ class ShippingSaga : Saga<ShippingSagaData>,
         return ProcessOrder(context);
     }
 
-    private Task ProcessOrder(IMessageHandlerContext context)
+    private async Task ProcessOrder(IMessageHandlerContext context)
     {
-        return Task.CompletedTask;
+        if (Data.IsOrderSubmitted && Data.IsPaymentProcessed)
+        {
+            await Task.CompletedTask; // Send a message to execute shipment
+            MarkAsComplete();
+        }
     }
 }

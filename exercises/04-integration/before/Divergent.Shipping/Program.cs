@@ -7,6 +7,7 @@ var host = Host.CreateDefaultBuilder(args)
     .UseNServiceBus(context =>
     {
         var endpoint = new EndpointConfiguration(EndpointName);
+        endpoint.Configure();
 
         return endpoint;
     }).Build();
