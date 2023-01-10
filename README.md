@@ -19,6 +19,9 @@ Welcome to the workshop.
 
   - JetBrains Rider 2022.3 or later
 
+- Optional: [Postman](https://www.postman.com/downloads/)  
+  <sup>See FAQ for more information.</sup>
+
 
 ### Index
 
@@ -39,6 +42,21 @@ The [`asp-net-core` solution](demos/asp-net-core) demonstrates the use of ASP.NE
 ## FAQ
 
 If the answer to your question is not listed here, consult your on-site trainer.
+
+### How can I test if the different HTTP API are working?
+
+Sometimes there are issues in the API. Because of the CompositionGateway it might not be directly clear what the problem is.
+
+- Verify if the different API projects are running in Visual Studio and/or JetBrains Rider
+  - Divergent.Sales.API
+  - Divergent.Finance.API
+  - Divergent.Customers.API
+  - Divergent.CompositionGateway
+- Verify if the response is correct using [Postman](https://www.postman.com/downloads/) be sending HTTP requests to the following uri:
+  - http://localhost:20185/api/orders/ for sales
+  - http://localhost:20187/api/prices/orders/total?orderIds=1 for finance
+  - http://localhost:20186/api/customers/byorders?orderIds=1 for customers
+  - http://localhost:4457/orders/ for the Composition Gateway
 
 ### How can I clear the orders list?
 
