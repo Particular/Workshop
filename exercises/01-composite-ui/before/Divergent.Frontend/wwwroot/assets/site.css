@@ -15,3 +15,8 @@ body {
 .button {
     cursor: pointer;
 }
+
+.pending-order {
+    font-style:italic;
+    color: gray;
+}

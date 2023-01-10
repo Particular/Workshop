@@ -1,16 +1,22 @@
-﻿using Divergent.Sales.Data.Context;
-using System.Data.Entity;
-using System.Data.Entity.Migrations;
+﻿using System;
+using Divergent.Sales.Data.Models;
+using LiteDB;
 
-namespace Divergent.Sales.Data.Migrations
+namespace Divergent.Sales.Data.Migrations;
+
+public static class DatabaseInitializer 
 {
-    public class DatabaseInitializer : CreateDatabaseIfNotExists<SalesContext>
+    public static void Initialize(LiteDatabase context)
     {
-        protected override void Seed(SalesContext context)
-        {
-            context.Products.AddOrUpdate(k => k.Id, SeedData.Products().ToArray());
+        if (context == null) throw new ArgumentNullException(nameof(context));
+        
+        var products = context.GetCollection<Product>();
+        if (products.Count() > 0)
+            return;
 
-            context.Orders.AddOrUpdate(k => k.Id, SeedData.Orders().ToArray());
-        }
+        products.InsertBulk(SeedData.Products());
+
+        var orders = context.GetCollection<Order>();
+        orders.InsertBulk(SeedData.Orders());
     }
 }
