@@ -1,36 +1,32 @@
-﻿using System.Threading.Tasks;
-using Divergent.Sales.Messages.Events;
-using NServiceBus.Logging;
-using Divergent.Customers.Data.Context;
+﻿using Divergent.Sales.Messages.Events;
 using Divergent.Customers.Data.Models;
-using System.Data.Entity;
-using System.Linq;
+using ITOps.EndpointConfig;
 
-namespace Divergent.Customers.Handlers
+namespace Divergent.Customers.Handlers;
+
+public class OrderSubmittedHandler : NServiceBus.IHandleMessages<OrderSubmittedEvent>
 {
-    public class OrderSubmittedHandler : NServiceBus.IHandleMessages<OrderSubmittedEvent>
+    private readonly ILiteDbContext db;
+    private readonly ILogger<OrderSubmittedHandler> log;
+
+    public OrderSubmittedHandler(ILiteDbContext db, ILogger<OrderSubmittedHandler> log)
     {
-        private static readonly ILog Log = LogManager.GetLogger<OrderSubmittedHandler>();
+        this.db = db;
+        this.log = log;
+    }
 
-        public async Task Handle(OrderSubmittedEvent message, NServiceBus.IMessageHandlerContext context)
+    public Task Handle(OrderSubmittedEvent message, NServiceBus.IMessageHandlerContext context)
+    {
+        log.LogInformation($"Handling: {nameof(OrderSubmittedEvent)}");
+
+        var orders = db.Database.GetCollection<Order>();
+
+        orders.Insert(new Order
         {
-            Log.Info("Handling: OrderSubmittedEvent.");
-
-            using (var db = new CustomersContext())
-            {
-                var customer = db.Customers
-                    .Include(c=>c.Orders)
-                    .Where(c=>c.Id == message.CustomerId)
-                    .Single();
-
-                customer.Orders.Add(new Order
-                {
-                    CustomerId = message.CustomerId,
-                    OrderId = message.OrderId
-                });
-
-                await db.SaveChangesAsync();
-            }
-        }
+            CustomerId = message.CustomerId,
+            OrderId = message.OrderId
+        });
+        
+        return Task.CompletedTask;
     }
 }

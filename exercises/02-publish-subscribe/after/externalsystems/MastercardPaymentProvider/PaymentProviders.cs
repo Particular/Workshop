@@ -1,58 +1,50 @@
-﻿using System;
-using Nancy;
-using Nancy.ModelBinding;
-using HttpStatusCode = Nancy.HttpStatusCode;
+﻿using Carter;
 
-namespace PaymentProviders
+namespace PaymentProviders;
+
+public class PaymentProviders : ICarterModule
 {
-    public class PaymentProviders : NancyModule
-    {
-        private readonly Random _random = new Random();
+    private readonly Random _random = new();
 
-        public PaymentProviders()
+    public void AddRoutes(IEndpointRouteBuilder app)
+    {
+        app.MapGet("/", () => "Hello World");
+
+        app.MapPost("/api/unreliable/processpayment/", (PaymentRequest item) =>
         {
-            Get["/"] = x => "Hello World";
+            if (_random.Next(3) == 0)
+                return Results.BadRequest();
 
-            Post["/api/unreliable/processpayment/"] = parameters =>
+            var response = new PaymentResponse
             {
-                var item = this.Bind<PaymentRequest>();
-
-                if (_random.Next(3) == 0)
-                    return HttpStatusCode.BadRequest;
-
-                var response = new PaymentResponse
-                {
-                    CustomerId = item.CustomerId,
-                    PaymentSucceeded = _random.Next(2) != 0
-                };
-
-                return Response.AsJson(response);
+                CustomerId = item.CustomerId,
+                PaymentSucceeded = _random.Next(2) != 0
             };
 
-            Post["/api/reliable/processpayment/"] = parameters =>
+            return Results.Ok(response);
+        });
+
+        app.MapPost("/api/reliable/processpayment/", (PaymentRequest item) =>
+        {
+            var response = new PaymentResponse
             {
-                var item = this.Bind<PaymentRequest>();
-
-                var response = new PaymentResponse
-                {
-                    CustomerId = item.CustomerId,
-                    PaymentSucceeded = true
-                };
-
-                return Response.AsJson(response);
+                CustomerId = item.CustomerId,
+                PaymentSucceeded = true
             };
-        }
-    }
 
-    public class PaymentRequest
-    {
-        public int CustomerId { get; set; }
-        public double Amount { get; set; }
+            return response;
+        });
     }
+}
 
-    public class PaymentResponse
-    {
-        public int CustomerId { get; set; }
-        public bool PaymentSucceeded { get; set; }
-    }
+public class PaymentRequest
+{
+    public int CustomerId { get; set; }
+    public double Amount { get; set; }
+}
+
+public class PaymentResponse
+{
+    public int CustomerId { get; set; }
+    public bool PaymentSucceeded { get; set; }
 }

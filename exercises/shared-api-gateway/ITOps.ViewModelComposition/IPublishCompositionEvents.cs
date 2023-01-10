@@ -1,7 +1,6 @@
-﻿namespace ITOps.ViewModelComposition
+﻿namespace ITOps.ViewModelComposition;
+
+public interface IPublishCompositionEvents
 {
-    public interface IPublishCompositionEvents
-    {
-        void Subscribe<TEvent>(EventHandler<TEvent> handler);
-    }
+    void Subscribe<TEvent>(EventHandler<TEvent> handler);
 }

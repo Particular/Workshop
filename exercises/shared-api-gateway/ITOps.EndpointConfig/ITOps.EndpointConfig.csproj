@@ -1,8 +1,0 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="NServiceBus.Newtonsoft.Json" Version="2.1.0" />
-  </ItemGroup>
-</Project>

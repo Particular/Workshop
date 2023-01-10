@@ -1,45 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Divergent.Sales.Data.Context;
-using Divergent.Sales.Data.Models;
+﻿using Divergent.Sales.Data.Models;
 using Divergent.Sales.Messages.Commands;
+using ITOps.EndpointConfig;
 using NServiceBus;
-using NServiceBus.Logging;
 
-namespace Divergent.Sales.Handlers
+namespace Divergent.Sales.Handlers;
+
+public class SubmitOrderHandler : IHandleMessages<SubmitOrderCommand>
 {
-    public class SubmitOrderHandler : IHandleMessages<SubmitOrderCommand>
+    private readonly ILiteDbContext db;
+    private readonly ILogger<SubmitOrderHandler> log;
+
+    public SubmitOrderHandler(ILiteDbContext db, ILogger<SubmitOrderHandler> log)
     {
-        private static readonly ILog Log = LogManager.GetLogger<SubmitOrderHandler>();
+        this.db = db;
+        this.log = log;
+    }
 
-        public async Task Handle(SubmitOrderCommand message, IMessageHandlerContext context)
+    public Task Handle(SubmitOrderCommand message, IMessageHandlerContext context)
+    {
+        log.LogInformation("Handle SubmitOrderCommand");
+
+        var orders = db.Database.GetCollection<Order>();
+
+        var order = new Order
         {
-            using (var db = new SalesContext())
-            {
-                Log.Info("Handle SubmitOrderCommand");
+            CustomerId = message.CustomerId,
+            DateTimeUtc = DateTime.UtcNow,
+            Items = message.Products,
+            State = "New"
+        };
 
-                var items = new List<Item>();
+        orders.Insert(order);
 
-                var products = db.Products.ToList();
-
-                message.Products.ForEach(p => items.Add(new Item
-                {
-                    Product = products.Single(s => s.Id == p)
-                }));
-
-                var order = new Data.Models.Order
-                {
-                    CustomerId = message.CustomerId,
-                    DateTimeUtc = DateTime.UtcNow,
-                    Items = items,
-                    State = "New"
-                };
-
-                db.Orders.Add(order);
-                await db.SaveChangesAsync();
-            }
-        }
+        // Publish event and remove line 36
+        return Task.CompletedTask;
     }
 }

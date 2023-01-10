@@ -31,16 +31,14 @@ When a customer creates a new order, that information is stored in a database. I
 
 ## What's provided for you
 
-- Have a look at the `EndpointConfigurationExtensions` class in the `ITOps.EndpointConfig` project. Note that we use conventions to specify which messages are events:
+- Have a look at the `EndpointConfigurationExtensions` class in the `ITOps.SharedConfig` project. Note that we use conventions to specify which messages are events:
 
   ```c#
   conventions.DefiningEventsAs(t =>
-      t.Namespace != null &&
-      t.Namespace.StartsWith("Divergent") &&
-      t.Namespace.EndsWith("Events") &&
-      t.Name.EndsWith("Event"));`
+      t.Namespace != null && t.Namespace.StartsWith("Divergent") && t.Namespace.EndsWith("Events") &&
+      t.Name.EndsWith("Event"));
   ```
-
+  
   If you create a class inside a namespace ending with "Events", and the name of this class ends with "Event", then NServiceBus will know it's an event.
 
 - In the `Divergent.Finance/PaymentClient` directory you'll find a provided implementation for handling payments, named `ReliablePaymentClient`.
@@ -101,17 +99,23 @@ The `OrderSubmittedHandler` should handle the `OrderSubmittedEvent` published by
 Use the provided logger to log information that the event was received and handled.
 
 ```c#
-namespace Divergent.Shipping.Handlers
+public class OrderSubmittedHandler : IHandleMessages<OrderSubmittedEvent>
 {
-    public class OrderSubmittedHandler : IHandleMessages<OrderSubmittedEvent>
-    {
-        private static readonly ILog Log = LogManager.GetLogger<OrderSubmittedHandler>();
+    readonly ILogger<OrderSubmittedHandler> logger;
 
-        public async Task Handle(OrderSubmittedEvent message, IMessageHandlerContext context)
-        {
-            Log.Info("Handle");
-            await Task.CompletedTask;
-        }
+    public OrderSubmittedHandler(ILogger<OrderSubmittedHandler> logger)
+    {
+        this.logger = logger;
+    }
+    
+    public async Task Handle(OrderSubmittedEvent message, IMessageHandlerContext context)
+    {
+        logger.LogDebug("Handle");
+
+        // Store in database that order was submitted and which products belong to it.
+        // Look at all pending orders, paid and ready to be shipped, in batches to decide what to ship.
+
+        await Task.CompletedTask;
     }
 }
 ```
@@ -129,47 +133,50 @@ The `OrderSubmittedHandler` should also process the `OrderSubmittedEvent` publis
 When Finance receives the `OrderSubmittedEvent` message it records the prices for the items that belong to the submitted order. This ensures that if product prices change, the customer will still be charged the amount which was shown to them in the UI (the value returned by `Divergent.Finance.API` at that time). Finally, Finance initiates the payment process by sending the `InitiatePaymentProcessCommand` message.
 
 ```c#
-namespace Divergent.Finance.Handlers
+public class OrderSubmittedHandler : IHandleMessages<OrderSubmittedEvent>
 {
-    public class OrderSubmittedHandler : IHandleMessages<OrderSubmittedEvent>
+    private readonly ILiteDbContext db;
+    private readonly ILogger<OrderSubmittedHandler> logger;
+
+    public OrderSubmittedHandler(ILiteDbContext db, ILogger<OrderSubmittedHandler> logger)
     {
-        private static readonly ILog Log = LogManager.GetLogger<OrderSubmittedHandler>();
+        this.db = db;
+        this.logger = logger;
+    }
 
-        public async Task Handle(OrderSubmittedEvent message, IMessageHandlerContext context)
+    public async Task Handle(OrderSubmittedEvent message, IMessageHandlerContext context)
+    {
+        logger.LogInformation("Handle OrderSubmittedEvent");
+
+        double amount = 0;
+
+        var prices = db.Database.GetCollection<Price>();
+        var orderItemPrices = db.Database.GetCollection<OrderItemPrice>();
+        
+        var query = from price in prices.Query()
+            where message.Products.Contains(price.ProductId)
+            select price;
+
+        foreach (var price in query.ToList())
         {
-            Log.Info("Handle OrderSubmittedEvent");
-
-            double amount = 0;
-            using (var db = new FinanceContext())
+            var op = new OrderItemPrice
             {
-                var query = from price in db.Prices
-                            where message.Products.Contains(price.ProductId)
-                            select price;
-
-                foreach (var price in query)
-                {
-                    var op = new OrderItemPrice()
-                    {
-                        OrderId = message.OrderId,
-                        ItemPrice = price.ItemPrice,
-                        ProductId = price.ProductId
-                    };
-
-                    amount += price.ItemPrice;
-
-                    db.OrderItemPrices.Add(op);
-                }
-
-                await db.SaveChangesAsync();
-            }
-
-            await context.SendLocal(new InitiatePaymentProcessCommand()
-            {
-                CustomerId = message.CustomerId,
                 OrderId = message.OrderId,
-                Amount = amount
-            });
+                ItemPrice = price.ItemPrice,
+                ProductId = price.ProductId
+            };
+
+            amount += price.ItemPrice;
+
+            orderItemPrices.Insert(op);
         }
+
+        await context.SendLocal(new InitiatePaymentProcessCommand
+        {
+            CustomerId = message.CustomerId,
+            OrderId = message.OrderId,
+            Amount = amount
+        });
     }
 }
 ```
@@ -179,24 +186,22 @@ namespace Divergent.Finance.Handlers
 In the `Divergent.Finance` project create the `InitiatePaymentProcessCommandHandler` class inside the `Handlers` namespace in order to handle the payment process.
 
 ```c#
-namespace Divergent.Finance.Handlers
+class InitiatePaymentProcessCommandHandler : IHandleMessages<InitiatePaymentProcessCommand>
 {
-    public class InitiatePaymentProcessCommandHandler : IHandleMessages<InitiatePaymentProcessCommand>
+    private readonly ReliablePaymentClient reliablePaymentClient;
+    private readonly ILogger<InitiatePaymentProcessCommandHandler> logger;
+
+    public InitiatePaymentProcessCommandHandler(ReliablePaymentClient reliablePaymentClient, ILogger<InitiatePaymentProcessCommandHandler> logger)
     {
-        private static readonly ILog Log = LogManager.GetLogger<InitiatePaymentProcessCommand>();
-        private readonly ReliablePaymentClient _reliablePaymentClient;
+        this.reliablePaymentClient = reliablePaymentClient;
+        this.logger = logger;
+    }
 
-        public InitiatePaymentProcessCommandHandler(ReliablePaymentClient reliablePaymentClient)
-        {
-            _reliablePaymentClient = reliablePaymentClient;
-        }
+    public async Task Handle(InitiatePaymentProcessCommand message, IMessageHandlerContext context)
+    {
+        logger.LogInformation("Handle InitiatePaymentProcessCommand");
 
-        public async Task Handle(InitiatePaymentProcessCommand message, IMessageHandlerContext context)
-        {
-            Log.Info("Handle InitiatePaymentProcessCommand");
-
-            await _reliablePaymentClient.ProcessPayment(message.CustomerId, message.Amount);
-        }
+        await reliablePaymentClient.ProcessPayment(message.CustomerId, message.Amount);
     }
 }
 ```
@@ -206,31 +211,30 @@ namespace Divergent.Finance.Handlers
 In the `Divergent.Customers` project, add a folder named `Handlers` and create an  `OrderSubmittedHandler` class inside the `Handlers` namespace. This handler will keep track of the orders submitted by each customer.
 
 ```c#
-namespace Divergent.Customers.Handlers
+public class OrderSubmittedHandler : NServiceBus.IHandleMessages<OrderSubmittedEvent>
 {
-    public class OrderSubmittedHandler : IHandleMessages<OrderSubmittedEvent>
+    private readonly ILiteDbContext db;
+    private readonly ILogger<OrderSubmittedHandler> log;
+
+    public OrderSubmittedHandler(ILiteDbContext db, ILogger<OrderSubmittedHandler> log)
     {
-        private static readonly ILog Log = LogManager.GetLogger<OrderSubmittedHandler>();
+        this.db = db;
+        this.log = log;
+    }
 
-        public async Task Handle(OrderSubmittedEvent message, NServiceBus.IMessageHandlerContext context)
+    public Task Handle(OrderSubmittedEvent message, NServiceBus.IMessageHandlerContext context)
+    {
+        log.LogInformation($"Handling: {nameof(OrderSubmittedEvent)}");
+
+        var orders = db.Database.GetCollection<Order>();
+
+        orders.Insert(new Order
         {
-            Log.Info("Handling: OrderSubmittedEvent.");
-
-            using (var db = new CustomersContext())
-            {
-                var customer = await db.Customers
-                    .Include(c=>c.Orders)
-                    .SingleAsync(c=>c.Id == message.CustomerId);
-
-                customer.Orders.Add(new Data.Models.Order()
-                {
-                    CustomerId = message.CustomerId,
-                    OrderId = message.OrderId
-                });
-
-                await db.SaveChangesAsync();
-            }
-        }
+            CustomerId = message.CustomerId,
+            OrderId = message.OrderId
+        });
+        
+        return Task.CompletedTask;
     }
 }
 ```
@@ -264,9 +268,9 @@ In `Divergent.Finance\Handlers\InitiatePaymentProcessCommandHandler.cs`, at the 
 ```c#
 public async Task Handle(InitiatePaymentProcessCommand message, IMessageHandlerContext context)
 {
-    Log.Info("Handle InitiatePaymentProcessCommand");
+    logger.LogInformation("Handle InitiatePaymentProcessCommand");
 
-    await _reliablePaymentClient.ProcessPayment(message.CustomerId, message.Amount);
+    await reliablePaymentClient.ProcessPayment(message.CustomerId, message.Amount);
 
     await context.Publish(new PaymentSucceededEvent
     {
@@ -292,17 +296,23 @@ The `PaymentSucceededHandler` should process the `PaymentSucceededEvent` publish
 Use the provided logger to log information that the event was received and handled.
 
 ```c#
-namespace Divergent.Shipping.Handlers
+public class PaymentSucceededHandler : IHandleMessages<PaymentSucceededEvent>
 {
-    public class PaymentSucceededHandler : IHandleMessages<PaymentSucceededEvent>
-    {
-        private static readonly ILog Log = LogManager.GetLogger<PaymentSucceededHandler>();
+    readonly ILogger<PaymentSucceededHandler> logger;
 
-        public async Task Handle(PaymentSucceededEvent message, IMessageHandlerContext context)
-        {
-            Log.Info("Handle");
-            await Task.CompletedTask;
-        }
+    public PaymentSucceededHandler(ILogger<PaymentSucceededHandler> logger)
+    {
+        this.logger = logger;
+    }
+
+    public async Task Handle(PaymentSucceededEvent message, IMessageHandlerContext context)
+    {
+        logger.LogDebug("Handle");
+
+        // Store in database that order was successfully paid.
+        // Look at all pending orders, paid and ready to be shipped, in batches to decide what to ship.
+
+        await Task.CompletedTask;
     }
 }
 ```
@@ -310,118 +320,6 @@ namespace Divergent.Shipping.Handlers
 ### Step 4
 
 Run the solution. In the website `Orders` page, click the "Create new order" button and verify that the `Divergent.Shipping` endpoint receives the `PaymentSucceededEvent`.
-
-## Advanced exercise 2.5 : monitoring endpoints
-
-**Important: Before attempting the advanced exercises, please ensure you have followed [the instructions for preparing your machine for the advanced exercises](/README.md#preparing-your-machine-for-the-advanced-exercises).**
-
-Specifically:
-
-- [Add a ServiceControl Instance](/README.md#add-a-servicecontrol-instance)
-- [Add a ServiceControl monitoring Instance](/README.md#add-a-servicecontrol-monitoring-instance)
-
-### Step 1
-
-In Visual Studio, open the `Divergent.Customers` project and have a look at the endpoint configuration. There should be configuration for forwarding messages to the audit queue and sending poison messages to the error queue.
-
-Our documentation contains more information about [auditing messages](https://docs.particular.net/nservicebus/operations/auditing) and how to configure [error handling](https://docs.particular.net/nservicebus/recoverability/configure-error-handling).
-
-### Step 2
-
-Verify that the audit and error queues have been created. You can use Windows Computer Management for this. Press <kbd>Win</kbd>+<kbd>X</kbd> to open the Windows system menu and select 'Computer Management'. You should see the queues Under "Service and Applications", "Message Queueing", "Private Queues".
-
-NOTE: The MSMQ MMC snap-in is very limited in functionality. [QueueExplorer](http://www.cogin.com/mq/) is a great tool which provides much more.
-
-### Step 3
-
-After following the instructions for preparing your machine for the advanced exercises, an instance of ServiceControl should already be running as a Windows service. Run the exercise solution again and click "Create a new order" from the "Orders" page to ensure the ServiceControl instance has processed some messages.
-
-### Step 4
-
-Now, Let's have a look at ServicePulse.
-
-Navigate to http://localhost:9090/
-
-You'll see an empty dashboard. From the menu, click "Configuration". The "Endpoint Heartbeats" section will show the list of endpoints that we have been running Note that these endpoints are not yet being _monitored_. We will enable monitoring later in the exercise.
-
-Note: If ServicePulse doesn't seem to be running, or it cannot connect to ServiceControl, verify that both instances are running as Windows services. By default, the names of both services begin with "Particular".
-
-### Step 5
-
-Let's install the ServiceControl [heartbeat plugin](https://docs.particular.net/monitoring/heartbeats/install-plugin?version=heartbeats_3) into the NServiceBus endpoints.
-
-Install this plugin in the `ITOps.EndpointConfig` project, which is referenced by all the service endpoint projects. You can do this in Visual Studio via either the Package Manager Console or the `Manage Nuget Packages...` UI.
-
-If you use the Package Manager Console, type: `Install-Package NServiceBus.Heartbeat -Version 3.0.0 -Project ITOps.EndpointConfig`.
-
-If you use `Manage Nuget Packages...` UI, make sure you select **version 3.0.0**.
-
-### Step 6
-
-The heartbeat plugin sends messages directly to the ServiceControl queue rather than using the audit or error queues. The documentation shows how to configure the endpoint and tell it which queue it should send heartbeat messages to.
-
-You can find out the name of the queue by accessing the 'ServiceControl Management' app in the Windows Start menu. The name of the instance is also the name of the queue.
-
-In `ITOps.EndpointConfig\EndpointConfigurationExtensions.cs`, in the `Configure` method, add the following to enable heartbeats:
-
-```
-endpointConfiguration.SendHeartbeatTo(
-    serviceControlQueue: "Particular.ServiceControl",
-    frequency: TimeSpan.FromSeconds(15),
-    timeToLive: TimeSpan.FromSeconds(30));
-```
-
-### Step 7
-
-Important metrics like message throughput can be monitored and viewed in the ServicePulse dashboard. To enable this, we need to install the [ServiceControl metrics component](https://docs.particular.net/monitoring/metrics/install-plugin) into the NServiceBus endpoints.
-
-Install this plugin in the ITOps.EndpointConfig project, which is referenced by all the service endpoint projects. You can do this in Visual Studio via either the Package Manager Console or the `Manage Nuget Packages...` UI.
-
-If you use the Package Manager Console, type: `Install-Package NServiceBus.Metrics.ServiceControl -Project ITOps.EndpointConfig`.
-
-In `ITOps.EndpointConfig\EndpointConfigurationExtensions.cs`, in the `Configure` method, add the following to enable reporting metrics to ServicePulse:
-
-```
-var metrics = endpointConfiguration.EnableMetrics();
-metrics.SendMetricDataToServiceControl(
-    serviceControlMetricsAddress: "particular.monitoring",
-    interval: TimeSpan.FromSeconds(10));
-```
-
-### Step 8
-
-Run the solution and navigate to ServicePulse while the projects are starting.
-
-Create a few orders by clicking "Create a new order" from the "Orders" page in the website.
-
-In the ServicePulse menu, navigate to "Monitoring" and review the various metrics.
-
-### Step 9
-
-Turn off the endpoints by stopping debugging in Visual Studio or shutting down the console windows.
-
-ServiceControl expects heartbeat messages from every endpoint. If it doesn't receive them, it will wait a little while (30 seconds) and then report that the endpoints are down.
-
-When you restart the projects, ServicePulse should report that the endpoints are up again.
-
-### Step 10
-
-At the top of the page in ServicePulse, you will see a menu with various options. Check 'Failed Messages' to see if there are any messages that failed to be processed.
-
-If you see nothing there, try and simulate a failure by adding the throwing of an exception to a message handler and running the solution with that in place. Due to immediate and delayed retries it might take a while for the message to end up in the error queue. You can read up on how to configure [immediate](https://docs.particular.net/nservicebus/recoverability/configure-immediate-retries) and [delayed](https://docs.particular.net/nservicebus/recoverability/configure-delayed-retries) retries so that they will be either sped-up or disabled.
-
-See how the messages can be group and retried individually or per group.
-
-Next, stop the solution, remove the throwing of the exception and restart it. Try retrying the failed message in ServicePulse and see that it should now be processed successfully.
-
-This is a powerful feature which could be of huge value to operations activities. Imagine a system with high throughput. To perform maintenance, the database containing your business data was brought offline for a couple of minutes. Thousands of messages ended up in the error queue and you can see those in ServicePulse. Once the system is up and running again, we can retry them and they should be processed successfully.
-
-### Step 11
-
-We now have a dashboard that can inform us when an endpoint is or messages failed to be processed. A few things to consider:
-
-- No-one wants to watch the dashboard all day. Fortunately, ServiceControl also uses pub/sub to notify subscribers of events. You can build an endpoint that subscribes to ServiceControl events and informs you of downtime or failed email, SMS or other means. Read more about [using ServiceControl events](https://docs.particular.net/servicecontrol/contracts).
-- You might notice several endpoints with the same name. Endpoints send heartbeats with a unique host identifier, made up of their endpoint name and a hash of the folder the endpoint is installed in. Our exercises all have the same endpoint name, but different folders. Another example is when you deploy endpoints using [Octopus](https://octopus.com/). This will deploy every version in its own folder, with the result that every version will spawn a new monitored endpoint in ServicePulse. You can solve this by [overriding the host identifier](https://docs.particular.net/nservicebus/hosting/override-hostid).
 
 ## Conclusion
 

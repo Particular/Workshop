@@ -30,13 +30,11 @@
                     };
 
                     return $http.post(config.salesApiUrl + '/orders/createOrder', payload)
-                         .then(function (createOrderResponse) {
-                             $log.debug('raw order created:', createOrderResponse.data);
+                        .then(function (createOrderResponse) {
+                            $log.debug('raw order created:', createOrderResponse.data);
 
-                             //this should allow all services to chime in
-
-                             return createOrderResponse.data;
-                         });
+                            return createOrderResponse.data;
+                        });
                 };
 
                 ctrl.refreshOrders();

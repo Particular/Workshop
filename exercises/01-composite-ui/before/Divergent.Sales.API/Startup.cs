@@ -1,27 +1,55 @@
-﻿using System.Net.Http.Formatting;
-using System.Web.Http;
-using Newtonsoft.Json.Serialization;
-using Owin;
+﻿using Divergent.Sales.Data.Migrations;
+using ITOps.EndpointConfig;
 
-namespace Divergent.Sales.API
+namespace Divergent.Sales.API;
+
+public class Startup
 {
-    public partial class Startup
+    public Startup(IConfiguration configuration)
     {
-        public void Configuration(IAppBuilder app)
+        Configuration = configuration;
+    }
+
+    IConfiguration Configuration { get; }
+
+    // This method gets called by the runtime. Use this method to add services to the container.
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddControllers().AddNewtonsoftJson();
+
+        services.Configure<LiteDbOptions>(Configuration.GetSection("LiteDbOptions"))
+            .Configure<LiteDbOptions>(s =>
+            {
+                s.DatabaseName = "sales";
+                s.DatabaseInitializer = DatabaseInitializer.Initialize;
+            });
+        services.AddSingleton<ILiteDbContext, LiteDbContext>();
+
+        services.AddCors();
+    }
+
+    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        if (env.IsDevelopment())
         {
-            var config = new HttpConfiguration();
-            config.MapHttpAttributeRoutes();
-            config.EnableCors();
-
-            config.Formatters.Clear();
-            config.Formatters.Add(new JsonMediaTypeFormatter());
-
-            config.Formatters
-                .JsonFormatter
-                .SerializerSettings
-                .ContractResolver = new CamelCasePropertyNamesContractResolver();
-
-            app.UseWebApi(config);
+            app.UseDeveloperExceptionPage();
         }
+
+        app.UseCors(policyBuilder =>
+        {
+            policyBuilder.AllowAnyOrigin();
+            policyBuilder.AllowAnyMethod();
+            policyBuilder.AllowAnyHeader();
+        });
+
+        app.UseRouting();
+
+        app.UseAuthorization();
+
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+        });
     }
 }

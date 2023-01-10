@@ -1,24 +1,25 @@
-﻿using System.Threading.Tasks;
-using Divergent.Finance.Messages.Events;
+﻿using Divergent.Finance.Messages.Events;
 using NServiceBus;
 using NServiceBus.Logging;
 
-namespace Divergent.Shipping.Handlers
+namespace Divergent.Shipping.Handlers;
+
+public class PaymentSucceededHandler : IHandleMessages<PaymentSucceededEvent>
 {
-    public class PaymentSucceededHandler : IHandleMessages<PaymentSucceededEvent>
+    readonly ILogger<PaymentSucceededHandler> logger;
+
+    public PaymentSucceededHandler(ILogger<PaymentSucceededHandler> logger)
     {
-        private static readonly ILog Log = LogManager.GetLogger<PaymentSucceededHandler>();
+        this.logger = logger;
+    }
 
-        public async Task Handle(PaymentSucceededEvent message, IMessageHandlerContext context)
-        {
-            Log.Info("Handle");
+    public async Task Handle(PaymentSucceededEvent message, IMessageHandlerContext context)
+    {
+        logger.LogInformation("Handle");
 
-            // Store in database that payment succeeded.
-            // The order incl. products should also already have arrived and stored in database as well.
-            //
-            // When orders are paid before 12am, they will be shipped and arrive the next business day.
+        // Store in database that order was successfully paid.
+        // Look at all pending orders, paid and ready to be shipped, in batches to decide what to ship.
 
-            await Task.CompletedTask;
-        }
+        await Task.CompletedTask;
     }
 }

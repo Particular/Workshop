@@ -1,7 +1,6 @@
-﻿namespace ITOps.ViewModelComposition
+﻿namespace ITOps.ViewModelComposition;
+
+public interface ISubscribeToCompositionEvents : IRouteInterceptor
 {
-    public interface ISubscribeToCompositionEvents : IRouteInterceptor
-    {
-        void Subscribe(IPublishCompositionEvents publisher);
-    }
+    void Subscribe(IPublishCompositionEvents publisher);
 }

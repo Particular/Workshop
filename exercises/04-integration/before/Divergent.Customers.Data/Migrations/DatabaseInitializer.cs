@@ -1,14 +1,22 @@
-﻿using System.Data.Entity;
-using System.Data.Entity.Migrations;
-using Divergent.Customers.Data.Context;
+﻿using System;
+using Divergent.Customers.Data.Models;
+using LiteDB;
 
-namespace Divergent.Customers.Data.Migrations
+namespace Divergent.Customers.Data.Migrations;
+
+public static class DatabaseInitializer
 {
-    public class DatabaseInitializer : CreateDatabaseIfNotExists<CustomersContext>
+    public static void Initialize(LiteDatabase context)
     {
-        protected override void Seed(CustomersContext context)
-        {
-            context.Customers.AddOrUpdate(k => k.Id, SeedData.Customers().ToArray());
-        }
+        if (context == null) throw new ArgumentNullException(nameof(context));
+        
+        var customers = context.GetCollection<Customer>();
+        if (customers.Count() > 0)
+            return;
+
+        customers.InsertBulk(SeedData.Customers());
+        
+        var orders = context.GetCollection<Order>();
+        orders.InsertBulk(SeedData.Orders());
     }
 }

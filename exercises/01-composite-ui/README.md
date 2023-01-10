@@ -95,34 +95,33 @@ using Microsoft.AspNetCore.Routing;
 using System;
 using System.Net.Http;
 
-namespace Divergent.Finance.ViewModelComposition
+namespace Divergent.Customers.ViewModelComposition;
+
+public class OrdersLoadedSubscriber : ISubscribeToCompositionEvents
 {
-    public class OrdersLoadedSubscriber : ISubscribeToCompositionEvents
+    // Very simple matching for the purpose of the exercise.
+    public bool Matches(RouteData routeData, string httpMethod) =>
+        HttpMethods.IsGet(httpMethod)
+        && string.Equals((string)routeData.Values["controller"], "orders", StringComparison.OrdinalIgnoreCase)
+        && !routeData.Values.ContainsKey("id");
+
+    public void Subscribe(IPublishCompositionEvents publisher)
     {
-        // Very simple matching for the purpose of the exercise.
-        public bool Matches(RouteData routeData, string httpMethod) =>
-            HttpMethods.IsGet(httpMethod)
-                && string.Equals((string)routeData.Values["controller"], "orders", StringComparison.OrdinalIgnoreCase)
-                && !routeData.Values.ContainsKey("id");
-
-        public void Subscribe(IPublishCompositionEvents publisher)
+        publisher.Subscribe<OrdersLoaded>(async (pageViewModel, ordersLoaded, routeData, query) =>
         {
-            publisher.Subscribe<OrdersLoaded>(async (pageViewModel, ordersLoaded, routeData, query) =>
+            var orderIds = string.Join(",", ordersLoaded.OrderViewModelDictionary.Keys);
+
+            // Hardcoded to simplify the exercise. In a production app, a config object could be injected.
+            var url = $"http://localhost:20186/api/customers/byorders?orderIds={orderIds}";
+            var response = await new HttpClient().GetAsync(url);
+
+            dynamic[] customers = await response.Content.AsExpandoArrayAsync();
+
+            foreach (dynamic customer in customers)
             {
-                var orderIds = string.Join(",", ordersLoaded.OrderViewModelDictionary.Keys);
-
-                // Hardcoded to simplify the exercise. In a production app, a config object could be injected.
-                var url = $"http://localhost:20187/api/prices/orders/total?orderIds={orderIds}";
-                var response = await new HttpClient().GetAsync(url);
-
-                dynamic[] prices = await response.Content.AsExpandoArrayAsync();
-
-                foreach (dynamic price in prices)
-                {
-                    ordersLoaded.OrderViewModelDictionary[price.OrderId].OrderTotalPrice = price.Amount;
-                }
-            });
-        }
+                ordersLoaded.OrderViewModelDictionary[customer.OrderId].OrderCustomerName = customer.CustomerName;
+            }
+        });
     }
 }
 ```
@@ -143,7 +142,7 @@ For simplicity, ViewModel composition components, such as `Divergent.Finance.Vie
 ### Step 4
 
 Run the solution. The total price of each order should be displayed. If not, clear the browser cache and reload the page.
- 
+
 ## Conclusion
 
 In this exercise we've seen how to combine data from various autonomous services into a single user interface.

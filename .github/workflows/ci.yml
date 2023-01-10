@@ -2,8 +2,7 @@ name: CI
 on:
   push:
     branches:
-      - "master"
-      - release-*
+      - master
   pull_request:
   workflow_dispatch:
 env:
@@ -17,20 +16,18 @@ jobs:
         include:
           - os: windows-2019
             name: Windows
-#          - os: ubuntu-20.04
-#            name: Linux
+          - os: ubuntu-20.04
+            name: Linux
       fail-fast: false
     steps:
       - name: Checkout
-        uses: actions/checkout@v3.0.2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Setup .NET SDK
-        uses: actions/setup-dotnet@v2.1.0
+        uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: |
-            6.0.x
-            7.0.x
+          dotnet-version: 7.0.x
       - name: Build composition gateway demo
         run: dotnet build demos/asp-net-core/Divergent.CompositionGateway.sln --configuration Release
       - name: Build composition wedsite demo

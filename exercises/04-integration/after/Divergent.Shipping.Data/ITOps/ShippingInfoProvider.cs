@@ -7,15 +7,15 @@ namespace Divergent.Shipping.Data.ITOps
 {
     public class ShippingInfoProvider : IProvideShippingInfo
     {
-        public Task<PackageInfo> GetPackageInfo(IEnumerable<int> productIds)
+        public PackageInfo GetPackageInfo(IEnumerable<int> productIds)
         {
             var count = productIds.Count();
 
-            return Task.FromResult(new PackageInfo
+            return new PackageInfo
             {
                 Weight = WeightCalculator.CalculateWeight(count),
                 Volume = VolumeEstimator.Calculate(count)
-            });
+            };
         }
     }
 }

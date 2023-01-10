@@ -1,32 +1,31 @@
-﻿using Divergent.Finance.Data.Context;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
+﻿using Divergent.Finance.Data.Models;
+using ITOps.EndpointConfig;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Divergent.Finance.API.Controllers
+namespace Divergent.Finance.API.Controllers;
+
+[Route("api/prices")]
+[ApiController]
+public class PricingController : ControllerBase
 {
-    [RoutePrefix("api/prices")]
-    public class PricingController : ApiController
-    {
-        [HttpGet, Route("orders/total")]
-        public IEnumerable<dynamic> GetOrdersTotal(string orderIds)
-        {
-            var orderIdList = orderIds.Split(',')
-                .Select(id => int.Parse(id))
-                .ToList();
+    private readonly ILiteDbContext db;
 
-            using (var db = new FinanceContext())
+    public PricingController(ILiteDbContext db) => this.db = db;
+
+    [HttpGet("orders/total")]
+    public IEnumerable<dynamic> GetOrdersTotal(string orderIds)
+    {
+        var orderIdList = orderIds?.Split(',')
+            .Select(int.Parse)
+            .ToList() ?? new List<int>();
+
+        return db.Database.GetCollection<OrderItemPrice>().Query()
+            .Where(orderItemPrice => orderIdList.Contains(orderItemPrice.OrderId)).ToList()
+            .GroupBy(orderItemPrice => orderItemPrice.OrderId)
+            .Select(orderGroup => new
             {
-                return db.OrderItemPrices
-                    .Where(orderItemPrice => orderIdList.Contains(orderItemPrice.OrderId))
-                    .GroupBy(orderItemPrice => orderItemPrice.OrderId)
-                    .Select(orderGroup => new
-                    {
-                        OrderId = orderGroup.Key,
-                        Amount = orderGroup.Sum(orderItemPrice => orderItemPrice.ItemPrice),
-                    })
-                    .ToList();
-            }
-        }
+                OrderId = orderGroup.Key,
+                Amount = orderGroup.Sum(orderItemPrice => orderItemPrice.ItemPrice),
+            });
     }
 }

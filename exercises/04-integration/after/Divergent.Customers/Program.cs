@@ -1,36 +1,36 @@
-﻿using System;
-using System.Linq;
-using System.ServiceProcess;
-using System.Threading.Tasks;
+﻿using Divergent.Customers.Data.Migrations;
+using ITOps.EndpointConfig;
+using NServiceBus;
 
-namespace Divergent.Customers
-{
-    static class Program
+const string EndpointName = "Divergent.Customers";
+
+var configuration = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+    .AddEnvironmentVariables()
+    .AddCommandLine(args)
+    .Build();
+
+var host = Host.CreateDefaultBuilder(args)
+    .ConfigureServices((builder, services) =>
     {
-        public static async Task Main(string[] args)
-        {
-            var host = new Host();
-
-            // pass this command line option to run as a windows service
-            if (args.Contains("--run-as-service"))
+        services.Configure<LiteDbOptions>(configuration.GetSection("LiteDbOptions"))
+            .Configure<LiteDbOptions>(s =>
             {
-                using (var windowsService = new WindowsService(host))
-                {
-                    ServiceBase.Run(windowsService);
-                    return;
-                }
-            }
+                s.DatabaseName = "customers";
+                s.DatabaseInitializer = DatabaseInitializer.Initialize;
+            });
+        services.AddSingleton<ILiteDbContext, LiteDbContext>();
+    })    
+    .UseNServiceBus(context =>
+    {
+        var endpoint = new EndpointConfiguration(EndpointName);
+        endpoint.Configure();
 
-            Console.Title = Host.EndpointName;
+        return endpoint;
+    }).Build();
 
-            var tcs = new TaskCompletionSource<object>();
-            Console.CancelKeyPress += (sender, e) => { tcs.SetResult(null); };
+var hostEnvironment = host.Services.GetRequiredService<IHostEnvironment>();
 
-            await host.Start();
-            await Console.Out.WriteLineAsync("Press Ctrl+C to exit...");
+Console.Title = hostEnvironment.ApplicationName;
 
-            await tcs.Task;
-            await host.Stop();
-        }
-    }
-}
+host.Run();
