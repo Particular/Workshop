@@ -2,7 +2,7 @@
 
 - [Install the pre-requisites](#install-the-pre-requisites)
 - [Get a copy of this repository](#get-a-copy-of-this-repository)
-- [Set up the databases](#set-up-the-databases)
+- [LiteDb Studio](#litedb-studio)
 - [Build the exercise solutions](#build-the-exercise-solutions)
 
 NOTE: you can optionally also [prepare your machine in advance for the advanced exercises](#preparing-your-machine-for-the-advanced-exercises).
@@ -35,6 +35,16 @@ Clone or download this repo. If you're downloading a zip copy of the repo, ensur
 - Click "Properties"
 - On the "General" properties page, check the "Unblock" checkbox
 - Click "OK"
+
+### LiteDb Studio
+
+The exercises use [LiteDb](https://www.litedb.org/) for storing data.
+
+LiteDB is a serverless database delivered in a single small DLL fully written in .NET C# managed code. It is included in the required projects using NuGet packages. The database files are stored in a `.db` folder in the root of each exercise its solution folder.
+
+Although not required for the exercises, if you want to see what is stored inside each database, you can [download](https://github.com/mbdavid/LiteDB.Studio/releases) and use LiteDb Studio to open each database file individually.
+
+**NOTE**: If you open a database, open it as *'shared'* as otherwise LiteDb Studio will lock the database and your exercises won't work anymore.
 
 ### Build the exercise solutions
 

@@ -21,6 +21,8 @@ Welcome to the workshop.
 
 - Optional: [Postman](https://www.postman.com/downloads/)  
   <sup>See FAQ for more information.</sup>
+  
+- Optional: [LiteDb Studio](https://github.com/mbdavid/LiteDB.Studio) ([download](https://github.com/mbdavid/LiteDB.Studio/releases))
 
 
 ### Index
@@ -43,6 +45,22 @@ The [`asp-net-core` solution](demos/asp-net-core) demonstrates the use of ASP.NE
 
 If the answer to your question is not listed here, consult your on-site trainer.
 
+### How can I clear the orders list?
+
+The simplest method is to delete all databases, which will be automatically created by LiteDb.
+
+The databases are individual files that are located in a `.db` folder under the solution folder. The entire folder can be deleted.
+
+### How can I clear all messages?
+
+The exercises use the LearningTransport and LearningPersistance. Delete the entire `.learningtransport` under the solution folder.
+
+### How can I see what's inside each database?
+
+You can download [LiteDb Studio](https://github.com/mbdavid/LiteDB.Studio/releases) and open each database individually. The database files are stored in a `.db` folder in the root of each exercise its solution folder.
+
+**NOTE**: If you open a database, open it as *'shared'* as otherwise LiteDb Studio will lock the database and your exercises won't work anymore.
+
 ### How can I test if the different HTTP API are working?
 
 Sometimes there are issues in the API. Because of the CompositionGateway it might not be directly clear what the problem is.
@@ -58,12 +76,3 @@ Sometimes there are issues in the API. Because of the CompositionGateway it migh
   - http://localhost:20186/api/customers/byorders?orderIds=1 for customers
   - http://localhost:4457/orders/ for the Composition Gateway
 
-### How can I clear the orders list?
-
-The simplest method is to delete all databases, which will be automatically created by LiteDb.
-
-The databases are individual files that are located in a `.db` folder under the solution folder. The entire folder can be deleted.
-
-### How can I clear all messages?
-
-The exercises use the LearningTransport and LearningPersistance. Delete the entire `.learningtransport` under the solution folder.
