@@ -1,5 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Everything" type="CompoundRunConfigurationType">
+    <toRun name="Divergent.CompositionGateway" type="LaunchSettings" />
     <toRun name="Divergent.Customers" type="LaunchSettings" />
     <toRun name="Divergent.Customers.API" type="LaunchSettings" />
     <toRun name="Divergent.Finance" type="LaunchSettings" />
