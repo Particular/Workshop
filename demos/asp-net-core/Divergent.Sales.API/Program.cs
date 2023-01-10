@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.IO;
 
-namespace Divergent.CompositionGateway
+namespace Divergent.Sales.API
 {
-    public class Program
+    internal class Program
     {
         public static void Main(string[] args)
         {

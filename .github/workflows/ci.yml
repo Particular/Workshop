@@ -28,6 +28,10 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 7.0.x
+      - name: Build composition gateway demo
+        run: dotnet build demos/asp-net-core/Divergent.CompositionGateway.sln --configuration Release
+      - name: Build composition wedsite demo
+        run: dotnet build demos/asp-net-core/Divergent.Website.sln --configuration Release
       - name: Build exercise 01 - before
         run: dotnet build exercises/01-composite-ui/before --configuration Release
       - name: Build exercise 01 - after

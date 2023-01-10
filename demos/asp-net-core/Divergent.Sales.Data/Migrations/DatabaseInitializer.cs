@@ -1,17 +1,19 @@
-﻿using Divergent.Sales.Data.Context;
-using SQLite.CodeFirst;
-using System.Data.Entity;
-using System.Data.Entity.Migrations;
+﻿using System;
+using Divergent.Sales.Data.Models;
+using LiteDB;
 
-namespace Divergent.Sales.Data.Migrations
+namespace Divergent.Sales.Data.Migrations;
+
+public static class DatabaseInitializer
 {
-    public class DatabaseInitializer : SqliteCreateDatabaseIfNotExists<SalesContext>
+    public static void Initialize(LiteDatabase context)
     {
-        public DatabaseInitializer(DbModelBuilder modelBuilder) : base(modelBuilder)
-        {
-        }
+        if (context == null) throw new ArgumentNullException(nameof(context));
 
-        protected override void Seed(SalesContext context) =>
-            context.Orders.AddOrUpdate(order => order.Id, SeedData.Orders);
+        var shipments = context.GetCollection<Order>();
+        if (shipments.Count() > 0)
+            return;
+
+        shipments.InsertBulk(SeedData.Orders);
     }
 }

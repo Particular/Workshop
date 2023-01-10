@@ -1,0 +1,14 @@
+### get order details from Sales API
+http://localhost:20295/api/orders/1
+
+### get order details from Shipping API
+http://localhost:20296/api/shipments/order/1
+
+### Order #1, composed
+http://localhost:4457/orders/details/1
+
+### Orders list, Sales only"
+http://localhost:20295/api/orders?pageSize=10&pageIndex=0
+
+### Orders list, composed
+http://localhost:4457/orders

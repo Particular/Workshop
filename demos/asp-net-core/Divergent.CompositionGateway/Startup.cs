@@ -1,8 +1,7 @@
-﻿using ITOps.ViewModelComposition;
-using ITOps.ViewModelComposition.Gateway;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ServiceComposer.AspNetCore;
 
 namespace Divergent.CompositionGateway
 {
@@ -10,13 +9,15 @@ namespace Divergent.CompositionGateway
     {
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient();
             services.AddRouting();
             services.AddViewModelComposition();
         }
 
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
-            app.RunCompositionGatewayWithDefaultRoutes();
+            app.UseRouting();
+            app.UseEndpoints(builder => builder.MapCompositionHandlers());
         }
     }
 }
