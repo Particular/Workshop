@@ -31,16 +31,14 @@ When a customer creates a new order, that information is stored in a database. I
 
 ## What's provided for you
 
-- Have a look at the `EndpointConfigurationExtensions` class in the `ITOps.EndpointConfig` project. Note that we use conventions to specify which messages are events:
+- Have a look at the `EndpointConfigurationExtensions` class in the `ITOps.SharedConfig` project. Note that we use conventions to specify which messages are events:
 
   ```c#
   conventions.DefiningEventsAs(t =>
-      t.Namespace != null &&
-      t.Namespace.StartsWith("Divergent") &&
-      t.Namespace.EndsWith("Events") &&
-      t.Name.EndsWith("Event"));`
+      t.Namespace != null && t.Namespace.StartsWith("Divergent") && t.Namespace.EndsWith("Events") &&
+      t.Name.EndsWith("Event"));
   ```
-
+  
   If you create a class inside a namespace ending with "Events", and the name of this class ends with "Event", then NServiceBus will know it's an event.
 
 - In the `Divergent.Finance/PaymentClient` directory you'll find a provided implementation for handling payments, named `ReliablePaymentClient`.
