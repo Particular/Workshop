@@ -1,6 +1,5 @@
 using System;
 using NServiceBus;
-using NServiceBus.Configuration.AdvancedExtensibility;
 
 namespace ITOps.EndpointConfig
 {
@@ -23,8 +22,12 @@ namespace ITOps.EndpointConfig
             endpointConfiguration.AuditProcessedMessagesTo("audit");
 
             var conventions = endpointConfiguration.Conventions();
-            conventions.DefiningCommandsAs(t => t.Namespace != null && t.Namespace.StartsWith("Divergent") && t.Namespace.EndsWith("Commands") && t.Name.EndsWith("Command"));
-            conventions.DefiningEventsAs(t => t.Namespace != null && t.Namespace.StartsWith("Divergent") && t.Namespace.EndsWith("Events") && t.Name.EndsWith("Event"));
+            conventions.DefiningCommandsAs(t =>
+                t.Namespace != null && t.Namespace.StartsWith("Divergent") && t.Namespace.EndsWith("Commands") &&
+                t.Name.EndsWith("Command"));
+            conventions.DefiningEventsAs(t =>
+                t.Namespace != null && t.Namespace.StartsWith("Divergent") && t.Namespace.EndsWith("Events") &&
+                t.Name.EndsWith("Event"));
 
             endpointConfiguration.EnableInstallers();
 
