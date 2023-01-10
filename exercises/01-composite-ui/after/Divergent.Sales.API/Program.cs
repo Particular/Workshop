@@ -1,26 +1,14 @@
-﻿using System;
-using System.Reflection;
-using System.Threading.Tasks;
-using Microsoft.Owin.Hosting;
+﻿using Divergent.Sales.API;
+using NServiceBus;
 
-namespace Divergent.Sales.API
-{
-    class Program
+var host = Host.CreateDefaultBuilder(args)
+    .ConfigureWebHostDefaults(webBuilder =>
     {
-        public static async Task Main(string[] args)
-        {
-            Console.Title = MethodBase.GetCurrentMethod().DeclaringType.Namespace;
+        webBuilder.UseStartup<Startup>();
+    }).Build();
 
-            var tcs = new TaskCompletionSource<object>();
-            Console.CancelKeyPress += (sender, e) => { tcs.SetResult(null); };
+var hostEnvironment = host.Services.GetRequiredService<IHostEnvironment>();
 
-            using (WebApp.Start<Startup>("http://localhost:20185"))
-            {
-                await Console.Out.WriteLineAsync("Web server is running.");
-                await Console.Out.WriteLineAsync("Press Ctrl+C to exit...");
+Console.Title = hostEnvironment.ApplicationName;
 
-                await tcs.Task;
-            }
-        }
-    }
-}
+host.Run();

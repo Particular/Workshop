@@ -9,44 +9,43 @@ using System.Dynamic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Divergent.Sales.ViewModelComposition
+namespace Divergent.Sales.ViewModelComposition;
+
+public class OrdersListViewModelAppender : IViewModelAppender
 {
-    public class OrdersListViewModelAppender : IViewModelAppender
+    public bool Matches(RouteData routeData, string httpMethod) =>
+        HttpMethods.IsGet(httpMethod)
+        && string.Equals((string)routeData.Values["controller"], "orders", StringComparison.OrdinalIgnoreCase)
+        && !routeData.Values.ContainsKey("id");
+
+    public async Task Append(dynamic viewModel, RouteData routeData, IQueryCollection query)
     {
-        public bool Matches(RouteData routeData, string httpMethod) =>
-            HttpMethods.IsGet(httpMethod)
-                && string.Equals((string)routeData.Values["controller"], "orders", StringComparison.OrdinalIgnoreCase)
-                && !routeData.Values.ContainsKey("id");
+        // Hardcoded for simplicity. In a production app, a config object could be injected.
+        var url = $"http://localhost:20185/api/orders";
+        var response = await new HttpClient().GetAsync(url);
 
-        public async Task Append(dynamic viewModel, RouteData routeData, IQueryCollection query)
+        dynamic[] orders = await response.Content.AsExpandoArrayAsync();
+
+        var orderViewModelDictionary = MapToViewModelDictionary(orders);
+
+        await viewModel.RaiseEventAsync(new OrdersLoaded { OrderViewModelDictionary = orderViewModelDictionary });
+
+        viewModel.Orders = orderViewModelDictionary.Values;
+    }
+
+    IDictionary<dynamic, dynamic> MapToViewModelDictionary(dynamic[] orders)
+    {
+        var dictionary = new Dictionary<dynamic, dynamic>();
+
+        foreach (var order in orders)
         {
-            // Hardcoded for simplicity. In a production app, a config object could be injected.
-            var url = $"http://localhost:20185/api/orders";
-            var response = await new HttpClient().GetAsync(url);
+            dynamic viewModel = new ExpandoObject();
+            viewModel.OrderId = order.Id;
+            viewModel.OrderNumber = order.Id;
 
-            dynamic[] orders = await response.Content.AsExpandoArrayAsync();
-
-            var orderViewModelDictionary = MapToViewModelDictionary(orders);
-
-            await viewModel.RaiseEventAsync(new OrdersLoaded { OrderViewModelDictionary = orderViewModelDictionary });
-
-            viewModel.Orders = orderViewModelDictionary.Values;
+            dictionary[order.Id] = viewModel;
         }
 
-        IDictionary<dynamic, dynamic> MapToViewModelDictionary(dynamic[] orders)
-        {
-            var dictionary = new Dictionary<dynamic, dynamic>();
-
-            foreach (var order in orders)
-            {
-                dynamic viewModel = new ExpandoObject();
-                viewModel.OrderId = order.Id;
-                viewModel.OrderNumber = order.Id;
-
-                dictionary[order.Id] = viewModel;
-            }
-
-            return dictionary;
-        }
+        return dictionary;
     }
 }

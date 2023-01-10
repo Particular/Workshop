@@ -1,55 +1,54 @@
-﻿using Divergent.Sales.Data.Context;
+﻿using Divergent.Sales.Data.Models;
 using Divergent.Sales.Messages.Commands;
+using ITOps.EndpointConfig;
 using NServiceBus;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Http;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Divergent.Sales.API.Controllers
+namespace Divergent.Sales.API.Controllers;
+
+[Route("api/orders")]
+[ApiController]
+public class OrdersController : ControllerBase
 {
-    [RoutePrefix("api/orders")]
-    public class OrdersController : ApiController
+    private readonly IMessageSession endpoint;
+    private readonly ILiteDbContext db;
+
+    public OrdersController(IMessageSession endpoint, ILiteDbContext db)
     {
-        private readonly IEndpointInstance _endpoint;
+        this.endpoint = endpoint;
+        this.db = db;
+    }
 
-        public OrdersController(IEndpointInstance endpoint) => _endpoint = endpoint;
+    [HttpPost("createOrder")]
+    public async Task<dynamic> CreateOrder(dynamic payload)
+    {
+        var customerId = int.Parse((string)payload.customerId);
+        var productIds = ((IEnumerable<dynamic>)payload.products)
+            .Select(product => int.Parse((string)product.productId))
+            .ToList();
 
-        [HttpPost, Route("createOrder")]
-        public async Task<dynamic> CreateOrder(dynamic payload)
+        await endpoint.Send(new SubmitOrderCommand
         {
-            var customerId = int.Parse((string)payload.customerId);
-            var productIds = ((IEnumerable<dynamic>)payload.products)
-                .Select(product => int.Parse((string)product.productId))
-                .ToList();
+            CustomerId = customerId,
+            Products = productIds
+        });
 
-            await _endpoint.Send(new SubmitOrderCommand
+        return payload;
+    }
+
+    [HttpGet("")]
+    public IEnumerable<dynamic> Get()
+    {
+        var col = db.Database.GetCollection<Order>();
+        
+        return col.Query()
+            .Select(order => new
             {
-                CustomerId = customerId,
-                Products = productIds
-            });
-
-            return payload;
-        }
-
-        [HttpGet, Route]
-        public IEnumerable<dynamic> Get()
-        {
-            using (var db = new SalesContext())
-            {
-                return db.Orders
-                    .Include(order => order.Items)
-                    .Include(order => order.Items.Select(item => item.Product))
-                    .Select(order => new
-                    {
-                        order.Id,
-                        order.CustomerId,
-                        ProductIds = order.Items.Select(item => item.Product.Id).ToList(),
-                        ItemsCount = order.Items.Count
-                    })
-                    .ToList();
-            }
-        }
+                order.Id,
+                order.CustomerId,
+                ProductIds = order.Items,
+                ItemsCount = order.Items.Count
+            })
+            .ToList();
     }
 }

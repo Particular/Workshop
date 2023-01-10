@@ -1,31 +1,34 @@
-﻿using Divergent.Sales.Data.Context;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Web.Http;
+﻿using Divergent.Sales.Data.Models;
+using ITOps.EndpointConfig;
+using NServiceBus;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Divergent.Sales.API.Controllers
+namespace Divergent.Sales.API.Controllers;
+
+[Route("api/orders")]
+[ApiController]
+public class OrdersController : ControllerBase
 {
-    [RoutePrefix("api/orders")]
-    public class OrdersController : ApiController
+    private readonly ILiteDbContext db;
+
+    public OrdersController(ILiteDbContext db)
     {
-        [HttpGet, Route]
-        public IEnumerable<dynamic> Get()
-        {
-            using (var db = new SalesContext())
+        this.db = db;
+    }
+
+    [HttpGet("")]
+    public IEnumerable<dynamic> Get()
+    {
+        var col = db.Database.GetCollection<Order>();
+        
+        return col.Query()
+            .Select(order => new
             {
-                return db.Orders
-                    .Include(order => order.Items)
-                    .Include(order => order.Items.Select(item => item.Product))
-                    .Select(order => new
-                    {
-                        order.Id,
-                        order.CustomerId,
-                        ProductIds = order.Items.Select(item => item.Product.Id).ToList(),
-                        ItemsCount = order.Items.Count,
-                    })
-                    .ToList();
-            }
-        }
+                order.Id,
+                order.CustomerId,
+                ProductIds = order.Items,
+                ItemsCount = order.Items.Count
+            })
+            .ToList();
     }
 }

@@ -1,7 +1,8 @@
 {
   "profiles": {
     "Divergent.Finance.API": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "applicationUrl": "http://localhost:20187"
     }
   }
 }

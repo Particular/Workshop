@@ -1,15 +1,22 @@
-﻿using System.Data.Entity;
-using System.Data.Entity.Migrations;
-using Divergent.Finance.Data.Context;
+﻿using System;
+using Divergent.Finance.Data.Models;
+using LiteDB;
 
-namespace Divergent.Finance.Data.Migrations
+namespace Divergent.Finance.Data.Migrations;
+
+public static class DatabaseInitializer
 {
-    public class DatabaseInitializer : CreateDatabaseIfNotExists<FinanceContext>
+    public static void Initialize(LiteDatabase context)
     {
-        protected override void Seed(FinanceContext context)
-        {
-            context.Prices.AddOrUpdate(k => k.Id, SeedData.Prices().ToArray());
-            context.OrderItemPrices.AddOrUpdate(k => k.Id, SeedData.OrderItemPrices().ToArray());
-        }
+        if (context == null) throw new ArgumentNullException(nameof(context));
+
+        var prices = context.GetCollection<Price>();
+        if (prices.Count() > 0)
+            return;
+
+        prices.InsertBulk(SeedData.Prices());
+
+        var orderItemPrices = context.GetCollection<OrderItemPrice>();
+        orderItemPrices.InsertBulk(SeedData.OrderItemPrices());
     }
 }

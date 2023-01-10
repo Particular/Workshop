@@ -69,7 +69,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.Customers.ViewMod
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Divergent.Finance.ViewModelComposition", "Divergent.Finance.ViewModelComposition\Divergent.Finance.ViewModelComposition.csproj", "{2FFA57AA-D809-496F-AF59-ACF76AAFDCA4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITOps.EndpointConfig", "..\..\shared-api-gateway\ITOps.EndpointConfig\ITOps.EndpointConfig.csproj", "{D54CA28C-A9EE-46EC-A409-868EFBEEFFF0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ITOps.SharedConfiguration", "..\..\shared-api-gateway\ITOps.SharedConfiguration\ITOps.SharedConfiguration.csproj", "{D54CA28C-A9EE-46EC-A409-868EFBEEFFF0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

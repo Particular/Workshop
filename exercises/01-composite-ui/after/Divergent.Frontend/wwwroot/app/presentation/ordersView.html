@@ -1,17 +1,22 @@
 ﻿<section cg-busy="ctrl.isLoading">
     Orders
 
+    <div>
+        <button ng-click="ctrl.refreshOrders()">Refresh</button>
+        <button ng-click="ctrl.createNewOrder()">Create new order</button>
+    </div>
+
     <ul>
-        <li data-ng-repeat="order in ctrl.orders track by order.orderId">
+        <li data-ng-repeat="order in ctrl.orders track by order.orderId" ng-class="{ 'pending-order': order.isPending }">
             <strong>Order:</strong>
             <div>
                 Id #{{order.orderNumber}}
                 <br />
-                <strong>Customer:</strong> {{order.orderCustomerName}}
-                <br />
                 <i>Items count:</i> {{order.orderItemsCount}}
                 <br />
-                <strong>Order total:</strong> {{order.orderTotalPrice}}
+                <strong>Customer:</strong> {{order.orderCustomerName}}
+                <br />
+                <strong>Order total:</strong> {{order.orderTotalPrice}}$
             </div>
         </li>
     </ul>

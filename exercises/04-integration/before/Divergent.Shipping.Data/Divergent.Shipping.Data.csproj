@@ -1,15 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Divergent.ITOps.Interfaces\Divergent.ITOps.Interfaces.csproj" />
   </ItemGroup>
 
-  <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(TargetDir)Divergent.Shipping.Data.dll" "$(SolutionDir)Divergent.ITOps\Providers\Divergent.Shipping.Data.dll"</PostBuildEvent>
-  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="ITOps" />
+  </ItemGroup>
 
 </Project>

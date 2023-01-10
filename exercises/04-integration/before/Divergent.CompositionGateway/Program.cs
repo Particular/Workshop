@@ -1,21 +1,13 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using System.IO;
+﻿using Divergent.CompositionGateway;
 
-namespace Divergent.CompositionGateway
-{
-    public class Program
+var host = Host.CreateDefaultBuilder(args)
+    .ConfigureWebHostDefaults(webBuilder =>
     {
-        public static void Main(string[] args)
-        {
-            var host = new WebHostBuilder()
-                .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseIISIntegration()
-                .UseStartup<Startup>()
-                .UseApplicationInsights()
-                .Build();
+        webBuilder.UseStartup<Startup>();
+    }).Build();
 
-            host.Run();
-        }
-    }
-}
+var hostEnvironment = host.Services.GetRequiredService<IHostEnvironment>();
+
+Console.Title = hostEnvironment.ApplicationName;
+
+host.Run();

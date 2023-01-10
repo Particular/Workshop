@@ -1,53 +1,50 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Divergent.Finance.Messages.Events;
+﻿using Divergent.Finance.Messages.Events;
 using Divergent.Sales.Messages.Events;
 using NServiceBus;
 using NServiceBus.Logging;
 
-namespace Divergent.Shipping.Sagas
+namespace Divergent.Shipping.Sagas;
+
+class ShippingSaga : Saga<ShippingSagaData>,
+    IAmStartedByMessages<OrderSubmittedEvent>,
+    IAmStartedByMessages<PaymentSucceededEvent>
 {
-    class ShippingSaga : Saga<ShippingSagaData>,
-        IAmStartedByMessages<OrderSubmittedEvent>,
-        IAmStartedByMessages<PaymentSucceededEvent>
+    private static readonly ILog Log = LogManager.GetLogger<ShippingSaga>();
+
+    protected override void ConfigureHowToFindSaga(SagaPropertyMapper<ShippingSagaData> mapper)
     {
-        private static readonly ILog Log = LogManager.GetLogger<ShippingSaga>();
+        mapper.MapSaga(saga => saga.OrderId)
+            .ToMessage<OrderSubmittedEvent>(p => p.OrderId)
+            .ToMessage<PaymentSucceededEvent>(p => p.OrderId);
+    }
 
-        protected override void ConfigureHowToFindSaga(SagaPropertyMapper<ShippingSagaData> mapper)
+    public Task Handle(OrderSubmittedEvent message, IMessageHandlerContext context)
+    {
+        Log.Info("Handle OrderSubmittedEvent");
+
+        Data.IsOrderSubmitted = true;
+        Data.CustomerId = message.CustomerId;
+
+        var projection = message.Products.Select(p => new ShippingSagaData.Product { Identifier = p });
+        Data.Products = projection.ToList();
+
+        return ProcessOrder(context);
+    }
+
+    public Task Handle(PaymentSucceededEvent message, IMessageHandlerContext context)
+    {
+        Log.Info("Handle PaymentSucceededEvent");
+
+        Data.IsPaymentProcessed = true;
+        return ProcessOrder(context);
+    }
+
+    private async Task ProcessOrder(IMessageHandlerContext context)
+    {
+        if (Data.IsOrderSubmitted && Data.IsPaymentProcessed)
         {
-            mapper.ConfigureMapping<OrderSubmittedEvent>(p => p.OrderId).ToSaga(s => s.OrderId);
-            mapper.ConfigureMapping<PaymentSucceededEvent>(p => p.OrderId).ToSaga(s => s.OrderId);
-        }
-
-        public Task Handle(OrderSubmittedEvent message, IMessageHandlerContext context)
-        {
-            Log.Info("Handle OrderSubmittedEvent");
-
-            Data.IsOrderSubmitted = true;
-            Data.CustomerId = message.CustomerId;
-
-            var projection = message.Products.Select(p => new ShippingSagaData.Product { Identifier = p });
-            Data.Products = projection.ToList();
-
-            return ProcessOrder(context);
-        }
-
-        public Task Handle(PaymentSucceededEvent message, IMessageHandlerContext context)
-        {
-            Log.Info("Handle PaymentSucceededEvent");
-
-            Data.IsPaymentProcessed = true;
-
-            return ProcessOrder(context);
-        }
-
-        private async Task ProcessOrder(IMessageHandlerContext context)
-        {
-            if (Data.IsOrderSubmitted && Data.IsPaymentProcessed)
-            {
-                await Task.CompletedTask; // Send a message to execute shipment
-                MarkAsComplete();
-            }
+            await Task.CompletedTask; // Send a message to execute shipment
+            MarkAsComplete();
         }
     }
 }

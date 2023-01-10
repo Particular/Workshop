@@ -16,7 +16,8 @@
 
     angular.module('app.services')
         .constant('endpoints.config', {
-            gatewayBaseUrl: 'http://localhost:4457'
+            gatewayBaseUrl: 'http://localhost:4457',
+            salesApiUrl: 'http://localhost:20185/api'
         });
 
     app.run(['$log', '$rootScope',

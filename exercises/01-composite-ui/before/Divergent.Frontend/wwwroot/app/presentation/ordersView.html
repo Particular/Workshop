@@ -1,11 +1,15 @@
 ﻿<section cg-busy="ctrl.isLoading">
     Orders
 
+    <div>
+        <button ng-click="ctrl.refreshOrders()">Refresh</button>
+    </div>
+
     <ul>
-        <li data-ng-repeat="order in ctrl.orders track by order.orderId">
+        <li data-ng-repeat="order in ctrl.orders track by order.orderId" ng-class="{ 'pending-order': order.isPending }">
             <strong>Order:</strong>
             <div>
-                Id #{{order.orderNumber}}
+                <strong>Id:</strong> #{{order.orderNumber}}
                 <br />
                 <strong>Customer:</strong> {{order.orderCustomerName}}
             </div>

@@ -12,12 +12,6 @@ The following events are currently published in the system:
 - `OrderSubmittedEvent` - The ordered products are attached to this event, through which we're able to ship them.
 - `PaymentSucceededEvent` - The order was successfully paid and we can ship it.
 
-NOTE: In order to view saga details in ServiceInsight, the [SagaAudit Plugin](https://docs.particular.net/nservicebus/sagas/saga-audit?version=sagaaudit_3) must be installed in the endpoints which contain the sagas. Currently, the solution does not have this plugin installed so you will have to install it yourself before running the endpoints, if you wish to view the details of your sagas in ServiceInsight.
-
-To install the plugin type: `Install-Package NServiceBus.SagaAudit -Version 3.0.0`, in Package Manager Console.
-
-If you use `Manage Nuget Packages` option, make sure you select **version 3.0.0**
-
 ## Start-up projects
 
 For more info, please see [the instructions for running the exercise solutions](/README.md#running-the-exercise-solutions).
@@ -176,8 +170,9 @@ Open the `ShippingSaga` class and locate the `ConfigureHowToFindSaga` method.
 Map the `OrderSubmittedEvent` property `OrderId` to the sagas `OrderId` property. Do this by overriding The `ConfigureHowToFindSaga` method on the saga. It provides a `mapper` object as an argument. The mapper object exposes a `ConfigureMapping` method, which takes the event type and property to match, as well as the saga property you want to map it to. Map the `PaymentSucceededEvent` property `OrderId` to the sagas `OrderId` property.:
 
 ```c#
-mapper.ConfigureMapping<OrderSubmittedEvent>(p => p.OrderId).ToSaga(s => s.OrderId);
-mapper.ConfigureMapping<PaymentSucceededEvent>(p => p.OrderId).ToSaga(s => s.OrderId);
+mapper.MapSaga(saga => saga.OrderId)
+    .ToMessage<OrderSubmittedEvent>(p => p.OrderId)
+    .ToMessage<PaymentSucceededEvent>(p => p.OrderId);
 ```
 
 Note that this mapping also tells NServiceBus how to set the value of `Data.OrderId`. This is why we did not have to set `Data.OrderId` ourselves in exercise 2.2.
@@ -242,8 +237,6 @@ In the saga add a new async method called `ProcessOrder` that you will call from
 
 ## Advanced Exercise 3.5
 
-**Important: Before attempting the advanced exercises, please ensure you have followed [the instructions for preparing your machine for the advanced exercises](/README.md#preparing-your-machine-for-the-advanced-exercises).**
-
 Sagas are excellent for coordinating a business process. In the current saga we're only able to execute the happy path of the business process, where everything works. Payment succeeds and acknowledgement of this arrives at our Shipping service within a short time. But what if the `PaymentSucceededEvent` never arrives? Our Finance service is the authority which should decide when a payment takes too long, but it has no knowledge of how to contact customers. The Customers service however, would probably have details of how every customer would like to be contacted. This is just an example, but you can probably get an idea of how important it is to properly define your boundaries with real projects.
 
 The `InitiatePaymentProcessCommand`, rather than being processed by a stateless handler, should start a saga to orchestrate this long running process. This saga can then initiate the actual payment, and at the same time send a timeout message to itself. If the timeout message arrives back at the saga before the acknowledgement of successful payment, we can publish an event that the Customer service can react to.
@@ -266,7 +259,7 @@ Although this is a good and extremely reliable payment provider, it's also very 
 
 Create a new saga in the Finance bounded context which first tries to process the payment with the unreliable payment provider. If that fails (i.e. you don't receive `PaymentSucceededEvent` within the expected time frame), fall back to the reliable provider.
 
-Sagas are not supposed to retrieve data from a data store or call out to external systems. They should execute tasks using [the request/response pattern](http://docs.particular.net/nservicebus/sagas/#sagas-and-request-response). This means that, rather than processing the payment directly, the saga should send a message to another handler in the Finance bounded context to process the payment on its behalf. Whether it fails or succeeds, that handler should [reply to the saga](http://docs.particular.net/nservicebus/messaging/reply-to-a-message) with the status of the payment. If the payment failed, the saga should send another message to process the payment, but this time to the reliable, but expensive, provider.
+Sagas are not supposed to retrieve data from a data store or call out to external systems. They should execute tasks using [the request/response pattern](https://docs.particular.net/nservicebus/sagas/#sagas-and-requestresponse). This means that, rather than processing the payment directly, the saga should send a message to another handler in the Finance bounded context to process the payment on its behalf. Whether it fails or succeeds, that handler should [reply to the saga](https://docs.particular.net/nservicebus/messaging/reply-to-a-message) with the status of the payment. If the payment failed, the saga should send another message to process the payment, but this time to the reliable, but expensive, provider.
 
 The solution should end up with at least two new handlers and a new saga. Depending on your solution, you may end up with more.
 

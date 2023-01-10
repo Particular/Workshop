@@ -1,24 +1,24 @@
-﻿using System.Threading.Tasks;
-using Divergent.Sales.Messages.Events;
+﻿using Divergent.Sales.Messages.Events;
 using NServiceBus;
-using NServiceBus.Logging;
 
-namespace Divergent.Shipping.Handlers
+namespace Divergent.Shipping.Handlers;
+
+public class OrderSubmittedHandler : IHandleMessages<OrderSubmittedEvent>
 {
-    public class OrderSubmittedHandler : IHandleMessages<OrderSubmittedEvent>
+    readonly ILogger<OrderSubmittedHandler> logger;
+
+    public OrderSubmittedHandler(ILogger<OrderSubmittedHandler> logger)
     {
-        private static readonly ILog Log = LogManager.GetLogger<OrderSubmittedHandler>();
+        this.logger = logger;
+    }
+    
+    public async Task Handle(OrderSubmittedEvent message, IMessageHandlerContext context)
+    {
+        logger.LogInformation("Handle");
 
-        public async Task Handle(OrderSubmittedEvent message, IMessageHandlerContext context)
-        {
-            Log.Info("Handle");
+        // Store in database that order was submitted and which products belong to it.
+        // Look at all pending orders, paid and ready to be shipped, in batches to decide what to ship.
 
-            // Store in database that order was submitted and which products belong to it.
-            // If payment succeeds, we store that as well.
-            //
-            // When orders are paid before 12am, they will be shipped and arrive the next business day.
-
-            await Task.CompletedTask;
-        }
+        await Task.CompletedTask;
     }
 }

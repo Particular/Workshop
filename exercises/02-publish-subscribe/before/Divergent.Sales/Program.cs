@@ -1,37 +1,37 @@
-using System;
-using System.Configuration;
-using System.Linq;
-using System.ServiceProcess;
-using System.Threading.Tasks;
+﻿using Divergent.Sales.Data.Migrations;
+using ITOps.EndpointConfig;
+using NServiceBus;
 
-namespace Divergent.Sales
-{
-    static class Program
+const string EndpointName = "Divergent.Sales";
+
+var configuration = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+    .AddEnvironmentVariables()
+    .AddCommandLine(args)
+    .Build();
+
+var host = Host.CreateDefaultBuilder((string[])args)
+    .ConfigureServices((builder, services) =>
     {
-        public async static Task Main(string[] args)
-        {
-            var host = new Host(ConfigurationManager.ConnectionStrings[Host.EndpointName].ToString());
-
-            // pass this command line option to run as a windows service
-            if (args.Contains("--run-as-service"))
+        services.Configure<LiteDbOptions>(configuration.GetSection("LiteDbOptions"))
+            .Configure<LiteDbOptions>(s =>
             {
-                using (var windowsService = new WindowsService(host))
-                {
-                    ServiceBase.Run(windowsService);
-                    return;
-                }
-            }
+                s.DatabaseName = "sales";
+                s.DatabaseInitializer = DatabaseInitializer.Initialize;
+            });
+        services.AddSingleton<ILiteDbContext, LiteDbContext>();
 
-            Console.Title = Host.EndpointName;
+    })
+    .UseNServiceBus(context =>
+    {
+        var endpoint = new EndpointConfiguration(EndpointName);
+        endpoint.Configure();
 
-            var tcs = new TaskCompletionSource<object>();
-            Console.CancelKeyPress += (sender, e) => { tcs.SetResult(null); };
+        return endpoint;
+    }).Build();
 
-            await host.Start();
-            await Console.Out.WriteLineAsync("Press Ctrl+C to exit...");
+var hostEnvironment = host.Services.GetRequiredService<IHostEnvironment>();
 
-            await tcs.Task;
-            await host.Stop();
-        }
-    }
-}
+Console.Title = hostEnvironment.ApplicationName;
+
+host.Run();
