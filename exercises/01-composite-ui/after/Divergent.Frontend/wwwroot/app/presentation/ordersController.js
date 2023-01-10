@@ -20,6 +20,23 @@
                         });
                 };
 
+                ctrl.createNewOrder = function () {
+
+                    var payload = {
+                        customerId: 1, //Particular. Valid values: 1,2,3
+                        products: [{
+                            productId: 4 //The Empire Strikes Back. Valid values: 1 -> 7
+                        }]
+                    };
+
+                    return $http.post(config.salesApiUrl + '/orders/createOrder', payload)
+                        .then(function (createOrderResponse) {
+                            $log.debug('raw order created:', createOrderResponse.data);
+
+                            return createOrderResponse.data;
+                        });
+                };
+
                 ctrl.refreshOrders();
             }]);
 }())
