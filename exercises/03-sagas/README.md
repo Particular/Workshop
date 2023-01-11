@@ -91,7 +91,7 @@ We need to define what state we want to store for our saga. This saga is about a
 
 ### Step 1
 
-Define a new class called `ShippingSagaData` and have it inherit from `ContainSagaData`. Add two properties of type `int` for CustomerId and OrderId. Also add a property to store the products involved. We're not going to use anything right now, but it's to get an idea of what's possible in Sagas.
+Define a new class called `ShippingSagaData` and have it inherit from `ContainSagaData`. Add two properties of type `int` for CustomerId and OrderId. Also add a property to store the products involved. We're not going to use the list of products right now, but we will later.
 
 ```c#
 class ShippingSagaData : ContainSagaData
