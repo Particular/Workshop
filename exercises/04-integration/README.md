@@ -90,7 +90,7 @@ endpoint.Configure(routing =>
 
 ### Step 4
 
-In the `Divergent.ITOps` project, add a class under Handlers called `ShipWithFedexCommandHandler`. It should contain a message handler for `ShipWithFedexCommand` that calls a fake FedEx Web Service. Hard-code the customer information for now.
+In the `Divergent.ITOps` project, create a folder `Handlers` and add a class called `ShipWithFedexCommandHandler`. It should contain a message handler for `ShipWithFedexCommand` that calls a fake FedEx Web Service. Hard-code the customer information for now.
 
 ```c#
 public class ShipWithFedexCommandHandler : IHandleMessages<ShipWithFedexCommand>
