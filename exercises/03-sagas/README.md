@@ -83,8 +83,6 @@ class ShippingSaga : Saga<object>,
 }
 ```
 
-Override saga base class `ConfigureHowToFindSaga` abstract method and implement both interfaces, leaving methods bodies as is. Before we can implement these, we need to add some saga state.
-
 ## Exercise 3.2: add state to the saga
 
 A saga is coordinating long-running business processes. The saga you implement, takes decisions based on data that it receives. Imagine a business process that is running for days, years even. Some business processes actually never end. Our saga can't keep all that data in memory forever, so it needs to store this data somewhere.
@@ -112,12 +110,7 @@ class ShippingSagaData : ContainSagaData
 {
     public int OrderId { get; set; }
     public int CustomerId { get; set; }
-    public ICollection<Product> Products { get; set; }
-
-    public class Product
-    {
-        public int Identifier { get; set; }
-    }
+    public List<int> Products { get; set; }
 }
 ```
 
@@ -135,19 +128,24 @@ class ShippingSaga : Saga<ShippingSagaData>,
 
 ### Step 4
 
-Make sure everything compiles.
+The `ConfigureHowToFindSaga` method has been added and we need to configure a property mapping for incoming messages to a specific Saga instance. We do this using the following code:
+
+```c#
+mapper.MapSaga(saga => saga.OrderId)
+    .ToMessage<OrderSubmittedEvent>(p => p.OrderId)
+    .ToMessage<PaymentSucceededEvent>(p => p.OrderId);
+```
 
 ### Step 5
 
-Store the `CustomerId` and products in the state of the saga. We can do this by accessing the saga's `Data` property, as in `Data.CustomerId`. Set the appropriate properties in both `Handle` methods. Note that we _do not_ set `Data.OrderId` (see next exercise).
+We'll first deal with the `OrderSubmittedEvent`. Store the `CustomerId` and products in the state of the saga. We can do this by accessing the saga's `Data` property, as in `Data.CustomerId`. Set the appropriate properties in both `Handle` methods. Note that we _do not_ set `Data.OrderId` (see next exercise).
 
 ```c#
 public Task Handle(OrderSubmittedEvent message, IMessageHandlerContext context)
 {
     Data.CustomerId = message.CustomerId;
-
-    var projection = message.Products.Select(p => new ShippingSagaData.Product { Identifier = p });
-    Data.Products = projection.ToList();
+    Data.Products = message.Products;
+    
     return Task.CompletedTask;
 }
 
@@ -157,27 +155,7 @@ public Task Handle(PaymentSucceededEvent message, IMessageHandlerContext context
 }
 ```
 
-## Exercise 3.3: map incoming messages to the saga
-
-In this exercise you will map incoming messages to the saga so that NServiceBus knows which property to use to find and retrieve the correct saga instance from the saga data storage.
-
-### Step 1
-
-Open the `ShippingSaga` class and locate the `ConfigureHowToFindSaga` method.
-
-### Step 2
-
-Map the `OrderSubmittedEvent` property `OrderId` to the sagas `OrderId` property. Do this by overriding The `ConfigureHowToFindSaga` method on the saga. It provides a `mapper` object as an argument. The mapper object exposes a `ConfigureMapping` method, which takes the event type and property to match, as well as the saga property you want to map it to. Map the `PaymentSucceededEvent` property `OrderId` to the sagas `OrderId` property.:
-
-```c#
-mapper.MapSaga(saga => saga.OrderId)
-    .ToMessage<OrderSubmittedEvent>(p => p.OrderId)
-    .ToMessage<PaymentSucceededEvent>(p => p.OrderId);
-```
-
-Note that this mapping also tells NServiceBus how to set the value of `Data.OrderId`. This is why we did not have to set `Data.OrderId` ourselves in exercise 2.2.
-
-## Exercise 3.4 - deal with out-of-order delivery
+## Exercise 3.3 - deal with out-of-order delivery
 
 In this exercise you will process the messages coming in and make sure the messages can arrive in any order, by verifying if all expected messages have been received.
 
@@ -234,8 +212,9 @@ In the saga add a new async method called `ProcessOrder` that you will call from
     }
 ```
 
+Note that NServiceBus also has Roslyn analyzers to verify if you're not forgetting the `await` keyword on the call to `ProcessOrder`.
 
-## Advanced Exercise 3.5
+## Advanced Exercise 3.4
 
 Sagas are excellent for coordinating a business process. In the current saga we're only able to execute the happy path of the business process, where everything works. Payment succeeds and acknowledgement of this arrives at our Shipping service within a short time. But what if the `PaymentSucceededEvent` never arrives? Our Finance service is the authority which should decide when a payment takes too long, but it has no knowledge of how to contact customers. The Customers service however, would probably have details of how every customer would like to be contacted. This is just an example, but you can probably get an idea of how important it is to properly define your boundaries with real projects.
 
@@ -251,7 +230,7 @@ To complete this exercise, take the following steps:
 
 Bear in mind that in production, a small business requirement like this could spawn many more messages. Imagine what should happen after the customer has been contacted. Should we retry the payment? Should we remember how many times the customer has been contacted because of failed payments? Could there be an alternative path for a payment? Should the order be cancelled? Should we let Shipping know what's happening? Importantly, these are _business decisions_. It is not the use of messaging that requires us to write all the additional logic. Rather, messaging allows us to represent these business decisions and actions as explicit messages, handlers and sagas. We now have the opportunity to implement the requirements transparently, loosely coupled and via autonomous services. Using other approaches, this can easily become very messy, very quickly, perhaps requiring several batch jobs running continuously.
 
-## Advanced Exercise 3.6 : alternative payment providers
+## Advanced Exercise 3.5 : alternative payment providers
 
 The Finance bounded context contacts a payment provider to execute payments. The `Divergent.Finance` project does this in the `InitiatePaymentProcessCommandHandler` class, by calling the `ReliablePaymentClient` class and executing the payment using the `ProcessPayment` method.
 
