@@ -20,8 +20,4 @@
     <ProjectReference Include="..\Divergent.Shipping.Data\Divergent.Shipping.Data.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Handlers" />
-  </ItemGroup>
-
 </Project>
