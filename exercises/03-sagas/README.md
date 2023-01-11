@@ -91,19 +91,7 @@ We need to define what state we want to store for our saga. This saga is about a
 
 ### Step 1
 
-Define a new class called `ShippingSagaData` and have it inherit from `ContainSagaData`. Add two properties of type `int` for CustomerId and OrderId. You should have a class like this.
-
-```c#
-class ShippingSagaData : ContainSagaData
-{
-    public int OrderId { get; set; }
-    public int CustomerId { get; set; }
-}
-```
-
-### Step 2
-
-Now we'll add products. A minor problem is that we can't add `IList<int>` for the products as NServiceBus persisters can't map this properly to tables or documents in SQL Server and/or RavenDB. We need a complex type. Create a class called `Product`, and in `ShippingSagaData` add a property of `ICollection<Product>` to contain the products. Of course the `Product` class needs to hold the unique id of each ordered product, so we need to add a property for that as well. We'll end up with a class like this:
+Define a new class called `ShippingSagaData` and have it inherit from `ContainSagaData`. Add two properties of type `int` for CustomerId and OrderId. Also add a property to store the products involved. We're not going to use anything right now, but it's to get an idea of what's possible in Sagas.
 
 ```c#
 class ShippingSagaData : ContainSagaData
