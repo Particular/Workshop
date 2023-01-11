@@ -133,7 +133,7 @@ Update the `Divergent.Frontend\wwwroot\app\presentation\ordersView.html` list te
 
 ```html
 <br />
-<strong>Order total:</strong> {{order.orderTotalPrice}}
+<strong>Order total:</strong> ${{order.orderTotalPrice}}
 ```
 
 #### Note:
