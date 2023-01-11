@@ -69,7 +69,7 @@ private async Task ProcessOrder(IMessageHandlerContext context)
         {
             OrderId = Data.OrderId,
             CustomerId = Data.CustomerId,
-            Products = Data.Products.Select(s => s.Identifier).ToList(),
+            Products = Data.Products
         });
 
         MarkAsComplete();
