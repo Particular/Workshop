@@ -23,10 +23,8 @@ class ShippingSaga : Saga<ShippingSagaData>,
         Log.Info("Handle OrderSubmittedEvent");
 
         Data.IsOrderSubmitted = true;
+        Data.Products = message.Products;
         Data.CustomerId = message.CustomerId;
-
-        var projection = message.Products.Select(p => new ShippingSagaData.Product { Identifier = p });
-        Data.Products = projection.ToList();
 
         return ProcessOrder(context);
     }
