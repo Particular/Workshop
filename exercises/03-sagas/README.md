@@ -114,6 +114,8 @@ class ShippingSaga : Saga<ShippingSagaData>,
 }
 ```
 
+You should now get several Roslyn analyzer warnings. Implement the missing methods with your favorite refactoring tool.
+
 ### Step 4
 
 The `ConfigureHowToFindSaga` method has been added and we need to configure a property mapping for incoming messages to a specific Saga instance. We do this using the following code:
