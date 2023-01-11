@@ -96,7 +96,7 @@ using Microsoft.AspNetCore.Routing;
 using System;
 using System.Net.Http;
 
-namespace Divergent.Customers.ViewModelComposition;
+namespace Divergent.Finance.ViewModelComposition;
 
 public class OrdersLoadedSubscriber : ISubscribeToCompositionEvents
 {
@@ -113,14 +113,14 @@ public class OrdersLoadedSubscriber : ISubscribeToCompositionEvents
             var orderIds = string.Join(",", ordersLoaded.OrderViewModelDictionary.Keys);
 
             // Hardcoded to simplify the exercise. In a production app, a config object could be injected.
-            var url = $"http://localhost:20186/api/customers/byorders?orderIds={orderIds}";
+            var url = $"http://localhost:20187/api/prices/orders/total?orderIds={orderIds}";
             var response = await new HttpClient().GetAsync(url);
 
-            dynamic[] customers = await response.Content.AsExpandoArrayAsync();
+            dynamic[] prices = await response.Content.AsExpandoArrayAsync();
 
-            foreach (dynamic customer in customers)
+            foreach (dynamic price in prices)
             {
-                ordersLoaded.OrderViewModelDictionary[customer.OrderId].OrderCustomerName = customer.CustomerName;
+                ordersLoaded.OrderViewModelDictionary[price.OrderId].OrderTotalPrice = price.Amount;
             }
         });
     }
