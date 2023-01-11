@@ -79,7 +79,7 @@ private async Task ProcessOrder(IMessageHandlerContext context)
 
 ### Step 3
 
-In the `Divergent.Shipping` project, configure the destination endpoint for the `ShipWithFedexCommand`. To do this use the `routing` object obtained when configuring the transport and add the following statement
+In the `Divergent.Shipping` project, configure the destination endpoint for the `ShipWithFedexCommand`. To do this use the `endpoint` object for configuring NServiceBus and add the following statement
 
 ```
 endpoint.Configure(routing =>
