@@ -8,7 +8,7 @@ public class ShippingSagaData : ContainSagaData
     public int CustomerId { get; set; }
     public bool IsOrderSubmitted { get; set; }
     public bool IsPaymentProcessed { get; set; }
-    public ICollection<Product> Products { get; set; }
+    public List<int> Products { get; set; }
 
     public class Product
     {

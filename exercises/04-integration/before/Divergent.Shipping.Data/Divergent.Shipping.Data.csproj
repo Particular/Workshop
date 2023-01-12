@@ -8,8 +8,4 @@
     <ProjectReference Include="..\Divergent.ITOps.Interfaces\Divergent.ITOps.Interfaces.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ITOps" />
-  </ItemGroup>
-
 </Project>

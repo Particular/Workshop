@@ -40,7 +40,7 @@ In this exercise, we'll have the saga in `Divergent.Shipping` service tell IT/Op
 
 ### Step 1
 
-In the `Divergent.ItOps.Messages` project, create a new class `ShipWithFedexCommand` in the Commands folder. It should contain the order Id, customer Id, and a list of product Ids.
+In the `Divergent.ItOps.Messages` project, create a folder `Commands` and add a new class `ShipWithFedexCommand` in the Commands folder. It should contain the order Id, customer Id, and a list of product Ids.
 
 ```c#
 ﻿using System.Collections.Generic;
@@ -69,7 +69,7 @@ private async Task ProcessOrder(IMessageHandlerContext context)
         {
             OrderId = Data.OrderId,
             CustomerId = Data.CustomerId,
-            Products = Data.Products.Select(s => s.Identifier).ToList(),
+            Products = Data.Products
         });
 
         MarkAsComplete();
@@ -79,7 +79,7 @@ private async Task ProcessOrder(IMessageHandlerContext context)
 
 ### Step 3
 
-In the `Divergent.Shipping` project, configure the destination endpoint for the `ShipWithFedexCommand`. To do this use the `routing` object obtained when configuring the transport and add the following statement
+In the `Divergent.Shipping` project, configure the destination endpoint for the `ShipWithFedexCommand`. To do this use the `endpoint` object for configuring NServiceBus and add the following statement
 
 ```
 endpoint.Configure(routing =>
@@ -90,7 +90,7 @@ endpoint.Configure(routing =>
 
 ### Step 4
 
-In the `Divergent.ITOps` project, add a class under Handlers called `ShipWithFedexCommandHandler`. It should contain a message handler for `ShipWithFedexCommand` that calls a fake FedEx Web Service. Hard-code the customer information for now.
+In the `Divergent.ITOps` project, create a folder `Handlers` and add a class called `ShipWithFedexCommandHandler`. It should contain a message handler for `ShipWithFedexCommand` that calls a fake FedEx Web Service. Hard-code the customer information for now.
 
 ```c#
 public class ShipWithFedexCommandHandler : IHandleMessages<ShipWithFedexCommand>
@@ -201,7 +201,7 @@ public class ShipWithFedexCommandHandler : IHandleMessages<ShipWithFedexCommand>
     {
         Log.Info("Handle ShipWithFedexCommand");
 
-        var customerInfo = await _customerProvider.GetCustomerInfo(message.CustomerId);
+        var customerInfo = _customerProvider.GetCustomerInfo(message.CustomerId);
 
         var fedExRequest = CreateFedexRequest(customerInfo);
         await CallFedexWebService(fedExRequest);
@@ -235,10 +235,7 @@ public class ShipWithFedexCommandHandler : IHandleMessages<ShipWithFedexCommand>
 
 Run the solution and verify that the ITOps message handler fetches the customer information using the supplied provider.
 
-NOTE: For your convenience IT/Ops is already configured with the required connection strings to allow providers to function properly.
-
 Check out `ReflectionHelper` and look at how the container is created in the `Host` in `Divergent.ITOps` to learn more about how IT/Ops loads and co-hosts the providers.
-
 
 ## Exercise 4.3: implement shipping provider
 
