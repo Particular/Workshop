@@ -201,7 +201,7 @@ public class ShipWithFedexCommandHandler : IHandleMessages<ShipWithFedexCommand>
     {
         Log.Info("Handle ShipWithFedexCommand");
 
-        var customerInfo = await _customerProvider.GetCustomerInfo(message.CustomerId);
+        var customerInfo = _customerProvider.GetCustomerInfo(message.CustomerId);
 
         var fedExRequest = CreateFedexRequest(customerInfo);
         await CallFedexWebService(fedExRequest);
