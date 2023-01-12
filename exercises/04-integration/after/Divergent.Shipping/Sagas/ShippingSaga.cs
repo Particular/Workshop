@@ -25,9 +25,7 @@ class ShippingSaga : Saga<ShippingSagaData>,
 
         Data.IsOrderSubmitted = true;
         Data.CustomerId = message.CustomerId;
-
-        var projection = message.Products.Select(p => new ShippingSagaData.Product { Identifier = p });
-        Data.Products = projection.ToList();
+        Data.Products = message.Products;
 
         return ProcessOrder(context);
     }
@@ -48,7 +46,7 @@ class ShippingSaga : Saga<ShippingSagaData>,
             {
                 OrderId = Data.OrderId,
                 CustomerId = Data.CustomerId,
-                Products = Data.Products.Select(s => s.Identifier).ToList(),
+                Products = Data.Products,
             });
 
             MarkAsComplete();
