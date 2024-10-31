@@ -1,17 +1,14 @@
-﻿using Divergent.Sales.ViewModelComposition.Events;
-using ITOps.Json;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Dynamic;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Divergent.Sales.ViewModelComposition.Events;
+using ITOps.Json;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using ServiceComposer.AspNetCore;
 
 namespace Divergent.Sales.ViewModelComposition;
-
-using Microsoft.AspNetCore.Mvc;
 
 public class OrdersListViewModelAppender : ICompositionRequestsHandler
 {
