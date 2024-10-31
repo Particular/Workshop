@@ -1,8 +1,8 @@
-﻿using Divergent.Sales.Messages.Events;
-using NServiceBus;
-using Divergent.Finance.Data.Models;
+﻿using Divergent.Finance.Data.Models;
 using Divergent.Finance.Messages.Commands;
+using Divergent.Sales.Messages.Events;
 using ITOps.EndpointConfig;
+using NServiceBus;
 
 namespace Divergent.Finance.Handlers;
 
@@ -25,10 +25,10 @@ public class OrderSubmittedHandler : IHandleMessages<OrderSubmittedEvent>
 
         var prices = db.Database.GetCollection<Price>();
         var orderItemPrices = db.Database.GetCollection<OrderItemPrice>();
-        
+
         var query = from price in prices.Query()
-            where message.Products.Contains(price.ProductId)
-            select price;
+                    where message.Products.Contains(price.ProductId)
+                    select price;
 
         foreach (var price in query.ToList())
         {

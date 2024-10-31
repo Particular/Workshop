@@ -8,7 +8,7 @@ namespace Divergent.Customers.ViewModelComposition;
 
 public class OrdersLoadedSubscriber : ICompositionEventsSubscriber
 {
-    [HttpGet("/orders/{id}")]
+    [HttpGet("/orders")]
     public void Subscribe(ICompositionEventsPublisher publisher)
     {
         publisher.Subscribe<OrdersLoaded>(async (ordersLoaded, httpRequest) =>

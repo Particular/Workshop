@@ -1,10 +1,7 @@
-﻿using System.Net.Http.Headers;
-using System.Net.NetworkInformation;
-using Divergent.Sales.Data.Models;
+﻿using Divergent.Sales.Data.Models;
 using Divergent.Sales.Messages.Commands;
 using Divergent.Sales.Messages.Events;
 using ITOps.EndpointConfig;
-using LiteDB;
 using NServiceBus;
 
 namespace Divergent.Sales.Handlers;

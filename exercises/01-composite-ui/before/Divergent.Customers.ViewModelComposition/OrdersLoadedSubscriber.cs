@@ -1,6 +1,6 @@
-﻿using Divergent.Sales.ViewModelComposition.Events;
+﻿using System.Net.Http;
+using Divergent.Sales.ViewModelComposition.Events;
 using ITOps.Json;
-using System.Net.Http;
 using Microsoft.AspNetCore.Mvc;
 using ServiceComposer.AspNetCore;
 
@@ -8,7 +8,7 @@ namespace Divergent.Customers.ViewModelComposition;
 
 public class OrdersLoadedSubscriber : ICompositionEventsSubscriber
 {
-    [HttpGet("/orders/{id}")]
+    [HttpGet("/orders")]
     public void Subscribe(ICompositionEventsPublisher publisher)
     {
         publisher.Subscribe<OrdersLoaded>(async (ordersLoaded, httpRequest) =>
