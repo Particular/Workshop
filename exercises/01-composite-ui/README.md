@@ -88,27 +88,20 @@ In the `Divergent.Finance.ViewModelComposition` project, add a new class named `
 Add the following code to the class
 
 ```csharp
+using System.Net.Http;
 using Divergent.Sales.ViewModelComposition.Events;
 using ITOps.Json;
-using ITOps.ViewModelComposition;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
-using System;
-using System.Net.Http;
+using Microsoft.AspNetCore.Mvc;
+using ServiceComposer.AspNetCore;
 
 namespace Divergent.Finance.ViewModelComposition;
 
-public class OrdersLoadedSubscriber : ISubscribeToCompositionEvents
+public class OrdersLoadedSubscriber : ICompositionEventsSubscriber
 {
-    // Very simple matching for the purpose of the exercise.
-    public bool Matches(RouteData routeData, string httpMethod) =>
-        HttpMethods.IsGet(httpMethod)
-        && string.Equals((string)routeData.Values["controller"], "orders", StringComparison.OrdinalIgnoreCase)
-        && !routeData.Values.ContainsKey("id");
-
-    public void Subscribe(IPublishCompositionEvents publisher)
+    [HttpGet("/orders")]
+    public void Subscribe(ICompositionEventsPublisher publisher)
     {
-        publisher.Subscribe<OrdersLoaded>(async (pageViewModel, ordersLoaded, routeData, query) =>
+        publisher.Subscribe<OrdersLoaded>(async (ordersLoaded, httpRequest) =>
         {
             var orderIds = string.Join(",", ordersLoaded.OrderViewModelDictionary.Keys);
 
