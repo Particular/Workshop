@@ -1,9 +1,6 @@
 ﻿using Divergent.Sales.ViewModelComposition.Events;
 using ITOps.Json;
 using ServiceComposer.AspNetCore;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
-using System;
 using System.Net.Http;
 using Microsoft.AspNetCore.Mvc;
 

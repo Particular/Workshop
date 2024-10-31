@@ -1,5 +1,4 @@
-﻿using ITOps.ViewModelComposition;
-using ITOps.ViewModelComposition.Gateway;
+﻿using ServiceComposer.AspNetCore;
 
 namespace Divergent.CompositionGateway;
 
@@ -21,6 +20,10 @@ public class Startup
             policyBuilder.AllowAnyHeader();
         });
 
-        app.RunCompositionGatewayWithDefaultRoutes();
+        app.UseRouting();
+        app.UseEndpoints(builder =>
+        {
+            builder.MapCompositionHandlers();
+        });
     }
 }
