@@ -12,7 +12,7 @@ Welcome to the workshop.
 ## Prerequisites
 
 - Windows
-- .NET 7.0 or newer
+- .NET 8.0 or newer
 - A .NET IDE for the exercises
   - Visual Studio 2022 ([version 17.4](https://github.com/dotnet/core/blob/main/release-notes/7.0/7.0.0/7.0.0.md#visual-studio-compatibility)) or later
     - [SwitchStartupProject](https://marketplace.visualstudio.com/items?itemName=vs-publisher-141975.SwitchStartupProjectForVS2022)

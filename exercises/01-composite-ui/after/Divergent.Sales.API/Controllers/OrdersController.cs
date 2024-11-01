@@ -1,6 +1,5 @@
 ﻿using Divergent.Sales.Data.Models;
 using ITOps.EndpointConfig;
-using NServiceBus;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Divergent.Sales.API.Controllers;
@@ -20,7 +19,7 @@ public class OrdersController : ControllerBase
     public IEnumerable<dynamic> Get()
     {
         var col = db.Database.GetCollection<Order>();
-        
+
         return col.Query()
             .Select(order => new
             {

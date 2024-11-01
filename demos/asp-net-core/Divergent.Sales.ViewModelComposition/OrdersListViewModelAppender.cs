@@ -2,9 +2,7 @@
 using ITOps.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
 using ServiceComposer.AspNetCore;
-using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Net.Http;
@@ -47,7 +45,7 @@ namespace Divergent.Sales.ViewModelComposition
             var compositionContext = request.GetCompositionContext();
             await compositionContext.RaiseEvent(new OrdersLoaded { OrderViewModelDictionary = orderViewModelDictionary });
 
-            // Using dynamic to simplify the demo. The ViewModel can be strongly typed.
+            // Using dynamic to simplify the demo. The ViewModel can be strongly typed using GetComposedResponseModel<T>()
             var vm = request.GetComposedResponseModel();
             vm.Orders = orderViewModelDictionary.Values;
         }
