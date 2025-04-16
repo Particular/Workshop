@@ -1,4 +1,5 @@
 using System.Net;
+using System.Net.Http.Json;
 
 namespace Divergent.Finance.PaymentClient;
 
@@ -27,7 +28,7 @@ public class ReliablePaymentClient
             throw new WebException("Could not access PaymentProviders");
         }
 
-        var result = response.Content.ReadAsAsync<PaymentResponse>();
+        var result = response.Content.ReadFromJsonAsync<PaymentResponse>();
         return result.Result.PaymentSucceeded;
     }
 }

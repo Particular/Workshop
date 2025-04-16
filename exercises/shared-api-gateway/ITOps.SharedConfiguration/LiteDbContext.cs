@@ -21,12 +21,12 @@ public class LiteDbContext : ILiteDbContext
 
         var databaseLocation = Path.Combine(storagePath, options.Value.DatabaseName.ToLower() + ".db");
         var connectionString = $"Filename={databaseLocation}; Connection=shared;";
-        
+
         Database = new LiteDatabase(connectionString);
 
         options.Value.DatabaseInitializer(Database);
     }
-    
+
     static string FindStoragePath()
     {
         var directory = AppDomain.CurrentDomain.BaseDirectory;
@@ -59,7 +59,7 @@ public class LiteDbContext : ILiteDbContext
         }
     }
 
-    const string DefaultDatabaseDirectory = ".db";    
+    const string DefaultDatabaseDirectory = ".db";
 }
 
 public interface ILiteDbContext

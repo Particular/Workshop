@@ -8,7 +8,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Divergent.Customers.ViewModelComposition\Divergent.Customers.ViewModelComposition.csproj" />
     <ProjectReference Include="..\Divergent.Finance.ViewModelComposition\Divergent.Finance.ViewModelComposition.csproj" />
-    <ProjectReference Include="..\Divergent.Sales.ViewModelComposition.Events\Divergent.Sales.ViewModelComposition.Events.csproj" />
     <ProjectReference Include="..\Divergent.Sales.ViewModelComposition\Divergent.Sales.ViewModelComposition.csproj" />
   </ItemGroup>
 
