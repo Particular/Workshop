@@ -65,7 +65,9 @@ public interface ILiteDbContext
 
 public class LiteDbOptions
 {
-    public string DatabaseLocation { get; set; }
-    public string DatabaseName { get; set; }
-    public Action<LiteDatabase> DatabaseInitializer { get; set; }
+    public string? DatabaseLocation { get; set; }
+
+    public required string DatabaseName { get; init; }
+
+    public required Action<LiteDatabase> DatabaseInitializer { get; init; }
 }
