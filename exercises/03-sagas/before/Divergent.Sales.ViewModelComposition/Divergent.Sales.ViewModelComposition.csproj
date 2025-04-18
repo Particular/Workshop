@@ -5,12 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ServiceComposer.AspNetCore" Version="2.2.0" />
+    <ProjectReference Include="..\Divergent.Sales.ViewModelComposition.Events\Divergent.Sales.ViewModelComposition.Events.csproj" />
+    <ProjectReference Include="..\..\..\shared-api-gateway\ITOps.Json\ITOps.Json.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Divergent.Sales.ViewModelComposition.Events\Divergent.Sales.ViewModelComposition.Events.csproj" />
-    <ProjectReference Include="..\..\..\shared-api-gateway\ITOps.Json\ITOps.Json.csproj" />
+    <PackageReference Include="ServiceComposer.AspNetCore" Version="4.1.3" />
   </ItemGroup>
 
 </Project>

@@ -2,8 +2,6 @@
 
 This demo is composed of two solutions which demonstrate UI Composition techniques using ASP.NET Core.
 
-In order to run the demos, you require the latest .NET Core Runtime in the [7.0.x version range](https://www.microsoft.com/net/download/all).
-
 ### Divergent.CompositionGateway
 
 `Divergent.CompositionGateway` shows how to host an ASP.NET Core API gateway, or reverse proxy, that composes HTTP responses from multiple backend APIs. To run this sample ensure that the following projects are set as startup projects:
